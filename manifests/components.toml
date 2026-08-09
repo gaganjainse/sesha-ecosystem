@@ -110,6 +110,39 @@ provides = ["mcp:skills", "notes", "web-search", "git-tools", "docs", "reminders
 upstream = { name = "MCP skills pattern", repo = "modelcontextprotocol/servers", ref = "main" }
 notes = "Everyday MCP tools + Markdown skills (coding, web research, docs, safety, briefing)."
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PROTOCOLS & ORCHESTRATION (P0 gap fill)
+# ─────────────────────────────────────────────────────────────────────────────
+[component.sesha-acp]
+layer = "soma"
+repo = "gaganjainse/sesha-acp"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["acp", "editor-integration", "zed", "jetbrains"]
+upstream = { name = "Agent Client Protocol", repo = "zed-industries/agent-client-protocol", ref = "main" }
+notes = "ACP server so Sesha runs inside Zed/JetBrains with streaming + permissions."
+
+[component.sesha-orchestrator]
+layer = "mind"
+repo = "gaganjainse/sesha-orchestrator"
+version = "0.0.0"
+license = "GPL-3.0"
+channel = "devel"
+provides = ["multi-agent", "rlm", "subagents", "a2a", "role-routing"]
+upstream = { name = "Prime Agent RLM", repo = "PrimeIntellect-ai/prime-agent", ref = "main" }
+notes = "PLANNED: RLM multi-agent runtime (coordinator/planner/coder/researcher/vision/critic)."
+
+[component.sesha-harness]
+layer = "mind"
+repo = "gaganjainse/sesha-harness"
+version = "0.0.0"
+license = "GPL-3.0"
+channel = "devel"
+provides = ["continual-harness", "refine", "auto-skills", "self-evolution"]
+upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Memento-Skills", ref = "main" }
+notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
+
 [component.sesha-phone]
 layer = "soma"
 repo = "gaganjainse/sesha-phone"
