@@ -30,6 +30,8 @@ Language choices: [`docs/architecture/LANGUAGE_POLICY.md`](docs/architecture/LAN
 Environments (Podman/uv): [`docs/CONTAINERS_AND_VENV.md`](docs/CONTAINERS_AND_VENV.md).
 Linux layout: [`docs/LINUX_LAYOUT.md`](docs/LINUX_LAYOUT.md).
 Tooling/skills catalog: [`docs/TOOLING_CATALOG.md`](docs/TOOLING_CATALOG.md).
+See the [glossary](docs/GLOSSARY.md).
+
 See everything we absorb: [`docs/SOURCES.md`](docs/SOURCES.md) and [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
 ---
