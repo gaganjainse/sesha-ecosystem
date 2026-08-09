@@ -54,10 +54,11 @@ notes = "Model routing interface; large SeshaOS models map to 6GB-safe equivalen
 layer = "mind"
 repo = "gaganjainse/sesha-memory"
 version = "0.1.0"
-license = "MIT"
-channel = "devel"
-provides = ["rag", "episodic-memory"]
+license = "GPL-3.0"
+channel = "canary"
+provides = ["rag", "episodic-memory", "semantic-memory", "habit-learning", "context-assembly"]
 upstream = { name = "rag-service", repo = "gaganjainse/rag-service", ref = "main" }
+notes = "Hierarchical memory, habit/intention learning, token-bounded context assembly."
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SOMA — the body (desktop, voice, files, devices)
