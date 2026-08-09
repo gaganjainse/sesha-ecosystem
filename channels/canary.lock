@@ -1,0 +1,135 @@
+{
+  "components": {
+    "auto-desktopenv": {
+      "channel": "stable",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "dotfiles",
+        "hyprland-config",
+        "installer",
+        "quickshell"
+      ],
+      "repo": "gaganjainse/Auto-desktopenv",
+      "upstream": {
+        "name": "dots-hyprland",
+        "ref": "main",
+        "repo": "end-4/dots-hyprland"
+      },
+      "version": "rolling"
+    },
+    "sesha-audit": {
+      "channel": "canary",
+      "layer": "brain",
+      "license": "MIT",
+      "models": [],
+      "provides": [
+        "audit-log",
+        "event-store",
+        "policy-engine"
+      ],
+      "repo": "gaganjainse/sesha-audit",
+      "upstream": {
+        "name": "NexusAOS",
+        "ref": "main",
+        "repo": "gaganjainse/NexusAOS"
+      },
+      "version": "0.1.0"
+    },
+    "sesha-files": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "file-organizer",
+        "inotify-watcher",
+        "undo-log"
+      ],
+      "repo": "gaganjainse/sesha-files",
+      "upstream": {
+        "name": "Auto-desktopenv smart-organizer",
+        "ref": "main",
+        "repo": "gaganjainse/Auto-desktopenv"
+      },
+      "version": "0.2.0"
+    },
+    "sesha-mind": {
+      "channel": "canary",
+      "layer": "mind",
+      "license": "MIT",
+      "models": [
+        "phi4-mini",
+        "qwen2.5-coder:3b",
+        "moondream2",
+        "nomic-embed-text"
+      ],
+      "provides": [
+        "coder",
+        "intent",
+        "planner",
+        "vision"
+      ],
+      "repo": "gaganjainse/sesha-mind",
+      "upstream": {
+        "name": "SeshaOS",
+        "ref": "main",
+        "repo": "gaganjainse/SeshaOS"
+      },
+      "version": "0.1.0"
+    },
+    "sesha-shell": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "mcp:hyprland",
+        "window-control",
+        "workspaces"
+      ],
+      "repo": "gaganjainse/sesha-shell",
+      "upstream": null,
+      "version": "0.1.0"
+    },
+    "sesha-system": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "backup",
+        "gpu-mux",
+        "maintenance",
+        "mcp:system",
+        "power"
+      ],
+      "repo": "gaganjainse/sesha-system",
+      "upstream": null,
+      "version": "0.1.0"
+    },
+    "sesha-voice": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "chat-ui",
+        "mcp-client",
+        "stt",
+        "tts",
+        "wakeword"
+      ],
+      "repo": "gaganjainse/sesha-voice",
+      "upstream": {
+        "name": "Newelle",
+        "ref": "1.4.5",
+        "repo": "qwersyk/Newelle"
+      },
+      "version": "1.4.5-sesha1"
+    }
+  },
+  "count": 7,
+  "sha256": "65816c591f15de8fcb6d7bd36bfad53202273d916109c1cb5a1041aa2ca3db59"
+}

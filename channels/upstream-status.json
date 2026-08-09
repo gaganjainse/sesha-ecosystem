@@ -1,0 +1,93 @@
+{
+  "components": {
+    "auto-desktopenv": {
+      "archived": false,
+      "error": null,
+      "latest_release": "2026.05.11",
+      "latest_release_published": "2026-05-11T17:28:30Z",
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 620,
+      "upstream_repo": "end-4/dots-hyprland",
+      "upstream_stars": 15486
+    },
+    "sesha-audit": {
+      "archived": false,
+      "error": "HTTP Error 404: Not Found",
+      "latest_release": null,
+      "latest_release_published": null,
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 9,
+      "upstream_repo": "gaganjainse/NexusAOS",
+      "upstream_stars": 1
+    },
+    "sesha-brain": {
+      "archived": false,
+      "error": "HTTP Error 404: Not Found",
+      "latest_release": null,
+      "latest_release_published": null,
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 0,
+      "upstream_repo": "gaganjainse/nexus-kernel",
+      "upstream_stars": 0
+    },
+    "sesha-files": {
+      "archived": false,
+      "error": null,
+      "latest_release": "v1.0",
+      "latest_release_published": "2026-08-07T06:39:43Z",
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 0,
+      "upstream_repo": "gaganjainse/Auto-desktopenv",
+      "upstream_stars": 0
+    },
+    "sesha-memory": {
+      "archived": false,
+      "error": "HTTP Error 404: Not Found",
+      "latest_release": null,
+      "latest_release_published": null,
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 0,
+      "upstream_repo": "gaganjainse/rag-service",
+      "upstream_stars": 0
+    },
+    "sesha-mind": {
+      "archived": false,
+      "error": "HTTP Error 404: Not Found",
+      "latest_release": null,
+      "latest_release_published": null,
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 0,
+      "upstream_repo": "gaganjainse/SeshaOS",
+      "upstream_stars": 0
+    },
+    "sesha-phone": {
+      "archived": false,
+      "error": "HTTP Error 404: Not Found",
+      "latest_release": null,
+      "latest_release_published": null,
+      "pinned_ref": "main",
+      "upstream_default_branch": "main",
+      "upstream_open_issues": 9,
+      "upstream_repo": "ShawnPana/phone-harness",
+      "upstream_stars": 720
+    },
+    "sesha-voice": {
+      "archived": false,
+      "error": null,
+      "latest_release": "1.4.5",
+      "latest_release_published": "2026-06-19T15:45:15Z",
+      "pinned_ref": "1.4.5",
+      "upstream_default_branch": "master",
+      "upstream_open_issues": 24,
+      "upstream_repo": "qwersyk/Newelle",
+      "upstream_stars": 1441
+    }
+  },
+  "generated": "2026-08-09T18:42:06+0000"
+}

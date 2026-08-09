@@ -1,0 +1,124 @@
+# Sesha Ecosystem — component manifest
+#
+# Every organ of the Agentic Body is declared here. The resolve-manifest script
+# validates this file, checks license compatibility, resolves versions, and writes
+# sesha.lock. This is the "package repository" metadata in one auditable file.
+#
+# Channels: stable | canary | devel  (see channels/)
+# Layers:   brain | mind | soma
+
+[ecosystem]
+name = "sesha"
+schema_version = 1
+stable_channel = "stable"
+body_doc = "docs/architecture/AGENTIC_BODY.md"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BRAIN — governance kernel (your own lineage)
+# ─────────────────────────────────────────────────────────────────────────────
+[component.sesha-audit]
+layer = "brain"
+repo = "gaganjainse/sesha-audit"
+version = "0.1.0"
+license = "MIT"
+channel = "canary"
+provides = ["audit-log", "policy-engine", "event-store"]
+upstream = { name = "NexusAOS", repo = "gaganjainse/NexusAOS", ref = "main" }
+notes = "Bridge to NexusAOS append-only event store and policy engine."
+
+[component.sesha-brain]
+layer = "brain"
+repo = "gaganjainse/sesha-brain"
+version = "0.1.0"
+license = "MIT"
+channel = "devel"
+provides = ["task-router", "scheduler", "tool-broker"]
+upstream = { name = "nexus-kernel", repo = "gaganjainse/nexus-kernel", ref = "main" }
+notes = "Packaged nexusaos-kernel for desktop; routes tool calls through policy."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MIND — deliberative models (SeshaOS specialist routing, small models on 6GB)
+# ─────────────────────────────────────────────────────────────────────────────
+[component.sesha-mind]
+layer = "mind"
+repo = "gaganjainse/sesha-mind"
+version = "0.1.0"
+license = "MIT"
+channel = "canary"
+provides = ["intent", "planner", "coder", "vision"]
+upstream = { name = "SeshaOS", repo = "gaganjainse/SeshaOS", ref = "main" }
+models = ["phi4-mini", "qwen2.5-coder:3b", "moondream2", "nomic-embed-text"]
+notes = "Model routing interface; large SeshaOS models map to 6GB-safe equivalents on the laptop."
+
+[component.sesha-memory]
+layer = "mind"
+repo = "gaganjainse/sesha-memory"
+version = "0.1.0"
+license = "MIT"
+channel = "devel"
+provides = ["rag", "episodic-memory"]
+upstream = { name = "rag-service", repo = "gaganjainse/rag-service", ref = "main" }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SOMA — the body (desktop, voice, files, devices)
+# ─────────────────────────────────────────────────────────────────────────────
+[component.sesha-voice]
+layer = "soma"
+repo = "gaganjainse/sesha-voice"
+version = "1.4.5-sesha1"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["wakeword", "stt", "tts", "chat-ui", "mcp-client"]
+upstream = { name = "Newelle", repo = "qwersyk/Newelle", ref = "1.4.5" }
+notes = "Native (not Flatpak). STDIO MCP, wake word, faster-whisper + Piper."
+
+[component.sesha-files]
+layer = "soma"
+repo = "gaganjainse/sesha-files"
+version = "0.2.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["file-organizer", "inotify-watcher", "undo-log"]
+upstream = { name = "Auto-desktopenv smart-organizer", repo = "gaganjainse/Auto-desktopenv", ref = "main" }
+notes = "Rust notify watcher + Python classifier; promoted from Auto-desktopenv."
+
+[component.sesha-shell]
+layer = "soma"
+repo = "gaganjainse/sesha-shell"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["mcp:hyprland", "window-control", "workspaces"]
+notes = "Hyprland/Quickshell control MCP server."
+
+[component.sesha-system]
+layer = "soma"
+repo = "gaganjainse/sesha-system"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["mcp:system", "power", "gpu-mux", "backup", "maintenance"]
+notes = "Power/GPU/backup MCP + automations."
+
+[component.sesha-phone]
+layer = "soma"
+repo = "gaganjainse/sesha-phone"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "devel"
+provides = ["android-adb", "phone-sensors", "phone-actuators"]
+upstream = { name = "phone-harness", repo = "ShawnPana/phone-harness", ref = "main" }
+notes = "ADB port of the macOS phone-harness OCR/vision→tap loop for Realme Narzo 90x."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BASE — the desktop substrate (fork of end-4, stays closest to upstream)
+# ─────────────────────────────────────────────────────────────────────────────
+[component.auto-desktopenv]
+layer = "soma"
+repo = "gaganjainse/Auto-desktopenv"
+version = "rolling"
+license = "GPL-3.0"
+channel = "stable"
+provides = ["dotfiles", "hyprland-config", "quickshell", "installer"]
+upstream = { name = "dots-hyprland", repo = "end-4/dots-hyprland", ref = "main" }
+notes = "The desktop body. Thin custom/ overrides; rebase upstream often."

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, canary, devel]
+  pull_request:
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dev tools
+        run: python -m pip install --upgrade pip ruff pytest
+
+      - name: Lint (ruff)
+        run: python -m ruff check scripts/ tests/
+
+      - name: Tests (pytest)
+        run: python -m pytest tests/ -q
+
+      - name: License gate
+        run: python scripts/check_licenses.py manifests/components.toml
+
+      - name: Resolve all channels
+        run: |
+          python scripts/resolve_manifest.py --channel stable --out channels/stable.lock
+          python scripts/resolve_manifest.py --channel canary --out channels/canary.lock
+          python scripts/resolve_manifest.py --channel devel  --out channels/devel.lock
+
+      - name: Verify locks are deterministic
+        run: |
+          cp channels/canary.lock /tmp/c1.lock
+          python scripts/resolve_manifest.py --channel canary --out channels/canary.lock
+          diff /tmp/c1.lock channels/canary.lock
+
+      - name: Check working tree is clean
+        run: git diff --exit-code
