@@ -26,6 +26,10 @@ tested combinations reach the daily driver. This gives us:
 
 Read the conceptual foundation: [`docs/architecture/AGENTIC_BODY.md`](docs/architecture/AGENTIC_BODY.md).
 Read the federation model: [`docs/architecture/REPO_TOPOLOGY.md`](docs/architecture/REPO_TOPOLOGY.md).
+Language choices: [`docs/architecture/LANGUAGE_POLICY.md`](docs/architecture/LANGUAGE_POLICY.md).
+Environments (Podman/uv): [`docs/CONTAINERS_AND_VENV.md`](docs/CONTAINERS_AND_VENV.md).
+Linux layout: [`docs/LINUX_LAYOUT.md`](docs/LINUX_LAYOUT.md).
+Tooling/skills catalog: [`docs/TOOLING_CATALOG.md`](docs/TOOLING_CATALOG.md).
 See everything we absorb: [`docs/SOURCES.md`](docs/SOURCES.md) and [`ATTRIBUTION.md`](ATTRIBUTION.md).
 
 ---
