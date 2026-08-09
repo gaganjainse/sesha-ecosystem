@@ -1,0 +1,39 @@
+name: Canary — multi-distro gate
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # daily 06:00 UTC
+  push:
+    branches: [canary]
+  workflow_dispatch:
+
+jobs:
+  gate:
+    name: gate on ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - archlinux:latest
+          - fedora:40
+          - ubuntu:24.04
+    container:
+      image: ${{ matrix.image }}
+      options: --user root
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bootstrap (best-effort per distro)
+        run: |
+          if command -v pacman; then
+            pacman -Sy --noconfirm --needed python python-pip ruff git
+          elif command -v dnf; then
+            dnf install -y python3 python3-pip git
+          elif command -v apt-get; then
+            apt-get update -y && apt-get install -y python3 python3-pip git
+          fi
+          python3 -m pip install --break-system-packages -q ruff pytest
+
+      - name: Gate
+        run: bash scripts/gate-in-container.sh
