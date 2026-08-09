@@ -1,6 +1,6 @@
 # The Agentic Body: Brain + Mind + Soma
 
-> The unifying thesis behind the Sesha ecosystem, derived from your NexusAOS/SeshaOS/nexus-kernel
+> The unifying thesis behind the Shesha ecosystem, derived from your SheshaAOS/SheshaOS/shesha-kernel
 > work. **An agent is not a chatbot — it is a body.** A body has a *mind* (reasoning/planning),
 > a *brain* (reflexes, coordination, governance), and a *soma* (sensors and actuators in the real
 > world). We build each layer as a replaceable component, then compose them.
@@ -16,14 +16,14 @@ This is the conceptual map every other document in the ecosystem references.
 │  MIND — deliberative cognition                              │
 │  Planner · reasoner · critic · long-term memory · theory    │
 │  of self · model routing · goals. Slow, model-driven.       │
-│  (SeshaOS specialist models: planner / coder / vision)      │
+│  (SheshaOS specialist models: planner / coder / vision)      │
 ├─────────────────────────────────────────────────────────────┤
-│  BRAIN — coordination kernel (NexusAOS)                     │
+│  BRAIN — coordination kernel (SheshaAOS)                     │
 │  Event store · policy/permission engine · task scheduler ·  │
 │  router · audit/replay · resource budgets · tool broker.    │
 │  Fast, deterministic, local. Models propose; brain disposes.│
 ├─────────────────────────────────────────────────────────────┤
-│  SOMA — the living body (Auto-desktopenv + MCP + devices)   │
+│  SOMA — the living body (shesha-desktop + MCP + devices)   │
 │  Sensors: screen, mic, files, input, phone, telemetry.      │
 │  Actuators: hyprctl, shell, apps, GPU, voice, ADB phone.    │
 │  The "nervous system": MCP servers, watchers, automations.  │
@@ -32,7 +32,7 @@ This is the conceptual map every other document in the ecosystem references.
 
 ### Why split it this way
 - **MIND** is allowed to be nondeterministic, slow, model-bound, and swappable (Gemma/Qwen/phi4).
-- **BRAIN** must be deterministic, auditable, crash-proof, and local. This is exactly NexusAOS:
+- **BRAIN** must be deterministic, auditable, crash-proof, and local. This is exactly SheshaAOS:
   *"models propose actions; the kernel validates and records."* It is the immune system — it stops
   the mind from doing damage.
 - **SOMA** is where cognition meets the machine. It is the biggest surface and where most of the
@@ -45,18 +45,18 @@ This is the conceptual map every other document in the ecosystem references.
 
 | Layer | Your repo | Role in the Body | Status |
 |---|---|---|---|
-| **BRAIN** | `NexusAOS` (12-crate Rust workspace, 981 tests) | Governance kernel: event store, policy, scheduler, router, tool broker, RPC/terminal | production-ready core, Ubuntu-targeted |
-| **MIND** | `SeshaOS` (NexusAOS v2) | Specialist-model routing: planner (Gemma 4 12B), coder (Qwen3-Coder 30B), vision (Qwen3.5 9B) | architecture brief + bootstrap |
-| **BRAIN (low-level)** | `nexus-kernel` | Alpha microkernel track; same crate family + protocols crate; deeper kernel design | alpha |
-| **SOMA (desktop)** | `Auto-desktopenv` | CachyOS/Hyprland body: dotfiles, MCP servers, smart-organizer, GPU, automations | this ecosystem's main integration target |
+| **BRAIN** | `SheshaAOS` (12-crate Rust workspace, 981 tests) | Governance kernel: event store, policy, scheduler, router, tool broker, RPC/terminal | production-ready core, Ubuntu-targeted |
+| **MIND** | `SheshaOS` (SheshaAOS v2) | Specialist-model routing: planner (Gemma 4 12B), coder (Qwen3-Coder 30B), vision (Qwen3.5 9B) | architecture brief + bootstrap |
+| **BRAIN (low-level)** | `shesha-kernel` | Alpha microkernel track; same crate family + protocols crate; deeper kernel design | alpha |
+| **SOMA (desktop)** | `shesha-desktop` | CachyOS/Hyprland body: dotfiles, MCP servers, smart-organizer, GPU, automations | this ecosystem's main integration target |
 | **SOMA (memory)** | `rag-service` | Sensory memory: hybrid RAG (dense+BM25+RRF) over ChromaDB | production API |
 | **MIND (quality)** | `llm-eval-harness` | Reflection/self-check loop for the mind (LLM-as-judge) | CI-ready |
 | **SOMA (language)** | `Vyākṛti` | (separate creative project) Sanskrit programming language/IDE — not part of the body but dogfoods the agent | 123 tests |
 
-> Note: `SeshaOS` README targets Ubuntu/GNOME and 16 GB RAM with three large models (12B/30B/9B).
+> Note: `SheshaOS` README targets Ubuntu/GNOME and 16 GB RAM with three large models (12B/30B/9B).
 > Your actual machine (RTX 4050 6 GB) cannot resident those simultaneously. The ecosystem resolves
 > this by making the **Mind layer model-routed**: on the laptop, use small models
-> (phi4-mini / qwen2.5-coder:3b / moondream2); the same protocols target the larger SeshaOS models on
+> (phi4-mini / qwen2.5-coder:3b / moondream2); the same protocols target the larger SheshaOS models on
 > a future bigger box or when offloaded. The Brain doesn't care which model answers.
 
 ---
@@ -65,13 +65,13 @@ This is the conceptual map every other document in the ecosystem references.
 
 Two protocols only (everything else is an adapter):
 
-1. **Nexus Kernel Protocol** (from `nexusaos-rpc`, JSON-RPC over Unix socket) — Brain-internal and
+1. **Nexus Kernel Protocol** (from `sheshaaos-rpc`, JSON-RPC over Unix socket) — Brain-internal and
    Brain↔Mind. Strongly typed, append-only event semantics, policy-checked.
 2. **Model Context Protocol (MCP 2026-07-28)** — Brain↔Soma. Every actuator/sensor is an MCP
    server (stdio locally; HTTP only when explicitly bridged). This lets us reuse the entire MCP
    ecosystem (Newelle, Goose, Hermes, pi, etc.) as interchangeable Soma organs.
 
-Data flow for "Hey Sesha, organize my downloads and switch to performance mode":
+Data flow for "Hey Shesha, organize my downloads and switch to performance mode":
 ```
 mic (Soma) → STT (Soma/Newelle) → text
   → MIND: parse intent, propose tool calls {organize_downloads, set_power(performance)}
@@ -81,24 +81,24 @@ mic (Soma) → STT (Soma/Newelle) → text
   → MIND: formulates confirmation → TTS (Soma) → audit event committed
 ```
 Every arrow is an event in the append-only log. Nothing the mind proposes is executed until the brain
-validates it. This is the governance guarantee inherited from NexusAOS.
+validates it. This is the governance guarantee inherited from SheshaAOS.
 
 ---
 
 ## 4. Build order (body grows bottom-up, but is safe top-down)
 
-Per `nexus-kernel`'s own phased plan (event store → kernel runtime → resource budgets → model
+Per `shesha-kernel`'s own phased plan (event store → kernel runtime → resource budgets → model
 providers → tool broker → IPC/MCP/ACP):
 
 1. **Soma first (this ecosystem):** make the body reliable — dotfiles, MCP servers, organizer,
    automations, voice. A body you can trust.
-2. **Brain wiring:** connect Sesha's audit log to NexusAOS's event store; route MCP tool calls
-   through `nexusaos-kernel` policy instead of Newelle executing directly.
-3. **Mind specialists:** plug SeshaOS model routing into `nexusaos-ai`'s provider abstraction; use
+2. **Brain wiring:** connect Shesha's audit log to SheshaAOS's event store; route MCP tool calls
+   through `sheshaaos-kernel` policy instead of Newelle executing directly.
+3. **Mind specialists:** plug SheshaOS model routing into `sheshaaos-ai`'s provider abstraction; use
    `llm-eval-harness` to grade each specialist.
 4. **Reflection loop:** the mind uses the audit log + eval harness to propose improvements to skills
    (the "Continual Harness" idea — small, evidence-backed updates, never mutating the base prompt).
-5. **Kernel track (research):** eBPF sensing for Soma, then `nexus-kernel` experiments on the side.
+5. **Kernel track (research):** eBPF sensing for Soma, then `shesha-kernel` experiments on the side.
 
 We never block step 1 on step 4. The body ships and is useful immediately; the brain plugs in
 behind it without changing how Soma works.
@@ -107,11 +107,11 @@ behind it without changing how Soma works.
 
 ## 5. Naming conventions (everything is ours)
 
-- **No "Jarvis".** The agent is **Sesha** (शेष) across all layers.
-- **Nexus** = the brain/kernel family (NexusAOS, nexus-kernel, nexusaos-* crates).
-- **Sesha** = the whole body / the user-facing agent (SeshaOS = the mind spec, sesha-* MCP organs).
+- **No "Jarvis".** The agent is **Shesha** (शेष) across all layers.
+- **Nexus** = the brain/kernel family (SheshaAOS, shesha-kernel, sheshaaos-* crates).
+- **Shesha** = the whole body / the user-facing agent (SheshaOS = the mind spec, shesha-* MCP organs).
 - **Soma** = the bodily/device layer codename (soma-* sensors/actuators).
 - Components we integrate keep their **upstream names** in `sources/upstream/` (attribution), but our
-  forks and wrappers are renamed: `sesha-voice` (wraps Newelle voice), `sesha-files` (organizer),
-  `sesha-shell`, `sesha-memory`, `sesha-phone`, etc.
-- Every MCP server is `sesha-<organ>-mcp`. Every systemd unit is `sesha-<organ>.service`.
+  forks and wrappers are renamed: `shesha-voice` (wraps Newelle voice), `shesha-files` (organizer),
+  `shesha-shell`, `shesha-memory`, `shesha-phone`, etc.
+- Every MCP server is `shesha-<organ>-mcp`. Every systemd unit is `shesha-<organ>.service`.

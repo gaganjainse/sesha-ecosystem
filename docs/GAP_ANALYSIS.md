@@ -2,7 +2,7 @@
 
 > Rigorous audit (2026-08-09) of what exists vs what a real, evolving, world-integrated
 > AI operating environment needs. Each gap is rated P0 (blocker), P1 (soon), P2 (later), with
-> a concrete home component. This is the backlog that makes Sesha self-improving rather than static.
+> a concrete home component. This is the backlog that makes Shesha self-improving rather than static.
 
 Legend: ✅ exists · 🟡 partial · ❌ missing
 
@@ -12,11 +12,11 @@ Legend: ✅ exists · 🟡 partial · ❌ missing
 
 | Need | Status | Gap / action |
 |---|---|---|
-| MCP (agent→tools) | ✅ | 3 servers live + sesha-skills |
-| **ACP (editor→agent)** | ❌ **P0** | Need a `sesha-acp` server so Sesha runs inside Zed/JetBrains/Neovim with file/terminal/diff/permission UX. MCP and ACP stack, not compete. |
+| MCP (agent→tools) | ✅ | 3 servers live + shesha-skills |
+| **ACP (editor→agent)** | ❌ **P0** | Need a `shesha-acp` server so Shesha runs inside Zed/JetBrains/Neovim with file/terminal/diff/permission UX. MCP and ACP stack, not compete. |
 | **A2A (agent→agent)** | ❌ P1 | Multi-agent coordination across trust boundaries; adopt Google A2A rather than inventing. |
-| JSON-RPC (brain internal) | ✅ in NexusAOS | `nexusaos-rpc` already used; wire Brain↔Soma over it. |
-| Event stream / audit | 🟡 | Log exists conceptually; need `sesha-audit` component (append-only, hash-chained, queryable). |
+| JSON-RPC (brain internal) | ✅ in SheshaAOS | `sheshaaos-rpc` already used; wire Brain↔Soma over it. |
+| Event stream / audit | 🟡 | Log exists conceptually; need `shesha-audit` component (append-only, hash-chained, queryable). |
 | Streaming (voice/UI) | 🟡 | Newelle streams TTS/STT; our MCP servers are request/response; add SSE/streaming for long tasks. |
 
 ## 2. Agent topology (the "mind")
@@ -24,12 +24,12 @@ Legend: ✅ exists · 🟡 partial · ❌ missing
 | Need | Status | Gap / action |
 |---|---|---|
 | Single primary agent | ✅ Newelle |
-| **Specialist subagents** | ❌ **P0** | coder/planner/reviewer/vision roles (SeshaOS thesis). Build `sesha-orchestrator` with RLM-style `rlm("subtask")` spawning child agents. |
+| **Specialist subagents** | ❌ **P0** | coder/planner/reviewer/vision roles (SheshaOS thesis). Build `shesha-orchestrator` with RLM-style `rlm("subtask")` spawning child agents. |
 | **Role-based crews** | ❌ P1 | Researcher→writer→reviewer pipelines (CrewAI model) for docs/research. |
 | **Persistent/background agents** | ❌ P1 | Daemon-backed sessions that survive disconnect (Prime Agent pattern); long goals + heartbeats. |
 | Agent-to-agent messaging | ❌ P1 | Direct message bus between running agents. |
 | Human-in-the-loop | 🟡 | Policy asks for destructive actions; need ACP permission UX + approvals queue. |
-| Multiple model routing | 🟡 | `sesha-mind` declared; implement router (planner/coder/vision selection by task). |
+| Multiple model routing | 🟡 | `shesha-mind` declared; implement router (planner/coder/vision selection by task). |
 
 ## 3. Self-evolution (the "learn & discard dross" requirement)
 
@@ -44,33 +44,33 @@ Legend: ✅ exists · 🟡 partial · ❌ missing
 | Discard/deprecation | ❌ P1 | Track skill usage/success; auto-archive low-value ones ("discard the dross"). |
 | Reflection on failure | ❌ P1 | Failure traces → proposed fixes (Memento pattern). |
 | Eval harness for changes | ❌ P1 | Wire `llm-eval-harness` so refinements are graded before promotion (canary gate). |
-| Memory (episodic/semantic) | 🟡 | `sesha-memory` declared; build RAG + entity memory + Chroma/vector store. |
+| Memory (episodic/semantic) | 🟡 | `shesha-memory` declared; build RAG + entity memory + Chroma/vector store. |
 
 ## 4. World integration ("integrate, don't isolate")
 
 | Need | Status | Gap / action |
 |---|---|---|
-| Web search | ✅ sesha-skills (keyless DDG) |
+| Web search | ✅ shesha-skills (keyless DDG) |
 | Web fetch | ✅ |
 | Browser automation | ❌ P1 | Package Playwright MCP (sandboxed) for JS sites/testing. |
 | GitHub | 🟡 | `github_view` read-only; add GitHub MCP (issues/PRs/CI) with PAT, scoped. |
 | Email/calendar/contacts | ❌ P1 | Local-first CalDAV/IMAP (`vdirsyncer`/`khal`/`neomutt`), not cloud-locked. |
 | Messaging (Telegram/WhatsApp/Signal) | ❌ P2 | Optional bridges; treat as separate services. |
-| Phone (Realme Narzo) | 🟡 declared | `sesha-phone` ADB harness needs implementation. |
+| Phone (Realme Narzo) | 🟡 declared | `shesha-phone` ADB harness needs implementation. |
 | Editor/IDE | ❌ **P0** | ACP server (above). |
 | Docs conversion (PDF/Office) | ✅ pandoc |
 | Obsidian/notes | ✅ notes vault |
-| Containers/sandboxing | ❌ P1 | `sesha-containers`: podman/distrobox control for untrusted code. |
+| Containers/sandboxing | ❌ P1 | `shesha-containers`: podman/distrobox control for untrusted code. |
 | Cloud fallback | 🟡 policy exists | OmniRoute/LiteLLM proxy behind explicit opt-in. |
 
 ## 5. Soma/desktop completeness
 
 | Need | Status | Gap / action |
 |---|---|---|
-| Power/GPU/MUX | ✅ sesha-system |
-| Hyprland control | ✅ sesha-shell |
-| File organizer | ✅ sesha-files |
-| Voice/wake word | ✅ sesha-voice (Newelle) |
+| Power/GPU/MUX | ✅ shesha-system |
+| Hyprland control | ✅ shesha-shell |
+| File organizer | ✅ shesha-files |
+| Voice/wake word | ✅ shesha-voice (Newelle) |
 | Display/GPU runtime validation | ❌ P1 | Hardware smoke test suite (can't run in this sandbox). |
 | Backup (real restic) | 🟡 script referenced; implement + verify. |
 | Scheduling/reminders | ✅ basic |
@@ -94,13 +94,13 @@ Legend: ✅ exists · 🟡 partial · ❌ missing
 
 ## 7. Immediate P0 backlog (next builds)
 
-1. **`sesha-acp`** — minimal ACP server: session init, prompt turn streaming, permission
-   requests, file/terminal bridge. Lets Sesha work in Zed/JetBrains.
-2. **`sesha-orchestrator`** — multi-agent runtime: RLM subagent spawning, role routing,
+1. **`shesha-acp`** — minimal ACP server: session init, prompt turn streaming, permission
+   requests, file/terminal bridge. Lets Shesha work in Zed/JetBrains.
+2. **`shesha-orchestrator`** — multi-agent runtime: RLM subagent spawning, role routing,
    agent-to-agent messaging, persistent sessions, heartbeats/goals (Prime Agent patterns).
-3. **`sesha-harness`** — the Continual Harness: durable CRUD state + `/refine` + rollback +
+3. **`shesha-harness`** — the Continual Harness: durable CRUD state + `/refine` + rollback +
    automatic skill creation, gated by `llm-eval-harness`.
-4. **`sesha-audit`** — append-only hash-chained event log + policy engine (bridge to NexusAOS).
+4. **`shesha-audit`** — append-only hash-chained event log + policy engine (bridge to SheshaAOS).
 5. **Canary end-to-end test** — container that boots all servers and runs a real task.
 
 P1 follows: memory, browser/GitHub MCP packaging, email/calendar, phone, containers,

@@ -1,8 +1,8 @@
-# Sesha Ecosystem — component manifest
+# Shesha Ecosystem — component manifest
 #
 # Every organ of the Agentic Body is declared here. The resolve-manifest script
 # validates this file, checks license compatibility, resolves versions, and writes
-# sesha.lock. This is the "package repository" metadata in one auditable file.
+# shesha.lock. This is the "package repository" metadata in one auditable file.
 #
 # Channels: stable | canary | devel  (see channels/)
 # Layers:   brain | mind | soma
@@ -16,43 +16,43 @@ body_doc = "docs/architecture/AGENTIC_BODY.md"
 # ─────────────────────────────────────────────────────────────────────────────
 # BRAIN — governance kernel (your own lineage)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.sesha-audit]
+[component.shesha-audit]
 layer = "brain"
-repo = "gaganjainse/sesha-audit"
+repo = "gaganjainse/shesha-audit"
 version = "0.1.0"
 license = "MIT"
 channel = "canary"
 provides = ["audit-log", "policy-engine", "event-store"]
-upstream = { name = "NexusAOS", repo = "gaganjainse/NexusAOS", ref = "main" }
-notes = "Bridge to NexusAOS append-only event store and policy engine."
+upstream = { name = "SheshaAOS", repo = "gaganjainse/SheshaAOS", ref = "main" }
+notes = "Bridge to SheshaAOS append-only event store and policy engine."
 
-[component.sesha-brain]
+[component.shesha-brain]
 layer = "brain"
-repo = "gaganjainse/sesha-brain"
+repo = "gaganjainse/shesha-brain"
 version = "0.1.0"
 license = "MIT"
 channel = "devel"
 provides = ["task-router", "scheduler", "tool-broker"]
-upstream = { name = "nexus-kernel", repo = "gaganjainse/nexus-kernel", ref = "main" }
-notes = "Packaged nexusaos-kernel for desktop; routes tool calls through policy."
+upstream = { name = "shesha-kernel", repo = "gaganjainse/shesha-kernel", ref = "main" }
+notes = "Packaged sheshaaos-kernel for desktop; routes tool calls through policy."
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MIND — deliberative models (SeshaOS specialist routing, small models on 6GB)
+# MIND — deliberative models (SheshaOS specialist routing, small models on 6GB)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.sesha-mind]
+[component.shesha-mind]
 layer = "mind"
-repo = "gaganjainse/sesha-mind"
+repo = "gaganjainse/shesha-mind"
 version = "0.1.0"
 license = "MIT"
 channel = "canary"
 provides = ["intent", "planner", "coder", "vision"]
-upstream = { name = "SeshaOS", repo = "gaganjainse/SeshaOS", ref = "main" }
+upstream = { name = "SheshaOS", repo = "gaganjainse/SheshaOS", ref = "main" }
 models = ["phi4-mini", "qwen2.5-coder:3b", "moondream2", "nomic-embed-text"]
-notes = "Model routing interface; large SeshaOS models map to 6GB-safe equivalents on the laptop."
+notes = "Model routing interface; large SheshaOS models map to 6GB-safe equivalents on the laptop."
 
-[component.sesha-memory]
+[component.shesha-memory]
 layer = "mind"
-repo = "gaganjainse/sesha-memory"
+repo = "gaganjainse/shesha-memory"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -63,9 +63,9 @@ notes = "Hierarchical memory, habit/intention learning, token-bounded context as
 # ─────────────────────────────────────────────────────────────────────────────
 # SOMA — the body (desktop, voice, files, devices)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.sesha-voice]
+[component.shesha-voice]
 layer = "soma"
-repo = "gaganjainse/sesha-voice"
+repo = "gaganjainse/shesha-voice"
 version = "1.4.5-sesha1"
 license = "GPL-3.0"
 channel = "canary"
@@ -73,37 +73,37 @@ provides = ["wakeword", "stt", "tts", "chat-ui", "mcp-client"]
 upstream = { name = "Newelle", repo = "qwersyk/Newelle", ref = "1.4.5" }
 notes = "Native (not Flatpak). STDIO MCP, wake word, faster-whisper + Piper."
 
-[component.sesha-files]
+[component.shesha-files]
 layer = "soma"
-repo = "gaganjainse/sesha-files"
+repo = "gaganjainse/shesha-files"
 version = "0.2.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["file-organizer", "inotify-watcher", "undo-log"]
-upstream = { name = "Auto-desktopenv smart-organizer", repo = "gaganjainse/Auto-desktopenv", ref = "main" }
-notes = "Rust notify watcher + Python classifier; promoted from Auto-desktopenv."
+upstream = { name = "shesha-desktop smart-organizer", repo = "gaganjainse/shesha-desktop", ref = "main" }
+notes = "Rust notify watcher + Python classifier; promoted from shesha-desktop."
 
-[component.sesha-shell]
+[component.shesha-shell]
 layer = "soma"
-repo = "gaganjainse/sesha-shell"
+repo = "gaganjainse/shesha-shell"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["mcp:hyprland", "window-control", "workspaces"]
 notes = "Hyprland/Quickshell control MCP server."
 
-[component.sesha-system]
+[component.shesha-system]
 layer = "soma"
-repo = "gaganjainse/sesha-system"
+repo = "gaganjainse/shesha-system"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["mcp:system", "power", "gpu-mux", "backup", "maintenance"]
 notes = "Power/GPU/backup MCP + automations."
 
-[component.sesha-skills]
+[component.shesha-skills]
 layer = "mind"
-repo = "gaganjainse/sesha-skills"
+repo = "gaganjainse/shesha-skills"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -114,19 +114,19 @@ notes = "Everyday MCP tools + Markdown skills (coding, web research, docs, safet
 # ─────────────────────────────────────────────────────────────────────────────
 # PROTOCOLS & ORCHESTRATION (P0 gap fill)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.sesha-acp]
+[component.shesha-acp]
 layer = "soma"
-repo = "gaganjainse/sesha-acp"
+repo = "gaganjainse/shesha-acp"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["acp", "editor-integration", "zed", "jetbrains"]
 upstream = { name = "Agent Client Protocol", repo = "zed-industries/agent-client-protocol", ref = "main" }
-notes = "ACP server so Sesha runs inside Zed/JetBrains with streaming + permissions."
+notes = "ACP server so Shesha runs inside Zed/JetBrains with streaming + permissions."
 
-[component.sesha-orchestrator]
+[component.shesha-orchestrator]
 layer = "mind"
-repo = "gaganjainse/sesha-orchestrator"
+repo = "gaganjainse/shesha-orchestrator"
 version = "0.0.0"
 license = "GPL-3.0"
 channel = "devel"
@@ -134,9 +134,9 @@ provides = ["multi-agent", "rlm", "subagents", "a2a", "role-routing"]
 upstream = { name = "Prime Agent RLM", repo = "PrimeIntellect-ai/prime-agent", ref = "main" }
 notes = "PLANNED: RLM multi-agent runtime (coordinator/planner/coder/researcher/vision/critic)."
 
-[component.sesha-harness]
+[component.shesha-harness]
 layer = "mind"
-repo = "gaganjainse/sesha-harness"
+repo = "gaganjainse/shesha-harness"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -144,9 +144,9 @@ provides = ["continual-harness", "refine", "auto-skills", "self-evolution"]
 upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Memento-Skills", ref = "main" }
 notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
 
-[component.sesha-phone]
+[component.shesha-phone]
 layer = "soma"
-repo = "gaganjainse/sesha-phone"
+repo = "gaganjainse/shesha-phone"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "devel"
@@ -159,7 +159,7 @@ notes = "ADB port of the macOS phone-harness OCR/vision→tap loop for Realme Na
 # ─────────────────────────────────────────────────────────────────────────────
 [component.auto-desktopenv]
 layer = "soma"
-repo = "gaganjainse/Auto-desktopenv"
+repo = "gaganjainse/shesha-desktop"
 version = "rolling"
 license = "GPL-3.0"
 channel = "stable"

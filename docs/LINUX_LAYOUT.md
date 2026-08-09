@@ -1,4 +1,4 @@
-# Linux Filesystem Layout & Sesha Integration
+# Linux Filesystem Layout & Shesha Integration
 
 > Linux has a well-defined hierarchy (FHS) plus XDG user dirs. We respect it instead of dumping
 > everything in `$HOME`. This keeps the system clean, makes backup policies precise, and ensures
@@ -10,7 +10,7 @@
 
 We **never** hand-edit these except via the package manager or our installer:
 
-| Path | Purpose | Sesha interaction |
+| Path | Purpose | Shesha interaction |
 |---|---|---|
 | `/usr/bin`, `/usr/lib` | distro packages | installs via `pacman`/AUR only |
 | `/usr/local/bin`, `/usr/local/lib` | sysadmin-local binaries | our `nvidia-run`, `msi-mux-switcher` symlinks |
@@ -28,30 +28,30 @@ so `2.undo-setups.sh` can revert it precisely.
 
 | Variable | Path | What lives there |
 |---|---|---|
-| `XDG_CONFIG_HOME` | `~/.config` | dotfiles (Hyprland, Quickshell, Newelle, Sesha config) |
-| `XDG_DATA_HOME` | `~/.local/share` | app data: Sesha audit log, Chroma memory, icons, fonts |
+| `XDG_CONFIG_HOME` | `~/.config` | dotfiles (Hyprland, Quickshell, Newelle, Shesha config) |
+| `XDG_DATA_HOME` | `~/.local/share` | app data: Shesha audit log, Chroma memory, icons, fonts |
 | `XDG_STATE_HOME` | `~/.local/state` | venvs, logs, history, systemd user state |
 | `XDG_CACHE_HOME` | `~/.cache` | regenerable caches (**never backed up**) |
-| `XDG_BIN_HOME` | `~/.local/bin` | user binaries (sm-watcher, sesha-*-mcp) |
+| `XDG_BIN_HOME` | `~/.local/bin` | user binaries (sm-watcher, shesha-*-mcp) |
 
-Every Sesha component obeys these via the shared `tools/lib/common.sh` and Python `platformdirs`/
+Every Shesha component obeys these via the shared `tools/lib/common.sh` and Python `platformdirs`/
 `pathlib` conventions — no hardcoded `~/.sesha` sprawl.
 
 ---
 
-## 3. Where each Sesha component stores data
+## 3. Where each Shesha component stores data
 
 | Component | Config | State/data | Cache |
 |---|---|---|---|
-| Sesha MCP servers | `~/.config/sesha/` | `~/.local/state/sesha/.venv` | `~/.cache/sesha` |
-| Audit log | — | `~/.local/share/sesha/audit/` | — |
+| Shesha MCP servers | `~/.config/shesha/` | `~/.local/state/shesha/.venv` | `~/.cache/sesha` |
+| Audit log | — | `~/.local/share/shesha/audit/` | — |
 | Smart-organizer | `~/.config/smart-organizer/` | `~/.local/share/smart-organizer/{history.db,undo}` | `~/.cache/smart-organizer` |
 | Ollama models | `~/.config/ollama` | **`~/AI/Models/ollama`** (symlinked, large) | — |
 | HuggingFace | — | **`~/AI/Weights-Cache`** | — |
 | Newelle | `~/.config/newelle` | `~/.local/share/Newelle` | `~/.cache/Newelle` |
 | Quickshell | `~/.config/quickshell` | `~/.local/share/quickshell` | — |
 | Hyprland | `~/.config/hypr` | `~/.local/state/hyprland` | — |
-| Restic backups | `~/.config/sesha/backup.conf` | `~/Backups` repo | — |
+| Restic backups | `~/.config/shesha/backup.conf` | `~/Backups` repo | — |
 
 The large AI assets stay under `~/AI/` (excluded from snapshots/backups — regenerable) while config
 and the audit log stay in their proper XDG homes.
@@ -63,7 +63,7 @@ and the audit log stay in their proper XDG homes.
 | Kind | Path | Used for |
 |---|---|---|
 | system units | `/etc/systemd/system/`, `/usr/lib/systemd/system/` | `nvidia-suspend`, zram, display manager |
-| user units | `~/.config/systemd/user/` | Sesha MCP servers, organizer watcher, timers |
+| user units | `~/.config/systemd/user/` | Shesha MCP servers, organizer watcher, timers |
 | system drop-ins | `/etc/systemd/system/<unit>.d/` | overrides we add |
 
 Our installer `install -Dm644` units into the user dir; it never writes to `/usr/lib`.
