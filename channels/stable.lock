@@ -1,0 +1,25 @@
+{
+  "components": {
+    "auto-desktopenv": {
+      "channel": "stable",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "dotfiles",
+        "hyprland-config",
+        "installer",
+        "quickshell"
+      ],
+      "repo": "gaganjainse/Auto-desktopenv",
+      "upstream": {
+        "name": "dots-hyprland",
+        "ref": "main",
+        "repo": "end-4/dots-hyprland"
+      },
+      "version": "rolling"
+    }
+  },
+  "count": 1,
+  "sha256": "132f7e2fdb1d5249431ed9d2dda26d5e857747f65440e5647ef86f357d915b5b"
+}
