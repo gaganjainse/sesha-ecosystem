@@ -137,9 +137,9 @@ notes = "PLANNED: RLM multi-agent runtime (coordinator/planner/coder/researcher/
 [component.sesha-harness]
 layer = "mind"
 repo = "gaganjainse/sesha-harness"
-version = "0.0.0"
+version = "0.1.0"
 license = "GPL-3.0"
-channel = "devel"
+channel = "canary"
 provides = ["continual-harness", "refine", "auto-skills", "self-evolution"]
 upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Memento-Skills", ref = "main" }
 notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
