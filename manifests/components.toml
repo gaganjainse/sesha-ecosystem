@@ -100,6 +100,16 @@ channel = "canary"
 provides = ["mcp:system", "power", "gpu-mux", "backup", "maintenance"]
 notes = "Power/GPU/backup MCP + automations."
 
+[component.sesha-skills]
+layer = "mind"
+repo = "gaganjainse/sesha-skills"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["mcp:skills", "notes", "web-search", "git-tools", "docs", "reminders", "skill-library"]
+upstream = { name = "MCP skills pattern", repo = "modelcontextprotocol/servers", ref = "main" }
+notes = "Everyday MCP tools + Markdown skills (coding, web research, docs, safety, briefing)."
+
 [component.sesha-phone]
 layer = "soma"
 repo = "gaganjainse/sesha-phone"
