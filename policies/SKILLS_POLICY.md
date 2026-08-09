@@ -1,7 +1,7 @@
-# Sesha Skills & Tools Policy
+# Shesha Skills & Tools Policy
 
 > How the Brain decides what the Mind is allowed to ask Soma to do. This is the desktop analogue of
-> NexusAOS's policy engine: **models propose; the kernel disposes.**
+> SheshaAOS's policy engine: **models propose; the kernel disposes.**
 
 ## 1. Tool risk classes
 
@@ -13,11 +13,11 @@
 | `forbidden` | never run by the agent unprompted | deny | `rm -rf` outside trash, writes to `~/Documents/Job`, `~/Vaults`, `~/.ssh`, network exfil |
 
 ## 2. Confirmation surface
-- Voice sessions: Sesha speaks a one-line confirmation and waits for "yes/do it".
+- Voice sessions: Shesha speaks a one-line confirmation and waits for "yes/do it".
 - Newelle chat: an approval button with a "always allow for this tool" toggle.
 - Every decision (allow/deny + reason) is written to the append-only audit log.
 
-## 3. Resource budgets (from nexus-kernel ADR-005)
+## 3. Resource budgets (from shesha-kernel ADR-005)
 On the MSI Sword (16 GB RAM / 6 GB VRAM), the brain enforces:
 - One GPU model resident at a time; the router evicts before loading another.
 - Agent CPU quota 15% avg over 60s (background jobs are `IOSchedulingClass=idle`).

@@ -1,4 +1,4 @@
-# Sesha Ecosystem — developer quality gates
+# Shesha Ecosystem — developer quality gates
 # Run `make` from the repo root. Nothing here touches the host system.
 
 PY ?= python3
@@ -8,10 +8,10 @@ PYTEST ?= $(PY) -m pytest
 .PHONY: help lint test resolve check all clean
 
 help:
-	@echo "Sesha Ecosystem gates:"
+	@echo "Shesha Ecosystem gates:"
 	@echo "  make lint      ruff on scripts/ and tests/"
 	@echo "  make test      pytest (offline, no hardware)"
-	@echo "  make resolve   build sesha.lock from the manifest"
+	@echo "  make resolve   build shesha.lock from the manifest"
 	@echo "  make check     license + manifest + tests (CI gate)"
 	@echo "  make upstream  query upstream repos for new releases (network)"
 	@echo "  make clean     remove caches and generated locks"
@@ -37,4 +37,4 @@ upstream:
 
 clean:
 	rm -rf .pytest_cache __pycache__ scripts/__pycache__ tests/__pycache__
-	rm -f sesha.lock channels/*.lock channels/upstream-status.json
+	rm -f shesha.lock channels/*.lock channels/upstream-status.json

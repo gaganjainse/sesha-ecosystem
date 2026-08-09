@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Resolve the Sesha component manifest into a lockfile.
+"""Resolve the Shesha component manifest into a lockfile.
 
 Validates schema, enforces GPL-3 body license compatibility, and writes
-``sesha.lock`` (deterministic, sorted). This is the first quality gate: a
+``shesha.lock`` (deterministic, sorted). This is the first quality gate: a
 component with an incompatible license or a missing field fails the build.
 
 Run:  python scripts/resolve-manifest.py [--manifest manifests/components.toml]
-                                       [--out sesha.lock] [--channel stable]
+                                       [--out shesha.lock] [--channel stable]
 """
 from __future__ import annotations
 
@@ -108,7 +108,7 @@ def resolve(components: dict, channel: str) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--manifest", default="manifests/components.toml", type=Path)
-    ap.add_argument("--out", default="sesha.lock", type=Path)
+    ap.add_argument("--out", default="shesha.lock", type=Path)
     ap.add_argument("--channel", default="canary", choices=sorted(VALID_CHANNELS))
     args = ap.parse_args()
 

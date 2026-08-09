@@ -1,8 +1,8 @@
 # Sources & Steal-Map
 
-> Deep research (2026-08-09) into what the Sesha body should absorb, from where, under what license,
+> Deep research (2026-08-09) into what the Shesha body should absorb, from where, under what license,
 > and which part of the Agentic Body it feeds. "Steal" = adopt/adapt/wrap with attribution; we do not
-> violate licenses. Every upstream is forked (①), wrapped as a `sesha-*` component (②), and pinned in
+> violate licenses. Every upstream is forked (①), wrapped as a `shesha-*` component (②), and pinned in
 > the manifest. This document is the intake log.
 
 Legend: **MIND** / **BRAIN** / **SOMA**; license; ⭐ = first-wave (do now), 🔜 = later.
@@ -11,23 +11,23 @@ Legend: **MIND** / **BRAIN** / **SOMA**; license; ⭐ = first-wave (do now), �
 
 ## A. The user-facing agent / mind
 
-### ⭐ Newelle (qwersyk) — GPL-3.0  → `sesha-voice`
+### ⭐ Newelle (qwersyk) — GPL-3.0  → `shesha-voice`
 Frontend + voice + wake word + MCP client. Already our primary mind shell.
 - **Steal:** wake word (1.3.0+), STT faster-whisper, TTS (Kokoro/Piper/Edge), MCP client (stdio+http,
   1.4.5 supports STDIO on native), subagents (1.3.5), skills, scheduled tasks, file permissions,
   chat folders/branching, OpenAI-compatible local API (1.4.0), Telegram interface.
 - **Watch issues/features for:** better MCP tool lazy-loading, per-profile models.
-- **Our fork (`sesha/` branch):** strip GNOME-only assumptions, add Hyprland Quickshell overlay,
-  prewire our MCP servers, set 6 GB-safe model defaults, rename in about-screen to "Sesha (Newelle core)".
+- **Our fork (`shesha/` branch):** strip GNOME-only assumptions, add Hyprland Quickshell overlay,
+  prewire our MCP servers, set 6 GB-safe model defaults, rename in about-screen to "Shesha (Newelle core)".
 - **Do NOT take:** Flatpak manifest (use native AUR), cloud provider defaults.
 
-### 🔜 Goose (block/goose) — Apache-2.0  → reference for `sesha-mind`
+### 🔜 Goose (block/goose) — Apache-2.0  → reference for `shesha-mind`
 Model-agnostic agent, 70+ MCP extensions, CLI+desktop. Steal: MCP extension registry patterns, the
 desktop+CLI shape, provider abstraction. Don't replace Newelle; mine it for extension ideas.
 
 ### 🔜 Hermes Agent (NousResearch) — MIT  → reference for skills/cron/gateway
 Self-improving agent with skills creation, cron automations, multi-platform gateway (Telegram/Discord),
-6 execution backends. Steal: skill format, scheduled automations, gateway (talk to Sesha from phone).
+6 execution backends. Steal: skill format, scheduled automations, gateway (talk to Shesha from phone).
 Its companion `computer-use-linux` (Apache-2.0) is the blueprint for deeper Soma control.
 
 ### 🔜 Open Interpreter — AGPL-3.0 (careful)  → patterns only
@@ -40,39 +40,39 @@ lifecycle allowlist), clean agent-loop/state design. Read-only inspiration.
 
 ### 🔜 Prime Agent / RLM Harness (PrimeIntellect) — MIT  → reference
 "Continual Harness": a supplemental prompt/skill store refined with evidence without mutating the base
-system prompt. **This is exactly how Sesha should learn safely.** Implement in `sesha-mind`.
+system prompt. **This is exactly how Shesha should learn safely.** Implement in `shesha-mind`.
 
 ---
 
 ## B. Brain / governance (your own lineage)
 
-### ⭐ NexusAOS (you) — MIT  → `sesha-brain`
+### ⭐ SheshaAOS (you) — MIT  → `shesha-brain`
 The kernel: event store, policy engine, scheduler, router, tool broker, RPC. Already 981 tests.
-- **Steal (from yourself):** `nexusaos-kernel`, `nexusaos-rpc`, `nexusaos-ai` provider abstraction,
-  `nexusaos-terminal`, resource budgets, append-only audit, manifest lifecycle.
+- **Steal (from yourself):** `sheshaaos-kernel`, `sheshaaos-rpc`, `sheshaaos-ai` provider abstraction,
+  `sheshaaos-terminal`, resource budgets, append-only audit, manifest lifecycle.
 - **Adapt:** target CachyOS/Hyprland instead of Ubuntu/GNOME; make policy gate MCP tool calls; expose
-  the event log as `sesha-audit`.
+  the event log as `shesha-audit`.
 - **Branches to study:** `bolt-optimize-raf-loop` (UI perf), `palette-ux-theme-switcher-a11y`
   (accessibility/theme), `recovery/phase-1` (resilience). Fold the good bits in.
 
-### ⭐ nexus-kernel (you) — MIT  → research track
+### ⭐ shesha-kernel (you) — MIT  → research track
 Alpha microkernel. Steal the architecture ADRs (vte over Zig FFI, JSON-RPC id fix, resource budgets,
 policy-decision events, wgpu terminal). Many of these are *desktop-app* lessons directly applicable to
-a Quickshell/terminal Sesha UI. Keep as research, not daily driver.
+a Quickshell/terminal Shesha UI. Keep as research, not daily driver.
 
-### 🔜 SeshaOS (you) — MIT  → `sesha-mind` spec
+### 🔜 SheshaOS (you) — MIT  → `shesha-mind` spec
 Specialist model routing (planner/coder/vision). Steal the router logic and manifest spec. On 6 GB
 VRAM, map its three large models to small equivalents (phi4-mini / qwen2.5-coder:3b / moondream2) and
 keep the same interface so bigger models drop in later.
 
-### 🔜 llm-eval-harness (you) — MIT  → `sesha-mind` reflection
+### 🔜 llm-eval-harness (you) — MIT  → `shesha-mind` reflection
 LLM-as-judge golden-set eval. Use it to grade specialists and gate mind changes.
 
 ---
 
 ## C. Soma — desktop shell and looks
 
-### ⭐ end-4/dots-hyprland — GPL-3.0  → base of `Auto-desktopenv`
+### ⭐ end-4/dots-hyprland — GPL-3.0  → base of `shesha-desktop`
 Our shell base. Steal: Lua config (Hyprland ≥0.55), Quickshell `ii` widgets, Material You/matugen,
 AI sidebar (Ollama/Gemini), anti-flashbang, screen translate, clipboard IPC, keybinds.
 - **Upstream strategy:** keep `custom/` overrides thin; rebase often. Add our MCP/automations without
@@ -102,16 +102,16 @@ Copy easing/blur parameters (QML, no dep change) for 144 Hz smoothness.
 
 ## D. Soma — file/automation organs
 
-### ⭐ Our own smart-organizer (in Auto-desktopenv)  → `sesha-files`
+### ⭐ Our own smart-organizer (in shesha-desktop)  → `shesha-files`
 Rust `notify` watcher + Python classifier + MCP. Promote to its own repo; add:
 - **Steal from `waku-agent`** (MIT): single-afternoon agent harness shape (loop/memory/eval) — use as
-  the structural model for `sesha-files`'s agent mode, not a dependency.
+  the structural model for `shesha-files`'s agent mode, not a dependency.
 - **Steal from OpenAdapt** (MIT): record-and-replay demonstration for automations.
 - Trash via `gio trash`; undo log; SQLite history (already specced).
 
 ### 🔜 system-aidai/**openclaw** family (MIT if used) → gateway ideas
 Personal agent servers (moltis/clawdbot) — single Rust binary, sandboxed, multi-LLM, voice, Telegram.
-Reference for packaging Sesha as one binary later.
+Reference for packaging Shesha as one binary later.
 
 ### 🔜 Leon (leon-ai/leon) — MIT  → skills architecture
 17.4k★ open personal assistant, Python+Node, skills/memory layers. Older but clean; mine its skill
@@ -122,7 +122,7 @@ packaging and i18n.
 pipeline (interruption, barge-in, low latency).
 
 ### 🔜 openWakeWord (dscripka) — Apache-2.0
-Fallback if Newelle's wake word is insufficient; train a custom "Hey Sesha" model.
+Fallback if Newelle's wake word is insufficient; train a custom "Hey Shesha" model.
 
 ---
 
@@ -130,16 +130,16 @@ Fallback if Newelle's wake word is insufficient; train a custom "Hey Sesha" mode
 
 ### 🔜 computer-use-linux (avifenesh) — Apache-2.0
 AT-SPI accessibility tree + Wayland input injection + screenshots + compositor window targeting. This
-is the missing "eyes and hands" for Sesha on Hyprland beyond `hyprctl`. Evaluate maturity; wrap as
-`sesha-control` MCP server, behind brain policy (destructive actions require approval).
+is the missing "eyes and hands" for Shesha on Hyprland beyond `hyprctl`. Evaluate maturity; wrap as
+`shesha-control` MCP server, behind brain policy (destructive actions require approval).
 
 ### 🔜 OS-Copilot / OS-Copilot (Ubuntu) — Apache-2.0
 Linux-oriented shell+screenshot agent; good reference for Linux-first control.
 
 ### 🔜 browser-use — MIT
-Drive a real browser for web tasks. Wrap as `sesha-browser` MCP; run in a separate sandboxed profile.
+Drive a real browser for web tasks. Wrap as `shesha-browser` MCP; run in a separate sandboxed profile.
 
-### ⭐ phone-harness concept (ShawnPana) — MIT  → `sesha-phone`
+### ⭐ phone-harness concept (ShawnPana) — MIT  → `shesha-phone`
 macOS-only; we port the OCR→coordinate→act loop to **ADB on the Realme Narzo 90x**. Use `moondream2`
 vision instead of OCR. Direct coordinates via `adb shell input`.
 
@@ -159,7 +159,7 @@ Reference UIs and local model management; not direct deps.
 
 ## G. Build-your-own / learning track (build-your-own-x, MIT)
 
-Use the test-driven, increment-by-increment tutorials for the `nexus-kernel` research track:
+Use the test-driven, increment-by-increment tutorials for the `shesha-kernel` research track:
 build-a-shell, build-a-database, build-an-interpreter, build-a-docker. Not production code; a learning
 scaffold so the AI-first kernel vision is grounded, not fantasy.
 
@@ -183,7 +183,7 @@ stack. We're surfing the wave, not fighting it.
 | AGPL-3.0 | ⚠️ separate service only | Open Interpreter, Khoj — never link |
 | Elastic/SSPL/source-available | ❌ no | Suna and similar — skip |
 
-We maintain `NOTICES.md` and a per-component `LICENSE` in each `sesha-*` repo. The manifest gate
+We maintain `NOTICES.md` and a per-component `LICENSE` in each `shesha-*` repo. The manifest gate
 (`scripts/check-licenses.py`) refuses incompatible licenses.
 
 ---
@@ -191,9 +191,9 @@ We maintain `NOTICES.md` and a per-component `LICENSE` in each `sesha-*` repo. T
 ## J. First-wave intake (do now)
 
 1. **Fork & track:** Newelle, end-4/dots-hyprland.
-2. **Promote from Auto-desktopenv:** `sesha-files`, `sesha-shell`, `sesha-system`, `sesha-voice`
+2. **Promote from shesha-desktop:** `shesha-files`, `shesha-shell`, `shesha-system`, `shesha-voice`
    (Newelle wrapper config).
-3. **Bridge:** `sesha-audit` to NexusAOS event store.
+3. **Bridge:** `shesha-audit` to SheshaAOS event store.
 4. **Reference-only (read, don't vendor yet):** Goose, Hermes, pi, Prime, computer-use-linux,
    pipecat, Leon.
 5. Set up the weekly upstream-tracker bot (see `scripts/upstream-tracker.py`).

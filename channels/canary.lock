@@ -11,7 +11,7 @@
         "installer",
         "quickshell"
       ],
-      "repo": "gaganjainse/Auto-desktopenv",
+      "repo": "gaganjainse/shesha-desktop",
       "upstream": {
         "name": "dots-hyprland",
         "ref": "main",
@@ -19,7 +19,26 @@
       },
       "version": "rolling"
     },
-    "sesha-audit": {
+    "shesha-acp": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "acp",
+        "editor-integration",
+        "jetbrains",
+        "zed"
+      ],
+      "repo": "gaganjainse/shesha-acp",
+      "upstream": {
+        "name": "Agent Client Protocol",
+        "ref": "main",
+        "repo": "zed-industries/agent-client-protocol"
+      },
+      "version": "0.1.0"
+    },
+    "shesha-audit": {
       "channel": "canary",
       "layer": "brain",
       "license": "MIT",
@@ -29,15 +48,15 @@
         "event-store",
         "policy-engine"
       ],
-      "repo": "gaganjainse/sesha-audit",
+      "repo": "gaganjainse/shesha-audit",
       "upstream": {
-        "name": "NexusAOS",
+        "name": "SheshaAOS",
         "ref": "main",
-        "repo": "gaganjainse/NexusAOS"
+        "repo": "gaganjainse/SheshaAOS"
       },
       "version": "0.1.0"
     },
-    "sesha-files": {
+    "shesha-files": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -47,15 +66,54 @@
         "inotify-watcher",
         "undo-log"
       ],
-      "repo": "gaganjainse/sesha-files",
+      "repo": "gaganjainse/shesha-files",
       "upstream": {
-        "name": "Auto-desktopenv smart-organizer",
+        "name": "shesha-desktop smart-organizer",
         "ref": "main",
-        "repo": "gaganjainse/Auto-desktopenv"
+        "repo": "gaganjainse/shesha-desktop"
       },
       "version": "0.2.0"
     },
-    "sesha-mind": {
+    "shesha-harness": {
+      "channel": "canary",
+      "layer": "mind",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "auto-skills",
+        "continual-harness",
+        "refine",
+        "self-evolution"
+      ],
+      "repo": "gaganjainse/shesha-harness",
+      "upstream": {
+        "name": "Memento-Skills / Prime Harness",
+        "ref": "main",
+        "repo": "Memento-Teams/Memento-Skills"
+      },
+      "version": "0.1.0"
+    },
+    "shesha-memory": {
+      "channel": "canary",
+      "layer": "mind",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "context-assembly",
+        "episodic-memory",
+        "habit-learning",
+        "rag",
+        "semantic-memory"
+      ],
+      "repo": "gaganjainse/shesha-memory",
+      "upstream": {
+        "name": "rag-service",
+        "ref": "main",
+        "repo": "gaganjainse/rag-service"
+      },
+      "version": "0.1.0"
+    },
+    "shesha-mind": {
       "channel": "canary",
       "layer": "mind",
       "license": "MIT",
@@ -71,15 +129,15 @@
         "planner",
         "vision"
       ],
-      "repo": "gaganjainse/sesha-mind",
+      "repo": "gaganjainse/shesha-mind",
       "upstream": {
-        "name": "SeshaOS",
+        "name": "SheshaOS",
         "ref": "main",
-        "repo": "gaganjainse/SeshaOS"
+        "repo": "gaganjainse/SheshaOS"
       },
       "version": "0.1.0"
     },
-    "sesha-shell": {
+    "shesha-shell": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -89,11 +147,33 @@
         "window-control",
         "workspaces"
       ],
-      "repo": "gaganjainse/sesha-shell",
+      "repo": "gaganjainse/shesha-shell",
       "upstream": null,
       "version": "0.1.0"
     },
-    "sesha-system": {
+    "shesha-skills": {
+      "channel": "canary",
+      "layer": "mind",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "docs",
+        "git-tools",
+        "mcp:skills",
+        "notes",
+        "reminders",
+        "skill-library",
+        "web-search"
+      ],
+      "repo": "gaganjainse/shesha-skills",
+      "upstream": {
+        "name": "MCP skills pattern",
+        "ref": "main",
+        "repo": "modelcontextprotocol/servers"
+      },
+      "version": "0.1.0"
+    },
+    "shesha-system": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -105,11 +185,11 @@
         "mcp:system",
         "power"
       ],
-      "repo": "gaganjainse/sesha-system",
+      "repo": "gaganjainse/shesha-system",
       "upstream": null,
       "version": "0.1.0"
     },
-    "sesha-voice": {
+    "shesha-voice": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -121,7 +201,7 @@
         "tts",
         "wakeword"
       ],
-      "repo": "gaganjainse/sesha-voice",
+      "repo": "gaganjainse/shesha-voice",
       "upstream": {
         "name": "Newelle",
         "ref": "1.4.5",
@@ -130,6 +210,6 @@
       "version": "1.4.5-sesha1"
     }
   },
-  "count": 7,
-  "sha256": "65816c591f15de8fcb6d7bd36bfad53202273d916109c1cb5a1041aa2ca3db59"
+  "count": 11,
+  "sha256": "d333901c9ad6ceae09f08af1188458050c639c7af6a464cbbce2aee2ea2f1d42"
 }

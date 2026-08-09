@@ -11,7 +11,7 @@
         "installer",
         "quickshell"
       ],
-      "repo": "gaganjainse/Auto-desktopenv",
+      "repo": "gaganjainse/shesha-desktop",
       "upstream": {
         "name": "dots-hyprland",
         "ref": "main",
@@ -21,5 +21,5 @@
     }
   },
   "count": 1,
-  "sha256": "132f7e2fdb1d5249431ed9d2dda26d5e857747f65440e5647ef86f357d915b5b"
+  "sha256": "82b36db8e0aa86a80351510efc395741bf0d98c2660535edcf58a01a576e3957"
 }
