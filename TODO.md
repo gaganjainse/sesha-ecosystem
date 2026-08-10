@@ -81,7 +81,7 @@ Last updated: 2026-08-09
 - ✅ ACP server skeleton; need real editor sessions/diffs
 - ✅ A2A-lite bus in orchestrator
 - 🟡 ACP: session streaming + cancel + permission responses done; terminal bridge + diffs remain
-- ⬜ MCP server config generator (from manifest) + `~/.config/shesha/mcp/`
+- ✅ MCP server config generator from manifest — servers.json + Zed/Newelle configs (9 servers, 5 tests)
 - ⬜ ACP tested against Zed and JetBrains
 - ⬜ OpenTelemetry traces (local) for agent runs
 
