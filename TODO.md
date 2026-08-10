@@ -9,6 +9,14 @@ Last updated: 2026-08-09
 
 ---
 
+## Status vs original plan (honest audit)
+- ✅ shesha-ecosystem created & pushed
+- ✅ All 12 components split into own repos (beyond the original 3)
+- ✅ shesha-voice: Newelle fork renamed + MCP overlay (was missing)
+- 🟡 shesha-audit standalone done; **NexusAOS Rust bridge now added** (Python→shared JSONL)
+- ✅ Arch/Fedora/Ubuntu canary CI; CachyOS is Arch-based so covered
+- 🔴 shesha-kernel merge remains blocked on Rust type reconciliation
+
 ## 0. Project identity & naming ✅
 - ✅ Sesha → **Shesha** (शेष) across all repos/code/docs
 - ✅ Glossary: AOS (Agentic OS), AB (Agentic Body), AM (Agentic Mind), AI (Agentic Intelligence), AS (Agentic Soma), AP (Agentic Physique)
@@ -28,7 +36,7 @@ Last updated: 2026-08-09
   - ⬜ Fix pre-existing upstream build breaks: `russh::Error::msg` removed; `zig` required by terminal
   - ⬜ Gate: `cargo test --workspace` green on stable
 - ✅ Wire `shesha-audit` as the policy gate in front of every MCP tool call (Guard helper in shesha-audit; components import it)
-- ⬜ NexusAOS event-store bridge so Rust brain and Python soma share one audit log
+- ✅ NexusAOS event-store bridge (NexusBridge in shesha-audit; Guard emits Nexus-format events)
 - 💡 Future: eBPF telemetry with Aya (Rust) for system/performance sensing
 
 ## 2. Mind (deliberation / AM)  🟡

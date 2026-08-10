@@ -189,3 +189,17 @@ package rename. The Brain policy Gate is now reusable across components.
 swipes/text/screenshots, injectable runner; 7 tests) for the Realme Narzo target.
 All component READMEs synced to docs/components. Ecosystem now has 15 components
 across Brain/Mind/Soma with 138 tests.
+
+---
+
+## Q: "Have you done these? Are phases in pipeline? Search the whole chat for dropped items."
+
+**Answer:** Honest audit: items 1 (ecosystem), 2 (component split — all 12),
+and 5 (Arch canary) were done. Item 3 (shesha-voice) was MISSING — the Newelle
+fork was never renamed or given an overlay; fixed now (renamed to shesha-voice,
+added MCP config + default model + wake word). Item 4 was partial: shesha-audit
+existed standalone but the **NexusAOS event-store bridge was missing**; added a
+NexusBridge that emits events in the Rust EventKind format from the Guard.
+Added a TODO status section so nothing is silently dropped.
+
+**Docs:** components/shesha-voice.md, GLOSSARY, TODO (Status vs original plan)
