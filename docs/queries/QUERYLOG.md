@@ -301,3 +301,16 @@ upstream rate/load — mitigated by batching tool calls and smaller commits.
 Container overflow came from the Rust toolchain + large clones; removed
 ~/.cargo, ~/.rustup, target/, and caches, and keep work in the components/
 tree (not gh-mirror).
+
+---
+
+## Q: "Continue in Autocomplete mode"
+
+**Answer:** Added persistent reattachable sessions to shesha-orchestrator:
+a `SessionManager` runs Orchestrator executions in background threads, tracks
+goal/status/trace/result/error, and exposes MCP tools start_session/get_session/
+list_sessions/cancel_session. Cancellation is checked before/after each step;
+failures are recorded. 4 new tests (25 total). Also fixed the A2A handshake-once
+bug and JSON-RPC result unwrapping along the way.
+
+**Docs:** components/shesha-orchestrator.md, TODO.md
