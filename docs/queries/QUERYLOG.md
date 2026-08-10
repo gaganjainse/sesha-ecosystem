@@ -326,3 +326,15 @@ bug and JSON-RPC result unwrapping along the way.
 Both pushed; ecosystem manifest/TODO updated.
 
 **Docs:** components/shesha-containers.md, TODO.md
+
+---
+
+## Q: 👍 (continue)
+
+**Answer:** Built episodic memory compaction (`shesha-memory`): summarizes old
+episodes into semantic.md in batches, trims to a retention window, with an
+injectable summarizer (LLM in prod) and `compact_memory` MCP tool (5 new tests,
+20 total). Also shipped shesha-containers (sandboxed podman MCP) and persistent
+sessions earlier this run.
+
+**Docs:** components/shesha-memory.md, TODO.md
