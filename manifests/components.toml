@@ -98,8 +98,8 @@ repo = "gaganjainse/shesha-system"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
-provides = ["mcp:system", "power", "gpu-mux", "backup", "maintenance"]
-notes = "Power/GPU/backup MCP + automations."
+provides = ["mcp:system", "power", "gpu-mux"]
+notes = "Power/GPU/MUX MCP + automations."
 
 [component.shesha-skills]
 layer = "mind"
