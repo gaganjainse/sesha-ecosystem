@@ -37,3 +37,6 @@ jobs:
 
       - name: Gate
         run: bash scripts/gate-in-container.sh
+
+      - name: End-to-end integration
+        run: bash scripts/e2e-canary.sh
