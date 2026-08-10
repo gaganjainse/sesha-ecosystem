@@ -376,3 +376,15 @@ wired into sessions with recent_traces MCP (3 tests). Ecosystem manifest,
 TODO, and query log updated.
 
 **Docs:** components/*.md, TODO.md
+
+---
+
+## Q: "Continue on autocomplete, don't stop"
+
+**Answer:** Shipped: local JSONL trace recorder + session tracing; ACP
+terminal/exec and fs/diff with confirmation; shesha-calendar (iCal vdir MCP);
+extended canary e2e to cover all 15 components; shesha-secrets multi-backend
+resolver (env/gopass/keepassxc/file, refuses world-readable files). All
+tested and pushed.
+
+**Docs:** components/*.md, scripts/e2e-canary.sh, TODO.md
