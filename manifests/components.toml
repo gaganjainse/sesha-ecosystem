@@ -154,6 +154,16 @@ channel = "canary"
 provides = ["backup", "restic", "snapshots"]
 notes = "Verified local restic backups; AC-gated and daily-scheduled."
 
+
+[component.shesha-mcp-bundle]
+layer = "soma"
+repo = "gaganjainse/shesha-mcp-bundle"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["mcp-bundle", "filesystem", "fetch", "git"]
+notes = "Third-party MCP servers (filesystem/fetch/git) proxied behind Guard."
+
 [component.shesha-phone]
 layer = "soma"
 repo = "gaganjainse/shesha-phone"
