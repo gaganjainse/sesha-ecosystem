@@ -286,3 +286,18 @@ tests. 3 new tests (21 total). Also added system maintenance/health/update
 tools and the MCP config generator in prior ticks.
 
 **Docs:** architecture/MULTI_AGENT.md, components/shesha-orchestrator.md
+
+---
+
+## Q: "Continue" / fix busy-and-overflow issues
+
+**Answer:** Shipped `shesha-mcp-bundle`: proxies upstream filesystem/fetch/git
+MCP servers (npx/uvx) through the Guard, with tool prefixing (fs_*, fetch_*,
+git_*), handshake, skip-if-missing, and 4 offline tests. Added A2A Unix socket
+and system maintenance/health tools in prior ticks.
+
+**Infra note on interruptions/memory:** the "AI service busy" errors are
+upstream rate/load — mitigated by batching tool calls and smaller commits.
+Container overflow came from the Rust toolchain + large clones; removed
+~/.cargo, ~/.rustup, target/, and caches, and keep work in the components/
+tree (not gh-mirror).

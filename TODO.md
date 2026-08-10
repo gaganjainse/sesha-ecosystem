@@ -68,7 +68,7 @@ Last updated: 2026-08-09
 - ✅ `shesha-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
 - ✅ `shesha-update-check`: check_system_updates (read-only)
 - ✅ `shesha-health`: system_health (disk/units/load/temps/caches)
-- ⬜ Package mature third-party MCPs behind policy: filesystem, git, fetch, Playwright, GitHub, SQLite, markitdown
+- 🟡 Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesha-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain
 - ⬜ Email/calendar: local-first CalDAV/IMAP (vdirsyncer+khal/neomutt)
 - ⬜ Messaging bridges (Telegram/Signal) as isolated, opt-in services
 - ⬜ Media: screenshots, screen recording, wallpaper, audio routing
