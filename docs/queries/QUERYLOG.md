@@ -169,3 +169,14 @@ session/cancel and permission-response, and fixed an incomplete package rename.
 All pushed; component READMEs centralized in docs/components.
 
 **Docs:** components/shesha-mind.md, components/shesha-audit.md, components/shesha-acp.md
+
+---
+
+## Q (autopilot cont. 3): (continue)
+
+**Answer:** Built `shesha-backup` (restic wrapper with AC+daily gating,
+snapshot verification, and explicit prune; 8 offline tests) and pushed.
+Extended ACP with session cancel + permission responses and fixed an incomplete
+package rename. The Brain policy Gate is now reusable across components.
+
+**Docs:** components/shesha-backup.md, components/shesha-acp.md
