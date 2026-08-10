@@ -93,7 +93,7 @@ Last updated: 2026-08-09
 - ✅ Canary end-to-end test covers all 15 components
 - ⬜ Distrobox/Containerfile for reproducible onboarding
 - ⬜ Installer channel support (stable/canary/devel) with btrfs snapshot + rollback
-- ⬜ Secret manager (KeePassXC/gopass) — no keys in config
+- ✅ Secret manager: env/gopass/keepassxc/file backends (shesha-secrets; 8 tests)
 - ⬜ Supply-chain: sigstore/provenance for artifacts
 - ⬜ Integrate `shesha-audit` into CI release gates
 - 💡 Future: self-hosted update mirror

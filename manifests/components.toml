@@ -16,6 +16,16 @@ body_doc = "docs/architecture/AGENTIC_BODY.md"
 # ─────────────────────────────────────────────────────────────────────────────
 # BRAIN — governance kernel (your own lineage)
 # ─────────────────────────────────────────────────────────────────────────────
+
+[component.shesha-secrets]
+layer = "brain"
+repo = "gaganjainse/shesha-secrets"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["secrets", "credentials"]
+notes = "Multi-backend secret resolution (env/gopass/keepassxc/file); no keys in config."
+
 [component.shesha-audit]
 layer = "brain"
 repo = "gaganjainse/shesha-audit"
