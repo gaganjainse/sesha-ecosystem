@@ -135,3 +135,17 @@ quality gates and canary CI.
 
 **Docs:** [desktop/01_AUDIT.md](../desktop/01_AUDIT.md),
 [GAP_ANALYSIS.md](../GAP_ANALYSIS.md)
+
+---
+
+## Q (autopilot): "Start the work on autopilot."
+
+**Answer:** Began autonomous work per the supervisor. Implemented
+`shesha-mind` — the model router: maps roles (primary/planner/coder/researcher/
+vision/critic/embedding) to 6 GB-safe Ollama models with VRAM budgeting, a
+fallback chain, session planning that minimizes distinct loaded models, and an
+injectable Ollama client. MCP tools `select_model`/`plan_session`/`list_roles`/
+`set_model_for_role`/`list_installed_models`. 13 offline tests, ruff clean,
+pushed to gaganjainse/shesha-mind and added to the ecosystem manifest.
+
+**Docs:** [components/shesha-mind.md](../components/shesha-mind.md), TODO.md

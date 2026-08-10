@@ -37,7 +37,7 @@ Last updated: 2026-08-09
 - ✅ `shesha-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
 - ✅ `shesha-skills` — everyday MCP tools + 5 markdown skills (10 tests)
 - ✅ `shesha-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
-- ⬜ **`shesha-mind`** — model router (planner/coder/vision model selection, 6 GB-safe)
+- ✅ **`shesha-mind`** — role-to-model router with VRAM budget (13 tests)
 - ⬜ **`shesha-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy
 - ⬜ LLM-backed planner/critic in orchestrator (currently stub); wire to Ollama
 - ⬜ A2A over Unix socket (currently in-process); then optional remote (opt-in)
