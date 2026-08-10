@@ -49,7 +49,7 @@ Last updated: 2026-08-09
 - ⬜ **`shesha-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy
 - ⬜ LLM-backed planner/critic in orchestrator (currently stub); wire to Ollama
 - ✅ A2A over Unix socket — UDS broker with role routing (3 tests); then optional remote (opt-in)
-- ⬜ Persistent/background agent sessions (detach/reattach like Prime)
+- ✅ Persistent/background agent sessions — SessionManager with start/get/list/cancel (25 tests)
 - ⬜ Real `refine` loop: planner uses local model, evaluator plugs into `llm-eval-harness`
 - ⬜ Auto-skill capture (Read→Execute→Reflect→Write) with held-out scoring; deprecate unused skills
 - ⬜ Episodic compaction/summarization job (retention policy)
