@@ -38,3 +38,7 @@ a GitHub Actions sync. **Edit the source, not the wiki directly.**
 **226 tests passing across 16 components.** All unblocked P0/P1 work is
 complete; remaining items are the kernel merge and physical-hardware
 validation (see [[Roadmap]]).
+
+
+> **One-time setup:** after creating the first wiki page in the web UI,
+> the sync workflow keeps these pages up to date automatically.
