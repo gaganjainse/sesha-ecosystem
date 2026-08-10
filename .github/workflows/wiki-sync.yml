@@ -32,9 +32,11 @@ jobs:
             echo "Wiki exists; cloning."
             git clone --depth 1 "$WIKI_URL" /tmp/wiki
           else
-            echo "Wiki not initialized; creating a fresh wiki repo."
-            mkdir -p /tmp/wiki && cd /tmp/wiki && git init -q -b main
-            git remote add origin "$WIKI_URL"
+            echo "::warning::SheshaAOS wiki is not initialized."
+            echo "Create the first page at https://github.com/gaganjainse/SheshaAOS/wikis"
+            echo "(GitHub has no API to initialize a wiki; this is one manual click)."
+            echo "After that, this workflow syncs docs/wiki/ automatically."
+            exit 0
           fi
           cd /tmp/wiki
           cp "$GITHUB_WORKSPACE"/docs/wiki/*.md .
