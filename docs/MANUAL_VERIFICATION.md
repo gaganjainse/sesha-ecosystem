@@ -1,0 +1,219 @@
+# Manual Verification Checklist
+
+Everything Shesha automates is unit-tested, but some things **cannot be verified
+in this build sandbox** — they need you, on the actual MSI laptop, with real
+hardware, accounts, and GUI apps. Work through this top-to-bottom after
+installing. Tick items as you confirm them.
+
+> Last updated: 2026-08-10. This file is updated on every autopilot run; the
+> companion `docs/queries/QUERYLOG.md` records what changed and why.
+
+---
+
+## 0. First boot
+
+- [ ] **Boots into CachyOS / Hyprland** without errors
+- [ ] `hyprctl version` works; keybinds from the desktop fork are active
+- [ ] Resolution is **1920×1200 @ 144 Hz** (check `hyprctl monitors`)
+- [ ] The Quickshell status bar / settings render with no pink placeholders
+- [ ] Audio works (speakers + headphone jack): `wpctl status`, play a sound
+- [ ] Microphone works (for wake word / STT)
+- [ ] Network (Wi-Fi + Ethernet) connects
+- [ ] `~/.local/share/shesha/` directory tree exists after first run
+
+---
+
+## 1. Accounts, keys, and secrets
+
+- [ ] **Ollama installed and running**: `systemctl --user status ollama`
+- [ ] Models pulled for the 6 GB stack:
+  - [ ] `phi4-mini` (primary/planner/researcher/critic)
+  - [ ] `qwen2.5-coder:3b` (coder)
+  - [ ] `moondream2` (vision)
+  - [ ] `nomic-embed-text` (embeddings/RAG)
+  - [ ] Pull only what you need: `ollama pull <model>`
+- [ ] **`restic` installed** and a repo initialized: `restic -r <repo> snapshots`
+- [ ] `restic` repository password stored in **gopass/KeePassXC**, referenced as
+  `env:RESTIC_PASSWORD` or `gopass:shesha/backup` — **never** in plain config
+- [ ] MCP servers resolve secrets via `shesha-secrets`:
+  `shesha-secrets-mcp` → `get_secret("env:MY_TOKEN")`
+- [ ] No API keys/tokens committed to any repo (run a secret scan)
+- [ ] Git identity configured: `git config --global user.email/name`
+
+---
+
+## 2. MCP mesh (the core integration)
+
+After `pipx install`-ing all `shesha-*` packages, run the canary:
+
+```bash
+bash scripts/e2e-canary.sh   # from shesha-ecosystem
+```
+
+- [ ] **E2E canary passes** (all 16 components import, policy denies protected
+      paths, memory/orchestrator/ACP/backup/calendar/vectors/traces all respond)
+- [ ] **Generate the MCP config**: `python scripts/generate_mcp_config.py --channel canary`
+- [ ] `~/.config/shesha/mcp/servers.json` lists **9 MCP servers**
+      (audit, backup, files, harness, memory, mind, orchestrator, shell, skills;
+      + containers/secrets/calendar if installed)
+- [ ] **Newelle (shesha-voice)** starts and its MCP panel shows the servers
+      connected (green)
+- [ ] Restart Newelle and ask it to **list its tools** — it should see
+      `check_system_updates`, `semantic_search`, `start_session`, etc.
+- [ ] Zed / another MCP client (if you use one) can connect via the generated
+      `zed.json`
+- [ ] Each MCP server starts standalone without import errors, e.g.
+      `shesha-system-mcp` (Ctrl-C to exit)
+
+---
+
+## 3. Voice (shesha-voice / Newelle fork)
+
+- [ ] Fork `gaganjainse/shesha-voice` is tracking upstream `qwersyk/Newelle`
+      (rebase occasionally)
+- [ ] The overlay config copied:
+  - [ ] `cp shesha-overlay/shesha-mcp-servers.json ~/.config/Newelle/mcp-servers.json`
+  - [ ] Default model set to local Ollama `phi4-mini`
+- [ ] **Wake word "hey shesha"** triggers listening (openwakeword)
+- [ ] Speech-to-text transcribes your voice accurately (try faster-whisper)
+- [ ] Text-to-speech reads responses aloud
+- [ ] Mic permission / PipeWire access not blocked
+
+---
+
+## 4. GPU, power, and MUX (MSI-specific)
+
+- [ ] **NVIDIA driver loaded**: `nvidia-smi` shows the GPU and temp/power
+- [ ] `powerprofilesctl list`; switching performance↔balanced↔power-saver works
+  - [ ] `shesha-system-mcp` → `set_power_profile("gaming")` changes it
+  - [ ] Hyprland blur/shadow auto-reduce on battery (verify visually)
+- [ ] **MUX switch** (if you use it): `sudo msi-mux-switcher status` shows the
+      current mode; switching requires a reboot as documented
+- [ ] GPU VRAM doesn't exceed the 5.5 GB budget when two models load
+      (`watch nvidia-smi`)
+- [ ] Hybrid graphics routes apps correctly (offload with `__NV_PRIME_RENDER_OFFLOAD=1`)
+
+---
+
+## 5. Display and desktop
+
+- [ ] Refresh rate stays at 144 Hz (no drop to 60)
+- [ ] Fractional/HiDPI scaling looks correct
+- [ ] Screen recording / screenshots work (the `grim`+`slurp` pipeline)
+- [ ] Notifications appear and are not duplicated
+- [ ] Idle inhibitor works during video/media
+- [ ] The **ambient offer overlay** appears at natural pauses (not while typing
+      or gaming) and doesn't nag (max 3/day, 30-min cooldown)
+
+---
+
+## 6. Backup
+
+- [ ] `shesha-backup-mcp` → `run_backup` completes (after a manual first
+      `restic init`)
+- [ ] First backup verified: `restic -r <repo> snapshots` lists it
+- [ ] `check_system_updates` reports pending pacman/AUR packages (read-only)
+- [ ] **System update is never automatic** — it only notifies; you run `pacman -Syu`
+- [ ] `clean_system_caches("user")` frees space without error
+- [ ] A scheduled backup timer is enabled if you want daily unattended runs
+- [ ] **Test a restore** to a temp dir before trusting backups
+
+---
+
+## 7. Phone (shesha-phone, Realme Narzo)
+
+- [ ] ADB debugging enabled on the phone; `adb devices` lists it
+- [ ] `shesha-phone-mcp` connects (safe-area taps land on screen)
+- [ ] Taps **outside the status/nav bars are refused** (try a coordinate at y=10)
+- [ ] Screenshots pull successfully
+- [ ] Vision model can describe a screenshot if you wire it
+- [ ] The phone does **not** accept destructive commands without confirmation
+
+---
+
+## 8. Containers / sandboxing
+
+- [ ] `podman` installed and rootless works: `podman run --rm alpine echo ok`
+- [ ] `shesha-containers-mcp` → `run_sandboxed(["echo","hi"])` returns output
+- [ ] Sandboxed commands have **no network** by default (`--network=none`)
+- [ ] `--cap-drop=ALL` is in effect (verify with a privileged syscall)
+- [ ] Containers are removed after each run (`--rm`)
+- [ ] The third-party MCP bundle (filesystem/fetch/git) launches only if
+      `npx`/`uvx` are present
+
+---
+
+## 9. Agent behavior
+
+- [ ] Start a goal via `shesha-orchestrator-mcp` → `execute("...")`; it plans,
+      delegates by role, and the critic approves
+- [ ] **Background sessions** work: `start_session`, disconnect, `get_session`
+      later shows progress/result
+- [ ] `cancel_session` actually stops a long-running goal
+- [ ] `/refine` only promotes a skill/memory change if the held-out evaluator
+      scores ≥ 0.7 (check `recent_refinements`)
+- [ ] The LLM is used when Ollama responds; offline, the deterministic stubs
+      keep the system working
+- [ ] **Memory compaction** runs without data loss:
+      `shesha-memory-mcp` → `compact_memory()`; old episodes move to
+      `semantic.md`, very old ones are deleted
+- [ ] Semantic search (`semantic_search`) returns relevant memories
+- [ ] Habits/intentions/mannerisms reflect your actual preferences over time
+
+---
+
+## 10. Security & audit
+
+- [ ] Every tool call is logged: `~/.local/share/shesha/audit/events.jsonl`
+- [ ] The hash chain verifies: no "tampered" results
+- [ ] Nexus-format events appear in `nexus-events.jsonl` for the Rust brain
+- [ ] Writing to `.ssh`, `.gnupg`, `Vaults/`, or job folders is **denied**
+      (try via any MCP tool)
+- [ ] Destructive terminal commands in ACP ask for confirmation
+- [ ] No MCP server runs as root
+- [ ] The audit Guard wraps every MCP server (check each server's logs for a
+      "policy" line)
+
+---
+
+## 11. Canary / releases
+
+- [ ] The daily canary GitHub Actions run is green
+      (https://github.com/gaganjainse/shesha-ecosystem/actions)
+- [ ] If you switch to **stable**, `btrfs snapshot` is taken before install
+- [ ] Rollback works: boot the snapshot from grub/btrfs-grub
+- [ ] Component versions in `manifests/components.toml` match what's installed
+
+---
+
+## 12. Known things that need deliberate (non-autopilot) work
+
+These are 🔴 in TODO.md and intentionally **not** auto-forced:
+
+- [ ] **shesha-kernel → SheshaAOS merge**: the Rust trees diverged at the type
+      level. Follow `KERNEL_MERGE_PLAN.md` in SheshaAOS; port leaf crates first,
+      reconcile `NexusError`/TUI, bring in `sheshaaos-protocols`, fix the
+      upstream `russh`/`zig` build breaks, gate on `cargo test --workspace`.
+- [ ] **Hardware validation on the physical MSI** (this whole document)
+- [ ] Rebase shesha-voice on upstream Newelle periodically
+- [ ] Set up real CalDAV/IMAP sync with vdirsyncer if you want email/calendar
+      beyond the local .ics reader
+- [ ] Optionally connect Telegram/Signal bridges (isolated accounts)
+- [ ] Test ACP against actual Zed/JetBrains (the protocol is implemented but
+      untested against real editors)
+
+---
+
+## Quick health command
+
+Run this anytime; it should report all-green:
+
+```bash
+echo "=== Shesha health ===" && \
+systemctl --user is-active ollama && \
+bash ~/src/shesha-ecosystem/scripts/e2e-canary.sh && \
+for s in shesha-{audit,system,shell,files,skills,memory,mind,harness,orchestrator,backup,phone,containers,secrets,calendar,acp}-mcp; do
+  command -v "$s" >/dev/null && echo "ok  $s" || echo "MISSING  $s"
+done && \
+echo "=== done ==="
+```
