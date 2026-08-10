@@ -364,3 +364,15 @@ semantic_search/index_memory. 6 new tests (26 total). Also shipped the
 held-out /refine evaluator earlier this run.
 
 **Docs:** components/shesha-memory.md, TODO.md
+
+---
+
+## Q: "Continue on autocomplete, don't stop"
+
+**Answer:** Shipped: data-aware ambient signals wired into offer_for_moment;
+shesha-calendar (iCal vdir MCP, 6 tests); ACP terminal/exec + fs/diff with
+confirmation for dangerous commands (3 tests); local JSONL trace recorder
+wired into sessions with recent_traces MCP (3 tests). Ecosystem manifest,
+TODO, and query log updated.
+
+**Docs:** components/*.md, TODO.md

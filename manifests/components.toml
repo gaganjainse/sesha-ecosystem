@@ -155,6 +155,16 @@ provides = ["backup", "restic", "snapshots"]
 notes = "Verified local restic backups; AC-gated and daily-scheduled."
 
 
+
+[component.shesha-calendar]
+layer = "mind"
+repo = "gaganjainse/shesha-calendar"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["calendar", "agenda", "ical"]
+notes = "Local-first iCalendar vdir reader (vdirsyncer/khal compatible)."
+
 [component.shesha-mcp-bundle]
 layer = "soma"
 repo = "gaganjainse/shesha-mcp-bundle"
