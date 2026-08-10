@@ -233,3 +233,18 @@ forces stubs; `llm_status()` reports live vs fallback. 9 new tests (18 total),
 pushed; shesha-mind added as a dependency.
 
 **Docs:** components/shesha-orchestrator.md, TODO.md
+
+---
+
+## Q: "Continue" (autopilot)
+
+**Answer:** Implemented P0 canary e2e test (`scripts/e2e-canary.sh`): installs
+all 12 components, imports every server module, verifies the audit Guard denies
+protected paths, memory assembles a bounded context, orchestrator enforces its
+budget and runs 3 stub steps, ACP does a session/prompt round-trip, and backup
+reports status. Wired into daily canary CI. Fixed two false imports along the
+way (shesha-files is a flat `classifier` module; shesha-memory has no `log.py`).
+All 3 P0s now done; remaining 🔴 items are the kernel merge (needs careful Rust
+work) and hardware tests (need the physical MSI).
+
+**Docs:** scripts/e2e-canary.sh, .github/workflows/canary.yml, TODO.md
