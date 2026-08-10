@@ -72,7 +72,7 @@ Last updated: 2026-08-09
 - ⬜ Email/calendar: local-first CalDAV/IMAP (vdirsyncer+khal/neomutt)
 - ⬜ Messaging bridges (Telegram/Signal) as isolated, opt-in services
 - ⬜ Media: screenshots, screen recording, wallpaper, audio routing
-- ⬜ Container control MCP (podman/distrobox) for sandboxed tasks
+- ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
 - 🔴 Hardware tests: Hyprland@144, NVIDIA MUX, wake word, PipeWire, Quickshell render — must run on the MSI or canary VM
 - 💡 Future: accessibility (a11y), eBPF kernel tuning
 

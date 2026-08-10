@@ -164,6 +164,16 @@ channel = "canary"
 provides = ["mcp-bundle", "filesystem", "fetch", "git"]
 notes = "Third-party MCP servers (filesystem/fetch/git) proxied behind Guard."
 
+
+[component.shesha-containers]
+layer = "soma"
+repo = "gaganjainse/shesha-containers"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["containers", "sandbox", "podman"]
+notes = "Unprivileged podman/distrobox sandboxed command execution."
+
 [component.shesha-phone]
 layer = "soma"
 repo = "gaganjainse/shesha-phone"
