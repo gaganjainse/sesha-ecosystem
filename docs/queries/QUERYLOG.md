@@ -203,3 +203,19 @@ NexusBridge that emits events in the Rust EventKind format from the Guard.
 Added a TODO status section so nothing is silently dropped.
 
 **Docs:** components/shesha-voice.md, GLOSSARY, TODO (Status vs original plan)
+
+---
+
+## Q: "Okay then do the work"
+
+**Answer:** Implemented P0: enforce the shesha-audit Guard at every MCP
+boundary. Added `GuardedMCP(FastMCP)` in shesha-audit — a middleware that
+policy-checks every tool call before execution, denies protected paths, logs
+each decision + result, and emits SheshaAOS-format Nexus events. Wired it into
+all 8 MCP servers (shell, system, skills, memory, harness, orchestrator, mind,
+backup) with a graceful fallback to plain FastMCP if audit isn't installed,
+and added shesha-audit as a dependency. 2 new middleware tests (20 total in
+audit); full suite: 113 component tests green. Renamed packages to shesha_* on
+the way through.
+
+**Docs:** TODO.md, components/shesha-audit.md
