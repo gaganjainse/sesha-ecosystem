@@ -1,12 +1,12 @@
-# Welcome to SheshaAOS
+# Welcome to SheshAOS
 
-**Shesha** is a local-first, privacy-respecting AI agent operating system
+**Shesh** is a local-first, privacy-respecting AI agent operating system
 for Linux (target: CachyOS on an MSI Sword 16 HX). It is a federation of
 small, single-purpose MCP components orchestrated by a Rust governance
 kernel, with a Newelle-based voice frontend.
 
 This wiki is auto-generated from `docs/wiki/` in the
-[shesha-ecosystem](https://github.com/gaganjainse/shesha-ecosystem) repo via
+[shesh-ecosystem](https://github.com/gaganjainse/shesh-ecosystem) repo via
 a GitHub Actions sync. **Edit the source, not the wiki directly.**
 
 ## Start here
@@ -22,16 +22,16 @@ a GitHub Actions sync. **Edit the source, not the wiki directly.**
 
 | Repo | Layer | Purpose |
 |------|-------|---------|
-| [SheshaAOS](https://github.com/gaganjainse/SheshaAOS) | Brain | Rust governance kernel (12 crates) |
-| [shesha-ecosystem](https://github.com/gaganjainse/shesha-ecosystem) | — | Manifest, gates, docs, wiki source |
-| [shesha-audit](https://github.com/gaganjainse/shesha-audit) | Brain | Hash-chained event log + policy Guard |
-| [shesha-orchestrator](https://github.com/gaganjainse/shesha-orchestrator) | Mind | Multi-agent RLM runtime |
-| [shesha-memory](https://github.com/gaganjainse/shesha-memory) | Mind | Episodic/semantic/habit memory |
-| [shesha-mind](https://github.com/gaganjainse/shesha-mind) | Mind | Role-to-model router |
-| [shesha-harness](https://github.com/gaganjainse/shesha-harness) | Mind | Self-improvement / refine |
-| [shesha-skills](https://github.com/gaganjainse/shesha-skills) | Mind | Everyday MCP tools + skills |
-| [shesha-voice](https://github.com/gaganjainse/shesha-voice) | Soma | Newelle fork (voice/chat UI) |
-| [shesha-desktop](https://github.com/gaganjainse/shesha-desktop) | Soma | CachyOS/Hyprland dotfiles |
+| [SheshAOS](https://github.com/gaganjainse/SheshAOS) | Brain | Rust governance kernel (12 crates) |
+| [shesh-ecosystem](https://github.com/gaganjainse/shesh-ecosystem) | — | Manifest, gates, docs, wiki source |
+| [shesh-audit](https://github.com/gaganjainse/shesh-audit) | Brain | Hash-chained event log + policy Guard |
+| [shesh-orchestrator](https://github.com/gaganjainse/shesh-orchestrator) | Mind | Multi-agent RLM runtime |
+| [shesh-memory](https://github.com/gaganjainse/shesh-memory) | Mind | Episodic/semantic/habit memory |
+| [shesh-mind](https://github.com/gaganjainse/shesh-mind) | Mind | Role-to-model router |
+| [shesh-harness](https://github.com/gaganjainse/shesh-harness) | Mind | Self-improvement / refine |
+| [shesh-skills](https://github.com/gaganjainse/shesh-skills) | Mind | Everyday MCP tools + skills |
+| [shesh-voice](https://github.com/gaganjainse/shesh-voice) | Soma | Newelle fork (voice/chat UI) |
+| [shesh-desktop](https://github.com/gaganjainse/shesh-desktop) | Soma | CachyOS/Hyprland dotfiles |
 
 ## Status
 

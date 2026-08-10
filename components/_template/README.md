@@ -1,6 +1,6 @@
-# Component template — `shesha-<organ>`
+# Component template — `shesh-<organ>`
 
-Copy this directory when creating a new Shesha component repository (② in the topology). Each
+Copy this directory when creating a new Shesh component repository (② in the topology). Each
 component is independently versioned and tested; the ecosystem pins it in
 `manifests/components.toml`.
 
@@ -12,7 +12,7 @@ component is independently versioned and tested; the ecosystem pins it in
 
 ```toml
 [component]
-name = "shesha-<organ>"
+name = "shesh-<organ>"
 layer = "soma"            # brain | mind | soma
 version = "0.1.0"
 license = "GPL-3.0"
@@ -35,13 +35,13 @@ A component is promoted from `devel` → `canary` only when:
 
 ## Naming
 
-- Binaries/units: `shesha-<organ>` and `shesha-<organ>.service`.
-- MCP servers: `shesha-<organ>-mcp` (stdio transport by default).
-- Never use "Jarvis"; the agent is **Shesha**.
+- Binaries/units: `shesh-<organ>` and `shesh-<organ>.service`.
+- MCP servers: `shesh-<organ>-mcp` (stdio transport by default).
+- Never use "Jarvis"; the agent is **Shesh**.
 - Keep the upstream project's name in attribution; our wrapper is ours.
 
 ## Promoting
 
-Bump `version` in `manifest.toml`, tag `vX.Y.Z`, then open a PR against `shesha-ecosystem`
+Bump `version` in `manifest.toml`, tag `vX.Y.Z`, then open a PR against `shesh-ecosystem`
 bumping the pin in `manifests/components.toml`. CI runs integration tests; on green it lands in
 `canary`. After soak + hardware smoke, a maintainer promotes the component's `channel` to `stable`.

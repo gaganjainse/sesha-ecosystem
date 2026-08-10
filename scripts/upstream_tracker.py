@@ -28,7 +28,7 @@ except ModuleNotFoundError:  # pragma: no cover
     import tomli as tomllib  # type: ignore
 
 GITHUB = "https://api.github.com/repos/{repo}"
-UA = "shesha-ecosystem-tracker/0.1"
+UA = "shesh-ecosystem-tracker/0.1"
 
 
 def gh_get(repo: str) -> dict:

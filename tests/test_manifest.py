@@ -1,4 +1,4 @@
-"""Tests for the Shesha ecosystem manifest resolver and gates.
+"""Tests for the Shesh ecosystem manifest resolver and gates.
 
 These run entirely offline with no hardware dependencies. They are the first
 line of defense: a malformed manifest, incompatible license, or duplicate
@@ -70,7 +70,7 @@ def test_each_component_has_upstream_or_is_ours(manifest_data):
 
 
 def test_resolve_writes_deterministic_lock(tmp_path, manifest_data):
-    out = tmp_path / "shesha.lock"
+    out = tmp_path / "shesh.lock"
     components = manifest_data["component"]
     lock1 = rm.resolve(components, "canary")
     out.write_text(json.dumps(lock1, indent=2, sort_keys=True))
@@ -79,7 +79,7 @@ def test_resolve_writes_deterministic_lock(tmp_path, manifest_data):
     assert lock1 == lock2
     data = json.loads(out.read_text())
     assert data["count"] >= 3
-    assert "shesha-files" in data["components"]
+    assert "shesh-files" in data["components"]
 
 
 def test_channel_filters_correctly(manifest_data):

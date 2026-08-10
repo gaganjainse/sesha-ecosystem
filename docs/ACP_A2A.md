@@ -1,6 +1,6 @@
 # ACP & A2A Integration
 
-Two protocols Shesha adopts alongside MCP so it can live in editors and coordinate agents.
+Two protocols Shesh adopts alongside MCP so it can live in editors and coordinate agents.
 
 ## ACP — Agent Client Protocol (Zed/JetBrains)
 
@@ -8,7 +8,7 @@ Two protocols Shesha adopts alongside MCP so it can live in editors and coordina
 - **Why:** implement once, run in Zed, JetBrains, Neovim, Emacs without per-editor plugins.
 - **vs MCP:** ACP is the outer layer (human-in-editor driving the agent); MCP is the inner
   layer (agent calling tools). We run both.
-- **Component:** `shesha-acp` (P0).
+- **Component:** `shesh-acp` (P0).
 
 Minimum ACP surface we implement:
 - `initialize` / capability negotiation.
@@ -17,7 +17,7 @@ Minimum ACP surface we implement:
 - `session/request_permission` before edits/commands (human-in-the-loop).
 - Progress + diff updates so the editor shows changes.
 
-The ACP server spawns `shesha-orchestrator` (coder role) as its agent, handing it the MCP
+The ACP server spawns `shesh-orchestrator` (coder role) as its agent, handing it the MCP
 endpoint list. All actions still flow through the Brain policy/audit.
 
 Reference: https://agentclientprotocol.com (Zed Industries).
@@ -25,9 +25,9 @@ Reference: https://agentclientprotocol.com (Zed Industries).
 ## A2A — Agent2Agent (Google/Linux Foundation)
 
 - **Direction:** agent ↔ agent across processes/trust boundaries.
-- **Why:** lets Shesha's specialist subagents talk directly (coordinator→researcher→critic) and,
+- **Why:** lets Shesh's specialist subagents talk directly (coordinator→researcher→critic) and,
   later, lets remote agents participate without us inventing a protocol.
-- **Component:** `shesha-orchestrator` speaks A2A on a local Unix socket (P1).
+- **Component:** `shesh-orchestrator` speaks A2A on a local Unix socket (P1).
 
 We use A2A for **local agent messaging first**; remote/cross-org A2A is off by default and requires
 explicit opt-in + the cloud tier.
@@ -38,17 +38,17 @@ explicit opt-in + the cloud tier.
 Editor (Zed/JetBrains)
    │ ACP (stdio JSON-RPC, streaming, permissions)
    ▼
-shesha-acp ──► shesha-orchestrator (coordinator)
+shesh-acp ──► shesh-orchestrator (coordinator)
                    │  A2A (local socket)   ┌─ planner ─┐
                    ├──────────────────────►┤ coder      │
                    │                       │ researcher │  each over
                    │                       │ vision      │  MCP to tools
                    │                       └─ critic ────┘
                    ▼
-              Brain (SheshaAOS policy + audit event log)
+              Brain (SheshAOS policy + audit event log)
                    │ MCP (stdio JSON-RPC)
                    ▼
-   shesha-files / shesha-shell / shesha-system / shesha-skills / ...
+   shesh-files / shesh-shell / shesh-system / shesh-skills / ...
 ```
 
 ## Security

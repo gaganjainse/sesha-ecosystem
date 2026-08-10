@@ -1,6 +1,6 @@
 # Tooling & Skills Catalog
 
-> What turns Shesha from a demo into a full ecosystem. We **build** the Shesha-specific organs
+> What turns Shesh from a demo into a full ecosystem. We **build** the Shesh-specific organs
 > (system, shell, files, skills) and **package** the best mature open-source MCP servers for the
 > rest — pinning versions, wrapping them in our policy/audit layer. This catalog is the intake list.
 
@@ -10,16 +10,16 @@
 
 | Component | Repo | Provides |
 |---|---|---|
-| shesha-system | gaganjainse/shesha-system | power/GPU/MUX/backup, system status |
-| shesha-shell | gaganjainse/shesha-shell | Hyprland/Quickshell control |
-| shesha-files | gaganjainse/shesha-files | real-time organizer (Rust+Python) |
-| shesha-skills | gaganjainse/shesha-skills | notes, web, git, docs, reminders + skill library |
-| shesha-voice | (fork of Newelle) | STT/TTS/wake word, chat UI |
-| shesha-audit/brain/mind/memory/phone | planned | governance, routing, RAG, ADB |
+| shesh-system | gaganjainse/shesh-system | power/GPU/MUX/backup, system status |
+| shesh-shell | gaganjainse/shesh-shell | Hyprland/Quickshell control |
+| shesh-files | gaganjainse/shesh-files | real-time organizer (Rust+Python) |
+| shesh-skills | gaganjainse/shesh-skills | notes, web, git, docs, reminders + skill library |
+| shesh-voice | (fork of Newelle) | STT/TTS/wake word, chat UI |
+| shesh-audit/brain/mind/memory/phone | planned | governance, routing, RAG, ADB |
 
 ## 2. Mature MCP servers we package (do NOT rebuild)
 
-Pin each in a component repo; run as a stdio MCP server behind the Shesha policy.
+Pin each in a component repo; run as a stdio MCP server behind the Shesh policy.
 
 | Need | Recommended server | License | Why |
 |---|---|---|---|
@@ -34,12 +34,12 @@ Pin each in a component repo; run as a stdio MCP server behind the Shesha policy
 | Time/calendar | **server-time** | MIT | Timezone-aware scheduling |
 | Docs (PDF/Office) | **markitdown-mcp** (Microsoft) | MIT | Convert PDF/DOCX/XLSX→markdown |
 | Browser devtools | **chrome-devtools-mcp** | Apache-2.0 | Web dev/debugging |
-| Search (optional) | **Tavily MCP** / Brave | varies | API-key search; DuckDuckGo in shesha-skills needs no key |
+| Search (optional) | **Tavily MCP** / Brave | varies | API-key search; DuckDuckGo in shesh-skills needs no key |
 
 All are stdio and lockfile-pinned via `uvx`/`npx`. We never run an MCP server with broader
 filesystem/shell access than its task needs (principle of least privilege + our policy engine).
 
-## 3. Skills library (Markdown, in shesha-skills/skills)
+## 3. Skills library (Markdown, in shesh-skills/skills)
 
 Shipped: `coding`, `web-research`, `docs-writer`, `safety-governance`, `daily-briefing`.
 
@@ -47,7 +47,7 @@ To add next (each is a small Markdown file + optional tool wiring):
 
 - **email-messaging** — read/send via local client/CLI (e.g., `neomutt`/`thunderbird` API), never store passwords.
 - **calendar** — CalDAV (`vdirsyncer` + `khal`) for local-first scheduling.
-- **terminal-ops** — safe shell patterns over SSH (wraps sheshaaos-terminal patterns).
+- **terminal-ops** — safe shell patterns over SSH (wraps sheshaos-terminal patterns).
 - **container-ops** — podman/distrobox control (build/run/list) for sandboxed tasks.
 - **kernel-tuning** — eBPF/telemetry queries (research track), read-only by default.
 - **media** — screenshots, screen recording, wallpaper, audio routing.
@@ -68,7 +68,7 @@ To add next (each is a small Markdown file + optional tool wiring):
 
 Each third-party server is wrapped in a component repo that:
 1. pins the version (`uv.lock`/`package-lock.json`),
-2. sets its allowed directories/env in a config under `~/.config/shesha/mcp/`,
+2. sets its allowed directories/env in a config under `~/.config/shesh/mcp/`,
 3. is registered in `manifests/components.toml`,
 4. passes the same lint/test/license gate,
-5. runs through `shesha-audit` so every tool call is logged.
+5. runs through `shesh-audit` so every tool call is logged.

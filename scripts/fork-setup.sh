@@ -52,5 +52,5 @@ done
 echo
 echo "Upstreams cloned under sources/upstream/. Next:"
 echo "  1. On GitHub, fork each repo listed above (gh repo fork --clone=false <repo>)."
-echo "  2. Create a 'shesha' branch in each fork carrying our patches."
+echo "  2. Create a 'shesh' branch in each fork carrying our patches."
 echo "  3. Run: scripts/upstream_tracker.py  to see what moved."

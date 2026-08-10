@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# supervise.sh — autonomous work loop for an AI agent on Shesha.
+# supervise.sh — autonomous work loop for an AI agent on Shesh.
 #
 # Usage:
 #   scripts/supervise.sh            # one tick (pick next todo, implement, commit)

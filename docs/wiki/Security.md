@@ -1,16 +1,16 @@
 # Security
 
-Shesha is local-first and enforces governance at every tool boundary.
+Shesh is local-first and enforces governance at every tool boundary.
 
 ## Audit log
 
-Every action is recorded in `~/.local/share/shesha/audit/events.jsonl`:
+Every action is recorded in `~/.local/share/shesh/audit/events.jsonl`:
 
 - Events are **append-only** and **hash-chained** (SHA-256 of each event
   includes the previous hash). `verify_integrity()` detects tampering.
-- The `GuardedMCP` wrapper (in shesha-audit) checks policy **before** a tool
+- The `GuardedMCP` wrapper (in shesh-audit) checks policy **before** a tool
   runs and records the outcome **after**.
-- A parallel `nexus-events.jsonl` is written in SheshaAOS's Rust event format
+- A parallel `nexus-events.jsonl` is written in SheshAOS's Rust event format
   so the governance kernel can consume the same stream.
 
 ## Policy
@@ -27,15 +27,15 @@ prepended via `add_rule`.
 ## Secrets
 
 - API keys and passwords are **never stored in MCP config files**.
-- `shesha-secrets` resolves references like `env:VAR`, `gopass:path`,
+- `shesh-secrets` resolves references like `env:VAR`, `gopass:path`,
   `keepassxc:attr=value`, or `file:/0600-file`.
 - File-based secrets are refused if the file is group/world-readable.
 
 ## Sandboxing
 
-- `shesha-containers` runs untrusted commands in ephemeral podman containers
+- `shesh-containers` runs untrusted commands in ephemeral podman containers
   with `--rm`, `--network=none`, `--cap-drop=ALL`, and PID limits.
-- The `shesha-mcp-bundle` proxies upstream filesystem/fetch/git servers
+- The `shesh-mcp-bundle` proxies upstream filesystem/fetch/git servers
   through the same Guard; protected paths are denied before they reach the
   upstream server.
 
@@ -50,7 +50,7 @@ prepended via `add_rule`.
 
 ```bash
 # Check the hash chain
-shesha-audit-mcp  # then call verify_integrity
+shesh-audit-mcp  # then call verify_integrity
 
 # Confirm protected paths are denied
 # (any MCP tool writing to ~/.ssh should return denied)

@@ -1,6 +1,6 @@
 # Architecture
 
-Shesha follows a **federated, local-first** design: small components
+Shesh follows a **federated, local-first** design: small components
 communicate over Model Context Protocol (MCP), governed by an audit log
 and a policy engine. Nothing in the core requires the cloud.
 
@@ -17,40 +17,40 @@ and a policy engine. Nothing in the core requires the cloud.
 │                calendar · embeddings        │
 ├─────────────────────────────────────────────┤
 │  Brain (governance)                         │
-│   SheshaAOS (Rust)  ←→  shesha-audit       │
+│   SheshAOS (Rust)  ←→  shesh-audit       │
 │   event-sourced kernel · policy Guard       │
 └─────────────────────────────────────────────┘
 ```
 
 ### Brain (governance)
 
-- **SheshaAOS** — Rust workspace of 12 crates; event-sourced task/tool/model
+- **SheshAOS** — Rust workspace of 12 crates; event-sourced task/tool/model
   state. This is the long-term system of record.
-- **shesha-audit** — append-only, SHA-256 chained event log; a `GuardedMCP`
-  wrapper that policy-checks every tool call and emits SheshaAOS-compatible
-  events. Also resolves secrets via `shesha-secrets`.
+- **shesh-audit** — append-only, SHA-256 chained event log; a `GuardedMCP`
+  wrapper that policy-checks every tool call and emits SheshAOS-compatible
+  events. Also resolves secrets via `shesh-secrets`.
 
 ### Mind (agents)
 
-- **shesha-orchestrator** — RLM-style multi-agent runtime: a coordinator
+- **shesh-orchestrator** — RLM-style multi-agent runtime: a coordinator
   plans, delegates by role (researcher/coder/vision/critic), runs in
   background sessions with A2A messaging.
-- **shesha-mind** — role-to-model routing for the 6 GB VRAM budget, with
+- **shesh-mind** — role-to-model routing for the 6 GB VRAM budget, with
   fallback and session planning.
-- **shesha-memory** — episodic JSONL + SQLite FTS, semantic vector store,
+- **shesh-memory** — episodic JSONL + SQLite FTS, semantic vector store,
   habits, intentions, compaction/retention.
-- **shesha-harness** — conservative self-improvement: immutable base prompt,
+- **shesh-harness** — conservative self-improvement: immutable base prompt,
   evidence-backed refinements scored by held-out checks, revertible.
-- **shesha-skills** — everyday tools (notes, web, code, docs, reminders) and
+- **shesh-skills** — everyday tools (notes, web, code, docs, reminders) and
   Markdown skills.
-- **shesha-calendar** — local iCalendar vdir reader (vdirsyncer/khal).
+- **shesh-calendar** — local iCalendar vdir reader (vdirsyncer/khal).
 
 ### Soma (body)
 
-- **shesha-voice** — fork of [Newelle](https://github.com/qwersyk/Newelle) with
+- **shesh-voice** — fork of [Newelle](https://github.com/qwersyk/Newelle) with
   an overlay wiring all MCP servers, wake word, STT/TTS.
-- **shesha-desktop** — Hyprland dotfiles, Quickshell UI, ambient offers.
-- **shesha-files / shell / system / backup / phone / containers / mcp-bundle**
+- **shesh-desktop** — Hyprland dotfiles, Quickshell UI, ambient offers.
+- **shesh-files / shell / system / backup / phone / containers / mcp-bundle**
   — the MCP servers that touch the machine.
 
 ## Protocols
@@ -59,7 +59,7 @@ and a policy engine. Nothing in the core requires the cloud.
 - **ACP** for editor integration (Zed/JetBrains): `initialize`,
   `session/new`, `session/prompt`, `terminal/exec`, `fs/diff`.
 - **A2A** over a Unix socket for cross-process agent messaging.
-- Events flow into the audit log / SheshaAOS as JSON.
+- Events flow into the audit log / SheshAOS as JSON.
 
 ## Why federated?
 

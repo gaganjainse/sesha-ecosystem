@@ -11,7 +11,7 @@
 
 | Language | Owns (and only these) | Why it wins there |
 |---|---|---|
-| **Rust** | Brain/kernel, event store, policy engine, file watcher, low-level daemons, eBPF (Aya), security-critical tools | Memory safety without GC, single static binary, `cargo`/`clippy`, your existing SheshaAOS/shesha-kernel code |
+| **Rust** | Brain/kernel, event store, policy engine, file watcher, low-level daemons, eBPF (Aya), security-critical tools | Memory safety without GC, single static binary, `cargo`/`clippy`, your existing SheshAOS/shesh-kernel code |
 | **Python 3.11+** | Mind/AI glue: MCP servers, LLM routing, classifiers, RAG, eval, orchestration scripts, tests | The AI ecosystem (Ollama, mcp, chromadb, faster-whisper) lives here; `uv` + `ruff` + `pytest` make it production-grade |
 | **Lua** | Hyprland configuration only (Hyprland ≥0.55 is Lua-native) | It's the host's config language — no runtime added, no FFI |
 | **QML + modern JavaScript/TypeScript** | Quickshell UI (bar, overlay, widgets) | It's the shell's language (Qt6/QML); use JS inside QML, **no separate Node runtime** |
@@ -25,7 +25,7 @@ That's the whole list for the daily-driver system.
 
 | Language | Verdict | Reason |
 |---|---|---|
-| **Zig** | ❌ Don't add | Excellent language, but it would duplicate Rust in the "systems" slot and add a second toolchain + FFI (you already replaced a Zig VT100 FFI with Rust `vte` in shesha-kernel ADR-002). Only use if *forced* by a dependency (none currently). |
+| **Zig** | ❌ Don't add | Excellent language, but it would duplicate Rust in the "systems" slot and add a second toolchain + FFI (you already replaced a Zig VT100 FFI with Rust `vte` in shesh-kernel ADR-002). Only use if *forced* by a dependency (none currently). |
 | **C** | ❌ Don't write new C | Use only when binding to a kernel/library that requires it; prefer Rust `bindgen` wrapping. C is the largest source of memory bugs and we already have Rust. |
 | **C++/Qt C++** | ⚠️ Last resort | Quickshell is QML; never write Qt C++ unless a QML extension is provably impossible (it isn't, for our UI). |
 | **Mojo** | ❌ Not production-ready | Modular/ML promise, but immature, no distro packaging, adds FFI to CPython with no stable ABI. Re-evaluate late 2027. |
@@ -40,7 +40,7 @@ That's the whole list for the daily-driver system.
 ## 3. Why this minimizes FFI overhead and risk
 
 1. **Process boundaries, not linkage.** Every component is a separate process speaking **MCP (stdio) or
-   JSON-RPC (Unix socket)** — exactly how SheshaAOS (`sheshaaos-rpc`) and Newelle already work. There is
+   JSON-RPC (Unix socket)** — exactly how SheshAOS (`sheshaos-rpc`) and Newelle already work. There is
    no `ctypes`/`cdylib`/CGo/JNI in our architecture. Each language stays inside its own memory space;
    a crash in one organ doesn't take down the brain.
 2. **Serialization stays simple:** JSON for MCP/control (low volume), SQLite for local state. Use

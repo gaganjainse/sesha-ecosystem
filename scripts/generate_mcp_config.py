@@ -2,15 +2,15 @@
 """Generate MCP client configs from the ecosystem manifest.
 
 Reads manifests/components.toml and writes per-client configuration files
-so all the shesha-* MCP servers are wired into editors/assistants:
+so all the shesh-* MCP servers are wired into editors/assistants:
 
-  ~/.config/shesha/mcp/servers.json   - canonical list (consumed by our servers)
-  ~/.config/shesha/mcp/newelle.json   - Newelle MCP integration
-  ~/.config/shesha/mcp/zed.json       - Zed editor context_servers
+  ~/.config/shesh/mcp/servers.json   - canonical list (consumed by our servers)
+  ~/.config/shesh/mcp/newelle.json   - Newelle MCP integration
+  ~/.config/shesh/mcp/zed.json       - Zed editor context_servers
 
 The generator is idempotent and only enables components on the requested
 channel. It never overwrites secrets; server commands use the installed
-console_scripts (shesha-*-mcp).
+console_scripts (shesh-*-mcp).
 """
 from __future__ import annotations
 
@@ -21,23 +21,23 @@ from pathlib import Path
 
 import tomllib  # Python 3.11+
 
-DEFAULT_CONFIG_DIR = Path.home() / ".config" / "shesha" / "mcp"
+DEFAULT_CONFIG_DIR = Path.home() / ".config" / "shesh" / "mcp"
 
 # Map repo -> MCP command name (the console_script each package installs)
 SERVER_COMMANDS = {
     "auto-desktopenv": None,  # dotfiles fork, not an MCP server
-    "shesha-voice": None,  # Newelle fork, not an MCP server
-    "shesha-audit": "shesha-audit-mcp",
-    "shesha-system": "shesha-system-mcp",
-    "shesha-shell": "shesha-shell-mcp",
-    "shesha-files": "shesha-files-mcp",
-    "shesha-skills": "shesha-skills-mcp",
-    "shesha-memory": "shesha-memory-mcp",
-    "shesha-mind": "shesha-mind-mcp",
-    "shesha-harness": "shesha-harness-mcp",
-    "shesha-orchestrator": "shesha-orchestrator-mcp",
-    "shesha-backup": "shesha-backup-mcp",
-    "shesha-acp": None,  # ACP is not an MCP server
+    "shesh-voice": None,  # Newelle fork, not an MCP server
+    "shesh-audit": "shesh-audit-mcp",
+    "shesh-system": "shesh-system-mcp",
+    "shesh-shell": "shesh-shell-mcp",
+    "shesh-files": "shesh-files-mcp",
+    "shesh-skills": "shesh-skills-mcp",
+    "shesh-memory": "shesh-memory-mcp",
+    "shesh-mind": "shesh-mind-mcp",
+    "shesh-harness": "shesh-harness-mcp",
+    "shesh-orchestrator": "shesh-orchestrator-mcp",
+    "shesh-backup": "shesh-backup-mcp",
+    "shesh-acp": None,  # ACP is not an MCP server
 }
 
 

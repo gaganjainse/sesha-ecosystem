@@ -1,4 +1,4 @@
-# Shesha — Master TODO & Roadmap
+# Shesh — Master TODO & Roadmap
 
 The single anchored list of everything to do. Status: ✅ done · 🟡 in progress ·
 ⬜ todo · 🔴 blocked · 💡 future. Groups correspond to the Agentic Body layers
@@ -10,44 +10,44 @@ Last updated: 2026-08-09
 ---
 
 ## Status vs original plan (honest audit)
-- ✅ shesha-ecosystem created & pushed
+- ✅ shesh-ecosystem created & pushed
 - ✅ All 12 components split into own repos (beyond the original 3)
-- ✅ shesha-voice: Newelle fork renamed + MCP overlay (was missing)
-- 🟡 shesha-audit standalone done; **NexusAOS Rust bridge now added** (Python→shared JSONL)
+- ✅ shesh-voice: Newelle fork renamed + MCP overlay (was missing)
+- 🟡 shesh-audit standalone done; **NexusAOS Rust bridge now added** (Python→shared JSONL)
 - ✅ Arch/Fedora/Ubuntu canary CI; CachyOS is Arch-based so covered
-- 🔴 shesha-kernel merge remains blocked on Rust type reconciliation
+- 🔴 shesh-kernel merge remains blocked on Rust type reconciliation
 
 ## 0. Project identity & naming ✅
-- ✅ Sesha → **Shesha** (शेष) across all repos/code/docs
+- ✅ Sesha → **Shesh** (शेष) across all repos/code/docs
 - ✅ Glossary: AOS (Agentic OS), AB (Agentic Body), AM (Agentic Mind), AI (Agentic Intelligence), AS (Agentic Soma), AP (Agentic Physique)
-- ✅ 12 active + 2 archived repos, all lowercase `shesha-*`, GitHub redirects in place
-- ✅ Central docs gathered into `shesha-ecosystem/docs/` (40 docs)
+- ✅ 12 active + 2 archived repos, all lowercase `shesh-*`, GitHub redirects in place
+- ✅ Central docs gathered into `shesh-ecosystem/docs/` (40 docs)
 - ✅ Query log started (`docs/queries/QUERYLOG.md`)
 
 ## 1. Brain (governance / AOS)  🟡
-- ✅ `shesha-audit` — hash-chained append-only event log + allow/confirm/deny policy (11 tests)
-- ✅ `SheshaAOS` — Rust governance kernel rebranded; SeshaOS folded in
-- 🔴 **shesha-kernel → SheshaAOS merge** — type-diverged, do NOT force. See `KERNEL_MERGE_PLAN.md`.
-  - ⬜ Rebase archived shesha-kernel onto SheshaAOS main
+- ✅ `shesh-audit` — hash-chained append-only event log + allow/confirm/deny policy (11 tests)
+- ✅ `SheshAOS` — Rust governance kernel rebranded; SeshaOS folded in
+- 🔴 **shesh-kernel → SheshAOS merge** — type-diverged, do NOT force. See `KERNEL_MERGE_PLAN.md`.
+  - ⬜ Rebase archived shesh-kernel onto SheshAOS main
   - ⬜ Port leaf crates first (protocols, waveobj, wps, blockctl, wconfig)
   - ⬜ Then ai/remote/rpc/gui/kernel/vault/tui/terminal
   - ⬜ Reconcile `NexusError`/TUI API divergence
-  - ⬜ Bring in `sheshaaos-protocols` (ACP+MCP wire impl) and CLI/worker bins
+  - ⬜ Bring in `sheshaos-protocols` (ACP+MCP wire impl) and CLI/worker bins
   - ⬜ Fix pre-existing upstream build breaks: `russh::Error::msg` removed; `zig` required by terminal
   - ⬜ Gate: `cargo test --workspace` green on stable
-- ✅ Wire `shesha-audit` as the policy gate in front of every MCP tool call (Guard helper in shesha-audit; components import it)
-- ✅ NexusAOS event-store bridge (NexusBridge in shesha-audit; Guard emits Nexus-format events)
+- ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
+- ✅ NexusAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)
 - 💡 Future: eBPF telemetry with Aya (Rust) for system/performance sensing
 
 ## 2. Mind (deliberation / AM)  🟡
-- ✅ `shesha-memory` — episodic/semantic/intention/mannerism/habit memory + token-bounded context assembly (15 tests)
-- ✅ `shesha-harness` — Continual Harness: immutable base prompt, evidence-backed `/refine`, rollback (7 tests)
-- ✅ `shesha-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
-- ✅ `shesha-skills` — everyday MCP tools + 5 markdown skills (10 tests)
-- ✅ `shesha-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
-- ✅ **`shesha-mind`** — role-to-model router with VRAM budget (13 tests)
-- ⬜ **`shesha-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy
-- 🟡 LLM planner wired in shesha-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline)
+- ✅ `shesh-memory` — episodic/semantic/intention/mannerism/habit memory + token-bounded context assembly (15 tests)
+- ✅ `shesh-harness` — Continual Harness: immutable base prompt, evidence-backed `/refine`, rollback (7 tests)
+- ✅ `shesh-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
+- ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
+- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
+- ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests)
+- ⬜ **`shesh-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy
+- 🟡 LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline)
 - ✅ A2A over Unix socket — UDS broker with role routing (3 tests); then optional remote (opt-in)
 - ✅ Persistent/background agent sessions — SessionManager with start/get/list/cancel (25 tests)
 - ✅ Real refine loop: held-out evaluator + Ollama responder (refine_with_llm MCP)
@@ -57,19 +57,19 @@ Last updated: 2026-08-09
 - 💡 Future: skill marketplace / sharing evolved skills (open-space.cloud style, opt-in)
 
 ## 3. Soma (body / AS)  🟡
-- ✅ `shesha-files` — Rust watcher + Python classifier (5 tests)
-- ✅ `shesha-shell` — Hyprland/Quickshell MCP (3 tests)
-- ✅ `shesha-system` — power/GPU/MUX/backup/status MCP (7 tests)
-- ✅ `shesha-acp` — editor↔agent ACP server (7 tests)
-- ✅ `shesha-voice` — Newelle fork for wake/STT/TTS
-- ✅ `shesha-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
-- ✅ **`shesha-phone`** — ADB control with safe-bounds tapping (7 tests)
-- ✅ shesha-backup restic wrapper with verify
-- ✅ `shesha-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
-- ✅ `shesha-update-check`: check_system_updates (read-only)
-- ✅ `shesha-health`: system_health (disk/units/load/temps/caches)
-- 🟡 Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesha-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain
-- ✅ Calendar: local-first iCal vdir MCP (shesha-calendar); email/CalDAV sync remains via vdirsyncer
+- ✅ `shesh-files` — Rust watcher + Python classifier (5 tests)
+- ✅ `shesh-shell` — Hyprland/Quickshell MCP (3 tests)
+- ✅ `shesh-system` — power/GPU/MUX/backup/status MCP (7 tests)
+- ✅ `shesh-acp` — editor↔agent ACP server (7 tests)
+- ✅ `shesh-voice` — Newelle fork for wake/STT/TTS
+- ✅ `shesh-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
+- ✅ **`shesh-phone`** — ADB control with safe-bounds tapping (7 tests)
+- ✅ shesh-backup restic wrapper with verify
+- ✅ `shesh-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
+- ✅ `shesh-update-check`: check_system_updates (read-only)
+- ✅ `shesh-health`: system_health (disk/units/load/temps/caches)
+- 🟡 Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesh-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain
+- ✅ Calendar: local-first iCal vdir MCP (shesh-calendar); email/CalDAV sync remains via vdirsyncer
 - ⬜ Messaging bridges (Telegram/Signal) as isolated, opt-in services
 - ⬜ Media: screenshots, screen recording, wallpaper, audio routing
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
@@ -93,9 +93,9 @@ Last updated: 2026-08-09
 - ✅ Canary end-to-end test covers all 15 components
 - ⬜ Distrobox/Containerfile for reproducible onboarding
 - ⬜ Installer channel support (stable/canary/devel) with btrfs snapshot + rollback
-- ✅ Secret manager: env/gopass/keepassxc/file backends (shesha-secrets; 8 tests)
+- ✅ Secret manager: env/gopass/keepassxc/file backends (shesh-secrets; 8 tests)
 - ⬜ Supply-chain: sigstore/provenance for artifacts
-- ⬜ Integrate `shesha-audit` into CI release gates
+- ⬜ Integrate `shesh-audit` into CI release gates
 - 💡 Future: self-hosted update mirror
 
 ## 6. Docs & knowledge  🟡
@@ -105,7 +105,7 @@ Last updated: 2026-08-09
 - ⬜ Keep `docs/queries/QUERYLOG.md` appended on every user prompt (autopilot does this)
 - ⬜ Doc synchronization: when a component changes, copy its README into `docs/components/`
 - ⬜ Architecture Decision Records (ADRs) for each protocol decision
-- ⬜ User-facing getting-started guide for shesha-desktop
+- ⬜ User-facing getting-started guide for shesh-desktop
 - ⬜ Video/demo of the voice + settings + organizer flow
 
 ## 7. Autopilot (this session's meta-task)  ✅

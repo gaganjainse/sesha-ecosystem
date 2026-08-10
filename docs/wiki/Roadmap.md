@@ -1,7 +1,7 @@
 # Roadmap
 
 Tracked in detail in
-[TODO.md](https://github.com/gaganjainse/shesha-ecosystem/blob/main/TODO.md).
+[TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md).
 This page summarizes status.
 
 ## ✅ Done (autopilot, this cycle)
@@ -26,11 +26,11 @@ This page summarizes status.
 
 ## 🔴 Blocked (need deliberate / physical work)
 
-- **shesha-kernel → SheshaAOS merge.** The archived Rust kernel diverged at the
+- **shesh-kernel → SheshAOS merge.** The archived Rust kernel diverged at the
   type level (`NexusError`/TUI API). Port leaf crates first (protocols,
   waveobj, wps, blockctl, wconfig), reconcile APIs, bring in
-  `sheshaaos-protocols`, fix upstream `russh`/`zig` build breaks, gate on
-  `cargo test --workspace`. See `KERNEL_MERGE_PLAN.md` in SheshaAOS.
+  `sheshaos-protocols`, fix upstream `russh`/`zig` build breaks, gate on
+  `cargo test --workspace`. See `KERNEL_MERGE_PLAN.md` in SheshAOS.
 - **Hardware validation on the physical MSI Sword 16 HX** — display @144 Hz,
   NVIDIA/MUX, wake word, PipeWire, Quickshell. See [[Manual-Verification]].
 - **Zed/JetBrains ACP testing** — protocol implemented, untested against real

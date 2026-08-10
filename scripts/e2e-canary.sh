@@ -13,7 +13,7 @@ PIP="python3 -m pip install --quiet --break-system-packages"
 fail() { echo "E2E FAIL: $*" >&2; exit 1; }
 
 echo "==> Installing all components"
-for comp in "$HERE"/../components/shesha-*/; do
+for comp in "$HERE"/../components/shesh-*/; do
   name=$(basename "$comp")
   echo "   - $name"
   (cd "$comp" && $PIP -e . >/dev/null 2>&1) || fail "install $name"
@@ -23,11 +23,11 @@ echo "==> Import check: every server module imports cleanly"
 python3 - <<'PY'
 import importlib
 mods = [
- "shesha_audit.server", "shesha_audit.gate", "shesha_audit.nexus_bridge",
- "shesha_system.server", "shesha_shell.server", "classifier",  # shesha-files (flat module)
- "shesha_skills.server", "shesha_memory.server", "shesha_harness.server",
- "shesha_mind.server", "shesha_orchestrator.server", "shesha_orchestrator.llm",
- "shesha_backup.server", "shesha_phone", "shesha_acp.server",
+ "shesh_audit.server", "shesh_audit.gate", "shesh_audit.nexus_bridge",
+ "shesh_system.server", "shesh_shell.server", "classifier",  # shesh-files (flat module)
+ "shesh_skills.server", "shesh_memory.server", "shesh_harness.server",
+ "shesh_mind.server", "shesh_orchestrator.server", "shesh_orchestrator.llm",
+ "shesh_backup.server", "shesh_phone", "shesh_acp.server",
 ]
 for m in mods:
     importlib.import_module(m)
@@ -36,7 +36,7 @@ PY
 
 echo "==> Policy gate: a protected path is denied by every guarded server"
 python3 - <<'PY'
-from shesha_audit.gate import Guard
+from shesh_audit.gate import Guard
 g = Guard()
 d = g.check("write_file", {"path": "/home/u/.ssh/id_rsa"})
 assert d.verdict == "deny", f"expected deny, got {d}"
@@ -46,8 +46,8 @@ PY
 echo "==> Memory: write episode, assemble bounded context"
 python3 - <<'PY'
 import tempfile, pathlib
-from shesha_memory.store import MemoryStore
-from shesha_memory.context import ContextAssembler, Budget
+from shesh_memory.store import MemoryStore
+from shesh_memory.context import ContextAssembler, Budget
 root = pathlib.Path(tempfile.mkdtemp())
 ms = MemoryStore(root=root)
 ms.record("observation", "user prefers bullet points")
@@ -60,9 +60,9 @@ PY
 
 echo "==> Orchestrator: stubbed plan executes, budget enforced"
 python3 - <<'PY'
-from shesha_orchestrator.orchestrator import Orchestrator, make_agent
-from shesha_orchestrator.agents import Budget
-from shesha_orchestrator.stubs import default_planner, always_approve
+from shesh_orchestrator.orchestrator import Orchestrator, make_agent
+from shesh_orchestrator.agents import Budget
+from shesh_orchestrator.stubs import default_planner, always_approve
 agents = {n: make_agent(n, lambda p, c: {"ok": True, "by": n})
           for n in ("researcher", "coder", "critic", "coordinator")}
 r = Orchestrator(agents, budget=Budget(max_turns=5)).execute(
@@ -74,7 +74,7 @@ PY
 echo "==> ACP: session + prompt round-trip"
 python3 - <<'PY'
 import tempfile, pathlib
-from shesha_acp.server import ACPServer
+from shesh_acp.server import ACPServer
 srv = ACPServer(root=pathlib.Path(tempfile.mkdtemp()))
 s = srv.handle({"id":1,"method":"session/new","params":{"cwd":"/tmp"}})[0]
 sid = s["result"]["sessionId"]
@@ -85,7 +85,7 @@ PY
 
 echo "==> Backup: dry-run status with no config"
 python3 - <<'PY'
-from shesha_backup.server import status
+from shesh_backup.server import status
 st = status()
 assert "due" in st
 print(f"   ok backup status: due={st['due']} reason={st['reason']}")
@@ -96,7 +96,7 @@ echo "E2E PASS"
 echo "==> Calendar: parse an ics event"
 python3 - <<'PY'
 import tempfile, pathlib
-from shesha_calendar import parser
+from shesh_calendar import parser
 d = pathlib.Path(tempfile.mkdtemp())
 (d/"c.ics").write_text("BEGIN:VCALENDAR\nBEGIN:VEVENT\nSUMMARY:Test\nDTSTART:20260101T100000\nEND:VEVENT\nEND:VCALENDAR")
 evs = parser.scan_dir(d)
@@ -107,8 +107,8 @@ PY
 echo "==> Embeddings + vector store"
 python3 - <<'PY'
 import tempfile, pathlib
-from shesha_memory.embeddings import local_embedder, LOCAL_DIM
-from shesha_memory.vectorstore import VectorStore
+from shesh_memory.embeddings import local_embedder, LOCAL_DIM
+from shesh_memory.vectorstore import VectorStore
 d = pathlib.Path(tempfile.mkdtemp())
 s = VectorStore(d/"v.db", local_embedder(), LOCAL_DIM)
 s.upsert("1", "the cat sat on the mat")
@@ -120,7 +120,7 @@ PY
 echo "==> Trace recorder"
 python3 - <<'PY'
 import tempfile, pathlib
-from shesha_orchestrator.traces import TraceRecorder
+from shesh_orchestrator.traces import TraceRecorder
 r = TraceRecorder(pathlib.Path(tempfile.mkdtemp())/"t.jsonl")
 with r.trace("x") as span:
     span.set_attribute("k","v")
@@ -130,7 +130,7 @@ PY
 
 echo "==> Container runner builds args without executing"
 python3 - <<'PY'
-from shesha_containers.runner import ContainerConfig, run_in_container
+from shesh_containers.runner import ContainerConfig, run_in_container
 captured = {}
 def fake(cmd, timeout=60):
     captured["cmd"] = cmd

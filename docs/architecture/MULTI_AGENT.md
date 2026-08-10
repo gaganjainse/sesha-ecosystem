@@ -1,8 +1,8 @@
 # Multi-Agent & Orchestration Architecture
 
-> How Shesha runs **multiple agents** without becoming an unobservable swarm. We adopt the useful
+> How Shesh runs **multiple agents** without becoming an unobservable swarm. We adopt the useful
 > parts of the Prime Agent RLM model, CrewAI-style role crews, and Google A2A for inter-agent
-> communication — but keep governance in the Brain (SheshaAOS) and local-first execution.
+> communication — but keep governance in the Brain (SheshAOS) and local-first execution.
 
 ---
 
@@ -10,8 +10,8 @@
 
 ```
         ACP (editor ↔ agent)                 MCP (agent ↔ tools)
-Zed/JetBrains ───────────► shesha-acp ──┐
-                                        ├──► shesha-orchestrator ──► MCP servers
+Zed/JetBrains ───────────► shesh-acp ──┐
+                                        ├──► shesh-orchestrator ──► MCP servers
 Newelle (voice/chat) ──────────────────┘           │
                                                    ├──► child agents (RLM)
 A2A (agent ↔ agent) ◄──────────────────────────────┘
@@ -21,7 +21,7 @@ A2A (agent ↔ agent) ◄──────────────────�
 - **MCP:** every agent calls tools through the same servers. (✅ done)
 - **A2A:** agents message other agents across a local bus (and optionally remote). (P1)
 
-## 2. Agent roles (the Shesha "crew")
+## 2. Agent roles (the Shesh "crew")
 
 | Role | Model (6 GB safe) | Responsibility |
 |---|---|---|
@@ -59,7 +59,7 @@ Properties we adopt:
 The harness stores mutable **supplemental state** (not the immutable base prompt):
 
 ```
-~/.local/share/shesha/harness/
+~/.local/share/shesh/harness/
 ├── supplemental.md       # extra system-prompt notes (refined, never base)
 ├── skills/               # auto-created skills (markdown + optional code)
 ├── memories/             # durable facts/lessons
@@ -97,8 +97,8 @@ Inspired by Memento-Skills (Read→Execute→Reflect→Write) and EvoSkill (fron
 
 ## 7. Build order
 
-1. `shesha-orchestrator`: process supervisor + role configs + RLM spawning over MCP (no A2A yet).
-2. `shesha-harness`: CRUD state + `/refine` + rollback; skills are Markdown.
-3. `shesha-acp`: expose the coordinator/coder to editors.
+1. `shesh-orchestrator`: process supervisor + role configs + RLM spawning over MCP (no A2A yet).
+2. `shesh-harness`: CRUD state + `/refine` + rollback; skills are Markdown.
+3. `shesh-acp`: expose the coordinator/coder to editors.
 4. A2A local bus for subagent messaging; then optional remote.
 5. Auto-skill scoring with `llm-eval-harness`, promoted through the canary gate.

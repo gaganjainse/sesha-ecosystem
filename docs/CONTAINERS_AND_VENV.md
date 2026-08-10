@@ -11,7 +11,7 @@
 Each Python component (`sesha` MCP servers, classifier, rag-service) is a proper uv project:
 
 ```bash
-cd tools/shesha
+cd tools/shesh
 uv init --bare --lib            # if creating fresh
 uv add mcp[cli] fastmcp httpx
 uv add --dev pytest ruff
@@ -48,9 +48,9 @@ podman run --rm -it archlinux:latest bash
 
 ### 3.2 Persistent dev container with host integration
 ```bash
-distrobox create --name shesha-dev --image archlinux:latest \
+distrobox create --name shesh-dev --image archlinux:latest \
   --additional-packages "git base-devel shellcheck python uv rustup"
-distrobox enter shesha-dev
+distrobox enter shesh-dev
 ```
 This shares `$HOME`, the Wayland socket, and PipeWire — so you can even run GUI/ML tooling without
 polluting CachyOS. Export binaries/apps to the host with `distrobox-export`.

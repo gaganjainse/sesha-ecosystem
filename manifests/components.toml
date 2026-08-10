@@ -1,8 +1,8 @@
-# Shesha Ecosystem — component manifest
+# Shesh Ecosystem — component manifest
 #
 # Every organ of the Agentic Body is declared here. The resolve-manifest script
 # validates this file, checks license compatibility, resolves versions, and writes
-# shesha.lock. This is the "package repository" metadata in one auditable file.
+# shesh.lock. This is the "package repository" metadata in one auditable file.
 #
 # Channels: stable | canary | devel  (see channels/)
 # Layers:   brain | mind | soma
@@ -17,52 +17,53 @@ body_doc = "docs/architecture/AGENTIC_BODY.md"
 # BRAIN — governance kernel (your own lineage)
 # ─────────────────────────────────────────────────────────────────────────────
 
-[component.shesha-secrets]
+[component.shesh-secrets]
+upstream = "original"
 layer = "brain"
-repo = "gaganjainse/shesha-secrets"
+repo = "gaganjainse/shesh-secrets"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["secrets", "credentials"]
 notes = "Multi-backend secret resolution (env/gopass/keepassxc/file); no keys in config."
 
-[component.shesha-audit]
+[component.shesh-audit]
 layer = "brain"
-repo = "gaganjainse/shesha-audit"
+repo = "gaganjainse/shesh-audit"
 version = "0.1.0"
 license = "MIT"
 channel = "canary"
 provides = ["audit-log", "policy-engine", "event-store"]
-upstream = { name = "SheshaAOS", repo = "gaganjainse/SheshaAOS", ref = "main" }
-notes = "Bridge to SheshaAOS append-only event store and policy engine."
+upstream = { name = "SheshAOS", repo = "gaganjainse/SheshAOS", ref = "main" }
+notes = "Bridge to SheshAOS append-only event store and policy engine."
 
-[component.shesha-brain]
+[component.shesh-brain]
 layer = "brain"
-repo = "gaganjainse/shesha-brain"
+repo = "gaganjainse/shesh-brain"
 version = "0.1.0"
 license = "MIT"
 channel = "devel"
 provides = ["task-router", "scheduler", "tool-broker"]
-upstream = { name = "shesha-kernel", repo = "gaganjainse/shesha-kernel", ref = "main" }
-notes = "Packaged sheshaaos-kernel for desktop; routes tool calls through policy."
+upstream = { name = "shesh-kernel", repo = "gaganjainse/shesh-kernel", ref = "main" }
+notes = "Packaged sheshaos-kernel for desktop; routes tool calls through policy."
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MIND — deliberative models (SheshaOS specialist routing, small models on 6GB)
+# MIND — deliberative models (SheshOS specialist routing, small models on 6GB)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.shesha-mind]
+[component.shesh-mind]
 layer = "mind"
-repo = "gaganjainse/shesha-mind"
+repo = "gaganjainse/shesh-mind"
 version = "0.1.0"
 license = "MIT"
 channel = "canary"
 provides = ["intent", "planner", "coder", "vision"]
-upstream = { name = "SheshaOS", repo = "gaganjainse/SheshaOS", ref = "main" }
+upstream = { name = "SheshOS", repo = "gaganjainse/SheshOS", ref = "main" }
 models = ["phi4-mini", "qwen2.5-coder:3b", "moondream2", "nomic-embed-text"]
-notes = "Model routing interface; large SheshaOS models map to 6GB-safe equivalents on the laptop."
+notes = "Model routing interface; large SheshOS models map to 6GB-safe equivalents on the laptop."
 
-[component.shesha-memory]
+[component.shesh-memory]
 layer = "mind"
-repo = "gaganjainse/shesha-memory"
+repo = "gaganjainse/shesh-memory"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -73,9 +74,9 @@ notes = "Hierarchical memory, habit/intention learning, token-bounded context as
 # ─────────────────────────────────────────────────────────────────────────────
 # SOMA — the body (desktop, voice, files, devices)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.shesha-voice]
+[component.shesh-voice]
 layer = "soma"
-repo = "gaganjainse/shesha-voice"
+repo = "gaganjainse/shesh-voice"
 version = "1.4.5-sesha1"
 license = "GPL-3.0"
 channel = "canary"
@@ -83,37 +84,37 @@ provides = ["wakeword", "stt", "tts", "chat-ui", "mcp-client"]
 upstream = { name = "Newelle", repo = "qwersyk/Newelle", ref = "1.4.5" }
 notes = "Native (not Flatpak). STDIO MCP, wake word, faster-whisper + Piper."
 
-[component.shesha-files]
+[component.shesh-files]
 layer = "soma"
-repo = "gaganjainse/shesha-files"
+repo = "gaganjainse/shesh-files"
 version = "0.2.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["file-organizer", "inotify-watcher", "undo-log"]
-upstream = { name = "shesha-desktop smart-organizer", repo = "gaganjainse/shesha-desktop", ref = "main" }
-notes = "Rust notify watcher + Python classifier; promoted from shesha-desktop."
+upstream = { name = "shesh-desktop smart-organizer", repo = "gaganjainse/shesh-desktop", ref = "main" }
+notes = "Rust notify watcher + Python classifier; promoted from shesh-desktop."
 
-[component.shesha-shell]
+[component.shesh-shell]
 layer = "soma"
-repo = "gaganjainse/shesha-shell"
+repo = "gaganjainse/shesh-shell"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["mcp:hyprland", "window-control", "workspaces"]
 notes = "Hyprland/Quickshell control MCP server."
 
-[component.shesha-system]
+[component.shesh-system]
 layer = "soma"
-repo = "gaganjainse/shesha-system"
+repo = "gaganjainse/shesh-system"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["mcp:system", "power", "gpu-mux"]
 notes = "Power/GPU/MUX MCP + automations."
 
-[component.shesha-skills]
+[component.shesh-skills]
 layer = "mind"
-repo = "gaganjainse/shesha-skills"
+repo = "gaganjainse/shesh-skills"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -124,19 +125,19 @@ notes = "Everyday MCP tools + Markdown skills (coding, web research, docs, safet
 # ─────────────────────────────────────────────────────────────────────────────
 # PROTOCOLS & ORCHESTRATION (P0 gap fill)
 # ─────────────────────────────────────────────────────────────────────────────
-[component.shesha-acp]
+[component.shesh-acp]
 layer = "soma"
-repo = "gaganjainse/shesha-acp"
+repo = "gaganjainse/shesh-acp"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["acp", "editor-integration", "zed", "jetbrains"]
 upstream = { name = "Agent Client Protocol", repo = "zed-industries/agent-client-protocol", ref = "main" }
-notes = "ACP server so Shesha runs inside Zed/JetBrains with streaming + permissions."
+notes = "ACP server so Shesh runs inside Zed/JetBrains with streaming + permissions."
 
-[component.shesha-orchestrator]
+[component.shesh-orchestrator]
 layer = "mind"
-repo = "gaganjainse/shesha-orchestrator"
+repo = "gaganjainse/shesh-orchestrator"
 version = "0.0.0"
 license = "GPL-3.0"
 channel = "devel"
@@ -144,9 +145,9 @@ provides = ["multi-agent", "rlm", "subagents", "a2a", "role-routing"]
 upstream = { name = "Prime Agent RLM", repo = "PrimeIntellect-ai/prime-agent", ref = "main" }
 notes = "PLANNED: RLM multi-agent runtime (coordinator/planner/coder/researcher/vision/critic)."
 
-[component.shesha-harness]
+[component.shesh-harness]
 layer = "mind"
-repo = "gaganjainse/shesha-harness"
+repo = "gaganjainse/shesh-harness"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -155,9 +156,9 @@ upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Meme
 notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
 
 
-[component.shesha-backup]
+[component.shesh-backup]
 layer = "soma"
-repo = "gaganjainse/shesha-backup"
+repo = "gaganjainse/shesh-backup"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -166,18 +167,19 @@ notes = "Verified local restic backups; AC-gated and daily-scheduled."
 
 
 
-[component.shesha-calendar]
+[component.shesh-calendar]
+upstream = "original"
 layer = "mind"
-repo = "gaganjainse/shesha-calendar"
+repo = "gaganjainse/shesh-calendar"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["calendar", "agenda", "ical"]
 notes = "Local-first iCalendar vdir reader (vdirsyncer/khal compatible)."
 
-[component.shesha-mcp-bundle]
+[component.shesh-mcp-bundle]
 layer = "soma"
-repo = "gaganjainse/shesha-mcp-bundle"
+repo = "gaganjainse/shesh-mcp-bundle"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
@@ -185,18 +187,18 @@ provides = ["mcp-bundle", "filesystem", "fetch", "git"]
 notes = "Third-party MCP servers (filesystem/fetch/git) proxied behind Guard."
 
 
-[component.shesha-containers]
+[component.shesh-containers]
 layer = "soma"
-repo = "gaganjainse/shesha-containers"
+repo = "gaganjainse/shesh-containers"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "canary"
 provides = ["containers", "sandbox", "podman"]
 notes = "Unprivileged podman/distrobox sandboxed command execution."
 
-[component.shesha-phone]
+[component.shesh-phone]
 layer = "soma"
-repo = "gaganjainse/shesha-phone"
+repo = "gaganjainse/shesh-phone"
 version = "0.1.0"
 license = "GPL-3.0"
 channel = "devel"
@@ -209,7 +211,7 @@ notes = "ADB port of the macOS phone-harness OCR/vision→tap loop for Realme Na
 # ─────────────────────────────────────────────────────────────────────────────
 [component.auto-desktopenv]
 layer = "soma"
-repo = "gaganjainse/shesha-desktop"
+repo = "gaganjainse/shesh-desktop"
 version = "rolling"
 license = "GPL-3.0"
 channel = "stable"
