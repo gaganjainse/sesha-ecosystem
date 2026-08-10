@@ -1,6 +1,6 @@
 # Learning Architecture
 
-How Shesha learns intentions, habits, and mannerisms without destabilizing itself
+How Shesh learns intentions, habits, and mannerisms without destabilizing itself
 or overflowing the model's context window.
 
 ## Layers
@@ -15,21 +15,21 @@ or overflowing the model's context window.
 
 ## Context assembly
 
-`shesha-memory assemble_context(query, working, max_tokens)` builds a bounded prompt
+`shesh-memory assemble_context(query, working, max_tokens)` builds a bounded prompt
 in priority order: mannerisms, intentions, semantic facts, active habits, skills,
 working task, relevant episodes, recent tail. Lowest-priority sections are trimmed
 first so the prompt always fits.
 
 ## Habit learning
 
-`shesha-memory learn_habit(signature, description, success)` counts observations
+`shesh-memory learn_habit(signature, description, success)` counts observations
 with reliability-weighted confidence. After enough corroboration it becomes a
 candidate habit; confidence decays over time and stale habits archive. This is
 frequentist, not hidden model state, so the user can inspect/edit/disable it.
 
 ## Continual Harness
 
-`shesha-harness refine(trigger, trajectory)` proposes the smallest supported
+`shesh-harness refine(trigger, trajectory)` proposes the smallest supported
 change to supplemental state, evaluates it, applies only if the score passes,
 records before/after, and supports revert. Immutable base prompt and safety
 skills cannot be changed. This prevents overfitting/cheating loops and makes
@@ -37,7 +37,7 @@ self-improvement reviewable.
 
 ## Ambient feedback loop
 
-`shesha-ambient` observes coarse signals (workspace switches, idle, completed
+`shesh-ambient` observes coarse signals (workspace switches, idle, completed
 commands) and records episodes/habits without keystroke-level surveillance.
 Proactive offers are informed by active intentions and habits but always optional.
 

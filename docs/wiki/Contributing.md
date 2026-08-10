@@ -2,17 +2,17 @@
 
 ## Add a component
 
-1. **Create the repo** from any existing component (e.g. `shesha-shell`):
+1. **Create the repo** from any existing component (e.g. `shesh-shell`):
    - `pyproject.toml` with a `*-mcp` console script
-   - `src/<package>/server.py` using `GuardedMCP` from shesha-audit
+   - `src/<package>/server.py` using `GuardedMCP` from shesh-audit
    - `tests/` with offline tests (no network)
    - `.github/workflows/ci.yml` matrix on Python 3.11–3.13
    - `.gitignore` for Python build artifacts
 2. **Register it** in `manifests/components.toml`:
    ```toml
-   [component.shesha-thing]
+   [component.shesh-thing]
    layer = "soma"
-   repo = "gaganjainse/shesha-thing"
+   repo = "gaganjainse/shesh-thing"
    version = "0.1.0"
    license = "GPL-3.0"
    channel = "canary"
@@ -22,7 +22,7 @@
 3. **Wire configs** — add its console-script name to
    `scripts/generate_mcp_config.py` and a step to `scripts/e2e-canary.sh`.
 4. **Test locally**: `pytest -q && ruff check . && bash scripts/e2e-canary.sh`.
-5. **Open a PR** against shesha-ecosystem.
+5. **Open a PR** against shesh-ecosystem.
 
 ## Conventions
 
@@ -31,7 +31,7 @@
 - **Guarded**: every MCP tool is wrapped by `GuardedMCP` so policy applies.
 - **Tests before code**: each component ships with tests; the canary gates
   integration.
-- **No secrets in config**: use `shesha-secrets` references.
+- **No secrets in config**: use `shesh-secrets` references.
 - **Small commits**, one logical change per PR.
 - **License**: GPL-3.0-or-later for all components.
 

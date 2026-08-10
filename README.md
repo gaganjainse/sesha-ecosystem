@@ -1,7 +1,7 @@
-# 🐍 Shesha Ecosystem
+# 🐍 Shesh Ecosystem
 
 > The federated, local-first AI body for CachyOS/Hyprland. **An agent is a body** — a *Mind*
-> (models/planning), a *Brain* (SheshaAOS governance/event-sourced kernel), and a *Soma* (sensors and
+> (models/planning), a *Brain* (SheshAOS governance/event-sourced kernel), and a *Soma* (sensors and
 > actuators on the desktop). This repository is the **orchestrator**: it pins forks, resolves
 > components through quality gates, and promotes them from `devel` → `canary` → `stable`, like a
 > miniature Linux distribution.
@@ -16,13 +16,13 @@
 ## Why this repo exists
 
 We fork every upstream we depend on and keep those forks rolling. We steal the best ideas and code from
-the open-source agent/desktop world, rename and integrate them as **Shesha components**, and only let
+the open-source agent/desktop world, rename and integrate them as **Shesh components**, and only let
 tested combinations reach the daily driver. This gives us:
 
 - **Latest upstream** without waiting for releases (forks track `main`).
 - **Safety** — breakage is caught in canary, not on your machine.
 - **Coherence** — one manifest, one lockfile, one audit log, one policy engine.
-- **Ownership** — the integrated whole is *Shesha*, not a pile of someone else's brands.
+- **Ownership** — the integrated whole is *Shesh*, not a pile of someone else's brands.
 
 Read the conceptual foundation: [`docs/architecture/AGENTIC_BODY.md`](docs/architecture/AGENTIC_BODY.md).
 Read the federation model: [`docs/architecture/REPO_TOPOLOGY.md`](docs/architecture/REPO_TOPOLOGY.md).
@@ -39,8 +39,8 @@ See everything we absorb: [`docs/SOURCES.md`](docs/SOURCES.md) and [`ATTRIBUTION
 ## Repository layout
 
 ```
-shesha-ecosystem/
-├── manifests/components.toml   # every Shesha organ (brain/mind/soma), versions & upstreams
+shesh-ecosystem/
+├── manifests/components.toml   # every Shesh organ (brain/mind/soma), versions & upstreams
 ├── channels/                   # stable.lock / canary.lock / devel.lock (resolved)
 ├── scripts/
 │   ├── resolve_manifest.py     # TOML -> lockfile, validates schema + licenses
@@ -77,9 +77,9 @@ locks. It must pass before anything is promoted.
 
 | Layer | Components | Source lineage |
 |---|---|---|
-| **Brain** | `shesha-audit`, `shesha-brain` | SheshaAOS / shesha-kernel (your Rust governance kernel) |
-| **Mind** | `shesha-mind`, `shesha-memory` | SheshaOS model routing + rag-service + llm-eval-harness |
-| **Soma** | `shesha-voice`, `shesha-files`, `shesha-shell`, `shesha-system`, `shesha-phone` | Newelle, shesha-desktop, your MCP servers, ADB harness |
+| **Brain** | `shesh-audit`, `shesh-brain` | SheshAOS / shesh-kernel (your Rust governance kernel) |
+| **Mind** | `shesh-mind`, `shesh-memory` | SheshOS model routing + rag-service + llm-eval-harness |
+| **Soma** | `shesh-voice`, `shesh-files`, `shesh-shell`, `shesh-system`, `shesh-phone` | Newelle, shesh-desktop, your MCP servers, ADB harness |
 
 See `manifests/components.toml` for the full list and `components/` for integration docs.
 
@@ -88,7 +88,7 @@ See `manifests/components.toml` for the full list and `components/` for integrat
 ## Promotion flow
 
 ```
-upstream forks ──▶ component repos ──▶ shesha-ecosystem integration ──▶ canary ──▶ stable
+upstream forks ──▶ component repos ──▶ shesh-ecosystem integration ──▶ canary ──▶ stable
      ①                  ②                        ③                       ④          ⑤
  (track main)     (tests+semver)          (integration tests)        (soak/VM)   (your laptop)
 ```
@@ -116,8 +116,8 @@ the canary gate on real or VM hardware.
 ## Status
 
 Phase 1 — orchestrator + manifest + gates (this repo, ✅).
-Next: split `shesha-files`, `shesha-shell`, `shesha-system` out of shesha-desktop into their own
-repos, fork Newelle as `shesha-voice`, and wire `shesha-audit` to SheshaAOS.
+Next: split `shesh-files`, `shesh-shell`, `shesh-system` out of shesh-desktop into their own
+repos, fork Newelle as `shesh-voice`, and wire `shesh-audit` to SheshAOS.
 
 ## Documentation index
 
@@ -126,5 +126,5 @@ repos, fork Newelle as `shesha-voice`, and wire `shesha-audit` to SheshaAOS.
 - **Platform:** [Containers/uv](docs/CONTAINERS_AND_VENV.md) · [Linux layout](docs/LINUX_LAYOUT.md) · [ACP & A2A](docs/ACP_A2A.md)
 - **Mind:** [Learning/memory](docs/LEARNING.md) · [Tooling catalog](docs/TOOLING_CATALOG.md)
 - **Process:** [Gap analysis](docs/GAP_ANALYSIS.md) · [Autopilot skill](docs/skills/autopilot.md) · [Query log](docs/queries/QUERYLOG.md)
-- **Components:** [acp](docs/components/shesha-acp.md) · [audit](docs/components/shesha-audit.md) · [files](docs/components/shesha-files.md) · [harness](docs/components/shesha-harness.md) · [memory](docs/components/shesha-memory.md) · [orchestrator](docs/components/shesha-orchestrator.md) · [shell](docs/components/shesha-shell.md) · [skills](docs/components/shesha-skills.md) · [system](docs/components/shesha-system.md)
-- **Desktop:** [Shesha desktop docs](docs/desktop/)
+- **Components:** [acp](docs/components/shesh-acp.md) · [audit](docs/components/shesh-audit.md) · [files](docs/components/shesh-files.md) · [harness](docs/components/shesh-harness.md) · [memory](docs/components/shesh-memory.md) · [orchestrator](docs/components/shesh-orchestrator.md) · [shell](docs/components/shesh-shell.md) · [skills](docs/components/shesh-skills.md) · [system](docs/components/shesh-system.md)
+- **Desktop:** [Shesh desktop docs](docs/desktop/)

@@ -6,7 +6,7 @@ intent and prevents drift.
 
 ---
 
-## Q: "Don't ask me everything now — make a supervisor/agent that supervises you and continues automatically... Add ALL docs to shesha-ecosystem/docs, save all prompts + answers in a query doc, update docs regularly, create a complete todo list including future work."
+## Q: "Don't ask me everything now — make a supervisor/agent that supervises you and continues automatically... Add ALL docs to shesh-ecosystem/docs, save all prompts + answers in a query doc, update docs regularly, create a complete todo list including future work."
 
 **Answer:** Created this query log, the central TODO, the `supervisor` runbook, and
 gathered all 40 docs into `docs/` (architecture, desktop, components, skills). Added
@@ -19,18 +19,18 @@ to TODO.md.
 
 ---
 
-## Q: "Rename everything to Shesha (from Sesha), even repos. Unarchive personal projects; only merge/delete duplicates. Do shesha-kernel → SheshaAOS merge and continue."
+## Q: "Rename everything to Shesh (from Sesha), even repos. Unarchive personal projects; only merge/delete duplicates. Do shesh-kernel → SheshAOS merge and continue."
 
-**Answer:** Renamed all `sesha-*` repos to `shesha-*`, `NexusAOS`→`SheshaAOS`,
-`nexus-kernel`→`shesha-kernel`, `Auto-desktopenv`→`shesha-desktop` (GitHub redirects
+**Answer:** Renamed all `sesha-*` repos to `shesh-*`, `NexusAOS`→`SheshAOS`,
+`nexus-kernel`→`shesh-kernel`, `Auto-desktopenv`→`shesh-desktop` (GitHub redirects
 in place). Personal projects were never archived. Folded the archived `SeshaOS`
-stub into SheshaAOS. Attempted the kernel merge and found it cannot be forced
+stub into SheshAOS. Attempted the kernel merge and found it cannot be forced
 (178 commits ahead but type-diverged: 57 compile errors; base has pre-existing
 russh/zig build issues) — documented a staged crate-by-crate plan instead of
 pushing a broken build. Fixed a stranded rebrand where the bin dir was never
 renamed.
 
-**Docs:** [KERNEL_MERGE_PLAN](https://github.com/gaganjainse/SheshaAOS/blob/main/KERNEL_MERGE_PLAN.md),
+**Docs:** [KERNEL_MERGE_PLAN](https://github.com/gaganjainse/SheshAOS/blob/main/KERNEL_MERGE_PLAN.md),
 [GLOSSARY.md](../GLOSSARY.md)
 
 ---
@@ -38,7 +38,7 @@ renamed.
 ## Q: "We also need ACP servers, multiple agents. Research what's missing for a full ecosystem, not a demo. Steal tools and skills from the web."
 
 **Answer:** Researched MCP/ACP/A2A and the Prime Agent RLM/Continual Harness.
-Built `shesha-acp` (Agent Client Protocol server for Zed/JetBrains) and documented
+Built `shesh-acp` (Agent Client Protocol server for Zed/JetBrains) and documented
 the multi-agent model (coordinator/planner/coder/researcher/vision/critic) in
 MULTI_AGENT.md. Cataloged mature third-party MCP servers to package rather than
 rebuild (filesystem, git, fetch, playwright, github, memory, markitdown).
@@ -50,37 +50,37 @@ rebuild (filesystem, git, fetch, playwright, github, memory, markitdown).
 
 ## Q: "There is nothing for web/coding/docs/normal things. We need many tools and skills. Deep research what we're missing."
 
-**Answer:** Built `shesha-skills` — MCP tools for notes (markdown vault),
+**Answer:** Built `shesh-skills` — MCP tools for notes (markdown vault),
 web search (keyless DuckDuckGo HTML) + fetch, git/github inspection, pandoc
 document conversion, and reminders — plus Markdown skills: coding, web-research,
 docs-writer, safety-governance, daily-briefing.
 
-**Docs:** [components/shesha-skills.md](../components/shesha-skills.md),
+**Docs:** [components/shesh-skills.md](../components/shesh-skills.md),
 [skills/](../skills/)
 
 ---
 
 ## Q: "The system should learn my intentions/habits/mannerisms and improve. Memory retention and context window are issues. Resolve this properly."
 
-**Answer:** Built `shesha-memory`: hierarchical memory (working/episodic/
+**Answer:** Built `shesh-memory`: hierarchical memory (working/episodic/
 semantic/intentions/mannerisms/habits), habit learning with corroboration +
 decay, and a token-bounded `ContextAssembler` that prioritizes
 mannerisms→intentions→facts→habits→skills→working→relevant→recent and trims the
 lowest priority first so prompts never overflow the window.
 
-**Docs:** [LEARNING.md](../LEARNING.md), [components/shesha-memory.md](../components/shesha-memory.md)
+**Docs:** [LEARNING.md](../LEARNING.md), [components/shesh-memory.md](../components/shesh-memory.md)
 
 ---
 
 ## Q: "You hardcoded the system; it should learn intentions/habits and improve. Also memory/context window issues."
 
-(Combined with the above — led to shesha-memory and the self-improvement design.)
+(Combined with the above — led to shesh-memory and the self-improvement design.)
 
 ---
 
 ## Q: "You assume the system is 24/7 live; it isn't. Don't boot mid-work. Be active/helpful/warm, not passive."
 
-**Answer:** Built `shesha-ambient` (in shesha-desktop): a catch-up scheduler
+**Answer:** Built `shesh-ambient` (in shesh-desktop): a catch-up scheduler
 (OnStartupSec + jitter, not fixed wall-clock; heavy jobs need AC+idle; budget
 bounds), a courtesy policy that defers during fullscreen/calls/high-CPU/low
 battery, and a proactivity engine that makes one optional offer at a natural
@@ -93,8 +93,8 @@ pause (45s–15m idle), throttled to ≤3/day, snoozeable.
 ## Q: "I got a workspace-over-budget notification. Proceed to phase 2."
 
 **Answer:** Cleaned heavy caches/venvs, then split out three standalone
-component repos — `shesha-files` (Rust watcher + classifier), `shesha-shell`
-(Hyprland MCP), `shesha-system` (power/GPU/backup MCP) — each with its own
+component repos — `shesh-files` (Rust watcher + classifier), `shesh-shell`
+(Hyprland MCP), `shesh-system` (power/GPU/backup MCP) — each with its own
 tests and CI, replacing the monolithic tools dir.
 
 **Docs:** [architecture/REPO_TOPOLOGY.md](../architecture/REPO_TOPOLOGY.md)
@@ -103,7 +103,7 @@ tests and CI, replacing the monolithic tools dir.
 
 ## Q: "Integrate everything so I can change settings in the GUI, not code. Don't break the style. Test each setting/function in a container."
 
-**Answer:** Added a `shesha` config object to end-4's existing Quickshell
+**Answer:** Added a `shesh` config object to end-4's existing Quickshell
 settings system and a matching **Sesha settings page** (`SeshaConfig.qml`) in
 the same widget style as General/Bar/Services. A `Sesha.qml` service applies
 toggles to systemd units and hyprctl. All changes are in the dotfiles repo.
@@ -141,20 +141,20 @@ quality gates and canary CI.
 ## Q (autopilot): "Start the work on autopilot."
 
 **Answer:** Began autonomous work per the supervisor. Implemented
-`shesha-mind` — the model router: maps roles (primary/planner/coder/researcher/
+`shesh-mind` — the model router: maps roles (primary/planner/coder/researcher/
 vision/critic/embedding) to 6 GB-safe Ollama models with VRAM budgeting, a
 fallback chain, session planning that minimizes distinct loaded models, and an
 injectable Ollama client. MCP tools `select_model`/`plan_session`/`list_roles`/
 `set_model_for_role`/`list_installed_models`. 13 offline tests, ruff clean,
-pushed to gaganjainse/shesha-mind and added to the ecosystem manifest.
+pushed to gaganjainse/shesh-mind and added to the ecosystem manifest.
 
-**Docs:** [components/shesha-mind.md](../components/shesha-mind.md), TODO.md
+**Docs:** [components/shesh-mind.md](../components/shesh-mind.md), TODO.md
 
 ---
 
 ## Q (autopilot cont.): (continue)
 
-**Answer:** Added a reusable `Guard` to shesha-audit that any MCP server imports
+**Answer:** Added a reusable `Guard` to shesh-audit that any MCP server imports
 to check + log each tool action against policy (allow/confirm/deny). 4 new tests
 (15 total). This is the integration point that makes the Brain govern every Soma
 tool call. Next: ACP full session support (streaming, permissions, diffs).
@@ -163,29 +163,29 @@ tool call. Next: ACP full session support (streaming, permissions, diffs).
 
 ## Q (autopilot cont. 2): (continue)
 
-**Answer:** Built `shesha-mind` model router (13 tests) and shipped it. Added a
-reusable policy `Guard` to shesha-audit (15 tests). Extended shesha-acp with
+**Answer:** Built `shesh-mind` model router (13 tests) and shipped it. Added a
+reusable policy `Guard` to shesh-audit (15 tests). Extended shesh-acp with
 session/cancel and permission-response, and fixed an incomplete package rename.
 All pushed; component READMEs centralized in docs/components.
 
-**Docs:** components/shesha-mind.md, components/shesha-audit.md, components/shesha-acp.md
+**Docs:** components/shesh-mind.md, components/shesh-audit.md, components/shesh-acp.md
 
 ---
 
 ## Q (autopilot cont. 3): (continue)
 
-**Answer:** Built `shesha-backup` (restic wrapper with AC+daily gating,
+**Answer:** Built `shesh-backup` (restic wrapper with AC+daily gating,
 snapshot verification, and explicit prune; 8 offline tests) and pushed.
 Extended ACP with session cancel + permission responses and fixed an incomplete
 package rename. The Brain policy Gate is now reusable across components.
 
-**Docs:** components/shesha-backup.md, components/shesha-acp.md
+**Docs:** components/shesh-backup.md, components/shesh-acp.md
 
 ---
 
 ## Q (autopilot cont. 4): (continue)
 
-**Answer:** Built `shesha-phone` (ADB wrapper with safe-area bounds, taps/
+**Answer:** Built `shesh-phone` (ADB wrapper with safe-area bounds, taps/
 swipes/text/screenshots, injectable runner; 7 tests) for the Realme Narzo target.
 All component READMEs synced to docs/components. Ecosystem now has 15 components
 across Brain/Mind/Soma with 138 tests.
@@ -195,44 +195,44 @@ across Brain/Mind/Soma with 138 tests.
 ## Q: "Have you done these? Are phases in pipeline? Search the whole chat for dropped items."
 
 **Answer:** Honest audit: items 1 (ecosystem), 2 (component split — all 12),
-and 5 (Arch canary) were done. Item 3 (shesha-voice) was MISSING — the Newelle
-fork was never renamed or given an overlay; fixed now (renamed to shesha-voice,
-added MCP config + default model + wake word). Item 4 was partial: shesha-audit
+and 5 (Arch canary) were done. Item 3 (shesh-voice) was MISSING — the Newelle
+fork was never renamed or given an overlay; fixed now (renamed to shesh-voice,
+added MCP config + default model + wake word). Item 4 was partial: shesh-audit
 existed standalone but the **NexusAOS event-store bridge was missing**; added a
 NexusBridge that emits events in the Rust EventKind format from the Guard.
 Added a TODO status section so nothing is silently dropped.
 
-**Docs:** components/shesha-voice.md, GLOSSARY, TODO (Status vs original plan)
+**Docs:** components/shesh-voice.md, GLOSSARY, TODO (Status vs original plan)
 
 ---
 
 ## Q: "Okay then do the work"
 
-**Answer:** Implemented P0: enforce the shesha-audit Guard at every MCP
-boundary. Added `GuardedMCP(FastMCP)` in shesha-audit — a middleware that
+**Answer:** Implemented P0: enforce the shesh-audit Guard at every MCP
+boundary. Added `GuardedMCP(FastMCP)` in shesh-audit — a middleware that
 policy-checks every tool call before execution, denies protected paths, logs
-each decision + result, and emits SheshaAOS-format Nexus events. Wired it into
+each decision + result, and emits SheshAOS-format Nexus events. Wired it into
 all 8 MCP servers (shell, system, skills, memory, harness, orchestrator, mind,
 backup) with a graceful fallback to plain FastMCP if audit isn't installed,
-and added shesha-audit as a dependency. 2 new middleware tests (20 total in
-audit); full suite: 113 component tests green. Renamed packages to shesha_* on
+and added shesh-audit as a dependency. 2 new middleware tests (20 total in
+audit); full suite: 113 component tests green. Renamed packages to shesh_* on
 the way through.
 
-**Docs:** TODO.md, components/shesha-audit.md
+**Docs:** TODO.md, components/shesh-audit.md
 
 ---
 
 ## Q: "Okay" / "Continue" (autopilot)
 
-**Answer:** Implemented P0: LLM-backed planner/critic in shesha-orchestrator.
-New `LLMAgents` calls Ollama (model chosen per role by shesha-mind); the planner
+**Answer:** Implemented P0: LLM-backed planner/critic in shesh-orchestrator.
+New `LLMAgents` calls Ollama (model chosen per role by shesh-mind); the planner
 parses strict JSON steps, role agents execute, the critic returns an
 approved/notes verdict. Balanced JSON extraction (fenced + brace scan). All
 fall back to deterministic stubs on bad JSON/offline; `execute(use_llm=False)`
 forces stubs; `llm_status()` reports live vs fallback. 9 new tests (18 total),
-pushed; shesha-mind added as a dependency.
+pushed; shesh-mind added as a dependency.
 
-**Docs:** components/shesha-orchestrator.md, TODO.md
+**Docs:** components/shesh-orchestrator.md, TODO.md
 
 ---
 
@@ -243,7 +243,7 @@ all 12 components, imports every server module, verifies the audit Guard denies
 protected paths, memory assembles a bounded context, orchestrator enforces its
 budget and runs 3 stub steps, ACP does a session/prompt round-trip, and backup
 reports status. Wired into daily canary CI. Fixed two false imports along the
-way (shesha-files is a flat `classifier` module; shesha-memory has no `log.py`).
+way (shesh-files is a flat `classifier` module; shesh-memory has no `log.py`).
 All 3 P0s now done; remaining 🔴 items are the kernel merge (needs careful Rust
 work) and hardware tests (need the physical MSI).
 
@@ -267,13 +267,13 @@ servers.
 
 ## Q: "Continue" / interruptions (autopilot)
 
-**Answer:** Added system maintenance/health/update tools to shesha-system:
+**Answer:** Added system maintenance/health/update tools to shesh-system:
 `check_system_updates` (read-only, never auto -Syu), `clean_system_caches`
 (user/pacman/journal, opt-in with sudo noted), `system_health` (disk, failed
 units, load, temps, cache sizes). Robust df parsing. 6 new tests (13 total).
 Also shipped the MCP config generator earlier (9 servers, Zed/Newelle outputs).
 
-**Docs:** components/shesha-system.md, TODO.md
+**Docs:** components/shesh-system.md, TODO.md
 
 ---
 
@@ -285,13 +285,13 @@ sender-excluded fan-out, plus `serve/send/listen`. In-process bus stays for
 tests. 3 new tests (21 total). Also added system maintenance/health/update
 tools and the MCP config generator in prior ticks.
 
-**Docs:** architecture/MULTI_AGENT.md, components/shesha-orchestrator.md
+**Docs:** architecture/MULTI_AGENT.md, components/shesh-orchestrator.md
 
 ---
 
 ## Q: "Continue" / fix busy-and-overflow issues
 
-**Answer:** Shipped `shesha-mcp-bundle`: proxies upstream filesystem/fetch/git
+**Answer:** Shipped `shesh-mcp-bundle`: proxies upstream filesystem/fetch/git
 MCP servers (npx/uvx) through the Guard, with tool prefixing (fs_*, fetch_*,
 git_*), handshake, skip-if-missing, and 4 offline tests. Added A2A Unix socket
 and system maintenance/health tools in prior ticks.
@@ -306,14 +306,14 @@ tree (not gh-mirror).
 
 ## Q: "Continue in Autocomplete mode"
 
-**Answer:** Added persistent reattachable sessions to shesha-orchestrator:
+**Answer:** Added persistent reattachable sessions to shesh-orchestrator:
 a `SessionManager` runs Orchestrator executions in background threads, tracks
 goal/status/trace/result/error, and exposes MCP tools start_session/get_session/
 list_sessions/cancel_session. Cancellation is checked before/after each step;
 failures are recorded. 4 new tests (25 total). Also fixed the A2A handshake-once
 bug and JSON-RPC result unwrapping along the way.
 
-**Docs:** components/shesha-orchestrator.md, TODO.md
+**Docs:** components/shesh-orchestrator.md, TODO.md
 
 ---
 
@@ -321,29 +321,29 @@ bug and JSON-RPC result unwrapping along the way.
 
 **Answer:** Added persistent reattachable sessions to the orchestrator
 (SessionManager + start/get/list/cancel MCP tools, 25 tests) and built
-`shesha-containers` (unprivileged podman/distrobox sandboxed execution with
+`shesh-containers` (unprivileged podman/distrobox sandboxed execution with
 --cap-drop=ALL/--network=none/pids-limit, plus list/pull/set_engine; 5 tests).
 Both pushed; ecosystem manifest/TODO updated.
 
-**Docs:** components/shesha-containers.md, TODO.md
+**Docs:** components/shesh-containers.md, TODO.md
 
 ---
 
 ## Q: 👍 (continue)
 
-**Answer:** Built episodic memory compaction (`shesha-memory`): summarizes old
+**Answer:** Built episodic memory compaction (`shesh-memory`): summarizes old
 episodes into semantic.md in batches, trims to a retention window, with an
 injectable summarizer (LLM in prod) and `compact_memory` MCP tool (5 new tests,
-20 total). Also shipped shesha-containers (sandboxed podman MCP) and persistent
+20 total). Also shipped shesh-containers (sandboxed podman MCP) and persistent
 sessions earlier this run.
 
-**Docs:** components/shesha-memory.md, TODO.md
+**Docs:** components/shesh-memory.md, TODO.md
 
 ---
 
 ## Q: "Start, I am ready anytime"
 
-**Answer:** Implemented the held-out evaluator for /refine (shesha-harness):
+**Answer:** Implemented the held-out evaluator for /refine (shesh-harness):
 structural validation + weighted must_contain/must_not_contain checks scored
 0..1 against a min_score gate, with the refinement applied as system context
 during replay. Added make_ollama_responder() for local model scoring, wired it
@@ -351,26 +351,26 @@ into propose_and_apply via a responder, and exposed refine_with_llm MCP. 7 new
 tests (14 total). Also shipped episodic compaction and data-aware ambient
 signals earlier this run.
 
-**Docs:** components/shesha-harness.md, TODO.md
+**Docs:** components/shesh-harness.md, TODO.md
 
 ---
 
 ## Q: "Okay" (continue)
 
-**Answer:** Built semantic retrieval for shesha-memory: pluggable Embedder
+**Answer:** Built semantic retrieval for shesh-memory: pluggable Embedder
 (local deterministic hash for offline, Ollama nomic-embed-text for real
 semantics), a SQLite VectorStore with cosine search, and MCP tools
 semantic_search/index_memory. 6 new tests (26 total). Also shipped the
 held-out /refine evaluator earlier this run.
 
-**Docs:** components/shesha-memory.md, TODO.md
+**Docs:** components/shesh-memory.md, TODO.md
 
 ---
 
 ## Q: "Continue on autocomplete, don't stop"
 
 **Answer:** Shipped: data-aware ambient signals wired into offer_for_moment;
-shesha-calendar (iCal vdir MCP, 6 tests); ACP terminal/exec + fs/diff with
+shesh-calendar (iCal vdir MCP, 6 tests); ACP terminal/exec + fs/diff with
 confirmation for dangerous commands (3 tests); local JSONL trace recorder
 wired into sessions with recent_traces MCP (3 tests). Ecosystem manifest,
 TODO, and query log updated.
@@ -382,8 +382,8 @@ TODO, and query log updated.
 ## Q: "Continue on autocomplete, don't stop"
 
 **Answer:** Shipped: local JSONL trace recorder + session tracing; ACP
-terminal/exec and fs/diff with confirmation; shesha-calendar (iCal vdir MCP);
-extended canary e2e to cover all 15 components; shesha-secrets multi-backend
+terminal/exec and fs/diff with confirmation; shesh-calendar (iCal vdir MCP);
+extended canary e2e to cover all 15 components; shesh-secrets multi-backend
 resolver (env/gopass/keepassxc/file, refuses world-readable files). All
 tested and pushed.
 

@@ -11,7 +11,7 @@
       "upstream_repo": "end-4/dots-hyprland",
       "upstream_stars": 15486
     },
-    "shesha-audit": {
+    "shesh-audit": {
       "archived": false,
       "error": "HTTP Error 404: Not Found",
       "latest_release": null,
@@ -19,10 +19,10 @@
       "pinned_ref": "main",
       "upstream_default_branch": "main",
       "upstream_open_issues": 9,
-      "upstream_repo": "gaganjainse/SheshaAOS",
+      "upstream_repo": "gaganjainse/SheshAOS",
       "upstream_stars": 1
     },
-    "shesha-brain": {
+    "shesh-brain": {
       "archived": false,
       "error": "HTTP Error 404: Not Found",
       "latest_release": null,
@@ -30,10 +30,10 @@
       "pinned_ref": "main",
       "upstream_default_branch": "main",
       "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/shesha-kernel",
+      "upstream_repo": "gaganjainse/shesh-kernel",
       "upstream_stars": 0
     },
-    "shesha-files": {
+    "shesh-files": {
       "archived": false,
       "error": null,
       "latest_release": "v1.0",
@@ -41,10 +41,10 @@
       "pinned_ref": "main",
       "upstream_default_branch": "main",
       "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/shesha-desktop",
+      "upstream_repo": "gaganjainse/shesh-desktop",
       "upstream_stars": 0
     },
-    "shesha-memory": {
+    "shesh-memory": {
       "archived": false,
       "error": "HTTP Error 404: Not Found",
       "latest_release": null,
@@ -55,7 +55,7 @@
       "upstream_repo": "gaganjainse/rag-service",
       "upstream_stars": 0
     },
-    "shesha-mind": {
+    "shesh-mind": {
       "archived": false,
       "error": "HTTP Error 404: Not Found",
       "latest_release": null,
@@ -63,10 +63,10 @@
       "pinned_ref": "main",
       "upstream_default_branch": "main",
       "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/SheshaOS",
+      "upstream_repo": "gaganjainse/SheshOS",
       "upstream_stars": 0
     },
-    "shesha-phone": {
+    "shesh-phone": {
       "archived": false,
       "error": "HTTP Error 404: Not Found",
       "latest_release": null,
@@ -77,7 +77,7 @@
       "upstream_repo": "ShawnPana/phone-harness",
       "upstream_stars": 720
     },
-    "shesha-voice": {
+    "shesh-voice": {
       "archived": false,
       "error": null,
       "latest_release": "1.4.5",

@@ -1,6 +1,6 @@
 # Manual Verification Checklist
 
-Everything Shesha automates is unit-tested, but some things **cannot be verified
+Everything Shesh automates is unit-tested, but some things **cannot be verified
 in this build sandbox** — they need you, on the actual MSI laptop, with real
 hardware, accounts, and GUI apps. Work through this top-to-bottom after
 installing. Tick items as you confirm them.
@@ -19,7 +19,7 @@ installing. Tick items as you confirm them.
 - [ ] Audio works (speakers + headphone jack): `wpctl status`, play a sound
 - [ ] Microphone works (for wake word / STT)
 - [ ] Network (Wi-Fi + Ethernet) connects
-- [ ] `~/.local/share/shesha/` directory tree exists after first run
+- [ ] `~/.local/share/shesh/` directory tree exists after first run
 
 ---
 
@@ -34,9 +34,9 @@ installing. Tick items as you confirm them.
   - [ ] Pull only what you need: `ollama pull <model>`
 - [ ] **`restic` installed** and a repo initialized: `restic -r <repo> snapshots`
 - [ ] `restic` repository password stored in **gopass/KeePassXC**, referenced as
-  `env:RESTIC_PASSWORD` or `gopass:shesha/backup` — **never** in plain config
-- [ ] MCP servers resolve secrets via `shesha-secrets`:
-  `shesha-secrets-mcp` → `get_secret("env:MY_TOKEN")`
+  `env:RESTIC_PASSWORD` or `gopass:shesh/backup` — **never** in plain config
+- [ ] MCP servers resolve secrets via `shesh-secrets`:
+  `shesh-secrets-mcp` → `get_secret("env:MY_TOKEN")`
 - [ ] No API keys/tokens committed to any repo (run a secret scan)
 - [ ] Git identity configured: `git config --global user.email/name`
 
@@ -44,37 +44,37 @@ installing. Tick items as you confirm them.
 
 ## 2. MCP mesh (the core integration)
 
-After `pipx install`-ing all `shesha-*` packages, run the canary:
+After `pipx install`-ing all `shesh-*` packages, run the canary:
 
 ```bash
-bash scripts/e2e-canary.sh   # from shesha-ecosystem
+bash scripts/e2e-canary.sh   # from shesh-ecosystem
 ```
 
 - [ ] **E2E canary passes** (all 16 components import, policy denies protected
       paths, memory/orchestrator/ACP/backup/calendar/vectors/traces all respond)
 - [ ] **Generate the MCP config**: `python scripts/generate_mcp_config.py --channel canary`
-- [ ] `~/.config/shesha/mcp/servers.json` lists **9 MCP servers**
+- [ ] `~/.config/shesh/mcp/servers.json` lists **9 MCP servers**
       (audit, backup, files, harness, memory, mind, orchestrator, shell, skills;
       + containers/secrets/calendar if installed)
-- [ ] **Newelle (shesha-voice)** starts and its MCP panel shows the servers
+- [ ] **Newelle (shesh-voice)** starts and its MCP panel shows the servers
       connected (green)
 - [ ] Restart Newelle and ask it to **list its tools** — it should see
       `check_system_updates`, `semantic_search`, `start_session`, etc.
 - [ ] Zed / another MCP client (if you use one) can connect via the generated
       `zed.json`
 - [ ] Each MCP server starts standalone without import errors, e.g.
-      `shesha-system-mcp` (Ctrl-C to exit)
+      `shesh-system-mcp` (Ctrl-C to exit)
 
 ---
 
-## 3. Voice (shesha-voice / Newelle fork)
+## 3. Voice (shesh-voice / Newelle fork)
 
-- [ ] Fork `gaganjainse/shesha-voice` is tracking upstream `qwersyk/Newelle`
+- [ ] Fork `gaganjainse/shesh-voice` is tracking upstream `qwersyk/Newelle`
       (rebase occasionally)
 - [ ] The overlay config copied:
-  - [ ] `cp shesha-overlay/shesha-mcp-servers.json ~/.config/Newelle/mcp-servers.json`
+  - [ ] `cp shesh-overlay/shesh-mcp-servers.json ~/.config/Newelle/mcp-servers.json`
   - [ ] Default model set to local Ollama `phi4-mini`
-- [ ] **Wake word "hey shesha"** triggers listening (openwakeword)
+- [ ] **Wake word "hey shesh"** triggers listening (openwakeword)
 - [ ] Speech-to-text transcribes your voice accurately (try faster-whisper)
 - [ ] Text-to-speech reads responses aloud
 - [ ] Mic permission / PipeWire access not blocked
@@ -85,7 +85,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 - [ ] **NVIDIA driver loaded**: `nvidia-smi` shows the GPU and temp/power
 - [ ] `powerprofilesctl list`; switching performance↔balanced↔power-saver works
-  - [ ] `shesha-system-mcp` → `set_power_profile("gaming")` changes it
+  - [ ] `shesh-system-mcp` → `set_power_profile("gaming")` changes it
   - [ ] Hyprland blur/shadow auto-reduce on battery (verify visually)
 - [ ] **MUX switch** (if you use it): `sudo msi-mux-switcher status` shows the
       current mode; switching requires a reboot as documented
@@ -109,7 +109,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 ## 6. Backup
 
-- [ ] `shesha-backup-mcp` → `run_backup` completes (after a manual first
+- [ ] `shesh-backup-mcp` → `run_backup` completes (after a manual first
       `restic init`)
 - [ ] First backup verified: `restic -r <repo> snapshots` lists it
 - [ ] `check_system_updates` reports pending pacman/AUR packages (read-only)
@@ -120,10 +120,10 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 ---
 
-## 7. Phone (shesha-phone, Realme Narzo)
+## 7. Phone (shesh-phone, Realme Narzo)
 
 - [ ] ADB debugging enabled on the phone; `adb devices` lists it
-- [ ] `shesha-phone-mcp` connects (safe-area taps land on screen)
+- [ ] `shesh-phone-mcp` connects (safe-area taps land on screen)
 - [ ] Taps **outside the status/nav bars are refused** (try a coordinate at y=10)
 - [ ] Screenshots pull successfully
 - [ ] Vision model can describe a screenshot if you wire it
@@ -134,7 +134,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 ## 8. Containers / sandboxing
 
 - [ ] `podman` installed and rootless works: `podman run --rm alpine echo ok`
-- [ ] `shesha-containers-mcp` → `run_sandboxed(["echo","hi"])` returns output
+- [ ] `shesh-containers-mcp` → `run_sandboxed(["echo","hi"])` returns output
 - [ ] Sandboxed commands have **no network** by default (`--network=none`)
 - [ ] `--cap-drop=ALL` is in effect (verify with a privileged syscall)
 - [ ] Containers are removed after each run (`--rm`)
@@ -145,7 +145,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 ## 9. Agent behavior
 
-- [ ] Start a goal via `shesha-orchestrator-mcp` → `execute("...")`; it plans,
+- [ ] Start a goal via `shesh-orchestrator-mcp` → `execute("...")`; it plans,
       delegates by role, and the critic approves
 - [ ] **Background sessions** work: `start_session`, disconnect, `get_session`
       later shows progress/result
@@ -155,7 +155,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 - [ ] The LLM is used when Ollama responds; offline, the deterministic stubs
       keep the system working
 - [ ] **Memory compaction** runs without data loss:
-      `shesha-memory-mcp` → `compact_memory()`; old episodes move to
+      `shesh-memory-mcp` → `compact_memory()`; old episodes move to
       `semantic.md`, very old ones are deleted
 - [ ] Semantic search (`semantic_search`) returns relevant memories
 - [ ] Habits/intentions/mannerisms reflect your actual preferences over time
@@ -164,7 +164,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 ## 10. Security & audit
 
-- [ ] Every tool call is logged: `~/.local/share/shesha/audit/events.jsonl`
+- [ ] Every tool call is logged: `~/.local/share/shesh/audit/events.jsonl`
 - [ ] The hash chain verifies: no "tampered" results
 - [ ] Nexus-format events appear in `nexus-events.jsonl` for the Rust brain
 - [ ] Writing to `.ssh`, `.gnupg`, `Vaults/`, or job folders is **denied**
@@ -179,7 +179,7 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 ## 11. Canary / releases
 
 - [ ] The daily canary GitHub Actions run is green
-      (https://github.com/gaganjainse/shesha-ecosystem/actions)
+      (https://github.com/gaganjainse/shesh-ecosystem/actions)
 - [ ] If you switch to **stable**, `btrfs snapshot` is taken before install
 - [ ] Rollback works: boot the snapshot from grub/btrfs-grub
 - [ ] Component versions in `manifests/components.toml` match what's installed
@@ -190,12 +190,12 @@ bash scripts/e2e-canary.sh   # from shesha-ecosystem
 
 These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
-- [ ] **shesha-kernel → SheshaAOS merge**: the Rust trees diverged at the type
-      level. Follow `KERNEL_MERGE_PLAN.md` in SheshaAOS; port leaf crates first,
-      reconcile `NexusError`/TUI, bring in `sheshaaos-protocols`, fix the
+- [ ] **shesh-kernel → SheshAOS merge**: the Rust trees diverged at the type
+      level. Follow `KERNEL_MERGE_PLAN.md` in SheshAOS; port leaf crates first,
+      reconcile `NexusError`/TUI, bring in `sheshaos-protocols`, fix the
       upstream `russh`/`zig` build breaks, gate on `cargo test --workspace`.
 - [ ] **Hardware validation on the physical MSI** (this whole document)
-- [ ] Rebase shesha-voice on upstream Newelle periodically
+- [ ] Rebase shesh-voice on upstream Newelle periodically
 - [ ] Set up real CalDAV/IMAP sync with vdirsyncer if you want email/calendar
       beyond the local .ics reader
 - [ ] Optionally connect Telegram/Signal bridges (isolated accounts)
@@ -207,7 +207,7 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
 ## 13. Wiki (one-time setup)
 
-- [ ] Open https://github.com/gaganjainse/SheshaAOS/wikis and click **"Create the first page"**
+- [ ] Open https://github.com/gaganjainse/SheshAOS/wikis and click **"Create the first page"**
       (GitHub has no API to initialize a wiki; this single click creates the
       `.wiki.git` repo).
 - [ ] After that, the **wiki-sync** GitHub Action automatically mirrors
@@ -220,10 +220,10 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 Run this anytime; it should report all-green:
 
 ```bash
-echo "=== Shesha health ===" && \
+echo "=== Shesh health ===" && \
 systemctl --user is-active ollama && \
-bash ~/src/shesha-ecosystem/scripts/e2e-canary.sh && \
-for s in shesha-{audit,system,shell,files,skills,memory,mind,harness,orchestrator,backup,phone,containers,secrets,calendar,acp}-mcp; do
+bash ~/src/shesh-ecosystem/scripts/e2e-canary.sh && \
+for s in shesh-{audit,system,shell,files,skills,memory,mind,harness,orchestrator,backup,phone,containers,secrets,calendar,acp}-mcp; do
   command -v "$s" >/dev/null && echo "ok  $s" || echo "MISSING  $s"
 done && \
 echo "=== done ==="

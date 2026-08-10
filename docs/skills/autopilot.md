@@ -1,6 +1,6 @@
 ---
 name: autopilot
-description: Continue the Shesha build autonomously by following TODO.md, testing every change, and updating docs/querylog.
+description: Continue the Shesh build autonomously by following TODO.md, testing every change, and updating docs/querylog.
 ---
 
 # Autopilot skill
@@ -26,7 +26,7 @@ When the user says "continue" or asks you to work unsupervised:
    - If you created/changed a component, refresh `docs/components/`.
 
 5. **Stay local-first and safe.** No cloud calls by default. Destructive actions
-   require confirmation. Every action flows through `shesha-audit` policy.
+   require confirmation. Every action flows through `shesh-audit` policy.
 
 6. **Stop conditions:** all ⬜ done, a 🔴 is hit, tests can't pass, or the user
    interrupts. Report what shipped, what's blocked, and what's next.
