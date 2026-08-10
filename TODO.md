@@ -48,7 +48,7 @@ Last updated: 2026-08-09
 - ✅ **`shesha-mind`** — role-to-model router with VRAM budget (13 tests)
 - ⬜ **`shesha-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy
 - ⬜ LLM-backed planner/critic in orchestrator (currently stub); wire to Ollama
-- ⬜ A2A over Unix socket (currently in-process); then optional remote (opt-in)
+- ✅ A2A over Unix socket — UDS broker with role routing (3 tests); then optional remote (opt-in)
 - ⬜ Persistent/background agent sessions (detach/reattach like Prime)
 - ⬜ Real `refine` loop: planner uses local model, evaluator plugs into `llm-eval-harness`
 - ⬜ Auto-skill capture (Read→Execute→Reflect→Write) with held-out scoring; deprecate unused skills

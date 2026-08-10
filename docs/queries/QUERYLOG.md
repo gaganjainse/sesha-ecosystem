@@ -274,3 +274,15 @@ units, load, temps, cache sizes). Robust df parsing. 6 new tests (13 total).
 Also shipped the MCP config generator earlier (9 servers, Zed/Newelle outputs).
 
 **Docs:** components/shesha-system.md, TODO.md
+
+---
+
+## Q: "Continue in Autocomplete mode"
+
+**Answer:** Built the A2A Unix-socket transport: a 0600-permission UDS broker
+with line-delimited JSON, role-based routing, broadcast events, and
+sender-excluded fan-out, plus `serve/send/listen`. In-process bus stays for
+tests. 3 new tests (21 total). Also added system maintenance/health/update
+tools and the MCP config generator in prior ticks.
+
+**Docs:** architecture/MULTI_AGENT.md, components/shesha-orchestrator.md
