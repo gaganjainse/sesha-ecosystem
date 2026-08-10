@@ -55,7 +55,7 @@ Last updated: 2026-08-09
 - ✅ `shesha-acp` — editor↔agent ACP server (7 tests)
 - ✅ `shesha-voice` — Newelle fork for wake/STT/TTS
 - ✅ `shesha-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
-- ⬜ **`shesha-phone`** — ADB harness for Realme Narzo (OCR/vision→tap)
+- ✅ **`shesha-phone`** — ADB control with safe-bounds tapping (7 tests)
 - ⬜ `sesha-backup` real restic implementation + verify
 - ⬜ `sesha-maintenance` script (cache, journal, orphan packages)
 - ⬜ `sesha-update-check` (notify, never auto `-Syu`)
