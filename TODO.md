@@ -65,9 +65,9 @@ Last updated: 2026-08-09
 - ✅ `shesha-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
 - ✅ **`shesha-phone`** — ADB control with safe-bounds tapping (7 tests)
 - ⬜ `sesha-backup` real restic implementation + verify
-- ⬜ `sesha-maintenance` script (cache, journal, orphan packages)
-- ⬜ `sesha-update-check` (notify, never auto `-Syu`)
-- ⬜ `sesha-health` telemetry (CPU/GPU/disk/battery)
+- ✅ `shesha-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
+- ✅ `shesha-update-check`: check_system_updates (read-only)
+- ✅ `shesha-health`: system_health (disk/units/load/temps/caches)
 - ⬜ Package mature third-party MCPs behind policy: filesystem, git, fetch, Playwright, GitHub, SQLite, markitdown
 - ⬜ Email/calendar: local-first CalDAV/IMAP (vdirsyncer+khal/neomutt)
 - ⬜ Messaging bridges (Telegram/Signal) as isolated, opt-in services

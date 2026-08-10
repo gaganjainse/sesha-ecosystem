@@ -262,3 +262,15 @@ connects all the components into a working MCP mesh instead of isolated
 servers.
 
 **Docs:** scripts/generate_mcp_config.py, components connected via generated config
+
+---
+
+## Q: "Continue" / interruptions (autopilot)
+
+**Answer:** Added system maintenance/health/update tools to shesha-system:
+`check_system_updates` (read-only, never auto -Syu), `clean_system_caches`
+(user/pacman/journal, opt-in with sudo noted), `system_health` (disk, failed
+units, load, temps, cache sizes). Robust df parsing. 6 new tests (13 total).
+Also shipped the MCP config generator earlier (9 servers, Zed/Newelle outputs).
+
+**Docs:** components/shesha-system.md, TODO.md
