@@ -314,3 +314,15 @@ failures are recorded. 4 new tests (25 total). Also fixed the A2A handshake-once
 bug and JSON-RPC result unwrapping along the way.
 
 **Docs:** components/shesha-orchestrator.md, TODO.md
+
+---
+
+## Q: "Continue where you left off" (autopilot)
+
+**Answer:** Added persistent reattachable sessions to the orchestrator
+(SessionManager + start/get/list/cancel MCP tools, 25 tests) and built
+`shesha-containers` (unprivileged podman/distrobox sandboxed execution with
+--cap-drop=ALL/--network=none/pids-limit, plus list/pull/set_engine; 5 tests).
+Both pushed; ecosystem manifest/TODO updated.
+
+**Docs:** components/shesha-containers.md, TODO.md
