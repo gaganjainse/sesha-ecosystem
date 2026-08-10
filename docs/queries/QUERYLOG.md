@@ -388,3 +388,16 @@ resolver (env/gopass/keepassxc/file, refuses world-readable files). All
 tested and pushed.
 
 **Docs:** components/*.md, scripts/e2e-canary.sh, TODO.md
+
+---
+
+## Q: "Make a document of every manual thing I need to check myself, from the
+start of the session; divide into sections; update it regularly."
+
+**Answer:** Created `docs/MANUAL_VERIFICATION.md` — 12 sections: first boot,
+accounts/keys/secrets, MCP mesh, voice, GPU/power/MUX, display, backup, phone,
+containers, agent behavior, security/audit, canary/releases, plus the deliberate
+non-autopilot items (kernel merge, hardware validation) and a one-command health
+check. Linked it from AUDIT_AND_ROADMAP. Will keep it current each run.
+
+**Docs:** MANUAL_VERIFICATION.md (new), AUDIT_AND_ROADMAP.md

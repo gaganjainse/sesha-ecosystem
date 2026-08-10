@@ -189,3 +189,13 @@ checkable version is TODO.md.
    TODO.md status, and refresh relevant docs — real-time.
 4. Archive, never delete. No force-push to main.
 5. Mark hardware-dependent items 🟡 rather than faking success.
+
+---
+
+## 6. Manual verification
+
+Things that cannot be tested in the sandbox are tracked separately in
+**[MANUAL_VERIFICATION.md](MANUAL_VERIFICATION.md)** — work through it on the
+physical MSI after install. It covers accounts/keys, the MCP mesh, voice/GPU/
+display, backup, phone, containers, agent behavior, security, and the
+deliberate non-autopilot items (kernel merge, hardware validation).
