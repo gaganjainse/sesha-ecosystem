@@ -248,3 +248,17 @@ All 3 P0s now done; remaining 🔴 items are the kernel merge (needs careful Rus
 work) and hardware tests (need the physical MSI).
 
 **Docs:** scripts/e2e-canary.sh, .github/workflows/canary.yml, TODO.md
+
+---
+
+## Q: "Continue" (autopilot)
+
+**Answer:** Built `scripts/generate_mcp_config.py` — reads the manifest and
+emits canonical `servers.json` plus Zed (`context_servers`) and Newelle
+(`mcp-servers`) configs filtered by channel. Correctly excludes non-MCP
+components (desktop fork, voice fork, ACP) and maps each repo to its console
+script. 5 new tests (18 ecosystem tests total); wired into the repo. This
+connects all the components into a working MCP mesh instead of isolated
+servers.
+
+**Docs:** scripts/generate_mcp_config.py, components connected via generated config
