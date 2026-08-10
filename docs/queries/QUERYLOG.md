@@ -158,3 +158,14 @@ pushed to gaganjainse/shesha-mind and added to the ecosystem manifest.
 to check + log each tool action against policy (allow/confirm/deny). 4 new tests
 (15 total). This is the integration point that makes the Brain govern every Soma
 tool call. Next: ACP full session support (streaming, permissions, diffs).
+
+---
+
+## Q (autopilot cont. 2): (continue)
+
+**Answer:** Built `shesha-mind` model router (13 tests) and shipped it. Added a
+reusable policy `Guard` to shesha-audit (15 tests). Extended shesha-acp with
+session/cancel and permission-response, and fixed an incomplete package rename.
+All pushed; component READMEs centralized in docs/components.
+
+**Docs:** components/shesha-mind.md, components/shesha-audit.md, components/shesha-acp.md

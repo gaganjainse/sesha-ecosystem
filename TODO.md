@@ -72,7 +72,7 @@ Last updated: 2026-08-09
 - ✅ MCP (agent↔tools) across all components
 - ✅ ACP server skeleton; need real editor sessions/diffs
 - ✅ A2A-lite bus in orchestrator
-- ⬜ ACP: full session streaming, permission requests, file/terminal bridge, diff updates
+- 🟡 ACP: session streaming + cancel + permission responses done; terminal bridge + diffs remain
 - ⬜ MCP server config generator (from manifest) + `~/.config/shesha/mcp/`
 - ⬜ ACP tested against Zed and JetBrains
 - ⬜ OpenTelemetry traces (local) for agent runs
