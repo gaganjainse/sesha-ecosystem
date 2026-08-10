@@ -118,3 +118,13 @@ the canary gate on real or VM hardware.
 Phase 1 — orchestrator + manifest + gates (this repo, ✅).
 Next: split `shesha-files`, `shesha-shell`, `shesha-system` out of shesha-desktop into their own
 repos, fork Newelle as `shesha-voice`, and wire `shesha-audit` to SheshaAOS.
+
+## Documentation index
+
+- **Start here:** [TODO.md](TODO.md) — master roadmap; [GLOSSARY.md](docs/GLOSSARY.md)
+- **Architecture:** [Agentic Body](docs/architecture/AGENTIC_BODY.md) · [Repo topology](docs/architecture/REPO_TOPOLOGY.md) · [Languages](docs/architecture/LANGUAGE_POLICY.md) · [Multi-agent](docs/architecture/MULTI_AGENT.md)
+- **Platform:** [Containers/uv](docs/CONTAINERS_AND_VENV.md) · [Linux layout](docs/LINUX_LAYOUT.md) · [ACP & A2A](docs/ACP_A2A.md)
+- **Mind:** [Learning/memory](docs/LEARNING.md) · [Tooling catalog](docs/TOOLING_CATALOG.md)
+- **Process:** [Gap analysis](docs/GAP_ANALYSIS.md) · [Autopilot skill](docs/skills/autopilot.md) · [Query log](docs/queries/QUERYLOG.md)
+- **Components:** [acp](docs/components/shesha-acp.md) · [audit](docs/components/shesha-audit.md) · [files](docs/components/shesha-files.md) · [harness](docs/components/shesha-harness.md) · [memory](docs/components/shesha-memory.md) · [orchestrator](docs/components/shesha-orchestrator.md) · [shell](docs/components/shesha-shell.md) · [skills](docs/components/shesha-skills.md) · [system](docs/components/shesha-system.md)
+- **Desktop:** [Shesha desktop docs](docs/desktop/)
