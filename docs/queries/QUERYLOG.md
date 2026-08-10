@@ -219,3 +219,17 @@ audit); full suite: 113 component tests green. Renamed packages to shesha_* on
 the way through.
 
 **Docs:** TODO.md, components/shesha-audit.md
+
+---
+
+## Q: "Okay" / "Continue" (autopilot)
+
+**Answer:** Implemented P0: LLM-backed planner/critic in shesha-orchestrator.
+New `LLMAgents` calls Ollama (model chosen per role by shesha-mind); the planner
+parses strict JSON steps, role agents execute, the critic returns an
+approved/notes verdict. Balanced JSON extraction (fenced + brace scan). All
+fall back to deterministic stubs on bad JSON/offline; `execute(use_llm=False)`
+forces stubs; `llm_status()` reports live vs fallback. 9 new tests (18 total),
+pushed; shesha-mind added as a dependency.
+
+**Docs:** components/shesha-orchestrator.md, TODO.md
