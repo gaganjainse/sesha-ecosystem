@@ -352,3 +352,15 @@ tests (14 total). Also shipped episodic compaction and data-aware ambient
 signals earlier this run.
 
 **Docs:** components/shesha-harness.md, TODO.md
+
+---
+
+## Q: "Okay" (continue)
+
+**Answer:** Built semantic retrieval for shesha-memory: pluggable Embedder
+(local deterministic hash for offline, Ollama nomic-embed-text for real
+semantics), a SQLite VectorStore with cosine search, and MCP tools
+semantic_search/index_memory. 6 new tests (26 total). Also shipped the
+held-out /refine evaluator earlier this run.
+
+**Docs:** components/shesha-memory.md, TODO.md

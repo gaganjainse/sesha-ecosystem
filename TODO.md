@@ -53,7 +53,7 @@ Last updated: 2026-08-09
 - ⬜ Real `refine` loop: planner uses local model, evaluator plugs into `llm-eval-harness`
 - ⬜ Auto-skill capture (Read→Execute→Reflect→Write) with held-out scoring; deprecate unused skills
 - ⬜ Episodic compaction/summarization job (retention policy)
-- ⬜ RAG via `rag-service` (semantic retrieval beyond FTS) — optional embeddings
+- ✅ RAG embeddings + vector store (local hash embedder offline, Ollama nomic-embed-text supported; semantic_search MCP; 6 tests)
 - 💡 Future: skill marketplace / sharing evolved skills (open-space.cloud style, opt-in)
 
 ## 3. Soma (body / AS)  🟡
