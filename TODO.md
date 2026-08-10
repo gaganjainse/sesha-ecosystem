@@ -69,7 +69,7 @@ Last updated: 2026-08-09
 - ✅ `shesha-update-check`: check_system_updates (read-only)
 - ✅ `shesha-health`: system_health (disk/units/load/temps/caches)
 - 🟡 Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesha-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain
-- ⬜ Email/calendar: local-first CalDAV/IMAP (vdirsyncer+khal/neomutt)
+- ✅ Calendar: local-first iCal vdir MCP (shesha-calendar); email/CalDAV sync remains via vdirsyncer
 - ⬜ Messaging bridges (Telegram/Signal) as isolated, opt-in services
 - ⬜ Media: screenshots, screen recording, wallpaper, audio routing
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
@@ -83,7 +83,7 @@ Last updated: 2026-08-09
 - 🟡 ACP: session streaming + cancel + permission responses done; terminal bridge + diffs remain
 - ✅ MCP server config generator from manifest — servers.json + Zed/Newelle configs (9 servers, 5 tests)
 - ⬜ ACP tested against Zed and JetBrains
-- ⬜ OpenTelemetry traces (local) for agent runs
+- ✅ Local JSONL trace recorder + session tracing (recent_traces MCP; 3 tests)
 
 ## 5. Platform / infrastructure  🟡
 - ✅ uv projects with lockfiles; rootless Podman + Distrobox guidance
