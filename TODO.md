@@ -27,7 +27,7 @@ Last updated: 2026-08-09
   - ⬜ Bring in `sheshaaos-protocols` (ACP+MCP wire impl) and CLI/worker bins
   - ⬜ Fix pre-existing upstream build breaks: `russh::Error::msg` removed; `zig` required by terminal
   - ⬜ Gate: `cargo test --workspace` green on stable
-- ⬜ Wire `shesha-audit` as the policy gate in front of every MCP tool call (orchestrator + skills)
+- ✅ Wire `shesha-audit` as the policy gate in front of every MCP tool call (Guard helper in shesha-audit; components import it)
 - ⬜ NexusAOS event-store bridge so Rust brain and Python soma share one audit log
 - 💡 Future: eBPF telemetry with Aya (Rust) for system/performance sensing
 

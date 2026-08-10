@@ -149,3 +149,12 @@ injectable Ollama client. MCP tools `select_model`/`plan_session`/`list_roles`/
 pushed to gaganjainse/shesha-mind and added to the ecosystem manifest.
 
 **Docs:** [components/shesha-mind.md](../components/shesha-mind.md), TODO.md
+
+---
+
+## Q (autopilot cont.): (continue)
+
+**Answer:** Added a reusable `Guard` to shesha-audit that any MCP server imports
+to check + log each tool action against policy (allow/confirm/deny). 4 new tests
+(15 total). This is the integration point that makes the Brain govern every Soma
+tool call. Next: ACP full session support (streaming, permissions, diffs).
