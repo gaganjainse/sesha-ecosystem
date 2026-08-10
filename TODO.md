@@ -90,7 +90,7 @@ Last updated: 2026-08-09
 - ✅ Ecosystem manifest resolver with license gate + 3 channels (stable/canary/devel)
 - ✅ Canary multi-distro CI (arch/fedora/ubuntu) workflow
 - ✅ Cross-component test suites (100+ tests total)
-- ⬜ **Canary end-to-end test**: boot all MCP/ACP servers in a container, run a real task
+- ✅ Canary end-to-end test covers all 15 components
 - ⬜ Distrobox/Containerfile for reproducible onboarding
 - ⬜ Installer channel support (stable/canary/devel) with btrfs snapshot + rollback
 - ⬜ Secret manager (KeePassXC/gopass) — no keys in config
