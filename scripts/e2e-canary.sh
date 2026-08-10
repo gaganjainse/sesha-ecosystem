@@ -92,3 +92,51 @@ print(f"   ok backup status: due={st['due']} reason={st['reason']}")
 PY
 
 echo "E2E PASS"
+
+echo "==> Calendar: parse an ics event"
+python3 - <<'PY'
+import tempfile, pathlib
+from shesha_calendar import parser
+d = pathlib.Path(tempfile.mkdtemp())
+(d/"c.ics").write_text("BEGIN:VCALENDAR\nBEGIN:VEVENT\nSUMMARY:Test\nDTSTART:20260101T100000\nEND:VEVENT\nEND:VCALENDAR")
+evs = parser.scan_dir(d)
+assert evs and evs[0].summary == "Test", evs
+print("   ok calendar parsed")
+PY
+
+echo "==> Embeddings + vector store"
+python3 - <<'PY'
+import tempfile, pathlib
+from shesha_memory.embeddings import local_embedder, LOCAL_DIM
+from shesha_memory.vectorstore import VectorStore
+d = pathlib.Path(tempfile.mkdtemp())
+s = VectorStore(d/"v.db", local_embedder(), LOCAL_DIM)
+s.upsert("1", "the cat sat on the mat")
+r = s.search("cat")
+assert r and r[0]["score"] > 0
+print("   ok vector search")
+PY
+
+echo "==> Trace recorder"
+python3 - <<'PY'
+import tempfile, pathlib
+from shesha_orchestrator.traces import TraceRecorder
+r = TraceRecorder(pathlib.Path(tempfile.mkdtemp())/"t.jsonl")
+with r.trace("x") as span:
+    span.set_attribute("k","v")
+assert len(r.recent()) == 1
+print("   ok trace recorded")
+PY
+
+echo "==> Container runner builds args without executing"
+python3 - <<'PY'
+from shesha_containers.runner import ContainerConfig, run_in_container
+captured = {}
+def fake(cmd, timeout=60):
+    captured["cmd"] = cmd
+    return 0, "ok"
+run_in_container(["echo","hi"], ContainerConfig(engine="echo"), runner=fake)
+joined = " ".join(captured["cmd"])
+assert "--rm" in joined and "--cap-drop=ALL" in joined and "echo" in joined
+print("   ok container args")
+PY
