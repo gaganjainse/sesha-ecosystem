@@ -338,3 +338,17 @@ injectable summarizer (LLM in prod) and `compact_memory` MCP tool (5 new tests,
 sessions earlier this run.
 
 **Docs:** components/shesha-memory.md, TODO.md
+
+---
+
+## Q: "Start, I am ready anytime"
+
+**Answer:** Implemented the held-out evaluator for /refine (shesha-harness):
+structural validation + weighted must_contain/must_not_contain checks scored
+0..1 against a min_score gate, with the refinement applied as system context
+during replay. Added make_ollama_responder() for local model scoring, wired it
+into propose_and_apply via a responder, and exposed refine_with_llm MCP. 7 new
+tests (14 total). Also shipped episodic compaction and data-aware ambient
+signals earlier this run.
+
+**Docs:** components/shesha-harness.md, TODO.md
