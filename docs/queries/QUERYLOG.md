@@ -1,0 +1,137 @@
+# Query Log
+
+Every prompt from the user and the assistant's response, with links to docs
+created or updated. Newest first. This anchors the project to the user's actual
+intent and prevents drift.
+
+---
+
+## Q: "Don't ask me everything now — make a supervisor/agent that supervises you and continues automatically... Add ALL docs to shesha-ecosystem/docs, save all prompts + answers in a query doc, update docs regularly, create a complete todo list including future work."
+
+**Answer:** Created this query log, the central TODO, the `supervisor` runbook, and
+gathered all 40 docs into `docs/` (architecture, desktop, components, skills). Added
+an autopilot loop (`scripts/supervise.sh`) and an agent skill
+(`skills/autopilot.md`) so work continues without re-asking. Everything links back
+to TODO.md.
+
+**Docs:** [TODO.md](../TODO.md), [SUPERVISOR.md](../SUPERVISOR.md),
+[skills/autopilot.md](../skills/autopilot.md)
+
+---
+
+## Q: "Rename everything to Shesha (from Sesha), even repos. Unarchive personal projects; only merge/delete duplicates. Do shesha-kernel → SheshaAOS merge and continue."
+
+**Answer:** Renamed all `sesha-*` repos to `shesha-*`, `NexusAOS`→`SheshaAOS`,
+`nexus-kernel`→`shesha-kernel`, `Auto-desktopenv`→`shesha-desktop` (GitHub redirects
+in place). Personal projects were never archived. Folded the archived `SeshaOS`
+stub into SheshaAOS. Attempted the kernel merge and found it cannot be forced
+(178 commits ahead but type-diverged: 57 compile errors; base has pre-existing
+russh/zig build issues) — documented a staged crate-by-crate plan instead of
+pushing a broken build. Fixed a stranded rebrand where the bin dir was never
+renamed.
+
+**Docs:** [KERNEL_MERGE_PLAN](https://github.com/gaganjainse/SheshaAOS/blob/main/KERNEL_MERGE_PLAN.md),
+[GLOSSARY.md](../GLOSSARY.md)
+
+---
+
+## Q: "We also need ACP servers, multiple agents. Research what's missing for a full ecosystem, not a demo. Steal tools and skills from the web."
+
+**Answer:** Researched MCP/ACP/A2A and the Prime Agent RLM/Continual Harness.
+Built `shesha-acp` (Agent Client Protocol server for Zed/JetBrains) and documented
+the multi-agent model (coordinator/planner/coder/researcher/vision/critic) in
+MULTI_AGENT.md. Cataloged mature third-party MCP servers to package rather than
+rebuild (filesystem, git, fetch, playwright, github, memory, markitdown).
+
+**Docs:** [ACP_A2A.md](../ACP_A2A.md), [architecture/MULTI_AGENT.md](../architecture/MULTI_AGENT.md),
+[TOOLING_CATALOG.md](../TOOLING_CATALOG.md)
+
+---
+
+## Q: "There is nothing for web/coding/docs/normal things. We need many tools and skills. Deep research what we're missing."
+
+**Answer:** Built `shesha-skills` — MCP tools for notes (markdown vault),
+web search (keyless DuckDuckGo HTML) + fetch, git/github inspection, pandoc
+document conversion, and reminders — plus Markdown skills: coding, web-research,
+docs-writer, safety-governance, daily-briefing.
+
+**Docs:** [components/shesha-skills.md](../components/shesha-skills.md),
+[skills/](../skills/)
+
+---
+
+## Q: "The system should learn my intentions/habits/mannerisms and improve. Memory retention and context window are issues. Resolve this properly."
+
+**Answer:** Built `shesha-memory`: hierarchical memory (working/episodic/
+semantic/intentions/mannerisms/habits), habit learning with corroboration +
+decay, and a token-bounded `ContextAssembler` that prioritizes
+mannerisms→intentions→facts→habits→skills→working→relevant→recent and trims the
+lowest priority first so prompts never overflow the window.
+
+**Docs:** [LEARNING.md](../LEARNING.md), [components/shesha-memory.md](../components/shesha-memory.md)
+
+---
+
+## Q: "You hardcoded the system; it should learn intentions/habits and improve. Also memory/context window issues."
+
+(Combined with the above — led to shesha-memory and the self-improvement design.)
+
+---
+
+## Q: "You assume the system is 24/7 live; it isn't. Don't boot mid-work. Be active/helpful/warm, not passive."
+
+**Answer:** Built `shesha-ambient` (in shesha-desktop): a catch-up scheduler
+(OnStartupSec + jitter, not fixed wall-clock; heavy jobs need AC+idle; budget
+bounds), a courtesy policy that defers during fullscreen/calls/high-CPU/low
+battery, and a proactivity engine that makes one optional offer at a natural
+pause (45s–15m idle), throttled to ≤3/day, snoozeable.
+
+**Docs:** [desktop/AMBIENT_DESIGN.md](../desktop/AMBIENT_DESIGN.md)
+
+---
+
+## Q: "I got a workspace-over-budget notification. Proceed to phase 2."
+
+**Answer:** Cleaned heavy caches/venvs, then split out three standalone
+component repos — `shesha-files` (Rust watcher + classifier), `shesha-shell`
+(Hyprland MCP), `shesha-system` (power/GPU/backup MCP) — each with its own
+tests and CI, replacing the monolithic tools dir.
+
+**Docs:** [architecture/REPO_TOPOLOGY.md](../architecture/REPO_TOPOLOGY.md)
+
+---
+
+## Q: "Integrate everything so I can change settings in the GUI, not code. Don't break the style. Test each setting/function in a container."
+
+**Answer:** Added a `shesha` config object to end-4's existing Quickshell
+settings system and a matching **Sesha settings page** (`SeshaConfig.qml`) in
+the same widget style as General/Bar/Services. A `Sesha.qml` service applies
+toggles to systemd units and hyprctl. All changes are in the dotfiles repo.
+
+**Docs:** [desktop/06_SESHA_AGENT.md](../desktop/06_SESHA_AGENT.md)
+
+---
+
+## Q: "Choose the languages we use; minimize FFI overhead/complexity/debugging/security risks."
+
+**Answer:** Five core languages, each for one job — Rust (brain/kernel/watchers),
+Python 3.11+ (AI glue/MCP), Lua (Hyprland config only), QML/JS (Quickshell UI),
+Bash 5+ (installer/glue). No Zig/C/Mojo/Go; cross-language talk is MCP/JSON
+over process boundaries, never in-process FFI. Exotic runtimes go in rootless
+Podman/Distrobox.
+
+**Docs:** [architecture/LANGUAGE_POLICY.md](../architecture/LANGUAGE_POLICY.md),
+[CONTAINERS_AND_VENV.md](../CONTAINERS_AND_VENV.md)
+
+---
+
+## Q (earlier): "Fix the bugs and make it a real system, not a demo."
+
+**Answer:** Audited and fixed: undefined AUR_HELPER, missing `bc` dep, MSI DMI
+content check, RAM-detected zram, MCP iterating real files, license (MIT→GPL-3),
+typos, redirect order; added real system tools, device profile, FHS/XDG layout,
+rootless Podman + uv environments, and the federated ecosystem manifest with
+quality gates and canary CI.
+
+**Docs:** [desktop/01_AUDIT.md](../desktop/01_AUDIT.md),
+[GAP_ANALYSIS.md](../GAP_ANALYSIS.md)
