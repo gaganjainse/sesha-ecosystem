@@ -144,6 +144,16 @@ provides = ["continual-harness", "refine", "auto-skills", "self-evolution"]
 upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Memento-Skills", ref = "main" }
 notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
 
+
+[component.shesha-backup]
+layer = "soma"
+repo = "gaganjainse/shesha-backup"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["backup", "restic", "snapshots"]
+notes = "Verified local restic backups; AC-gated and daily-scheduled."
+
 [component.shesha-phone]
 layer = "soma"
 repo = "gaganjainse/shesha-phone"
