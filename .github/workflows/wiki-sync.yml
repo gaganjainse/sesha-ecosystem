@@ -17,24 +17,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Push wiki pages to SheshaAOS.wiki
+      - name: Sync wiki pages to SheshaAOS.wiki
+        env:
+          # WIKI_PAT: a PAT with repo scope, needed to initialize/push the wiki.
+          # Falls back to GITHUB_TOKEN, which works once the wiki has been
+          # initialized with a first page.
+          TOKEN: ${{ secrets.WIKI_PAT || github.token }}
         run: |
           set -euo pipefail
-          cd docs/wiki
           git config --global user.name "shesha-bot"
           git config --global user.email "shesha-bot@users.noreply.github.com"
-          git clone --depth 1 "https://x-access-token:${{ secrets.WIKI_PAT || github.token }}@github.com/gaganjainse/SheshaAOS.wiki.git" /tmp/wiki
-          # Copy every .md page; Home.md is the wiki landing page.
-          for f in *.md; do
-            cp "$f" "/tmp/wiki/$f"
-          done
-          # Also provide a Home.md alias if missing.
-          [ -f /tmp/wiki/Home.md ] || cp Home.md /tmp/wiki/Home.md
-          cd /tmp/wiki
-          if [ -n "$(git status --porcelain)" ]; then
-            git add -A
-            git commit -m "wiki sync from shesha-ecosystem@${{ github.sha }}"
-            git push
+          WIKI_URL="https://x-access-token:${TOKEN}@github.com/gaganjainse/SheshaAOS.wiki.git"
+          if git ls-remote "$WIKI_URL" >/dev/null 2>&1; then
+            echo "Wiki exists; cloning."
+            git clone --depth 1 "$WIKI_URL" /tmp/wiki
           else
+            echo "Wiki not initialized; creating a fresh wiki repo."
+            mkdir -p /tmp/wiki && cd /tmp/wiki && git init -q -b main
+            git remote add origin "$WIKI_URL"
+          fi
+          cd /tmp/wiki
+          cp "$GITHUB_WORKSPACE"/docs/wiki/*.md .
+          [ -f Home.md ] || cp "$GITHUB_WORKSPACE/docs/wiki/Home.md" Home.md
+          git add -A
+          if git -c user.name=shesha-bot -c user.email=shesha-bot@users.noreply.github.com diff --cached --quiet; then
             echo "No wiki changes."
+          else
+            git -c user.name=shesha-bot -c user.email=shesha-bot@users.noreply.github.com \
+              commit -m "wiki sync from shesha-ecosystem@${{ github.sha }}"
+            git push -u origin HEAD:master 2>/dev/null || git push -u origin HEAD:main
           fi
