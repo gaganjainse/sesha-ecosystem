@@ -72,6 +72,8 @@ def test_blocked_issue_detection_and_priority() -> None:
 
     assert github_queue.is_blocked_issue(blocked)
     assert github_queue._priority_key(p0) < github_queue._priority_key(p2)
+    assert "Closes #0" not in github_queue._pr_body(0, "platform fix")
+    assert "Closes #9" in github_queue._pr_body(9, "task fix")
 
 
 def test_executor_result_is_strict_about_none() -> None:

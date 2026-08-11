@@ -220,13 +220,24 @@ def comment_issue(issue_number: int, body: str) -> None:
     )
 
 
+def _pr_body(issue_number: int, body: str) -> str:
+    content = body.strip()
+    if issue_number:
+        content = f"{content}\n\nCloses #{issue_number}"
+    return f"{content}\n\nSwarm auto-merge if make check green."
+
+
 def create_pr(branch: str, issue_number: int, title: str, body: str = "") -> tuple[int, dict] | None:
     pat = _pat()
     if not pat:
         print("No PAT, cannot create PR", file=sys.stderr)
         return None
-    pr_body = f"{body}\n\nCloses #{issue_number}\n\nSwarm auto-merge if make check green."
-    data = {"title": title, "body": pr_body, "head": branch, "base": "main"}
+    data = {
+        "title": title,
+        "body": _pr_body(issue_number, body),
+        "head": branch,
+        "base": "main",
+    }
     status, resp = _request("POST", f"{API_BASE}/pulls", data)
     if status in (200, 201):
         print(f"Created PR #{resp.get('number')} {branch} -> main")
