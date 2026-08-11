@@ -1,15 +1,15 @@
 # 🚨 SESSION HOP RECOMMENDED
 
-**Generated:** 2026-08-11T14:21:18.634039+00:00
-**Reason:** age 69.9 min >60 min
+**Generated:** 2026-08-11T16:49:08.850310+00:00
+**Reason:** age 436.6 min >60 min
 
 ## Metrics
 ```json
 {
-  "workspace_mb": 4.0,
-  "file_count": 441,
-  "uncommitted": 0,
-  "age_min": 69.9,
+  "workspace_mb": 89.0,
+  "file_count": 3675,
+  "uncommitted": 4,
+  "age_min": 436.6,
   "avg_latency_ms": 0
 }
 ```
@@ -21,7 +21,7 @@ python tools/session_guard.py --status
 python tools/session_guard.py --handoff
 make check
 git add -A
-git commit -m "chore: handoff 2026-08-11T14:21:18.634057+00:00"
+git commit -m "chore: handoff 2026-08-11T16:49:08.850329+00:00"
 git push origin main
 ```
 
