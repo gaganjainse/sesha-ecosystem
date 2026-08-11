@@ -9,7 +9,7 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 
 **Federation:**
 - 19 components in manifests/components.toml (brain/mind/soma), 3 channels
-- Locks: stable 1, canary 16, devel 19 — SHA256 audited
+- Locks: stable 1, canary 18, devel 19 — SHA256 audited
 - Components cloned in /home/user/src (22 repos): shesh-* + SheshaAOS/SeshaOS/shesha-kernel/NexusAOS
 - MCP servers: shesh-*-mcp, 9 in servers.json + containers/secrets/calendar
 - Tests: 30 eco (make check), 182 comp, 26 desktop = 238 green
@@ -17,7 +17,7 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 **Stack must respect:**
 - docs/SESSION_HANDOFF.md READ FIRST, live anchor
 - docs/AUDIT_AND_ROADMAP.md 15 decisions D1-D15
-- TODO.md ⬜todo ✅done 🟡in-progress 🔴blocked — 16 left
+- TODO.md ⬜todo ✅done 🟡in-progress 🔴blocked — 11 left
 - docs/MANUAL_VERIFICATION.md 13-section hardware checklist
 - docs/queries/QUERYLOG.md full trail newest first — append after each user msg
 - docs/SESSION_PROTOCOL.md 60-sec hop protocol
@@ -28,7 +28,7 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 **GitHub PAT — SECURED WITH PASSWORD (auto prompt):**
 - Encrypted file: ~/.config/shesh/github.pat.enc (600) — uses PBKDF2HMAC 200k + Fernet
 - Plain file: ~/.config/shesh/github.pat (600) — auto-deleted on handoff for security
-- Current: enc_exists=True plain_exists=False need_password=True
+- Current: enc_exists=True plain_exists=True need_password=False
 - Flow new session:
   1. Guard detects enc exists but plain missing → NEED_PASSWORD
   2. Agent automatically asks you for password via ask_user UI
@@ -63,8 +63,8 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 8. Archive not delete, no force-push main
 
 **Handoff metrics:**
-- Workspace 89.0 MB, files 3535, age 103.8 min, uncommitted 2
-- Lock canary 16, pending 16
+- Workspace 4.0 MB, files 441, age 69.9 min, uncommitted 0
+- Lock canary 18, pending 11
 
 **Swarm parallel:**
 - docs/SWARM.md — GitHub as bus via swarm/ queue/claims/heartbeats
@@ -75,5 +75,5 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 **Message to give you:** "Continue Shesh — read SESSION_HANDOFF first, TODO top-to-bottom, next ⬜. PAT encrypted at ~/.config/shesh/github.pat.enc — agent will ask password and decrypt. Run session_guard --status and make check."
 
 ---
-Generated: 2026-08-11T11:16:19.741130+00:00 — handoff /home/user/dist/handoff.json
-PAT status at gen: {'enc_exists': True, 'plain_exists': False, 'need_password': True}
+Generated: 2026-08-11T14:21:18.648247+00:00 — handoff /home/user/shesh-ecosystem/dist/handoff.json
+PAT status at gen: {'enc_exists': True, 'plain_exists': True, 'need_password': False}
