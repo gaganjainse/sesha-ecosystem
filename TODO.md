@@ -147,12 +147,19 @@ Last updated: 2026-08-11 (new session: cloned all 22 component repos, fixed mani
 
 ---
 
-## How to work (autopilot rules)
+## How to work (autopilot rules) — UPDATED 2026-08-11 per user feedback, no limited time
+
 1. Read TODO.md top-to-bottom; pick the highest-priority ⬜ not blocked.
 2. Create a branch `feat/<thing>`.
-3. Implement with tests; never push red.
-4. Update the relevant doc and this TODO (flip ⬜→✅/🟡).
-5. Append the user's prompt + a one-paragraph answer to QUERYLOG.md.
-6. Commit in small Conventional-Commit chunks; push; open PR if non-trivial.
-7. If blocked (🔴), document why in the linked doc and move on.
-8. Do not delete repos; archive instead. Do not force-push to main.
+3. **First thought = STEAL, not make tool.** Check SOURCES.md, TOOLING_CATALOG.md, manifests/upstreams.toml, awesome-hyprland, best MCP servers 2026, Rust crates (notify-rs, aya-rs, etc), web search for open-source things (MIT/Apache/GPL, truly free no API key, self-hostable). If something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved — STEAL IT. Only if not found, then make yourself. What have we been learning then? Steal first.
+4. **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. Minimal versions we made (shesh-brain, media, messaging, ebpf minimal) became stubs per user feedback — now make proper. We have a lot of time, freely, no limited time constraint.
+5. Implement with tests; never push red.
+6. Update the relevant doc and this TODO (flip ⬜→✅/🟡).
+7. Append the user's prompt + a one-paragraph answer to QUERYLOG.md.
+8. Commit in small Conventional-Commit chunks; push; open PR if non-trivial.
+9. If blocked (🔴), document why in the linked doc and move on.
+10. Do not delete repos; archive instead. Do not force-push to main.
+11. **We can discard what we made if something better exists to steal.** Never engage in pointless brooding — if existing open-source does job better (DankMaterialShell vs custom bar, ekremx25 monitor management vs custom, SearXNG/agent-search vs Tavily subscription $0.005/query online-led), discard ours and wrap better one, upgrade wrapper.
+12. **Upgrade wrapper, not just fork and wrap.** Customize and specialize for our system and improve it — e.g., Newelle stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models, renamed Shesh (Newelle core).
+13. **Integrating various systems, no conflict — cautious but enterprising:** namespace via MCP stdio process boundaries (never in-process FFI), Guard allow/confirm/deny, separate systemd user services, separate config dirs, btrfs subvolumes, Python venvs via uv, one job per component, one process per MCP server, one policy gate.
+14. **Style + Performance non-negotiable:** illogical-impulse (end-4 dots-hyprland) look + CachyOS performance, don't break systems, already using best customized dotfiles riced look, need good backend that integrates into look, not replacing look. Improve style, not change — if something better in other dotfiles (ML4W, JaKooLit, HyDE, Noctalia, Caelestia, DankMaterialShell, ekremx25, qs-hyprview, HyprPanel, rishot pill morphing [0.16,1,0.3,1,1,1] springy), include it in our look for functionalities, better response/animations, smooth buttery feel, better bluetooth wifi integration. Build proper infrastructure for stealing/improving/customising so user doesn't write many times — manifests/upstreams.toml, tools/steal/, scripts/upstream_tracker.py, docs/STEAL_INFRASTRUCTURE.md, docs/STYLE_PERFORMANCE.md

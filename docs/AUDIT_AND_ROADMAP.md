@@ -181,14 +181,20 @@ checkable version is TODO.md.
 
 ---
 
-## 5. Operating rules going forward (autopilot)
+## 5. Operating rules going forward (autopilot) — UPDATED 2026-08-11 per user feedback
 
 1. Anchor to TODO.md; pick the highest-priority unblocked ⬜.
 2. Branch per item; tests gate every push; never push red.
-3. After every user message: append to `docs/queries/QUERYLOG.md`, update
-   TODO.md status, and refresh relevant docs — real-time.
+3. After every user message: append to `docs/queries/QUERYLOG.md`, update TODO.md status, and refresh relevant docs — real-time.
 4. Archive, never delete. No force-push to main.
 5. Mark hardware-dependent items 🟡 rather than faking success.
+6. **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. Minimal versions we made (shesh-brain, media, messaging, ebpf minimal) became stubs — user called out, now we make proper.
+7. **First thought when challenged with an issue = STEAL, not make a tool.** What have we been learning? Philosophy is steal from open source world and make it ours. Check `SOURCES.md`, `TOOLING_CATALOG.md`, `manifests/upstreams.toml`, awesome-hyprland, best MCP servers 2026, Rust crates (notify, aya, etc), CachyOS Noctalia, etc. Search web for open-source things (MIT/Apache/GPL, truly free no API key, self-hostable). If something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved — STEAL IT. Only if not found, then make yourself.
+8. **We can discard what we made if something better exists to steal.** Never engage in pointless brooding — if existing open-source does job better (e.g., DankMaterialShell bar vs our custom bar, ekremx25/quickshell monitor management vs our custom, SearXNG/agent-search vs Tavily subscription), discard ours and wrap better one, upgrade wrapper for our needs.
+9. **Upgrade wrapper, not just fork and wrap.** Our job is not just to fork and wrap, but to upgrade wrapper for our needs and customize and specialize for our system and improve it — e.g., Newelle fork stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models, renamed Shesh (Newelle core).
+10. **Integrating various different systems, but no conflict.** We have to be cautious but enterprising — namespace via MCP stdio process boundaries (never in-process FFI), Guard policy allow/confirm/deny, separate systemd user services, separate config dirs, btrfs subvolumes, Python venvs via uv, so integrations don't clash. One job per component, one process per MCP server, one policy gate.
+11. **We have a lot of time, freely — no limited time constraint.** Who posted limited time constraint? We have a lot of time. Don't rush to minimal stubs to save time. Make proper working versions. User is traveling now 1-2 days, can keep one chat open, GitHub Actions true hours unattended handle rest.
+12. **Style + Performance non-negotiable:** User uses illogical-impulse (end-4 dots-hyprland) because loves its look, CachyOS because loves its performance. Can't compromise, don't break these systems. Already using best customized dotfiles riced look, don't need looks, need good backend and other systems that integrate into that look. Improve style, not change — if something better in other dotfiles (ML4W, JaKooLit, HyDE, Noctalia, Caelestia, DankMaterialShell, ekremx25/quickshell, qs-hyprview, HyprPanel, rishot pill bar morphing), include it in our look: functionalities, improvements, better response and animations, more smooth and buttery feel, better bluetooth wifi integration. At end of day, it is also fork and wrapper so we should improve it. Pick features/issues from every mainstream fork we are using and if useful extract and work on it. Build proper infrastructure for stealing/improving/customising so user doesn't have to write it many times — `manifests/upstreams.toml`, `tools/steal/`, `scripts/upstream_tracker.py`, `docs/STEAL_INFRASTRUCTURE.md`.
 
 ---
 

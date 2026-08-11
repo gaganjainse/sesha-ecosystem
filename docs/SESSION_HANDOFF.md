@@ -82,23 +82,27 @@ governance kernel (SheshAOS, in progress).
 Before building any feature, **run the autopilot tests**:
 `cd shesh-ecosystem && python3 -m pytest tests/autopilot -q`.
 
-## 5. How to build safely (the contract)
+## 5. How to build safely (the contract) — UPDATED 2026-08-11: steal first, proper versions, no time limit
 
 1. Pick the next pending item from `TODO.md` (or seed it:
    `python -m tools.autopilot.cli seed`).
-2. Work in one component. Keep changes small and focused.
-3. **Always** run tests in that component:
+2. **First thought = STEAL, not make tool.** Check SOURCES.md, TOOLING_CATALOG.md, manifests/upstreams.toml, awesome-hyprland, best MCP servers 2026, Rust crates (notify-rs, aya-rs). Search web for open-source things (MIT/Apache/GPL, truly free, no API key, self-hostable). If something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved — STEAL IT. Only if not found, then make yourself. What have we been learning then? Steal first. We can discard what we made if something better exists to steal. Never engage in pointless brooding.
+3. Work in one component. Keep changes small and focused, but **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. We have a lot of time, freely, no limited time constraint. Who posted limited time constraint? We have a lot of time.
+4. **Always** run tests in that component:
    `cd components/shesh-<x> && python3 -m pytest tests/ -q`.
-4. Use `GuardedMCP` from shesh-audit for any new MCP server (auto policy +
+5. Use `GuardedMCP` from shesh-audit for any new MCP server (auto policy +
    audit log + Nexus events).
-5. Never store secrets in config — use `shesh-secrets` references
+6. Never store secrets in config — use `shesh-secrets` references
    (`env:`, `gopass:`, `file:0600`).
-6. Commit with the task id in the message; push through the autopilot
+7. Commit with the task id in the message; push through the autopilot
    safety guards.
-7. After each user message, append to `docs/queries/QUERYLOG.md` and update
+8. After each user message, append to `docs/queries/QUERYLOG.md` and update
    `TODO.md` statuses.
-8. Archive, don't delete. No force-push to main. No root.
-9. Mark hardware-only items 🟡 rather than faking success.
+9. Archive, don't delete. No force-push to main. No root.
+10. Mark hardware-only items 🟡 rather than faking success.
+11. **Upgrade wrapper, not just fork and wrap:** Customize and specialize for our system and improve it — e.g., Newelle fork stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models, renamed Shesh (Newelle core).
+12. **Integrating various systems, no conflict — cautious but enterprising:** namespace via MCP stdio, Guard, separate systemd services, separate config dirs, btrfs subvolumes, Python venvs via uv, one job per component, one process per MCP server.
+13. **Style + Performance non-negotiable:** illogical-impulse look (end-4 dots-hyprland) + CachyOS performance, don't break systems, already using best customized dotfiles riced look, need good backend that integrates into look. Improve style, not change — if something better in other dotfiles (ML4W, JaKooLit, HyDE, Noctalia, Caelestia, DankMaterialShell, ekremx25, qs-hyprview, HyprPanel, rishot pill morphing), include it for functionalities, better response/animations, smooth buttery feel, better bluetooth wifi integration.
 
 ## 6. What is DONE
 
@@ -197,7 +201,7 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 # 3. Continue with the next P1 from section 7
 ```
 
-## 10. Design principles (don't violate these)
+## 10. Design principles (don't violate these) — UPDATED 2026-08-11
 
 - **Local-first / offline** — every tool degrades to deterministic stubs.
 - **Governed** — every tool call passes the Guard; policy decides.
@@ -206,6 +210,11 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 - **Small, reversible, audited** — commits, events, rollback.
 - **No secrets in repos** — shesh-secrets only.
 - **Shesh, not Shesha; SheshAOS, not SheshAOS.**
+- **Steal first, make second** — first thought when challenged with an issue = steal from open-source (SOURCES.md, awesome-hyprland, best MCP servers 2026, Rust crates). Check if something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved. Only if not found, then make yourself. Never engage in pointless brooding — discard what we made if something better exists to steal.
+- **Proper working versions, not minimal stubs** — don't make minimal versions that become dead code/stubs. Make proper working versions with real implementation, tests, integration, docs. We have a lot of time, freely, no limited time constraint.
+- **Upgrade wrapper, not just fork and wrap** — customize and specialize for our system and improve it (e.g., Newelle → shesh-voice stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models).
+- **Cautious but enterprising, no conflicts** — integrating various different systems (Hyprland + Quickshell + MCP + voice + eBPF + containers + phone ADB + OmniRoute), but no conflict between them via MCP stdio process boundaries (never in-process FFI), Guard allow/confirm/deny, separate systemd user services, separate config dirs, btrfs subvolumes, Python venvs via uv, one job per component, one process per MCP server, one policy gate.
+- **Style + Performance non-negotiable** — illogical-impulse (end-4 dots-hyprland) look because love its look + CachyOS because love its performance, can't compromise, don't break systems. Already using best customized dotfiles riced look, not native Hyprland, need good backend and other systems that integrate into that look. Improve style, not change — if something better in other dotfiles, include it in our look for functionalities, better response/animations, smooth buttery feel, better bluetooth wifi integration. At end of day, it is also fork and wrapper so we should improve it, pick features/issues from every mainstream fork we are using and if useful extract and work on it. Build proper infrastructure for stealing/improving/customising so user doesn't have to write many times — manifests/upstreams.toml, tools/steal/, scripts/upstream_tracker.py, docs/STEAL_INFRASTRUCTURE.md, STYLE_PERFORMANCE.md
 
 ## 11. Session protocol — hot hopping (added 2026-08-11)
 
