@@ -28,7 +28,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import pathlib
 import sys
 
@@ -45,11 +44,10 @@ def pick_issue(free_only: bool = True) -> dict | None:
         import github_queue as ghq
 
         issues = ghq.list_pending_issues("general")
-        if issues:
-            # Filter out those that are not real issues (list returns file tasks fallback if no PAT)
-            # If issues are GitHub Issues dicts (have number), return first
-            if isinstance(issues[0], dict) and "number" in issues[0]:
-                return issues[0]
+        # Filter out those that are not real issues (list returns file tasks fallback if no PAT)
+        # If issues are GitHub Issues dicts (have number), return first
+        if issues and isinstance(issues[0], dict) and "number" in issues[0]:
+            return issues[0]
     except Exception:
         pass
 
@@ -75,7 +73,7 @@ def main() -> int:
     args = ap.parse_args()
 
     router = Router()
-    print(f"Available free models for coder role:")
+    print("Available free models for coder role:")
     for m in router.chain_for_role("coder", free_only=args.free_only)[:8]:
         print(f"  - {m.name:35} {m.provider:12} prio={m.priority} free={m.free}")
 
@@ -141,8 +139,6 @@ def main() -> int:
         if requested:
             print(f"Forcing model {requested[0].name}")
             # Monkey-patch chain
-            original_chain = adapter.models_for_role
-
             def forced_chain(role):
                 stub = next((mm for mm in adapter.models if mm.provider == "stub"), None)
                 return requested + ([stub] if stub else [])

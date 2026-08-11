@@ -197,8 +197,6 @@ def validate_against_schema(data: dict, schema: dict | None) -> tuple[bool, str]
         for key in schema["required"]:
             if key not in data:
                 return False, f"missing required key '{key}'"
-    # Check must_contain
-    text = json.dumps(data).lower()
     # must_contain handled outside
     return True, ""
 
@@ -312,7 +310,7 @@ class ModelAgnosticAdapter:
         except ImportError:
             pass
         except Exception as e:
-            raise RuntimeError(f"litellm failed for {model.model}: {e}")
+            raise RuntimeError(f"litellm failed for {model.model}: {e}") from e
 
         # Fallback direct API calls (simplified)
         # For GitHub Models: https://models.inference.ai.azure.com
@@ -344,7 +342,7 @@ class ModelAgnosticAdapter:
                     j = _json.loads(resp.read().decode())
                     return j["choices"][0]["message"]["content"]
             except Exception as e:
-                raise RuntimeError(f"github models failed: {e}")
+                raise RuntimeError(f"github models failed: {e}") from e
 
         raise RuntimeError(f"Provider {model.provider} not implemented without litellm")
 
@@ -370,11 +368,13 @@ class ModelAgnosticAdapter:
                 }
                 env_key = key_map.get(model.provider, "")
                 has_key = os.environ.get(env_key) or (model.provider == "github" and (os.environ.get("GITHUB_PAT") or os.environ.get("GITHUB_TOKEN")))
-                if not has_key and model.provider != "github":
-                    # For github, PAT can serve as token, so check PAT too
-                    if not os.environ.get("GITHUB_PAT"):
-                        print(f"Skipping {model.name} no {env_key}", file=sys.stderr)
-                        continue
+                if (
+                    not has_key
+                    and model.provider != "github"
+                    and not os.environ.get("GITHUB_PAT")
+                ):
+                    print(f"Skipping {model.name} no {env_key}", file=sys.stderr)
+                    continue
                 # For github, allow PAT as fallback
                 if model.provider == "github" and not (os.environ.get("GITHUB_TOKEN") or os.environ.get("GITHUB_PAT")):
                     continue

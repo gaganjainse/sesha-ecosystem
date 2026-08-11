@@ -99,9 +99,8 @@ def assert_can_push(repo: Path) -> SafetyReport:
     url = url.strip()
     # Canonical GitHub remotes are required for pushes. Local paths / file://
     # are allowed (tests, local mirrors). Refuse unknown http(s) remotes.
-    if url.startswith(("http://", "https://", "git@")):
-        if "gaganjainse/shesh-" not in url:
-            return SafetyReport(False, f"refusing non-canonical remote: {url!r}")
+    if url.startswith(("http://", "https://", "git@")) and "gaganjainse/shesh-" not in url:
+        return SafetyReport(False, f"refusing non-canonical remote: {url!r}")
     if has_uncommitted(repo):
         return SafetyReport(False, "uncommitted changes; commit first")
     return SafetyReport(True, "ok")
