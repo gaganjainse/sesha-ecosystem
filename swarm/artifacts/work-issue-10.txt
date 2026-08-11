@@ -1,0 +1,5 @@
+Worked by worker-shesh-audit-e2b.loca-6580-7b29af-2q76
+Issue #10
+Title: [swarm] todo-3865c2fc Reconcile `NexusError`/TUI API divergence
+Branch: swarm/issue-10/worker-shesh-audit-e2b.loca-6580-7b29af-2q76
+Component: shesh-audit
