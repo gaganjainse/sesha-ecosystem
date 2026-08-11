@@ -42,6 +42,11 @@ import common as fileq  # noqa: E402
 import github_auth  # noqa: E402
 import github_queue as ghq  # noqa: E402
 
+try:
+    sys.stdout.reconfigure(line_buffering=True)  # visible logs when piped/nohup'd
+except Exception:
+    pass
+
 Executor = Callable[[dict, pathlib.Path, str, str], Any]
 DEFAULT_GIT_NAME = "shesh-swarm-worker"
 DEFAULT_GIT_EMAIL = "shesh-swarm-worker@users.noreply.github.com"

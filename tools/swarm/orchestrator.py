@@ -94,6 +94,32 @@ def parse_todos(todo_path: pathlib.Path) -> list[dict]:
     return tasks
 
 
+try:
+    sys.stdout.reconfigure(line_buffering=True)  # keep logs visible when piped/nohup'd
+except Exception:
+    pass
+
+
+def _current_branch() -> str:
+    rc, out, _ = swarm.sh("git rev-parse --abbrev-ref HEAD")
+    return "" if rc != 0 else out.strip()
+
+
+def _swarm_commit(add_paths: str, msg: str, allow_empty: bool = False) -> None:
+    """Commit+push swarm state only when this tree is on main.
+
+    Daemons get their own clone via tools/swarm/daemon.sh; if one is
+    accidentally started in a developer checkout, it must NEVER glue
+    heartbeat/seed commits onto someone's feature branch.
+    """
+    branch = _current_branch()
+    if branch != "main":
+        print(f"orchestrator: HEAD is '{branch}' (not main) — swarm commit skipped, use tools/swarm/daemon.sh")
+        return
+    empty = " --allow-empty" if allow_empty else ""
+    swarm.sh(f"git add {add_paths} && git commit -m '{msg}'{empty} && git push origin main || true")
+
+
 def seed_from_todo(todo_path: pathlib.Path) -> int:
     swarm.ensure_dirs()
     tasks = parse_todos(todo_path)
@@ -132,7 +158,7 @@ def seed_from_todo(todo_path: pathlib.Path) -> int:
     swarm.append_ledger({"type": "seed", "count": count, "source": str(todo_path), "github": use_github if 'use_github' in locals() else False})
     print(f"Seeded {count} new tasks from {todo_path} (total pending file {len(swarm.list_tasks('pending'))}) github={use_github if 'use_github' in locals() else False}")
     # git push
-    swarm.sh(f"git add swarm/queue swarm/ledger.jsonl && git commit -m 'swarm: seed {count} tasks from TODO' && git push origin main || true")
+    _swarm_commit("swarm/queue swarm/ledger.jsonl", f"swarm: seed {count} tasks from TODO")
     return count
 
 
@@ -209,7 +235,11 @@ def monitor_loop(poll_sec: int = 60) -> None:
                     print(f"stale check error {e}")
 
             # Push heartbeats
-            swarm.sh("git add swarm/heartbeats swarm/claims swarm/queue swarm/artifacts swarm/ledger.jsonl && git commit -m 'swarm: orchestrator heartbeat' --allow-empty && git push origin main")
+            _swarm_commit(
+                "swarm/heartbeats swarm/claims swarm/queue swarm/artifacts swarm/ledger.jsonl",
+                "swarm: orchestrator heartbeat",
+                allow_empty=True,
+            )
 
             time.sleep(poll_sec)
         except KeyboardInterrupt:

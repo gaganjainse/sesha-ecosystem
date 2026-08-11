@@ -330,7 +330,13 @@ def main() -> int:
         else:
             print("\n✅ Session healthy — continue")
 
-    if args.handoff or hop:
+    # --status / --tick are READ-ONLY. Handoff side effects (prompt regen,
+    # plain-PAT deletion) must never fire on a mere hop recommendation —
+    # the autopilot ticks constantly and running daemons need the PAT.
+    if hop and not args.handoff:
+        print("ℹ️ Hop is advisory only — run: python tools/session_guard.py --handoff")
+
+    if args.handoff:
         generate_next_prompt()
         HANDOFF_JSON.parent.mkdir(parents=True, exist_ok=True)
         HANDOFF_JSON.write_text(
