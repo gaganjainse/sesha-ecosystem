@@ -5,6 +5,10 @@
 > Exactly how a Linux distribution works: upstream projects → distro packages → [testing] → [core].
 > This keeps you current with upstream *and* in control, with filters at every layer so breakage
 > never reaches your daily driver.
+>
+> **Our job is not just to fork and wrap, but to upgrade the wrapper for our needs and customize and specialize it for our CachyOS/Hyprland/6GB VRAM system and improve it** — e.g., Newelle fork stripped GNOME-only assumptions, added Hyprland Quickshell overlay, prewired our MCP servers, set 6GB-safe model defaults, renamed in about-screen to "Shesh (Newelle core)" — that's upgrade and specialization, not just wrap.
+>
+> **We are integrating various different systems (Hyprland + Quickshell + MCP + voice + eBPF + containers + phone ADB + OmniRoute), but there should be no conflict between them. We have to be cautious but enterprising** — namespace via MCP stdio process boundaries (never in-process FFI, per LANGUAGE_POLICY), Guard policy allow/confirm/deny, separate systemd user services, separate config dirs `~/.config/shesh/mcp/`, separate btrfs subvolumes, separate Python venvs via uv, so integrations don't clash. One job per component, one process per MCP server, one policy gate — that is how we avoid conflicts while being enterprising.
 
 ---
 

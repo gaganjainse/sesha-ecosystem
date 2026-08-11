@@ -2,7 +2,11 @@
 
 > What turns Shesh from a demo into a full ecosystem. We **build** the Shesh-specific organs
 > (system, shell, files, skills) and **package** the best mature open-source MCP servers for the
-> rest — pinning versions, wrapping them in our policy/audit layer. This catalog is the intake list.
+> rest — pinning versions, wrapping them in our policy/audit layer. **Our job is not just to fork and wrap, but to upgrade the wrapper for our needs and customize and specialize it for our CachyOS/Hyprland/6GB VRAM system and improve it** — e.g., Newelle fork stripped GNOME-only assumptions, added Hyprland Quickshell overlay, prewired our MCP servers, set 6GB-safe model defaults, renamed in about-screen to "Shesh (Newelle core)" — that's upgrade, not just wrap.
+>
+> We are integrating various different systems (Hyprland + Quickshell + MCP + voice + eBPF + containers + phone ADB), but there should be no conflict between them. We have to be cautious but enterprising — namespace via MCP stdio process boundaries (never in-process FFI), Guard policy allow/confirm/deny, separate systemd user services, separate config dirs `~/.config/shesh/mcp/`, separate btrfs subvolumes, so integrations don't clash. Principle: **one job per component, one process per MCP server, one policy gate**.
+
+> We only want **open-source things** — MIT/Apache-2.0/GPL-3.0, truly free, no API key, no subscription, self-hostable, offline-first. No online-led subscription like Tavily (paid per query, $0.005/query, needs API key, not open-source). Use self-hosted open alternatives: SearXNG (AGPL-3.0, self-hosted metasearch 70+ engines, no key, fully private), agent-search (MIT, bundles SearXNG, zero keys, one-command deploy, MCP server for AI agents, Tor option), DuckDuckGo MCP (truly free, no key, privacy-first).
 
 ---
 
@@ -34,7 +38,7 @@ Pin each in a component repo; run as a stdio MCP server behind the Shesh policy.
 | Time/calendar | **server-time** | MIT | Timezone-aware scheduling |
 | Docs (PDF/Office) | **markitdown-mcp** (Microsoft) | MIT | Convert PDF/DOCX/XLSX→markdown |
 | Browser devtools | **chrome-devtools-mcp** | Apache-2.0 | Web dev/debugging |
-| Search (optional) | **Tavily MCP** / Brave | varies | API-key search; DuckDuckGo in shesh-skills needs no key |
+| Search (self-hosted, open-source) | **SearXNG** (AGPL-3.0, self-hosted metasearch 70+ engines, no key, fully private) + **agent-search** (MIT, bundles SearXNG, zero keys, one-command `docker compose up`, MCP server for AI agents, Tor option) + **DuckDuckGo MCP** (truly free, no key, privacy-first) | AGPL-3.0 / MIT | No API key, no subscription, self-hosted, offline-first — replaces Tavily (closed-source, $0.005/query, needs API key, online-led, not open-source). We discarded Tavily per user request: only open-source things. |
 
 All are stdio and lockfile-pinned via `uvx`/`npx`. We never run an MCP server with broader
 filesystem/shell access than its task needs (principle of least privilege + our policy engine).
