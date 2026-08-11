@@ -15,14 +15,14 @@ import argparse
 import json
 import time
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from pathlib import Path
 
 TRACE_PATH = Path.home() / ".local" / "share" / "shesh" / "traces" / "traces.jsonl"
 
 
 def _to_iso(ts: float) -> str:
-    return datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
+    return datetime.fromtimestamp(ts, tz=UTC).isoformat()
 
 
 def load_spans(since: str | None) -> list[dict]:

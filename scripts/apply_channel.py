@@ -17,11 +17,10 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +57,7 @@ def snapshot(root: Path, channel: str) -> Path | None:
         return None
     # Default snapshot location next to the subvolume.
     base = root.parent
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
     snap_name = f"@shesh-{channel}-{stamp}"
     snap_path = base / snap_name
     _run(["sudo", "btrfs", "subvolume", "snapshot", "-r", str(root), str(snap_path)])
@@ -110,7 +109,7 @@ def apply(channel: str, take_snapshot: bool) -> int:
     (STATE_DIR / "channel").write_text(channel + "\n")
     (STATE_DIR / "applied.json").write_text(json.dumps({
         "channel": channel,
-        "applied_at": datetime.now(timezone.utc).isoformat(),
+        "applied_at": datetime.now(UTC).isoformat(),
         "components": list(data.get("components", {})),
     }, indent=2))
     print(f"Applied channel '{channel}'.")
