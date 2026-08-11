@@ -9,7 +9,7 @@ Last updated: 2026-08-11 (new session: cloned all 22 component repos, fixed mani
 
 ## New session accomplishments (2026-08-11)
 - ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesha-* from rename commit 0d4f0f1), updated Makefile Shesha→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
-- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshaAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
+- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
 - ✅ Doc sync: renamed docs/components/shesha-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
 - ✅ ADRs: created docs/adr/ with 15 ADRs for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard policy) + index README
 - ✅ Getting-started: created docs/GETTING_STARTED.md (developer quick start, full CachyOS install, Ollama 6GB stack, Rust/uv/Podman, pipx component install, voice, secrets, backup, phone, containers, everyday use, canary promotion, hardware checks, troubleshooting)

@@ -205,7 +205,7 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 - **Tested before push** — autopilot refuses red commits.
 - **Small, reversible, audited** — commits, events, rollback.
 - **No secrets in repos** — shesh-secrets only.
-- **Shesh, not Shesha; SheshAOS, not SheshaAOS.**
+- **Shesh, not Shesha; SheshAOS, not SheshAOS.**
 
 ## 11. Session protocol — hot hopping (added 2026-08-11)
 
