@@ -12,9 +12,16 @@ import apply_channel as ac  # noqa: E402
 
 
 def test_on_btrfs_detects_filesystem(monkeypatch):
-    monkeypatch.setattr(shutil := __import__("shutil"), "which", lambda x: "/usr/bin/btrfs")
-    monkeypatch.setattr(ac, "_run", lambda cmd, check=True:
-                        type("R", (), {"returncode": 0, "stdout": "btrfs\n", "stderr": ""})())
+    import shutil
+
+    monkeypatch.setattr(shutil, "which", lambda x: "/usr/bin/btrfs")
+    monkeypatch.setattr(
+        ac,
+        "_run",
+        lambda cmd, check=True: type(
+            "R", (), {"returncode": 0, "stdout": "btrfs\n", "stderr": ""}
+        )(),
+    )
     assert ac.on_btrfs(Path("/")) is True
 
 
@@ -35,26 +42,28 @@ def test_apply_writes_state(tmp_path, monkeypatch):
     monkeypatch.setattr(ac, "on_btrfs", lambda p: False)
     monkeypatch.setattr(ac, "resolve_lock", lambda c: tmp_path / f"{c}.lock")
     (tmp_path / "canary.lock").write_text(
-        '{"components": {"shesh-audit": {"repo": "gaganjainse/shesh-audit", "version": "0.1.0"}}}')
+        '{"components": {"shesh-audit": {"repo": "gaganjainse/shesh-audit", "version": "0.1.0"}}}'
+    )
     # No snapshot on non-btrfs -> skip via --no-snapshot path
     rc = ac.apply("canary", take_snapshot=False)
-    assert rc == 0
-    state = ac.STATE_DIR / "channel"
-    # STATE_DIR may point to ~; just check function returned ok
     assert rc == 0
 
 
 def test_resolve_lock_builds_when_missing(tmp_path, monkeypatch):
+    import contextlib
+
     called = {}
+
+    def fake_run(cmd, check=True):
+        called.update(cmd=cmd)
+        return type("R", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
     monkeypatch.setattr(ac, "ROOT", tmp_path)
-    monkeypatch.setattr(ac, "_run", lambda cmd, check=True:
-                        called.update(cmd=cmd) or type("R", (), {"returncode": 0, "stdout": "", "stderr": ""})())
+    monkeypatch.setattr(ac, "_run", fake_run)
     (tmp_path / "channels").mkdir()
     (tmp_path / "manifests" / "components.toml").parent.mkdir(parents=True, exist_ok=True)
-    (tmp_path / "manifests" / "components.toml").write_text('[component]\n')
+    (tmp_path / "manifests" / "components.toml").write_text("[component]\n")
     # resolve_lock should call resolve_manifest.py
-    try:
+    with contextlib.suppress(Exception):
         ac.resolve_lock("devel")
-    except Exception:
-        pass  # the fake _run doesn't actually write the lock; that's fine
     assert "resolve_manifest.py" in " ".join(called.get("cmd", []))
