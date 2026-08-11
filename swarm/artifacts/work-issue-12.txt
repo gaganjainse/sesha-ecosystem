@@ -1,0 +1,5 @@
+Worked by worker-shesh-audit-e2b.loca-3606-7b2860-w8uo
+Issue #12
+Title: [swarm] todo-b4460dbe Fix pre-existing upstream build breaks: `russh::Error::msg` removed; `zig` requi
+Branch: swarm/issue-12/worker-shesh-audit-e2b.loca-3606-7b2860-w8uo
+Component: shesh-audit
