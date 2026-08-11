@@ -36,6 +36,7 @@ import github_auth
 import github_queue as ghq
 
 try:
+    from tools.autopilot import runner as _autopilot_runner  # noqa: F401
 
     HAS_RUNNER = True
 except Exception:
@@ -60,23 +61,25 @@ def run_gh(args: list[str]) -> tuple[int, str, str]:
         return 1, "", str(e)
 
 
-def do_work(issue: dict, branch: str, agent_id: str, component: str) -> tuple[bool, str]:
-    """Real work placeholder — integrate with autopilot."""
-    print(f"[{agent_id}] Working on issue #{issue['number']} {issue['title'][:80]} in branch {branch}")
+def do_work(issue: dict, branch: str, agent_id: str, component: str, simulate: bool = False) -> tuple[bool, str]:
+    """Attempt the task.
 
-    # Example: if component task, edit its README or run its tests
-    # Here we just create a work marker file
+    Script workers have no autonomous implementer: autopilot's process_task
+    needs an Implement callback that only an in-loop agent session can supply.
+    Default behaviour is therefore to *refuse* so the caller releases the
+    claim and no fake 'done' PR closes a real issue. Pass --simulate for
+    pipeline dry-runs (marker artifact + green gate + PR exercise).
+    """
+    print(f"[{agent_id}] Working on issue #{issue['number']} {issue['title'][:80]} in branch {branch}")
+    if not simulate:
+        return False, "no autonomous implementer configured (agent-driven swarm); released for an agent worker"
+
     marker = ROOT / f"swarm/artifacts/work-issue-{issue['number']}.txt"
     marker.parent.mkdir(parents=True, exist_ok=True)
     marker.write_text(f"Worked by {agent_id}\nIssue #{issue['number']}\nTitle: {issue['title']}\nBranch: {branch}\nComponent: {component}\n")
 
-    # Simulate autopilot runner
-    # For real: call process_task with task dict parsed from issue body
-    # task = json.loads(re.search(r"```(.*)```", issue['body'], re.S).group(1))
-    # autopilot_process(task)
-
     time.sleep(2)
-    return True, f"Completed issue #{issue['number']} in {branch}"
+    return True, f"Simulated completion of issue #{issue['number']} in {branch}"
 
 
 def checkout_branch(branch: str) -> bool:
@@ -141,6 +144,7 @@ def main() -> int:
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--setup", action="store_true", help="selective clone only needed repos")
     ap.add_argument("--clean", action="store_true", help="clean caches")
+    ap.add_argument("--simulate", action="store_true", help="dry-run: marker artifact instead of refusing work")
     args = ap.parse_args()
 
     # Efficiency: selective clone
@@ -165,7 +169,7 @@ def main() -> int:
     agent_id = fileq.gen_agent_id(f"worker-{args.component}")
     print(f"Worker {agent_id} component={args.component} use_github={use_github} has_gh={has_gh_cli()} runner={HAS_RUNNER}")
     if pat:
-        print(f"PAT present: {pat[:4]}****{pat[-4:] if len(pat)>8 else ''}")
+        print(f"PAT present (len {len(pat)})")
     else:
         print("No PAT — falling back to file queue for claim, but Issues queue will not work. Set GITHUB_PAT.")
 
@@ -213,7 +217,15 @@ def main() -> int:
                 checkout_branch(branch)
 
                 # Do work
-                success, summary = do_work(issue, branch, agent_id, args.component)
+                success, summary = do_work(issue, branch, agent_id, args.component, simulate=args.simulate)
+                if not success:
+                    print(f"[{agent_id}] Refusing issue #{issue_number}: {summary}")
+                    ghq.release_claim(issue_number, agent_id, branch, summary)
+                    fileq.sh(f"git checkout main && git branch -D {branch}", cwd=ROOT)
+                    if args.once:
+                        break
+                    time.sleep(args.poll)
+                    continue
 
                 # Gate
                 rc, out, err = fileq.sh("make check", cwd=ROOT)
@@ -257,7 +269,7 @@ def main() -> int:
                 if not fileq.try_claim(task["id"], agent_id):
                     time.sleep(2)
                     continue
-                success, summary = do_work({"number": 0, "title": task["title"]}, f"swarm/{task['id']}/{agent_id}", agent_id, args.component)
+                success, summary = do_work({"number": 0, "title": task["title"]}, f"swarm/{task['id']}/{agent_id}", agent_id, args.component, simulate=args.simulate)
                 rc, _, _ = fileq.sh("make check", cwd=ROOT)
                 if rc == 0:
                     fileq.complete_task(task["id"], agent_id, summary, "done")
