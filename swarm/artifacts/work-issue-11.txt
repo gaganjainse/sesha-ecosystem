@@ -1,0 +1,5 @@
+Worked by worker-general-e2b.loca-3094-7b2830-gazc
+Issue #11
+Title: [swarm] todo-ae27839b Bring in `sheshaos-protocols` (ACP+MCP wire impl) and CLI/worker bins
+Branch: swarm/issue-11/worker-general-e2b.loca-3094-7b2830-gazc
+Component: general
