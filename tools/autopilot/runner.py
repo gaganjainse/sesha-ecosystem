@@ -14,11 +14,11 @@ the agent's hands; this module enforces the foolproof lifecycle around it.
 from __future__ import annotations
 
 import argparse
-import sys
+import contextlib
 import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
+from collections.abc import Callable
 
 from . import safety
 from .gate import run_gate
@@ -54,7 +54,7 @@ def process_task(task: Task, implement: Implement, dry_run: bool,
                 repo = implement(task)
                 if repo is None:
                     stats.skipped += 1
-                    print(f"  ⊘ skipped (nothing to do)")
+                    print("  ⊘ skipped (nothing to do)")
                     return
                 if dry_run:
                     print(f"  · dry-run; would gate/commit {repo}")
@@ -79,17 +79,12 @@ def process_task(task: Task, implement: Implement, dry_run: bool,
                         safety.rollback(repo)
                     continue
                 raise
-        stats.failed += 1
-        stats.errors.append(f"{task.id}: {e}")
-        print(f"  ✗ failed: {e}")
     except Exception as e:  # noqa: BLE001
         stats.failed += 1
         stats.errors.append(f"{task.id}: {e}")
         if repo:
-            try:
+            with contextlib.suppress(Exception):
                 safety.rollback(repo)
-            except Exception:
-                pass
         traceback.print_exc()
 
 
@@ -115,7 +110,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Shesh autopilot runner")
     ap.add_argument("--max", type=int, default=50)
     ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args(argv)
+    ap.parse_args(argv)
 
     # In standalone mode there's no implementation callback; the agent uses
     # this module as a library. We print pending tasks and exit.

@@ -16,7 +16,7 @@ import os
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Iterable
+from collections.abc import Iterable
 
 LEDGER_DIR = Path(
     os.environ.get("SHESH_AUTOPILOT_DIR")

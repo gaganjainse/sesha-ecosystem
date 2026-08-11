@@ -9,8 +9,7 @@ import os
 import pathlib
 import subprocess
 import sys
-import time
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 GUARD_LOG = pathlib.Path.home() / ".local/share/shesh/session_guard.jsonl"
@@ -75,7 +74,7 @@ def get_session_age_min() -> float:
         if not first:
             return 0
         dt = datetime.fromisoformat(first.replace("Z", "+00:00"))
-        return (datetime.now(timezone.utc) - dt).total_seconds() / 60
+        return (datetime.now(UTC) - dt).total_seconds() / 60
     except Exception:
         return 0
 
@@ -100,7 +99,7 @@ def get_avg_latency() -> float:
 def log_tick(latency_ms: float | None = None) -> dict:
     GUARD_LOG.parent.mkdir(parents=True, exist_ok=True)
     entry = {
-        "ts": datetime.now(timezone.utc).isoformat(),
+        "ts": datetime.now(UTC).isoformat(),
         "workspace_mb": get_workspace_mb(),
         "file_count": get_file_count(),
         "uncommitted": get_uncommitted(),
@@ -145,7 +144,7 @@ def write_alert(metrics: dict, reasons: list[str]) -> None:
     ALERT_FILE.write_text(
         f"""# 🚨 SESSION HOP RECOMMENDED
 
-**Generated:** {datetime.now(timezone.utc).isoformat()}
+**Generated:** {datetime.now(UTC).isoformat()}
 **Reason:** {', '.join(reasons)}
 
 ## Metrics
@@ -160,7 +159,7 @@ python tools/session_guard.py --status
 python tools/session_guard.py --handoff
 make check
 git add -A
-git commit -m "chore: handoff {datetime.now(timezone.utc).isoformat()}"
+git commit -m "chore: handoff {datetime.now(UTC).isoformat()}"
 git push origin main
 ```
 
@@ -198,7 +197,7 @@ def generate_next_prompt() -> str:
         lock_count = "?"
 
     try:
-        todo_pending = open(ROOT / "TODO.md").read().count("⬜")
+        todo_pending = (ROOT / "TODO.md").read_text().count("⬜")
     except Exception:
         todo_pending = "?"
 
@@ -281,7 +280,7 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 **Message to give you:** "Continue Shesh — read SESSION_HANDOFF first, TODO top-to-bottom, next ⬜. PAT encrypted at ~/.config/shesh/github.pat.enc — agent will ask password and decrypt. Run session_guard --status and make check."
 
 ---
-Generated: {datetime.now(timezone.utc).isoformat()} — handoff {HANDOFF_JSON}
+Generated: {datetime.now(UTC).isoformat()} — handoff {HANDOFF_JSON}
 PAT status at gen: {pat_status}
 """
     NEXT_PROMPT.write_text(prompt)
@@ -332,16 +331,16 @@ def main() -> int:
             print("\n✅ Session healthy — continue")
 
     if args.handoff or hop:
-        prompt = generate_next_prompt()
+        generate_next_prompt()
         HANDOFF_JSON.parent.mkdir(parents=True, exist_ok=True)
         HANDOFF_JSON.write_text(
             json.dumps(
                 {
-                    "generated_at": datetime.now(timezone.utc).isoformat(),
+                    "generated_at": datetime.now(UTC).isoformat(),
                     "metrics": metrics,
                     "pat_status": pat_status,
                     "reasons": reasons if hop else [],
-                    "pending_todos": open(ROOT / "TODO.md").read().count("⬜")
+                    "pending_todos": (ROOT / "TODO.md").read_text().count("⬜")
                     if (ROOT / "TODO.md").exists()
                     else 0,
                 },

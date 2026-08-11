@@ -161,12 +161,10 @@ def main() -> int:
         print(f"ENC exists: {ENC_FILE.exists()} -> {ENC_FILE}")
         print(f"PLAIN exists: {PLAIN_FILE.exists()} -> {PLAIN_FILE}")
         if ENC_FILE.exists():
-            import stat
 
             st = ENC_FILE.stat()
             print(f"ENC perms: {oct(st.st_mode & 0o777)}")
         if PLAIN_FILE.exists():
-            import stat
 
             st = PLAIN_FILE.stat()
             print(f"PLAIN perms: {oct(st.st_mode & 0o777)}")
