@@ -112,7 +112,14 @@ def main() -> int:
     if args.list:
         pending = swarm.list_tasks("pending")
         if args.component != "general":
-            pending = [t for t in pending if args.component in t.get("component", "") or t.get("component") == "general"]
+            # Strict filter — no fallback to arbitrary, prevents claiming blocked tasks
+            # Fixed after Soma worker reported defect: fell back to blocked kernel task
+            pending = [
+                t
+                for t in pending
+                if args.component in t.get("component", "")
+                or "general" in t.get("component", "")
+            ]
         for t in pending[:20]:
             print(f"{t['id']} [{t['priority']}] {t['component']}: {t['title']}")
         print(f"Total {len(pending)} pending for filter {args.component}")
@@ -124,10 +131,14 @@ def main() -> int:
             swarm.sh("git pull --rebase origin main")
             pending = swarm.list_tasks("pending")
             if args.component != "general":
-                # Prefer tasks matching component, but allow general
-                filtered = [t for t in pending if args.component in t.get("component", "")]
-                if filtered:
-                    pending = filtered
+                # Strict filter — do NOT fallback to arbitrary pending when no matching component
+                # Previously had `if filtered: pending=filtered` which kept all when empty → defect
+                pending = [
+                    t
+                    for t in pending
+                    if args.component in t.get("component", "")
+                    or "general" in t.get("component", "")
+                ]
 
             if not pending:
                 print(f"[{agent_id}] No pending tasks for {args.component}, waiting {args.poll}s")

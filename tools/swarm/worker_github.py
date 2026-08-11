@@ -238,12 +238,15 @@ def main() -> int:
                     break
 
             else:
-                # File queue fallback (existing worker logic)
+                # File queue fallback — strict, no arbitrary fallback (fixed defect)
                 pending = fileq.list_tasks("pending")
                 if args.component != "general":
-                    filtered = [t for t in pending if args.component in t.get("component", "")]
-                    if filtered:
-                        pending = filtered
+                    pending = [
+                        t
+                        for t in pending
+                        if args.component in t.get("component", "")
+                        or "general" in t.get("component", "")
+                    ]
                 if not pending:
                     print(f"[{agent_id}] No file queue tasks, waiting")
                     if args.once:
