@@ -33,6 +33,21 @@ run() {
 }
 
 tick() {
+  # --- Session guard check FIRST ---
+  if [ -f tools/session_guard.py ]; then
+    python3 tools/session_guard.py --tick || true
+    if [ -f docs/SESSION_HOP_ALERT.md ]; then
+      log "🚨 SESSION HOP ALERT exists — recommend handoff before new task"
+      cat docs/SESSION_HOP_ALERT.md | head -n 20
+      # Don't start new big task if hop needed — finish and exit
+      if grep -q "HOP RECOMMENDED" docs/SESSION_HOP_ALERT.md 2>/dev/null; then
+        log "Hop needed — not starting new task, generating handoff"
+        python3 tools/session_guard.py --handoff || true
+        return 1
+      fi
+    fi
+  fi
+
   local item
   item="$(next_todo || true)"
   if [ -z "$item" ]; then

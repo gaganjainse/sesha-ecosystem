@@ -90,12 +90,12 @@ def test_ledger_persists_tasks(tmp_path):
 
 
 def test_ledger_next_pending(tmp_path):
-    l = Ledger(tmp_path / "l.jsonl")
-    l.add(Task(id="a", title="a"))
-    l.add(Task(id="b", title="b"))
-    assert l.next_pending().id == "a"
-    l.update("a", status="done")
-    assert l.next_pending().id == "b"
+    ledger = Ledger(tmp_path / "l.jsonl")
+    ledger.add(Task(id="a", title="a"))
+    ledger.add(Task(id="b", title="b"))
+    assert ledger.next_pending().id == "a"
+    ledger.update("a", status="done")
+    assert ledger.next_pending().id == "b"
 
 
 # ── gate ────────────────────────────────────────────────────────

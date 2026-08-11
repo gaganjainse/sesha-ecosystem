@@ -8,7 +8,7 @@
 # Layers:   brain | mind | soma
 
 [ecosystem]
-name = "sesha"
+name = "shesh"
 schema_version = 1
 stable_channel = "stable"
 body_doc = "docs/architecture/AGENTIC_BODY.md"

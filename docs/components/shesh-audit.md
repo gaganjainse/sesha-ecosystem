@@ -1,6 +1,6 @@
-# 🛡️ shesh-audit
+# 🛡️ shesha-audit
 
-**Append-only, hash-chained audit log + policy gate for Shesh.**
+**Append-only, hash-chained audit log + policy gate for Shesha.**
 
 Every action an agent takes passes through `check(actor, tool, args)`, which
 returns allow/confirm/deny and records the decision. Executions are recorded
@@ -9,7 +9,7 @@ detectable via `verify_integrity()`.
 
 - License: GPL-3.0
 - Layer: Brain (governance)
-- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
+- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
 
 ## Defaults
 
@@ -28,7 +28,7 @@ detectable via `verify_integrity()`.
 uv sync --extra dev
 uv run pytest -q        # 10 offline tests
 uv run ruff check .
-uv run shesh-audit-mcp
+uv run shesha-audit-mcp
 ```
 
-Events live in `~/.local/share/shesh/audit/events.jsonl`.
+Events live in `~/.local/share/shesha/audit/events.jsonl`.

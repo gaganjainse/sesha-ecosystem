@@ -1,12 +1,17 @@
 # SESSION HANDOFF — Shesh ecosystem
 
-**Generated:** 2026-08-10
+**Generated:** 2026-08-11 (new session with swarm + session protocol)
 **Purpose:** Load this at the start of a new session to continue exactly
 where this one stopped, without re-deriving context.
 
-> Read this file FIRST, then `docs/AUDIT_AND_ROADMAP.md`, `TODO.md`, and
-> `docs/MANUAL_VERIFICATION.md`. The query log at
-> `docs/queries/QUERYLOG.md` has the full decision trail.
+> Read this file FIRST, then `docs/AUDIT_AND_ROADMAP.md`, `TODO.md`,
+> `docs/MANUAL_VERIFICATION.md`, `docs/SESSION_PROTOCOL.md`, `docs/SWARM.md`.
+> The query log at `docs/queries/QUERYLOG.md` has the full decision trail.
+> For next session copy-paste, read `docs/NEXT_SESSION_PROMPT.md` — it contains everything needed without re-explaining.
+
+**NEW:** Session hopping + swarm parallelization added this session — see §11 and §12 below.
+Copy `docs/NEXT_SESSION_PROMPT.md` into new Arena chat to continue — it includes GitHub profile, all repos, PAT instructions, commands.
+
 
 ---
 
@@ -201,3 +206,56 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 - **Small, reversible, audited** — commits, events, rollback.
 - **No secrets in repos** — shesh-secrets only.
 - **Shesh, not Shesha; SheshAOS, not SheshaAOS.**
+
+## 11. Session protocol — hot hopping (added 2026-08-11)
+
+**Problem:** Arena.ai snapshots at ~128 MB / 10k files, slows after 60 min / many tool calls.
+**Solution:** 60-sec handoff, zero loss.
+
+- `tools/session_guard.py` monitors workspace size, file count, age, avg latency, uncommitted files. Logs to `~/.local/share/shesh/session_guard.jsonl`. When > thresholds (100 MB, 8000 files, 60 min, 5s avg latency), creates `docs/SESSION_HOP_ALERT.md` and prints 🚨.
+- `scripts/supervise.sh` and `tools/autopilot/runner.py` call guard before each task — if hop needed, finishes current task, commits, pushes, exits instead of starting new big task.
+- Handoff: `python tools/session_guard.py --handoff` generates `docs/NEXT_SESSION_PROMPT.md` (copy-paste into new Arena chat) + `dist/handoff.json`. Then `make check && git add -A && git commit -m "chore: handoff ..." && git push`.
+- `docs/SESSION_PROTOCOL.md` documents full flow, `docs/NEXT_SESSION_PROMPT.md` is auto-generated template with GitHub profile, repos, PAT instructions (`GITHUB_PAT` env or `~/.config/shesh/github.pat` 0600 or `gh auth login`), commands `git pull && make check && session_guard --status`.
+- `tools/github_auth.py` loads PAT securely (env > file 0600 > gh hosts.yml), refuses world-readable, never logs value.
+- Ledger `~/.local/share/shesh/autopilot/ledger.jsonl` is pushed each task — next session replays `next_pending()`, rollback if interrupted.
+
+**When to hop:** Guard says HOP, or you feel lag, or ~60 min elapsed, or `make check` starts slow.
+
+## 12. Swarm — parallel Arena sessions via GitHub as bus (added 2026-08-11)
+
+**Why:** Arena chats have NO connection. But you can open 3-4 Agent Mode tabs manually and want parallel work without overwrite.
+
+**How:** GitHub repo IS the bus: `swarm/` queue/claims/heartbeats/artifacts/ledger.jsonl
+
+- Orchestrator chat: `python tools/swarm/orchestrator.py --seed TODO.md --monitor` seeds `swarm/queue/*.json` from TODO.md ⬜ and monitors.
+- Worker chats: `python tools/swarm/worker.py --component shesh-memory` polls queue, `try_claim()` via atomic `git pull --rebase + add claim + commit + push` — first push wins, second gets conflict and aborts, no overwrite.
+- Branch per task `swarm/<agent-id>/<task-id>` — work isolated, `make check` gate before merge to main.
+- Safety: component filter (`--component shesh-memory` vs `shesh-system`) avoids same-file edit; heartbeat every poll, orchestrator re-queues stale claims >10 min; `GuardedMCP` still enforced; no secrets in swarm files.
+- Docs: `docs/SWARM.md` (architecture + actionable assessment), `swarm/README.md` (quick start), `tools/swarm/common.py/orchestrator.py/worker.py`
+
+**Is it actionable?** Yes for 2-4 workers with component partitioning, with caveats: no real-time (45s poll), PAT needed, Arena kills background process on tab close (claim remains until re-queued), manual tab opening (Arena can't auto-spawn), too many workers increase git conflicts. Best 1 orchestrator + 2 workers.
+
+**Next improvements:** GitHub Issues + Projects API instead of files (better atomicity), auto PR creation + Action auto-merge after gate green, dedicated `shesh-swarm` repo as pure bus (currently reuse shesh-ecosystem).
+
+## 13. New session accomplishments (2026-08-11)
+
+- Fixed manifest/lock drift (shesha→shesh), regenerated locks (1/16/19), Makefile, test_manifest, ruff E741, `make check` green 30 tests
+- Cloned 22 repos into `src/`, verified 182 component tests
+- Renamed `docs/components/shesha-*.md→shesh-*.md` and synced from `src/*/README.md`
+- Created 15 ADRs `docs/adr/` + index, `docs/GETTING_STARTED.md`, `Containerfile`, `distrobox.ini`, `tools/install.sh` (btrfs snapshot+rollback), `scripts/sign_artifacts.py` (sigstore+SLSA), `scripts/export_traces_otlp.py` (OTLP), CI updated with audit guard + provenance
+- Implemented session protocol (`docs/SESSION_PROTOCOL.md`, `tools/session_guard.py`, `tools/github_auth.py`, `docs/NEXT_SESSION_PROMPT.md` auto-generated)
+- Implemented swarm (`docs/SWARM.md`, `swarm/README.md`, `tools/swarm/common.py`, `orchestrator.py`, `worker.py`, `swarm/queue/` 26 tasks seeded from TODO)
+- Updated `TODO.md`, `QUERYLOG.md`, `AUDIT_AND_ROADMAP.md` links
+
+## 14. Message to give next AI (copy from NEXT_SESSION_PROMPT.md)
+
+```
+You are continuing Shesh — federated local-first AI OS for CachyOS/Hyprland on MSI Sword 16 HX.
+GitHub owner: gaganjainse. Main repo: shesh-ecosystem. Read docs/SESSION_HANDOFF.md FIRST, then AUDIT_AND_ROADMAP, TODO, MANUAL_VERIFICATION, SESSION_PROTOCOL, SWARM, GETTING_STARTED, queries/QUERYLOG.md
+PAT: set GITHUB_PAT env or ~/.config/shesh/github.pat (0600) or gh auth login — tool tools/github_auth.py checks securely, never logs.
+Run: cd /home/user && git pull origin main && make check && python tools/session_guard.py --status && ls src/ | wc -l
+Then pick next ⬜ from TODO.md and continue autopilot. For swarm: orchestrator tab `python tools/swarm/orchestrator.py --monitor`, workers `python tools/swarm/worker.py --component shesh-*`
+```
+
+Paste whole `docs/NEXT_SESSION_PROMPT.md` — it contains live numbers, profile, all repos, PAT instructions, commands.
+

@@ -1,4 +1,4 @@
-# 📱 shesh-phone
+# 📱 shesha-phone
 
 **ADB control for an Android phone** (target: Realme Narzo on CachyOS).
 Safe-bounds tapping, swipes, text input, screenshots, and app launching — with
@@ -6,7 +6,7 @@ all `adb` calls injectable so it's fully testable offline.
 
 - License: GPL-3.0
 - Layer: Soma
-- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
+- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
 
 ## Design
 

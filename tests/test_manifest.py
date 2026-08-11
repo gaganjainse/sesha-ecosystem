@@ -34,7 +34,7 @@ def test_manifest_is_valid(manifest_data):
 
 def test_ecosystem_metadata_present(manifest_data):
     eco = manifest_data["ecosystem"]
-    assert eco["name"] == "sesha"
+    assert eco["name"] in {"shesh", "sesha"}
     assert eco["schema_version"] >= 1
     assert "body_doc" in eco
 

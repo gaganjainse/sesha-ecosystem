@@ -1,6 +1,13 @@
-# 🧠 sesha-memory
+# shesh-memory
 
-**Hierarchical memory + habit learning + context-window management for Sesha.**
+**hierarchical memory + learning** — Episodic/semantic memory, habits, intentions, context assembly.
+
+- Layer: Mind (Mind)
+- License: GPL-3.0
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
+
+---
+**Hierarchical memory + habit learning + context-window management for Shesh.**
 
 Solves two problems at once: the model can't remember across turns, and its
 context window is finite. This component keeps memory in layers and assembles a
@@ -8,7 +15,7 @@ token-bounded prompt for each turn.
 
 - License: GPL-3.0
 - Layer: Mind (memory + learning)
-- Part of: [Sesha ecosystem](https://github.com/gaganjainse/sesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ## Memory layers
 
@@ -24,7 +31,7 @@ token-bounded prompt for each turn.
 
 Observations are normalized into signatures and counted with reliability. When a
 pattern's confidence crosses a threshold, it becomes a **candidate habit**; habits
-decay over time and archive when stale. Promotions are reviewable — Sesha never
+decay over time and archive when stale. Promotions are reviewable — Shesh never
 silently changes behavior from one coincidence.
 
 ## Context assembly
@@ -50,9 +57,9 @@ sections first.
 uv sync --extra dev
 uv run pytest -q          # 11 offline tests
 uv run ruff check .
-uv run sesha-memory-mcp
+uv run shesh-memory-mcp
 ```
 
 Storage is plain JSONL/Markdown/SQLite under
-`~/.local/share/sesha/memory/` — human-readable, portable, no vector DB required
+`~/.local/share/shesha/memory/` — human-readable, portable, no vector DB required
 (embedding retrieval is an optional future provider).

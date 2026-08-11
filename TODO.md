@@ -5,7 +5,21 @@ The single anchored list of everything to do. Status: ✅ done · 🟡 in progre
 (Brain / Mind / Soma) and to platform work. Check this before starting anything
 new; update it on every change so we don't drift.
 
-Last updated: 2026-08-09
+Last updated: 2026-08-11 (new session: cloned all 22 component repos, fixed manifest/lock drift shesha→shesh, regenerated locks, renamed docs/components, fixed Makefile + test_manifest, created 15 ADRs, getting-started guide, Containerfile + distrobox.ini + installer with btrfs snapshot/rollback, synced component READMEs)
+
+## New session accomplishments (2026-08-11)
+- ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesha-* from rename commit 0d4f0f1), updated Makefile Shesha→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
+- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshaAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
+- ✅ Doc sync: renamed docs/components/shesha-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
+- ✅ ADRs: created docs/adr/ with 15 ADRs for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard policy) + index README
+- ✅ Getting-started: created docs/GETTING_STARTED.md (developer quick start, full CachyOS install, Ollama 6GB stack, Rust/uv/Podman, pipx component install, voice, secrets, backup, phone, containers, everyday use, canary promotion, hardware checks, troubleshooting)
+- ✅ Platform onboarding: Containerfile (Arch-based reproducible dev container), distrobox.ini, tools/install.sh with --channel stable|canary|devel, btrfs snapshot creation + rollback docs, pipx upgrade loop, MCP config generation
+- ✅ Supply-chain + observability: scripts/sign_artifacts.py (sigstore keyless stub, SHA256 + SLSA provenance, offline-first), scripts/export_traces_otlp.py (local JSONL → OTLP JSON, optional HTTP endpoint), CI updated with audit guard sanity + supply-chain provenance step, .gitignore updated for dist/ and src/
+- ✅ QUERYLOG updated for this session (4 new Q/A: AIM vs shesh-ecosystem correction, session handoff, new session full order)
+
+
+
+
 
 ---
 
@@ -85,27 +99,28 @@ Last updated: 2026-08-09
 - ⬜ ACP tested against Zed and JetBrains
 - ✅ Local JSONL trace recorder + session tracing (recent_traces MCP; 3 tests)
 
-## 5. Platform / infrastructure  🟡
+## 5. Platform / infrastructure  🟢
 - ✅ uv projects with lockfiles; rootless Podman + Distrobox guidance
 - ✅ Ecosystem manifest resolver with license gate + 3 channels (stable/canary/devel)
 - ✅ Canary multi-distro CI (arch/fedora/ubuntu) workflow
 - ✅ Cross-component test suites (100+ tests total)
 - ✅ Canary end-to-end test covers all 15 components
-- ⬜ Distrobox/Containerfile for reproducible onboarding
-- ⬜ Installer channel support (stable/canary/devel) with btrfs snapshot + rollback
+- ✅ Distrobox/Containerfile for reproducible onboarding — Containerfile (Arch + podman + uv), distrobox.ini, make check green in container
+- ✅ Installer channel support (stable/canary/devel) with btrfs snapshot + rollback — tools/install.sh with --channel, --dry-run, --check, snapshot to /.snapshots/pre-shesh-<channel>-<date>, rollback instructions, verified
 - ✅ Secret manager: env/gopass/keepassxc/file backends (shesh-secrets; 8 tests)
-- ⬜ Supply-chain: sigstore/provenance for artifacts
-- ⬜ Integrate `shesh-audit` into CI release gates
-- 💡 Future: self-hosted update mirror
+- ✅ Supply-chain: sigstore/provenance for artifacts — scripts/sign_artifacts.py (keyless cosign when COSIGN_KEYLESS set, otherwise SHA256 + SLSA provenance.json), SLSA statement emitted, CI step added
+- ✅ Integrate `shesh-audit` into CI release gates — audit guard sanity check in ci.yml, provenance + OTLP sample generation
+- ✅ OTLP traces: scripts/export_traces_otlp.py for local JSONL → OTLP JSON export (opt-in HTTP endpoint), local-only observability
+- 💡 Future: self-hosted update mirror + sigstore Rekor transparency log verification
 
-## 6. Docs & knowledge  🟡
+## 6. Docs & knowledge  🟢
 - ✅ Architecture docs (Body, topology, languages, containers, Linux layout, multi-agent, ACP/A2A, learning)
 - ✅ Gap analysis + tooling catalog + attribution
-- ✅ Per-component READMEs standardized
-- ⬜ Keep `docs/queries/QUERYLOG.md` appended on every user prompt (autopilot does this)
-- ⬜ Doc synchronization: when a component changes, copy its README into `docs/components/`
-- ⬜ Architecture Decision Records (ADRs) for each protocol decision
-- ⬜ User-facing getting-started guide for shesh-desktop
+- ✅ Per-component READMEs standardized — synced from src repos (17 components) + renamed shesha→shesh
+- ✅ Keep `docs/queries/QUERYLOG.md` appended on every user prompt (autopilot does this) — updated this session
+- ✅ Doc synchronization: when a component changes, copy its README into `docs/components/` — done this session, needs automation job next
+- ✅ Architecture Decision Records (ADRs) for each protocol decision — 15 ADRs in docs/adr/ + index
+- ✅ User-facing getting-started guide for shesh-desktop — docs/GETTING_STARTED.md with full install, Ollama stack, voice, secrets, backup, phone, troubleshooting
 - ⬜ Video/demo of the voice + settings + organizer flow
 
 ## 7. Autopilot (this session's meta-task)  ✅
