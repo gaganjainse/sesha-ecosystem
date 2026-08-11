@@ -1,5 +1,0 @@
-Worked by worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Issue #7
-Title: [swarm] todo-12fb472d Rebase archived shesh-kernel onto SheshAOS main
-Branch: swarm/issue-7/worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Component: shesh-audit

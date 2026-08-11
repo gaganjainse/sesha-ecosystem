@@ -1,5 +1,0 @@
-Worked by worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Issue #8
-Title: [swarm] todo-47a1b9cb Port leaf crates first (protocols, waveobj, wps, blockctl, wconfig)
-Branch: swarm/issue-8/worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Component: shesh-audit

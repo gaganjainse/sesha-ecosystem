@@ -1,5 +1,0 @@
-Worked by worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Issue #6
-Title: [swarm] todo-018f0690 ## 1. Brain (governance / AOS)  🟡
-Branch: swarm/issue-6/worker-shesh-audit-e2b.loca-6580-7b29af-2q76
-Component: shesh-audit
