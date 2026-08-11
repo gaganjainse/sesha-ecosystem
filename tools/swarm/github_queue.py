@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import re
 import sys
 import time
 import urllib.error
@@ -20,6 +21,23 @@ OWNER = os.environ.get("SWARM_OWNER", "gaganjainse")
 REPO = os.environ.get("SWARM_REPO", "shesh-ecosystem")
 API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}"
 PROJECT_NUMBER = os.environ.get("GITHUB_PROJECT_NUMBER")
+BLOCKED_LABELS = {"blocked", "swarm:blocked"}
+
+
+def is_blocked_issue(issue: dict) -> bool:
+    """Return True for issues explicitly marked or described as blocked."""
+    labels = {label.get("name", "").lower() for label in issue.get("labels", [])}
+    if labels & BLOCKED_LABELS:
+        return True
+    text = f"{issue.get('title', '')}\n{issue.get('body', '')}"
+    return bool(re.search(r"(^|\n)\s*🔴|\bdo not force\b|\bblocked\b", text, re.IGNORECASE))
+
+
+def _priority_key(issue: dict) -> tuple[int, int]:
+    labels = {label.get("name", "") for label in issue.get("labels", [])}
+    order = {"P0": 0, "P1": 1, "P2": 2}
+    priority = min((order[name] for name in labels if name in order), default=3)
+    return (priority, int(issue.get("number", 0)))
 
 
 def _pat() -> str | None:
@@ -72,23 +90,6 @@ def ensure_label(name: str, color: str = "fbca04", description: str = "") -> Non
         print(f"ensure_label {name}: {status} {resp}", file=sys.stderr)
 
 
-def release_claim(issue_number: int, agent_id: str, work_branch: str, reason: str) -> None:
-    """Undo a claim: drop lock + work branch, hand the issue back to swarm:pending."""
-    _request("DELETE", f"{API_BASE}/git/refs/heads/swarm/claims/issue-{issue_number}")
-    _request("DELETE", f"{API_BASE}/git/refs/heads/{work_branch}")
-    _request("DELETE", f"{API_BASE}/issues/{issue_number}/labels/swarm:claimed")
-    _request(
-        "POST",
-        f"{API_BASE}/issues/{issue_number}/labels",
-        {"labels": ["swarm:pending"]},
-    )
-    _request(
-        "POST",
-        f"{API_BASE}/issues/{issue_number}/comments",
-        {"body": f"♻️ Claim released by `{agent_id}`: {reason}\n\nBack to `swarm:pending` for an agent-driven worker."},
-    )
-
-
 def create_issue(task: dict) -> tuple[int, dict] | None:
     pat = _pat()
     if not pat:
@@ -119,7 +120,7 @@ Auto-merge Action swarm-auto-merge.yml merges PR if make check green.
 """
     labels = [
         "swarm",
-        "swarm:pending",
+        "swarm:blocked" if task.get("blocked") else "swarm:pending",
         f"component:{task.get('component','general')}",
         task.get("priority", "P1"),
     ]
@@ -148,18 +149,19 @@ def list_pending_issues(component: str = "general") -> list[dict]:
     if status != 200:
         print(f"Failed list: {status} {issues}", file=sys.stderr)
         return []
+
+    # Never hand an explicitly blocked issue to an autonomous worker.
+    issues = [issue for issue in issues if not is_blocked_issue(issue)]
     if component != "general":
         filtered = []
         for iss in issues:
             labs = [lb["name"] for lb in iss.get("labels", [])]
-            # Strict: only component-matching or general, no fallback to arbitrary
-            # Previously had fallback to all pending which caused blocked kernel task claim — fixed
             if f"component:{component}" in labs or "component:general" in labs:
                 filtered.append(iss)
-        # FIX: Do NOT fallback to arbitrary pending when no matching component — return empty to wait
-        # User reported bug: Worker-Soma fell back to blocked kernel task when no shesh-system issue
-        return filtered
-    return issues
+        # Strict: never fall back to arbitrary pending tasks when nothing
+        # matches the component (Tab2 fix 29c3891) — wait instead.
+        return sorted(filtered, key=_priority_key)
+    return sorted(issues, key=_priority_key)
 
 
 def claim_issue_atomic(issue_number: int, agent_id: str) -> tuple[bool, str]:
@@ -245,6 +247,61 @@ def create_pr(branch: str, issue_number: int, title: str, body: str = "") -> tup
         return (resp.get("number"), resp)
     print(f"Failed PR {branch}: {status} {resp}", file=sys.stderr)
     return None
+
+
+def release_issue_claim(
+    issue_number: int,
+    agent_id: str,
+    work_branch: str,
+    reason: str,
+) -> bool:
+    """Release this worker's claim and put an unfinished issue back in queue.
+
+    This is used only before a PR exists (executor/gate/push failure).  It
+    removes both refs created by :func:`claim_issue_atomic`, restores the
+    pending label, and leaves an audit comment.  A branch belonging to a
+    different agent is never deleted.
+    """
+    expected_prefix = f"swarm/issue-{issue_number}/{agent_id}"
+    if work_branch != expected_prefix:
+        print(f"Refusing to release unexpected branch {work_branch}", file=sys.stderr)
+        return False
+
+    ok = True
+    for ref in (f"swarm/claims/issue-{issue_number}", work_branch):
+        status, response = _request("DELETE", f"{API_BASE}/git/refs/heads/{ref}")
+        if status not in (204, 404):
+            ok = False
+            print(f"Failed to delete {ref}: {status} {response}", file=sys.stderr)
+
+    status, response = _request(
+        "DELETE", f"{API_BASE}/issues/{issue_number}/labels/swarm:claimed"
+    )
+    if status not in (200, 404):
+        ok = False
+        print(f"Failed to remove claimed label: {status} {response}", file=sys.stderr)
+
+    status, response = _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/labels",
+        {"labels": ["swarm:pending"]},
+    )
+    if status not in (200, 201):
+        ok = False
+        print(f"Failed to restore pending label: {status} {response}", file=sys.stderr)
+
+    _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/comments",
+        {
+            "body": (
+                f"↩️ Claim released by `{agent_id}` before PR creation.\n"
+                f"Reason: {reason[:500]}\n"
+                "Issue returned to `swarm:pending`."
+            )
+        },
+    )
+    return ok
 
 
 def close_issue(issue_number: int, comment: str = "Completed via swarm") -> None:

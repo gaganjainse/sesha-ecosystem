@@ -65,12 +65,15 @@ This is **truly atomic** — lock ref is single per issue, not per agent, so sec
 
 - **Worker file** `tools/swarm/worker.py` — original file queue, `try_claim()` via git push, `do_work()` placeholder (would call `tools/autopilot/runner.py:process_task`), gate, `complete_task()`
 
-- **Worker GitHub** `tools/swarm/worker_github.py` — **proper**:
-  - `--component shesh-memory --poll 45 --once --list --github`
-  - Lists pending Issues via `github_queue`, atomic claim via lock ref, checkout work branch, do work, gate `make check`, push branch, create PR via gh CLI or API, artifact
-  - Detects gh CLI via `shutil.which("gh")`
+- **Worker GitHub** `tools/swarm/worker_github.py` — safe implementation:
+  - `--component shesh-memory --poll 45 --list --github`
+  - Requires a real implementation callback: `--executor module:function` or `SHESH_WORKER_EXECUTOR`. Without one it polls idle and never claims an issue or creates a marker-only PR.
+  - Lists pending Issues in P0/P1/P2 order, skips `swarm:blocked`/blocked prose, atomically claims via a lock ref, checks out the work branch, runs the callback, gates with `make check`, refuses empty commits, pushes through `git_askpass.py`, and creates a PR only after a successful push.
+  - Failed/no-op/gate/push work releases its claim and restores `swarm:pending`; a pushed branch is preserved if only PR creation fails.
+  - `github_auth.py` supplies temporary `GIT_ASKPASS`/`GH_TOKEN` environment values without putting secrets in URLs or Git config.
+  - Detects `gh` CLI via `shutil.which("gh")`.
 
-You open **1 orchestrator + N workers** (N=2-3). No maintenance beyond opening tabs — they auto-poll GitHub every 45-60s and heartbeat.
+You open **1 orchestrator + N workers** (N=2-3). A worker without an executor is intentionally safe idle; a real executor may be an agent callback or a separately reviewed automation worker.
 
 ## Is it actionable? (Was future improvement, now DONE)
 
