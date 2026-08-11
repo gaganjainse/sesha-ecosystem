@@ -212,6 +212,25 @@
       },
       "version": "0.1.0"
     },
+    "shesh-omniroute": {
+      "channel": "devel",
+      "layer": "mind",
+      "license": "MIT",
+      "models": [],
+      "provides": [
+        "big-models",
+        "cloud-fallback",
+        "free-gateway",
+        "omniroute"
+      ],
+      "repo": "gaganjainse/shesh-omniroute",
+      "upstream": {
+        "name": "OmniRoute",
+        "ref": "main",
+        "repo": "diegosouzapw/OmniRoute"
+      },
+      "version": "0.1.0"
+    },
     "shesh-orchestrator": {
       "channel": "devel",
       "layer": "mind",
@@ -334,6 +353,6 @@
       "version": "1.4.5-sesha1"
     }
   },
-  "count": 19,
-  "sha256": "02ed6679d423d5299d99b5085c1ff425d11c727052e08f43141123105df5db62"
+  "count": 20,
+  "sha256": "09d481d1f267b5440e8d313ed48f92e5719eb2517d1509b1afc49a333b2a148d"
 }
