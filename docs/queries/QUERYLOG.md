@@ -6,6 +6,39 @@ intent and prevents drift.
 
 ---
 
+## Q: "Do all in the order and properly download other tepos that we are using too and continue the work properly as this is a new session"
+
+**Answer (2026-08-11 new session):** Cloned all 22 dependent repos into /home/user/src (shesh-* + SheshaAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop). Fixed manifest/lock drift from rename commit 0d4f0f1 (regenerated channels/*.lock — 16 canary, 19 devel, 1 stable — shesh naming; updated Makefile Shesha→Shesh; fixed ruff E741 in tests/autopilot/test_autopilot.py; test_manifest now accepts shesh|sesha; make check green 30 tests). Renamed docs/components/shesha-*.md → shesh-*.md and synced content from src READMEs (17 files). Created 15 ADRs in docs/adr/ for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard) + index README. Created docs/GETTING_STARTED.md (developer fast path, full CachyOS install with bootstrap, Ollama 6GB stack phi4-mini/qwen2.5-coder:3b/moondream2/nomic-embed-text, Rust/uv/Podman, pipx component install, voice overlay, secrets backends, restic backup, phone ADB safe-area, container sandbox, everyday use, canary promotion, hardware checks, troubleshooting). Added Containerfile (Arch-based reproducible dev), distrobox.ini, tools/install.sh with --channel stable|canary|devel, --dry-run, --check, btrfs snapshot to /.snapshots/pre-shesh-<channel>-<date> and rollback docs, pipx upgrade loop, MCP config generation. Updated TODO.md with new session accomplishments and marked Distrobox/Containerfile, Installer, ADRs, Getting-started, Doc-sync as ✅. make check now GATE OK.
+
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [GETTING_STARTED.md](../GETTING_STARTED.md), [adr/](../adr/), [TODO.md](../../TODO.md), [Containerfile](../../Containerfile), [distrobox.ini](../../distrobox.ini), [tools/install.sh](../../tools/install.sh), channels/*.lock, Makefile
+
+---
+
+## Q: "Also read the session handoff document"
+
+**Answer:** Read docs/SESSION_HANDOFF.md — the handoff that says: this is Shesh local-first AI OS for CachyOS/Hyprland on MSI Sword 16 HX, naming FINAL is Shesh/SheshAOS/shesh-* (not Shesha), 19 repos (182 component tests + 30 ecosystem + 26 desktop = 238 total green), code lives in /home/user/sesha/components/shesh-*/ (here /home/user/src/), autopilot in tools/autopilot/ with safety/ledger/gate/runner/cli, contract: pick next pending TODO, work in one component, always run pytest -q -p no:cacheprovider, use GuardedMCP, no secrets in repos, commit with task id, append to QUERYLOG.md after each user message, archive not delete, mark hardware items 🟡. DONE: rename, governance, agents, memory, refinement, skills, calendar/containers/bundle, system/phone/ACP/ambient, platform manifest+config+e2e, autopilot safety core, wiki docs. REMAINS: 🔴 kernel merge (type-diverged, follow KERNEL_MERGE_PLAN.md), hardware validation on MSI, wiki one-time init, ACP editor testing; 🟡 P1 auto skill capture, Distrobox/Containerfile, installer btrfs, email/messaging bridges, media tools, OTLP traces, shesh-maint decision, ambient wiring. Gotchas: editable installs after rename, pytest isolation, wiki init needs UI click, Ollama models list, workspace budget <150 MB. First commands: verify all component tests green, read anchors SESSION_HANDOFF, TODO, AUDIT_AND_ROADMAP, MANUAL_VERIFICATION, continue P1. This new session follows that contract.
+
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [TODO.md](../../TODO.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md)
+
+---
+
+## Q: "The repo is shesh-ecosystem"
+
+**Answer:** Acknowledged — earlier we cloned AIM (gaganjainse/AIM) due to profile default. Cleared workspace, cloned shesh-ecosystem into /home/user (and shesh-tmp for inspection) and then all dependent repos (SheshaAOS, SeshaOS, shesha-kernel, NexusAOS, shesh-desktop, and 16 shesh-* Python components). Verified manifest channels (stable 1, canary 16, devel 19) and docs structure (40+ docs). Now working on shesh-ecosystem as orchestrator with manifest resolver, license gate, and autopilot.
+
+**Docs:** [README.md](../../README.md)
+
+---
+
+## Q: "Read this file FIRST, then docs/AUDIT_AND_ROADMAP.md, TODO.md, and docs/MANUAL_VERIFICATION.md. The query log at docs/queries/QUERYLOG.md has the full decision trail. Github: https://github.com/gaganjainse"
+
+**Answer:** Read SESSION_HANDOFF (which says READ THIS FIRST, then AUDIT_AND_ROADMAP, TODO, MANUAL_VERIFICATION, QUERYLOG), then AUDIT_AND_ROADMAP.md (15 decisions D1–D15, 16 repos verified, penny-picked task list P0/P1/P2, operating rules), TODO.md (master roadmap with ✅/🟡/⬜/🔴, status vs original plan, brain/mind/soma/platform/docs/autopilot), MANUAL_VERIFICATION.md (13-section hardware checklist: first boot, secrets, MCP mesh, voice, GPU/MUX, display, backup, phone, containers, agent behavior, security, canary/releases, known deliberate non-autopilot work, health command), QUERYLOG.md (full decision trail 20+ Q/A). Confirmed shesh-ecosystem is federation orchestrator, not AIM — corrected repo cloning. GitHub org gaganjainse has 27 public repos including shesh-* family, SheshaAOS, SeshaOS, AIM, etc.
+
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](../../TODO.md), [MANUAL_VERIFICATION.md](../MANUAL_VERIFICATION.md), [queries/QUERYLOG.md](./QUERYLOG.md)
+
+---
+
+
 ## Q: "Don't ask me everything now — make a supervisor/agent that supervises you and continues automatically... Add ALL docs to shesh-ecosystem/docs, save all prompts + answers in a query doc, update docs regularly, create a complete todo list including future work."
 
 **Answer:** Created this query log, the central TODO, the `supervisor` runbook, and

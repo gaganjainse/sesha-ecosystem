@@ -11,7 +11,7 @@
         "installer",
         "quickshell"
       ],
-      "repo": "gaganjainse/shesha-desktop",
+      "repo": "gaganjainse/shesh-desktop",
       "upstream": {
         "name": "dots-hyprland",
         "ref": "main",
@@ -19,7 +19,7 @@
       },
       "version": "rolling"
     },
-    "shesha-acp": {
+    "shesh-acp": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -30,7 +30,7 @@
         "jetbrains",
         "zed"
       ],
-      "repo": "gaganjainse/shesha-acp",
+      "repo": "gaganjainse/shesh-acp",
       "upstream": {
         "name": "Agent Client Protocol",
         "ref": "main",
@@ -38,7 +38,7 @@
       },
       "version": "0.1.0"
     },
-    "shesha-audit": {
+    "shesh-audit": {
       "channel": "canary",
       "layer": "brain",
       "license": "MIT",
@@ -48,15 +48,29 @@
         "event-store",
         "policy-engine"
       ],
-      "repo": "gaganjainse/shesha-audit",
+      "repo": "gaganjainse/shesh-audit",
       "upstream": {
-        "name": "SheshaAOS",
+        "name": "SheshAOS",
         "ref": "main",
-        "repo": "gaganjainse/SheshaAOS"
+        "repo": "gaganjainse/SheshAOS"
       },
       "version": "0.1.0"
     },
-    "shesha-brain": {
+    "shesh-backup": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "backup",
+        "restic",
+        "snapshots"
+      ],
+      "repo": "gaganjainse/shesh-backup",
+      "upstream": null,
+      "version": "0.1.0"
+    },
+    "shesh-brain": {
       "channel": "devel",
       "layer": "brain",
       "license": "MIT",
@@ -66,15 +80,43 @@
         "task-router",
         "tool-broker"
       ],
-      "repo": "gaganjainse/shesha-brain",
+      "repo": "gaganjainse/shesh-brain",
       "upstream": {
-        "name": "shesha-kernel",
+        "name": "shesh-kernel",
         "ref": "main",
-        "repo": "gaganjainse/shesha-kernel"
+        "repo": "gaganjainse/shesh-kernel"
       },
       "version": "0.1.0"
     },
-    "shesha-files": {
+    "shesh-calendar": {
+      "channel": "canary",
+      "layer": "mind",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "agenda",
+        "calendar",
+        "ical"
+      ],
+      "repo": "gaganjainse/shesh-calendar",
+      "upstream": "original",
+      "version": "0.1.0"
+    },
+    "shesh-containers": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "containers",
+        "podman",
+        "sandbox"
+      ],
+      "repo": "gaganjainse/shesh-containers",
+      "upstream": null,
+      "version": "0.1.0"
+    },
+    "shesh-files": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -84,15 +126,15 @@
         "inotify-watcher",
         "undo-log"
       ],
-      "repo": "gaganjainse/shesha-files",
+      "repo": "gaganjainse/shesh-files",
       "upstream": {
-        "name": "shesha-desktop smart-organizer",
+        "name": "shesh-desktop smart-organizer",
         "ref": "main",
-        "repo": "gaganjainse/shesha-desktop"
+        "repo": "gaganjainse/shesh-desktop"
       },
       "version": "0.2.0"
     },
-    "shesha-harness": {
+    "shesh-harness": {
       "channel": "canary",
       "layer": "mind",
       "license": "GPL-3.0",
@@ -103,7 +145,7 @@
         "refine",
         "self-evolution"
       ],
-      "repo": "gaganjainse/shesha-harness",
+      "repo": "gaganjainse/shesh-harness",
       "upstream": {
         "name": "Memento-Skills / Prime Harness",
         "ref": "main",
@@ -111,7 +153,22 @@
       },
       "version": "0.1.0"
     },
-    "shesha-memory": {
+    "shesh-mcp-bundle": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "fetch",
+        "filesystem",
+        "git",
+        "mcp-bundle"
+      ],
+      "repo": "gaganjainse/shesh-mcp-bundle",
+      "upstream": null,
+      "version": "0.1.0"
+    },
+    "shesh-memory": {
       "channel": "canary",
       "layer": "mind",
       "license": "GPL-3.0",
@@ -123,7 +180,7 @@
         "rag",
         "semantic-memory"
       ],
-      "repo": "gaganjainse/shesha-memory",
+      "repo": "gaganjainse/shesh-memory",
       "upstream": {
         "name": "rag-service",
         "ref": "main",
@@ -131,7 +188,7 @@
       },
       "version": "0.1.0"
     },
-    "shesha-mind": {
+    "shesh-mind": {
       "channel": "canary",
       "layer": "mind",
       "license": "MIT",
@@ -147,15 +204,15 @@
         "planner",
         "vision"
       ],
-      "repo": "gaganjainse/shesha-mind",
+      "repo": "gaganjainse/shesh-mind",
       "upstream": {
-        "name": "SheshaOS",
+        "name": "SheshOS",
         "ref": "main",
-        "repo": "gaganjainse/SheshaOS"
+        "repo": "gaganjainse/SheshOS"
       },
       "version": "0.1.0"
     },
-    "shesha-orchestrator": {
+    "shesh-orchestrator": {
       "channel": "devel",
       "layer": "mind",
       "license": "GPL-3.0",
@@ -167,7 +224,7 @@
         "role-routing",
         "subagents"
       ],
-      "repo": "gaganjainse/shesha-orchestrator",
+      "repo": "gaganjainse/shesh-orchestrator",
       "upstream": {
         "name": "Prime Agent RLM",
         "ref": "main",
@@ -175,7 +232,7 @@
       },
       "version": "0.0.0"
     },
-    "shesha-phone": {
+    "shesh-phone": {
       "channel": "devel",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -185,7 +242,7 @@
         "phone-actuators",
         "phone-sensors"
       ],
-      "repo": "gaganjainse/shesha-phone",
+      "repo": "gaganjainse/shesh-phone",
       "upstream": {
         "name": "phone-harness",
         "ref": "main",
@@ -193,7 +250,20 @@
       },
       "version": "0.1.0"
     },
-    "shesha-shell": {
+    "shesh-secrets": {
+      "channel": "canary",
+      "layer": "brain",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "credentials",
+        "secrets"
+      ],
+      "repo": "gaganjainse/shesh-secrets",
+      "upstream": "original",
+      "version": "0.1.0"
+    },
+    "shesh-shell": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -203,11 +273,11 @@
         "window-control",
         "workspaces"
       ],
-      "repo": "gaganjainse/shesha-shell",
+      "repo": "gaganjainse/shesh-shell",
       "upstream": null,
       "version": "0.1.0"
     },
-    "shesha-skills": {
+    "shesh-skills": {
       "channel": "canary",
       "layer": "mind",
       "license": "GPL-3.0",
@@ -221,7 +291,7 @@
         "skill-library",
         "web-search"
       ],
-      "repo": "gaganjainse/shesha-skills",
+      "repo": "gaganjainse/shesh-skills",
       "upstream": {
         "name": "MCP skills pattern",
         "ref": "main",
@@ -229,23 +299,21 @@
       },
       "version": "0.1.0"
     },
-    "shesha-system": {
+    "shesh-system": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
       "models": [],
       "provides": [
-        "backup",
         "gpu-mux",
-        "maintenance",
         "mcp:system",
         "power"
       ],
-      "repo": "gaganjainse/shesha-system",
+      "repo": "gaganjainse/shesh-system",
       "upstream": null,
       "version": "0.1.0"
     },
-    "shesha-voice": {
+    "shesh-voice": {
       "channel": "canary",
       "layer": "soma",
       "license": "GPL-3.0",
@@ -257,7 +325,7 @@
         "tts",
         "wakeword"
       ],
-      "repo": "gaganjainse/shesha-voice",
+      "repo": "gaganjainse/shesh-voice",
       "upstream": {
         "name": "Newelle",
         "ref": "1.4.5",
@@ -266,6 +334,6 @@
       "version": "1.4.5-sesha1"
     }
   },
-  "count": 14,
-  "sha256": "6ee000b18bd473f27b6481302c7199c7f51b3cd59c286ec289ee89e6af6d6e73"
+  "count": 19,
+  "sha256": "02ed6679d423d5299d99b5085c1ff425d11c727052e08f43141123105df5db62"
 }
