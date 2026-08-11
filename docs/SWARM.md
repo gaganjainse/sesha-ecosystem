@@ -187,3 +187,16 @@ No central server.
 - Use GitHub Projects board custom fields component/priority/status — `GITHUB_PROJECT_NUMBER` + `GITHUB_PROJECT_ID` env, GraphQL `addProjectV2ItemById` already stubbed
 - Dedicated `shesh-swarm` repo as pure bus (currently reuse shesh-ecosystem to avoid new repo)
 - Auto-scale workers via GitHub Actions self-hosted runners (instead of manual Arena tabs)
+
+---
+
+## Proper workspace layout (post multi-tab incident, 2026-08-11)
+
+Lessons from running 5 agent tabs + Actions concurrently:
+
+1. **Daemons never share your checkout.** Run them via `tools/swarm/daemon.sh start [component]` — it maintains an isolated clone at `$SHESH_STATE/swarm-tree` with its own `.git`, so heartbeat/seed commits can never land on your feature branch (previously: rebase conflicts, fixes committed onto worker branches). `daemon.sh status|logs|stop` give pids, heartbeat freshness and real log files.
+2. **Long-running tools are line-buffered** (`sys.stdout.reconfigure`) — piped/nohup logs appear in real time. Heartbeat files remain the ground-truth liveness signal.
+3. **`session_guard.py --status/--tick` are read-only.** Only explicit `--handoff` regenerates the prompt and deletes the plain PAT. (A hop advisory used to nuke the plain PAT out from under running daemons.)
+4. **Sandbox snapshots wipe `.git/config` and site-packages** — after any restore, run `bash scripts/bootstrap_workspace.sh` (idempotent: pip toolchain, git identity, PAT-based credential helper, optional `GITHUB_PAT_PASSWORD` decrypt, gate).
+5. **The 24/7 loop lives on GitHub, not in chat tabs.** `swarm-scheduled.yml` (hourly janitor) + `swarm-llm-worker.yml` (2-hourly) + `swarm-auto-merge.yml` kept working with zero tabs open. Chat agents are turn-based: use them for curation, deep fixes, and review — daemons for plumbing.
+6. **Workers fail closed without an executor** (`--executor module:function` / `SHESH_WORKER_EXECUTOR`). No executor → claim released back to `swarm:pending`. No more placeholder PRs closing real TODOs.

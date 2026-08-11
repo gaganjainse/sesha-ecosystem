@@ -36,6 +36,11 @@ import pathlib
 import sys
 import time
 
+try:
+    sys.stdout.reconfigure(line_buffering=True)  # visible logs when piped/nohup'd
+except Exception:
+    pass
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/swarm"))
 sys.path.insert(0, str(ROOT / "tools"))
