@@ -1,0 +1,5 @@
+Worked by worker-general-e2b.loca-3094-7b2830-gazc
+Issue #7
+Title: [swarm] todo-12fb472d Rebase archived shesh-kernel onto SheshAOS main
+Branch: swarm/issue-7/worker-general-e2b.loca-3094-7b2830-gazc
+Component: general
