@@ -32,7 +32,6 @@ For real implementation, replace `do_work()` with actual autopilot `process_task
 from __future__ import annotations
 
 import argparse
-import json
 import pathlib
 import sys
 import time
@@ -45,7 +44,6 @@ import common as swarm
 
 # Try import autopilot runner for real work
 try:
-    from autopilot.runner import process_task  # type: ignore
     HAS_RUNNER = True
 except Exception:
     HAS_RUNNER = False

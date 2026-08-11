@@ -14,11 +14,13 @@ shesh.lock
 dist/
 *.sig
 
-# Local dev
+# Local dev / secrets / large clones
 src/
 .sesha/
+.local/
+.config/shesh/
+.config/gh/
 
 # OS/editor
 .DS_Store
 *.swp
-.local/
