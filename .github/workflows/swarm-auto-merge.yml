@@ -82,8 +82,9 @@ jobs:
           # Check if PR still has swarm label
           gh pr view $PR_NUM --json labels --jq '.labels[].name' | grep -q "swarm" || echo "no swarm label, but continuing as head_ref is swarm/"
 
-          # Approve and enable auto-merge
-          gh pr review $PR_NUM --approve --body "Swarm auto-merge: gates green (ruff, pytest, license, locks)"
+          # Merge and enable auto-merge.
+          # NOTE: no `gh pr review --approve` — GitHub Actions tokens are
+          # not permitted to approve PRs (addPullRequestReview denied).
           gh pr merge $PR_NUM --squash --auto --delete-branch || gh pr merge $PR_NUM --squash --delete-branch
 
           # Comment on linked issue if any
