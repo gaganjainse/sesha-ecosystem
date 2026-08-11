@@ -39,39 +39,57 @@ SWARM = ROOT / "swarm"
 
 
 def parse_todos(todo_path: pathlib.Path) -> list[dict]:
+    """Seed only strict status bullets: `- ⬜ <task>`.
+
+    Rules (learned from live seed-noise):
+    - Line must START a status bullet: optional indent, `-`/`*`, one status
+      emoji. Prose/legend lines that merely mention ⬜/🟡 are ignored.
+    - Only ⬜ seeds. 🟡 is already in progress, ✅ done, 💡 future, 🔴 blocked.
+    - A ⬜ nested under a 🔴 bullet (by indentation) inherits blocked and is
+      skipped until its ancestor is unblocked.
+    """
     tasks = []
     text = todo_path.read_text()
-    # Match lines like "- ⬜ **`shesh-brain`** — ..."
-    # We'll give each a task id: todo-<hash>
     import hashlib
 
+    stack: list[tuple[int, str]] = []  # (indent, status) of ancestor bullets
+    bullet = re.compile(r"^(\s*)[-*]\s*([⬜🟡🔴✅💡])\s*(.*)$")
     for i, line in enumerate(text.splitlines()):
-        if "⬜" in line or "🟡" in line:
-            # Skip blocked 🔴 unless explicitly P1 that is unblocked — we include ⬜ and 🟡
-            title = line.strip()
-            # Clean markdown
-            clean = re.sub(r"[-*]\s*[⬜🟡🔴✅💡]+\s*", "", title)[:120]
-            if len(clean) < 10:
-                continue
-            # Component hint
-            comp = "general"
-            m = re.search(r"`(shesh-[a-z-]+)`", line)
-            if m:
-                comp = m.group(1)
-            prio = "P0" if "P0" in line else "P1" if "P1" in line else "P2"
-            tid = f"todo-{hashlib.sha1(title.encode()).hexdigest()[:8]}"
-            tasks.append(
-                {
-                    "id": tid,
-                    "title": clean,
-                    "raw": title,
-                    "component": comp,
-                    "priority": prio,
-                    "status": "pending",
-                    "created_at": swarm.utc_now(),
-                    "line_no": i,
-                }
-            )
+        m = bullet.match(line)
+        if not m:
+            continue
+        indent = len(m.group(1).replace("\t", "    "))
+        status = m.group(2)
+        while stack and stack[-1][0] >= indent:
+            stack.pop()
+        blocked = any(s == "🔴" for _, s in stack)
+        stack.append((indent, status))
+        if status != "⬜" or blocked:
+            continue
+        title = line.strip()
+        # Clean markdown
+        clean = re.sub(r"[-*]\s*[⬜🟡🔴✅💡]+\s*", "", title)[:120]
+        if len(clean) < 10:
+            continue
+        # Component hint
+        comp = "general"
+        cm = re.search(r"`(shesh-[a-z-]+)`", line)
+        if cm:
+            comp = cm.group(1)
+        prio = "P0" if "P0" in line else "P1" if "P1" in line else "P2"
+        tid = f"todo-{hashlib.sha1(title.encode()).hexdigest()[:8]}"
+        tasks.append(
+            {
+                "id": tid,
+                "title": clean,
+                "raw": title,
+                "component": comp,
+                "priority": prio,
+                "status": "pending",
+                "created_at": swarm.utc_now(),
+                "line_no": i,
+            }
+        )
     return tasks
 
 
