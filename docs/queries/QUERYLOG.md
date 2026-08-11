@@ -434,3 +434,13 @@ non-autopilot items (kernel merge, hardware validation) and a one-command health
 check. Linked it from AUDIT_AND_ROADMAP. Will keep it current each run.
 
 **Docs:** MANUAL_VERIFICATION.md (new), AUDIT_AND_ROADMAP.md
+
+---
+
+## Q: "I have started the orchestrator so you should also start the work"
+
+**Answer:** Checked the GitHub swarm queue for `component:shesh-system`. It had no matching pending issue. Found and fixed a safety defect where a component worker could instead claim an unrelated pending issue; it now waits for a matching or `component:general` task.
+
+**Verification:** `make check` — GATE OK; 32 passed.
+
+---

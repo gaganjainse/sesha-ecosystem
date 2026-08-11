@@ -124,8 +124,9 @@ def list_pending_issues(component: str = "general") -> list[dict]:
             labs = [lb["name"] for lb in iss.get("labels", [])]
             if f"component:{component}" in labs or "component:general" in labs:
                 filtered.append(iss)
-        if not filtered:
-            filtered = issues
+        # A component worker must never fall back to unrelated work.  An empty
+        # filtered result means that this worker should wait for a matching
+        # issue, not claim the first pending issue from another component.
         return filtered
     return issues
 
