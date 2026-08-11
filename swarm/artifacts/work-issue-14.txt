@@ -1,0 +1,5 @@
+Worked by worker-shesh-audit-e2b.loca-3606-7b2860-w8uo
+Issue #14
+Title: [swarm] todo-6d745b8f `scripts/supervise.sh` — loops: pick next ⬜, make a branch, implement, test, com
+Branch: swarm/issue-14/worker-shesh-audit-e2b.loca-3606-7b2860-w8uo
+Component: shesh-audit
