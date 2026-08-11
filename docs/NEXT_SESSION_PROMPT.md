@@ -63,7 +63,7 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 8. Archive not delete, no force-push main
 
 **Handoff metrics:**
-- Workspace 88.0 MB, files 3459, age 35.5 min, uncommitted 0
+- Workspace 88.0 MB, files 3465, age 39.2 min, uncommitted 0
 - Lock canary 16, pending 16
 
 **Swarm parallel:**
@@ -75,5 +75,5 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 **Message to give you:** "Continue Shesh — read SESSION_HANDOFF first, TODO top-to-bottom, next ⬜. PAT encrypted at ~/.config/shesh/github.pat.enc — agent will ask password and decrypt. Run session_guard --status and make check."
 
 ---
-Generated: 2026-08-11T10:08:01.982045+00:00 — handoff /home/user/dist/handoff.json
+Generated: 2026-08-11T10:11:44.584801+00:00 — handoff /home/user/dist/handoff.json
 PAT status at gen: {'enc_exists': True, 'plain_exists': False, 'need_password': True}
