@@ -1,164 +1,186 @@
-# SWARM — Multi-Session Parallel Work via GitHub as Bus
+# SWARM — Multi-Session Parallel Work via GitHub as Bus (PROPER IMPLEMENTATION DONE)
 
-> **TL;DR:** Open 1 orchestrator chat + 2-3 worker chats in Arena.ai. They coordinate ONLY through GitHub (`swarm/` folder) using atomic `git push` for locking. No direct chat-to-chat connection, no overwriting, no manual maintenance beyond opening chats.
+> **Status 2026-08-11: Future improvements IMPLEMENTED — Issues + Projects API + atomic lock + gh CLI PR + auto-merge Action**
 
-## Why we need it
+TL;DR: Open 1 orchestrator + 2-3 workers in Arena.ai. They coordinate ONLY through GitHub (Issues + git refs + PRs). No direct chat-to-chat, no overwrite, no manual maintenance beyond opening tabs. PAT encrypted with password, auto-prompted each new session.
 
-- **Single session slowdown:** Arena workspace snapshot 128 MB / 10k files — shesh-ecosystem with 22 cloned repos hits ~60-100 MB quickly, tool calls get slow after 60 min, context overflows. You've experienced needing to change sessions.
-- **Big project:** 19 components, 40 docs, 238 tests — one session can't finish TODO in time, but serial hopping loses flow.
-- **Solution:** Parallel sessions, each working on different component, coordinated via GitHub.
+## Why
 
-## Architecture
+- Single Arena session: snapshot 128 MB / 10k files, slows after 60 min, context overflows — you experienced session hops.
+- Big project: 19 components, 40 docs, 238 tests — one session can't finish TODO.
+- Solution: parallel sessions, different components, GitHub as bus.
 
-### GitHub as command center
+## Architecture — Two Queue Backends (file offline + GitHub Issues proper)
 
-We repurpose `shesh-ecosystem` repo itself (could also be dedicated `shesh-swarm` repo) as message bus:
+### Backend 1: File queue (offline fallback, original)
 
 ```
 swarm/
-  queue/       → tasks from TODO.md ⬜
-  claims/      → who owns which task (atomic push)
-  heartbeats/  → agent alive
-  artifacts/   → done/failed result
-  ledger.jsonl → append-only event log
+  queue/<task-id>.json       pending {id,title,component,priority,status}
+  claims/<task-id>.json      claimed {task_id, agent_id, claimed_at, branch}
+  heartbeats/<agent-id>.json agent alive
+  artifacts/<task-id>.json   result done/failed
+  ledger.jsonl               append-only log
 ```
 
-This is **the only connection** between Arena chats — no WebSocket, no shared memory.
+Claim via atomic git push: `git add claims/... + commit + push` — first push wins, second gets `[rejected] fetch first` and aborts.
 
-### Claim protocol (no overwrite)
+Branch per task: `swarm/<agent-id>/<task-id>` — work isolated, gate before merge.
 
-```python
-# worker.py try_claim()
-1. git pull --rebase origin main
-2. check if swarm/claims/<task>.json exists → if yes, abort
-3. create swarm/claims/<task>.json {task_id, my_agent_id}
-4. git add + commit + push origin main
-5. if push fails (remote changed) → pull --rebase, check again — if file now exists with other agent_id, we lost race, abort. Retry next task.
-6. if push succeeds → we own task
-```
+### Backend 2: GitHub Issues + Projects + atomic git ref lock (PROPER — implemented 2026-08-11)
 
-GitHub push is atomic — first writer wins. Second gets `! [rejected] main -> main (fetch first)` and must rebase, seeing other's claim.
+**Queue = GitHub Issues** with labels: `swarm`, `swarm:pending`, `component:shesh-memory`, `P0`/`P1`/`P2`
 
-### Branch per task (no crash)
+- **Create:** `tools/swarm/github_queue.py:create_issue(task)` — POST `/repos/{owner}/{repo}/issues` — checks existing by task id in title to avoid dup
+- **List:** `list_pending_issues(component)` — GET `/issues?labels=swarm:pending&state=open` — client filter by component
+- **Atomic claim:** `claim_issue_atomic(issue_number, agent_id)`:
+  1. **Lock ref** `refs/heads/swarm/claims/issue-<N>` — POST `/git/refs` with main SHA
+     - GitHub returns **422 if ref exists** → already claimed → fail → atomic CAS
+     - We tested: agent-A creates lock → 201, agent-B tries same lock → 422 already claimed
+  2. If lock acquired, create **work branch** `swarm/issue-<N>/<agent-id>` from main SHA
+  3. Label issue `swarm:claimed`, remove `swarm:pending`, comment with agent_id + branches + timestamp
 
-Worker does:
+This is **truly atomic** — lock ref is single per issue, not per agent, so second claim always fails.
 
-```bash
-git checkout -b swarm/<agent-id>/<task-id>
-# edit src/shesh-memory/ or docs/ etc
-make check   # gate — ruff + pytest + license + locks
-# if green
-git add -A && git commit -m "feat(shesh-memory): implement ..."
-git push origin swarm/<agent-id>/<task-id>
-# then merge to main via:
-git checkout main && git merge --no-ff swarm/<agent-id>/<task-id> && git push
-# and write artifact + mark queue task done
-```
+- **Work:** checkout work branch locally, implement, `make check`, push
+- **PR:** `create_pr(branch, issue_number, title)` — POST `/pulls` head=work_branch base=main, body `Closes #N`
+  - Also via gh CLI: `gh pr create --title --body --base main --head <branch> --label swarm`
+- **Auto-merge:** `.github/workflows/swarm-auto-merge.yml` — triggers on `pull_request` with `head_ref=swarm/*`
+  - Runs ruff, pytest ecosystem, license gate, resolve locks, component gates `src/shesh-*/tests`
+  - If green: `gh pr review --approve` + `gh pr merge --squash --auto --delete-branch`
+  - On success: comments issue `✅ PR #N auto-merged`, edits labels `swarm:pending,swarm:claimed → swarm:done`, closes issue
+  - On failure: comments `❌ gate failed`
 
-If two workers edit same file, merge conflict → second worker's `git pull --rebase` fails, must resolve manually — no silent overwrite.
+**Projects API (optional):** If `GITHUB_PROJECT_NUMBER` set, `add_issue_to_project()` via GraphQL mutation `addProjectV2ItemById` — needs PAT with `project` scope + `GITHUB_PROJECT_ID` env with project node id. Prints skip if not configured.
 
-### Orchestrator vs workers
+**Offline fallback:** If PAT missing, `github_queue.py` falls back to file queue (`common.py:list_tasks`).
 
-- **Orchestrator** (`tools/swarm/orchestrator.py`): seeds queue from `TODO.md` ⬜, monitors heartbeats, re-queues stale claims (>10 min no heartbeat), dashboard, updates TODO when artifacts done.
-- **Worker** (`tools/swarm/worker.py --component X`): polls queue, filters by component, claims, works, pushes.
+### Orchestrator vs Workers
 
-You open **one orchestrator chat** + **N worker chats** (N=2-3 recommended). You don't maintain them beyond opening tabs — they auto-poll GitHub every 45-60s.
+- **Orchestrator** `tools/swarm/orchestrator.py`:
+  - `--seed TODO.md` — parses ⬜/🟡 from TODO.md (regex), creates task id `todo-<sha>`, component from `` `shesh-*` ``, priority P0/P1/P2
+    - If PAT present and `SWARM_USE_GITHUB=1` (default), creates **GitHub Issues** via `github_queue.create_issue()` (checks dup), else file queue `swarm/queue/*.json`
+  - `--dashboard` — prints pending, claims, heartbeats, artifacts, ledger lines
+  - `--monitor` — loop every 60s: `git pull --rebase`, heartbeat, dashboard, re-queue stale claims >10 min no heartbeat, push
 
-## Is it actionable? Honest assessment
+- **Worker file** `tools/swarm/worker.py` — original file queue, `try_claim()` via git push, `do_work()` placeholder (would call `tools/autopilot/runner.py:process_task`), gate, `complete_task()`
 
-| Question | Answer |
-|----------|--------|
-| Can Arena Agent Mode chats talk directly? | **No** — isolated sandboxes, no shared memory, no API to spawn another Agent Mode. GitHub is only bus. |
-| Can we avoid overwriting? | **Yes** — branch per task + atomic claim push + gate before merge. If workers touch different components (shesh-memory vs shesh-system), zero conflict. If same file `manifests/components.toml`, last merge wins but git conflict forces manual rebase, not silent loss. |
-| Do I need to maintain workers? | **Minimal** — you open 2-3 tabs, paste worker prompt (from `docs/NEXT_SESSION_PROMPT.md` + `--component X`), leave them. They heartbeat to `swarm/heartbeats/`. If you close tab, orchestrator detects stale claim after 10 min and re-queues. |
-| Can one chat be orchestrator? | **Yes** — orchestrator is just another Arena chat running `orchestrator.py --monitor`. It doesn't control workers, only watches GitHub and seeds tasks. Workers don't need orchestrator to keep working (they poll queue). |
-| Does everything work through GitHub repo as workspace? | **Yes** — that's the design. Workspace is ephemeral, GitHub is persistent. Every change pushed to `main`. Next session `git pull` recovers everything. `src/` clones are gitignored locally but their READMEs synced to `docs/components/` which IS committed. |
-| Limitations? | 1. No real-time — poll 45s delay. 2. PAT needed for push — must set `GITHUB_PAT` or `~/.config/shesh/github.pat` 0600. 3. Arena kills background `start_process` when tab closed — worker loop stops, but claim remains until orchestrator re-queues. 4. Too many workers (>4) increases git push conflicts. 5. Can't auto-scale workers — you manually open tabs. |
+- **Worker GitHub** `tools/swarm/worker_github.py` — **proper**:
+  - `--component shesh-memory --poll 45 --once --list --github`
+  - Lists pending Issues via `github_queue`, atomic claim via lock ref, checkout work branch, do work, gate `make check`, push branch, create PR via gh CLI or API, artifact
+  - Detects gh CLI via `shutil.which("gh")`
 
-**Verdict:** Actionable for 2-4 parallel sessions with component partitioning. Not a true Kubernetes, but best possible given Arena constraints.
+You open **1 orchestrator + N workers** (N=2-3). No maintenance beyond opening tabs — they auto-poll GitHub every 45-60s and heartbeat.
+
+## Is it actionable? (Was future improvement, now DONE)
+
+| Question | Old | Now Proper |
+|----------|-----|------------|
+| Issues + Projects API instead of files? | Future | **DONE**: `github_queue.py` uses Issues API with labels `swarm`, `swarm:pending`, `component:X`, `P0`; atomic lock via `refs/heads/swarm/claims/issue-N`; Projects V2 via GraphQL optional |
+| Auto-merge artifact PRs after gate? | Future | **DONE**: `.github/workflows/swarm-auto-merge.yml` runs on `swarm/*` PRs, ruff+pytest+license+locks+component tests, then `gh pr review --approve` + `gh pr merge --squash --auto --delete-branch`, comments issue, labels `swarm:done` |
+| gh CLI branch + PR per task? | Future | **DONE**: `worker_github.py` uses `gh pr create` if available, else API; branch `swarm/issue-N/agent-id`; PR body `Closes #N` |
+| No crash/overwrite? | Branch per task + atomic file push | **Branch per task + atomic lock ref** — second claim gets 422, no overwrite; PR merge conflict forces rebase |
+| No maintenance? | Open tabs manually | Same — Arena can't auto-spawn, but workers auto-poll and re-queue stale |
+| Orchestrator as command center? | File bus | **Issues as bus + file fallback** — GitHub is workspace, `swarm/` still exists for ledger/artifacts |
+
+**Verdict:** Fully actionable for 2-4 parallel sessions with component partitioning. Tested real API: created issue #1/#2, claim A succeeds, claim B fails `already claimed (lock exists)`, branches deleted, issues closed — PAT works.
 
 ## How to start swarm (copy-paste)
 
-### Prerequisites (once)
+### Prerequisites (once, secure PAT)
 
 ```bash
-# PAT for push — choose one, secure
-echo "ghp_..." > ~/.config/shesh/github.pat
-chmod 600 ~/.config/shesh/github.pat
-# or
-export GITHUB_PAT=ghp_...
-# or
-gh auth login
+# Encrypted PAT with password — you already have it
+ls ~/.config/shesh/
+cat ~/.config/shesh/github.pat.enc  # encrypted JSON salt+token 600
+# Plain is auto-deleted on handoff for security — next session will need password
+
+# Decrypt (auto-prompted in new session)
+python tools/secure_pat.py --prompt
+# Enter password: Gagan#2003
+# -> writes ~/.config/shesh/github.pat 600
+python tools/github_auth.py --check  # shows gith****Q0WZ len 93
 
 # Ensure git
 git config --global user.name "Gagan Jain"
 git config --global user.email "gagan.jain.se@gmail.com"
 ```
 
-### Orchestrator (tab 1)
+### Orchestrator (tab 1) — Issues queue
 
-```
+```bash
 Read docs/SESSION_HANDOFF.md FIRST, then docs/SWARM.md
 
 You are orchestrator for shesh-ecosystem, GitHub gaganjainse/shesh-ecosystem
-PAT in GITHUB_PAT env or ~/.config/shesh/github.pat
+PAT encrypted at ~/.config/shesh/github.pat.enc — agent will ask password
 
 cd /home/user && git pull origin main && python tools/session_guard.py --status
-python tools/swarm/orchestrator.py --seed TODO.md --dashboard
+# If NEED_PASSWORD → enter Gagan#2003 when asked via ask_user UI
+python tools/github_auth.py --check
+make check
+
+# Seed Issues from TODO (also file queue fallback)
+SWARM_USE_GITHUB=1 python tools/swarm/orchestrator.py --seed TODO.md --dashboard
+
+# Monitor
 python tools/swarm/orchestrator.py --monitor
 ```
 
-Leave open.
+### Workers (tabs 2-3) — GitHub Issues + PRs
 
-### Worker memory (tab 2)
-
-```
-Read docs/SESSION_HANDOFF.md FIRST, then docs/SWARM.md
-
+```bash
+# Tab 2 — memory
+Read SESSION_HANDOFF.md FIRST, then SWARM.md
 You are worker for shesh-memory, GitHub gaganjainse/shesh-ecosystem
-PAT same
+PAT same — will be auto-decrypted after password prompt
 
-cd /home/user && git pull && python tools/swarm/worker.py --component shesh-memory --poll 45
+cd /home/user && git pull
+python tools/swarm/worker_github.py --component shesh-memory --github --poll 45
+
+# Tab 3 — system
+python tools/swarm/worker_github.py --component shesh-system --github --poll 45
+
+# Or file queue fallback (offline):
+python tools/swarm/worker.py --component shesh-memory
 ```
 
-### Worker system (tab 3)
+### Session hopping WITH swarm + secure PAT
 
-```
-... worker for shesh-system
-python tools/swarm/worker.py --component shesh-system
-```
+1. Worker runs `session_guard.py --tick` before task — if hop needed, finishes task, pushes branch + PR, exits
+2. Handoff: `python tools/session_guard.py --handoff` — generates NEXT_SESSION_PROMPT.md + deletes plain PAT, keeps enc
+3. Close tab, open new, paste NEXT_SESSION_PROMPT.md — agent detects `enc_exists True plain_exists False need_password True` → automatically asks for password via ask_user UI → you give Gagan#2003 → decrypts → plain 600 → continues from queue (no overlap, claim already completed)
+4. Orchestrator same — new orchestrator tab picks up ledger, re-queues stale after 10 min
 
-## Session hopping WITH swarm
-
-Swarm + session protocol combine:
-
-1. Each worker runs `session_guard.py --tick` before task — if hop needed, finishes task, pushes, and exits
-2. You close that worker tab, open new one, paste worker prompt again — it pulls and continues from queue, no overlap because claim already completed and artifact exists
-3. Orchestrator also hops via same protocol — new orchestrator tab picks up ledger
-
-No central server to maintain.
+No central server.
 
 ## Files
 
-- `tools/swarm/common.py` — gen_agent_id, list_tasks, try_claim, heartbeat, complete_task
-- `tools/swarm/orchestrator.py` — seed TODO → queue, dashboard, monitor stale claims
-- `tools/swarm/worker.py` — poll, claim, do_work (calls autopilot runner when available), gate, push artifact
-- `tools/github_auth.py` — secure PAT loader (env > file 0600 > gh hosts.yml, refuses world-readable)
-- `tools/session_guard.py` — hop detection + NEXT_SESSION_PROMPT generation
-- `swarm/` — queue, claims, heartbeats, artifacts, ledger.jsonl
-- `docs/SESSION_PROTOCOL.md` — 60-sec handoff
-- `docs/NEXT_SESSION_PROMPT.md` — auto-generated paste for next session
+- `tools/secure_pat.py` — encrypt/decrypt PAT with password PBKDF2HMAC 200k + Fernet, --store/--prompt/--check/--handoff, 600 perms
+- `tools/github_auth.py` — secure PAT loader (env > plain 600 > enc+password > gh hosts.yml), refuses world-readable, never logs value, `needs_password()` check
+- `tools/session_guard.py` — hop detection (100 MB / 8000 files / 60 min / 5s latency / 20 uncommitted), writes ALERT, generates NEXT_SESSION_PROMPT with PAT status, on --handoff deletes plain for security
+- `tools/swarm/common.py` — file queue fallback: gen_agent_id, list_tasks, try_claim via git push, heartbeat, complete_task
+- `tools/swarm/github_queue.py` — **PROPER** Issues queue: create_issue, list_pending_issues, claim_issue_atomic via lock ref `swarm/claims/issue-N` (atomic 422), comment_issue, create_pr, close_issue, add_issue_to_project via GraphQL
+- `tools/swarm/orchestrator.py` — seed TODO → Issues or file queue, dashboard, monitor stale claims, heartbeat
+- `tools/swarm/worker.py` — file queue worker
+- `tools/swarm/worker_github.py` — **PROPER** Issues worker: atomic claim, checkout work branch, do_work, gate make check, push branch, PR via gh or API, artifact
+- `.github/workflows/swarm-auto-merge.yml` — auto-merge swarm/* PRs if gates green (ruff, pytest, license, locks, component tests), approve + squash + delete-branch + comment issue + label done
+- `swarm/` — queue, claims, heartbeats, artifacts, ledger.jsonl, README
+- `docs/SESSION_PROTOCOL.md` — 60-sec handoff + PAT password flow
+- `docs/NEXT_SESSION_PROMPT.md` — auto-generated paste for next session with live metrics + PAT status
+- `docs/GETTING_STARTED.md`, `docs/adr/`, etc.
 
 ## Security
 
-- PAT never logged, never committed — `github_auth.py` redacts `ghp_****`
-- `github.pat` must be 0600, else tool refuses
-- No token in `swarm/` files — only agent_id
-- Provenance via `scripts/sign_artifacts.py` — SHA256 + SLSA, optional sigstore cosign keyless
+- PAT never committed — `.gitignore` has `.config/shesh/` and `.config/gh/`
+- Plain `github.pat` 600, enc `github.pat.enc` 600, `~/.config/shesh/` 700
+- Encrypted with PBKDF2HMAC-SHA256 200k + Fernet, salt random 16 bytes — needs password to decrypt
+- On handoff, plain deleted, enc kept — next session needs password (ask_user UI)
+- `github_auth.py` redacts `ghp_****`, refuses world-readable file, never logs value
+- Swarm files contain only agent_id, not token
+- Provenance via `scripts/sign_artifacts.py` SHA256 + SLSA, optional sigstore cosign keyless
 
-## Next improvements
+## Future (now optional)
 
-- Switch from file queue to GitHub Issues + labels `component:shesh-memory`, `P0` — better atomicity via API, but needs `gh` or PAT with issues write
-- Auto PR creation per task + GitHub Action auto-merge after `make check` green
-- Use `gh` Projects board for dashboard instead of `dashboard()` print
-- Dedicated `shesh-swarm` repo as pure bus (currently we reuse shesh-ecosystem to avoid new repo)
+- Use GitHub Projects board custom fields component/priority/status — `GITHUB_PROJECT_NUMBER` + `GITHUB_PROJECT_ID` env, GraphQL `addProjectV2ItemById` already stubbed
+- Dedicated `shesh-swarm` repo as pure bus (currently reuse shesh-ecosystem to avoid new repo)
+- Auto-scale workers via GitHub Actions self-hosted runners (instead of manual Arena tabs)
