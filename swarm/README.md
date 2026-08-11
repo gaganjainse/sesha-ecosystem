@@ -48,7 +48,9 @@ Leave it open.
 
 ### 2. Workers (2-3 chats)
 
-Open **another** Arena chat per component:
+Open **another** Arena chat per component. The GitHub worker is safe-idle
+unless a real implementation callback is supplied; it never creates a
+marker-only PR:
 
 ```
 Read docs/SESSION_HANDOFF.md FIRST

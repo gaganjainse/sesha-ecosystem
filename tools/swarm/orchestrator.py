@@ -86,6 +86,7 @@ def parse_todos(todo_path: pathlib.Path) -> list[dict]:
                 "component": comp,
                 "priority": prio,
                 "status": "pending",
+                "blocked": False,  # blocked items are skipped, never seeded
                 "created_at": swarm.utc_now(),
                 "line_no": i,
             }
