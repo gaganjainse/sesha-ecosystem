@@ -206,6 +206,24 @@ provides = ["android-adb", "phone-sensors", "phone-actuators"]
 upstream = { name = "phone-harness", repo = "ShawnPana/phone-harness", ref = "main" }
 notes = "ADB port of the macOS phone-harness OCR/vision→tap loop for Realme Narzo 90x."
 
+[component.shesh-media]
+layer = "soma"
+repo = "gaganjainse/shesh-media"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["screenshots", "recording", "wallpaper", "audio-routing"]
+notes = "Media tools — grim+slurp screenshots, wf-recorder screen recording, swaybg/hyprpaper wallpaper, wpctl/pactl audio routing — all behind Guard"
+
+[component.shesh-messaging]
+layer = "soma"
+repo = "gaganjainse/shesh-messaging"
+version = "0.1.0"
+license = "GPL-3.0"
+channel = "canary"
+provides = ["telegram-bridge", "signal-bridge", "messaging"]
+notes = "Messaging bridges Telegram/Signal as isolated opt-in services, flag file ~/.config/shesh/messaging/{telegram,signal}.enabled, token via shesh-secrets"
+
 # ─────────────────────────────────────────────────────────────────────────────
 # CLOUD GATEWAY — optional free big models via OmniRoute (forked)
 # ─────────────────────────────────────────────────────────────────────────────

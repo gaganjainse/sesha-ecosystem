@@ -150,6 +150,21 @@
       "upstream": null,
       "version": "0.1.0"
     },
+    "shesh-media": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "audio-routing",
+        "recording",
+        "screenshots",
+        "wallpaper"
+      ],
+      "repo": "gaganjainse/shesh-media",
+      "upstream": null,
+      "version": "0.1.0"
+    },
     "shesh-memory": {
       "channel": "canary",
       "layer": "mind",
@@ -168,6 +183,20 @@
         "ref": "main",
         "repo": "gaganjainse/rag-service"
       },
+      "version": "0.1.0"
+    },
+    "shesh-messaging": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "messaging",
+        "signal-bridge",
+        "telegram-bridge"
+      ],
+      "repo": "gaganjainse/shesh-messaging",
+      "upstream": null,
       "version": "0.1.0"
     },
     "shesh-mind": {
@@ -278,6 +307,6 @@
       "version": "1.4.5-sesha1"
     }
   },
-  "count": 16,
-  "sha256": "ccd04e476b4e74e07fe236a267c0087dcd3fd2ec178d7ecf033b4378fa6554d6"
+  "count": 18,
+  "sha256": "4780bbfe8f21e43204b3a3c5d7b7bdaa0b9a2d7f4e0e1533f49d07e42c1c42da"
 }
