@@ -137,9 +137,27 @@ def main() -> int:
     ap.add_argument("--component", default="general", help="component filter e.g., shesh-memory")
     ap.add_argument("--poll", type=int, default=45)
     ap.add_argument("--once", action="store_true")
-    ap.add_argument("--github", action="store_true", help="force GitHub Issues queue (default auto-detect PAT)")
+    ap.add_argument("--github", action="store_true", help="force GitHub Issues queue")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--setup", action="store_true", help="selective clone only needed repos")
+    ap.add_argument("--clean", action="store_true", help="clean caches")
     args = ap.parse_args()
+
+    # Efficiency: selective clone
+    if args.setup or args.clean:
+        import subprocess
+
+        if args.clean:
+            subprocess.run(
+                ["python", "tools/setup_worker.py", "--clean"], cwd=str(ROOT)
+            )
+        if args.component != "general":
+            subprocess.run(
+                ["python", "tools/setup_worker.py", "--component", args.component],
+                cwd=str(ROOT),
+            )
+        else:
+            print("Setup efficient — platform role no src clone needed")
 
     pat = github_auth.load_pat()
     use_github = args.github or (pat is not None)

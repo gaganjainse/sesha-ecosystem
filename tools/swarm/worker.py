@@ -85,7 +85,25 @@ def main() -> int:
     ap.add_argument("--poll", type=int, default=45, help="poll interval sec")
     ap.add_argument("--list", action="store_true", help="list pending tasks and exit")
     ap.add_argument("--once", action="store_true", help="do one task then exit")
+    ap.add_argument("--setup", action="store_true", help="selective clone only needed repos (efficient)")
+    ap.add_argument("--clean", action="store_true", help="clean caches before start")
     args = ap.parse_args()
+
+    # Efficiency: selective clone
+    if args.setup or args.clean:
+        import subprocess
+
+        if args.clean:
+            subprocess.run(["python", "tools/setup_worker.py", "--clean"], cwd=str(ROOT))
+        # Setup selective
+        if args.component != "general":
+            subprocess.run(
+                ["python", "tools/setup_worker.py", "--component", args.component],
+                cwd=str(ROOT),
+            )
+        else:
+            # Guess role from component? default platform = no clone
+            print("Setup efficient — use --component shesh-memory etc for selective clone")
 
     agent_id = swarm.gen_agent_id(f"worker-{args.component}")
     print(f"Worker {agent_id} for component={args.component} poll={args.poll}s")
