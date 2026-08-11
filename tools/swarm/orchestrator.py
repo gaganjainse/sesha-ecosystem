@@ -39,39 +39,67 @@ SWARM = ROOT / "swarm"
 
 
 def parse_todos(todo_path: pathlib.Path) -> list[dict]:
+    """Parse actionable TODO items while excluding 🔴 blocked subtrees.
+
+    A blocked parent in TODO.md is represented by a top-level ``- 🔴`` item
+    followed by indented checklist entries.  The old parser treated those
+    children as actionable and seeded them into GitHub, where a worker could
+    incorrectly auto-merge a placeholder PR.  Track the blocked scope until
+    the next heading or top-level list item.
+    """
     tasks = []
     text = todo_path.read_text()
+    blocked_scope = False
     # Match lines like "- ⬜ **`shesh-brain`** — ..."
     # We'll give each a task id: todo-<hash>
     import hashlib
 
     for i, line in enumerate(text.splitlines()):
-        if "⬜" in line or "🟡" in line:
-            # Skip blocked 🔴 unless explicitly P1 that is unblocked — we include ⬜ and 🟡
-            title = line.strip()
-            # Clean markdown
-            clean = re.sub(r"[-*]\s*[⬜🟡🔴✅💡]+\s*", "", title)[:120]
-            if len(clean) < 10:
-                continue
-            # Component hint
-            comp = "general"
-            m = re.search(r"`(shesh-[a-z-]+)`", line)
-            if m:
-                comp = m.group(1)
-            prio = "P0" if "P0" in line else "P1" if "P1" in line else "P2"
-            tid = f"todo-{hashlib.sha1(title.encode()).hexdigest()[:8]}"
-            tasks.append(
-                {
-                    "id": tid,
-                    "title": clean,
-                    "raw": title,
-                    "component": comp,
-                    "priority": prio,
-                    "status": "pending",
-                    "created_at": swarm.utc_now(),
-                    "line_no": i,
-                }
-            )
+        stripped = line.strip()
+        indent = len(line) - len(line.lstrip())
+
+        if stripped.startswith("##"):
+            blocked_scope = False
+        elif blocked_scope and stripped.startswith("-") and indent == 0:
+            # A new top-level item ends the blocked subtree.
+            blocked_scope = False
+
+        if re.match(r"^\s*-\s*🔴", line) and "⬜" not in line and "🟡" not in line:
+            blocked_scope = True
+            continue
+
+        if blocked_scope:
+            continue
+
+        # Only an explicit ⬜ checklist marker starts a new task.  🟡 marks
+        # work already in progress and status prose is not a new assignment.
+        if not re.match(r"^\s*[-*]\s*⬜\s+", line):
+            continue
+        title = line.strip()
+        # Clean markdown
+        clean = re.sub(r"[-*]\s*[⬜🟡🔴✅💡]+\s*", "", title)[:120]
+        if len(clean) < 10:
+            continue
+        # Component hint
+        comp = "general"
+        m = re.search(r"`(shesh-[a-z-]+)`", line)
+        if m:
+            comp = m.group(1)
+        prio = "P0" if "P0" in line else "P1" if "P1" in line else "P2"
+        tid = f"todo-{hashlib.sha1(title.encode()).hexdigest()[:8]}"
+        tasks.append(
+            {
+                "id": tid,
+                "title": clean,
+                "raw": title,
+                "component": comp,
+                "priority": prio,
+                "status": "pending",
+                "created_at": swarm.utc_now(),
+                "line_no": i,
+                "blocked": False,
+            }
+        )
     return tasks
 
 
