@@ -1,0 +1,215 @@
+# Upstream dotfiles and components we track for stealing/improving/customizing
+# This is the intake registry for style + performance improvements that integrate into illogical-impulse look
+# Philosophy: fork + wrap + upgrade wrapper for our needs + customize/specialize for CachyOS/Hyprland/6GB VRAM and improve
+# We integrate various different systems, but no conflict — cautious but enterprising via MCP stdio, Guard, separate services
+
+[ecosystem]
+name = "shesh-upstreams"
+schema_version = 1
+
+# ── Base look — we already use this, don't replace, but improve ──
+[upstream.end-4-dots-hyprland]
+repo = "end-4/dots-hyprland"
+ref = "main"
+license = "GPL-3.0"
+provides = ["illogical-impulse-look", "quikcshell-ii-widgets", "material-you", "lua-config"]
+status = "active-base"
+notes = "Our base look — illogical-impulse — we love its look, don't replace, only improve backend that integrates into look"
+
+# ── Mainstream forks to steal features/issues from — style improvements, not replacement ──
+
+[upstream.ml4w-dotfiles]
+repo = "my-linux-for-work/dotfiles"
+ref = "main"
+license = "GPL-3.0"
+provides = ["declarative-bar-pattern", "welcome-app-concept"]
+steal = ["statusbar.json single-file Quickshell bar config declarative pattern", "welcome app concept"]
+improve = "Adapt declarative bar pattern for our shesh-ambient offer overlay, not replace illogical-impulse bar"
+conflict_risk = "low — pattern only, no code conflict"
+
+[upstream.jakoolit-hyprland-dots]
+repo = "JaKooLit/Hyprland-Dots"
+ref = "main"
+license = "GPL-3.0"
+provides = ["distro-guards", "per-monitor-refresh", "sddm-sugar-candy", "bluetooth-menu"]
+steal = ["distro guards per-distro checks", "per-monitor refresh scripts eDP-1 1920x1200@144", "reliable Bluetooth menu", "SDDM sugar-candy greeter"]
+improve = "Upgrade wrapper: make distro guards check CachyOS specifically, per-monitor refresh for 1920x1200@144 RTX 4050 6GB, Bluetooth menu integrate into Quickshell ii widgets via existing BluetoothMPRIS widget"
+conflict_risk = "low — logic only, keep end-4 visuals"
+
+[upstream.hyde]
+repo = "prasanthrangan/hyprdots"
+ref = "main"
+license = "GPL-3.0"
+provides = ["wallbash", "themepatcher", "hyde-cli"]
+steal = ["Wallbash one wallpaper → all apps theming", "themepatcher for apps matugen doesn't cover", "hyde-cli modularity"]
+improve = "Upgrade: matugen already used in illogical-impulse, add Wallbash for apps matugen doesn't cover (e.g., GTK4 libadwaita), hyde-cli modularity for our installer channel support"
+conflict_risk = "low — theming, no conflict with look, improves"
+
+[upstream.noctalia]
+repo = "CachyOS/cachyos-hyprland-settings"
+ref = "main"
+license = "GPL-3.0"
+provides = ["noctalia-shell", "animation-curves", "nvidia-compositing"]
+steal = ["Noctalia animation curves and NVIDIA compositing hints", "CachyOS Hyprland Noctalia installer option from 260628 ISO", "144 Hz smoothness curves"]
+improve = "Compare animation curves and NVIDIA compositing hints, do NOT switch shells — keep illogical-impulse, steal curves for buttery feel"
+conflict_risk = "low — curves QML, no dep change"
+
+[upstream.caelestia-shell]
+repo = "caelestia-shell/caelestia"
+ref = "main"
+license = "GPL-3.0"
+provides = ["easing-blur", "144Hz-smoothness"]
+steal = ["Easing/blur parameters QML for 144 Hz smoothness — copy easing/blur from Caelestia-shell, no dep change"]
+improve = "Upgrade: apply Caelestia easing [0.16,1,0.3,1,1,1] springy feel to illogical-impulse pill bar morph, more smooth and buttery"
+conflict_risk = "low — QML params only"
+
+[upstream.dank-material-shell]
+repo = "AvengeMedia/DankMaterialShell"
+ref = "main"
+license = "MIT"
+provides = ["dankcalendar", "dgop-system-monitoring", "dank-qml-common", "complete-shell"]
+steal = ["dankcalendar local/Google/Microsoft/CalDAV calendars", "dgop system monitoring TUI and Go library (powers process list/dashboard widgets)", "dank-qml-common shared QML widgets", "dankgo common Go modules"]
+improve = "Upgrade wrapper: add calendar integration to shesh-calendar (local-first iCal vdir already), dgop library for shesh-system system monitoring TUI, shared QML widgets for our shesh-ambient offer overlay — backend, not replacing look"
+conflict_risk = "medium — Go daemon + QML shared widgets via dank-qml-common — separate processes QML IPC not shared memory, so no conflict if we namespace via mcp and separate systemd services"
+
+[upstream.ekremx25-quickshell]
+repo = "ekremx25/quickshell"
+ref = "main"
+license = "MIT"
+provides = ["modular-bar", "dock", "material-you", "eq-10-band", "multi-monitor", "hdr-vrr", "night-light", "osd", "app-drawer", "wallpaper-picker", "lock-screen", "network-bluetooth-vpn"]
+steal = [
+  "bar_config.json declarative pattern for drag-and-drop module arrangement",
+  "dock drag-and-drop pinning and reordering, live running indicators, auto-hide intelligent window-overlap",
+  "monitor management resolution/refresh/scale per output HDR/VRR/10-bit via single hyprctl --batch (no flicker)",
+  "Night Light blue-light filter 1000-6500K slider + fixed-time schedule midnight-wrap via hyprsunset/gammastep",
+  "10-band parametric EQ PipeWire filter-chain",
+  "Network & Bluetooth connection managers, VPN manager (NetworkManager+WireGuard)",
+  "Wallpaper picker with matugen palette extraction"
+]
+improve = "Upgrade wrapper for backend: monitor management single hyprctl --batch for 1920x1200@144 (no flicker) → improves response, network/bluetooth managers → better bluetooth wifi integration (user asked), wallpaper picker with matugen already in illogical-impulse but add live switching animations GIF via swww, EQ for audio routing, night light for eye care — all backend, not replacing illogical-impulse bar"
+conflict_risk = "low-medium — Go daemon + QML, separate processes, namespace via config dirs, no conflict if we keep custom/ thin"
+
+[upstream.qs-hyprview]
+repo = "dom0/qs-hyprview"
+ref = "main"
+license = "MIT"
+provides = ["window-switcher-expose", "9-layout-algorithms"]
+steal = ["9 mathematical layout algorithms to organize windows exactly, Qt/QML Wayland Layershell zero latency smooth animations, standalone drop-in"]
+improve = "Upgrade: add window switcher/exposé for Hyprland workspace overview, integrate into illogical-impulse via keybind Super+Tab, 9 layouts for better response and buttery feel"
+conflict_risk = "low — standalone drop-in, QML/JS no heavy Python"
+
+[upstream.hyprpanel]
+repo = "Jas-SinghFSU/HyprPanel"
+ref = "main"
+license = "MIT"
+provides = ["bar-panel", "context-menus"]
+steal = ["Bar/Panel extensive customizability and context menus"]
+improve = "Steal context menus pattern for our Quickshell ii widgets — right-click on bar modules for settings, not replacing bar"
+conflict_risk = "low — pattern only"
+
+[upstream.rishot]
+repo = "Gakuseei/Ricelin"
+ref = "main"
+license = "GPL-3.0"
+provides = ["pill-bar", "screenshot-tool", "morphic-animations"]
+steal = [
+  "Pill bar that morphs into everything — Single pill that morphs into launcher, lock screen, etc — surfaceSize + Behavior on width/height, Singletons/Motion.qml morphCurve [0.16,1,0.3,1,1,1] springy feel",
+  "rishot screenshot tool pure Wayland Quickshell app qs -c rishot, Print fires it, Shift+Print monitor picker, pure Wayland works on any wlroots",
+  "Ame bead flight timeline startFlight()/updateFlightGeo() for buttery animations"
+]
+improve = "Upgrade illogical-impulse look: add pill morphing with Motion.qml springy curve [0.16,1,0.3,1,1,1] for more smooth and buttery feel, integrate rishot screenshot tool into existing Print keybind configs/hypr/modules/rishot.lua"
+conflict_risk = "low — QML, pure Wayland, drop-in"
+
+# ── MCP servers — open-source only, truly free, no API key ──
+
+[upstream.mcp-filesystem]
+repo = "modelcontextprotocol/servers"
+ref = "main"
+license = "MIT"
+provides = ["filesystem-mcp"]
+steal = ["@modelcontextprotocol/server-filesystem sandboxed local file read/write — truly free no key"]
+improve = "Upgrade wrapper: scoped allowed dirs ~/Projects/personal, ~/Documents/Inbox, Guard deny ~/Documents/Job, ~/.ssh, tool prefixing fs_* via shesh-mcp-bundle"
+conflict_risk = "low — stdio, separate process, Guard"
+
+[upstream.mcp-git]
+repo = "modelcontextprotocol/servers"
+ref = "main"
+license = "MIT"
+provides = ["git-mcp"]
+steal = ["server-git status/diff/log without shelling out"]
+improve = "Upgrade: add github_view read-only + github MCP via shesh-secrets PAT scoped"
+conflict_risk = "low"
+
+[upstream.mcp-fetch]
+repo = "modelcontextprotocol/servers"
+ref = "main"
+license = "MIT"
+provides = ["fetch-mcp"]
+steal = ["mcp-server-fetch safe URL→markdown fetch"]
+improve = "Upgrade: user-agent Shesh/1.0 + timeout + content size limit"
+conflict_risk = "low"
+
+[upstream.mcp-playwright]
+repo = "microsoft/playwright-mcp"
+ref = "main"
+license = "Apache-2.0"
+provides = ["playwright-mcp"]
+steal = ["Playwright MCP drive real local browser — truly free no key — official Microsoft"]
+improve = "Package as shesh-browser MCP sandboxed profile, behind Guard, for JS sites/testing"
+conflict_risk = "low — separate browser profile"
+
+[upstream.mcp-context7]
+repo = "upstash/context7"
+ref = "main"
+license = "MIT"
+provides = ["context7-mcp"]
+steal = ["Up-to-date version-specific library docs — truly free optional key"]
+improve = "Package for version-pinned docs into prompt so model stops hallucinating package APIs"
+conflict_risk = "low"
+
+[upstream.mcp-duckduckgo]
+repo = "mcp-duckduckgo/mcp-duckduckgo"
+ref = "main"
+license = "MIT"
+provides = ["duckduckgo-mcp"]
+steal = ["DuckDuckGo privacy-first web search truly free no key"]
+improve = "Replace Tavily subscription $0.005/query online-led — use DuckDuckGo truly free no key + SearXNG self-hosted"
+conflict_risk = "low"
+
+[upstream.agent-search]
+repo = "brcrusoe72/agent-search"
+ref = "main"
+license = "MIT"
+provides = ["searxng-bundle", "search-mcp", "tor-stack"]
+steal = ["Self-hosted search API + MCP server for AI agents, bundles SearXNG, zero API keys, one-command docker compose up, 17 endpoints, layered content extraction + browser renderer, deduplication cross-engine, prompt injection scrubbing, adaptive failure analysis, optional Tor-anonymized stack — open-source alternative to Tavily/Exa/Serper"]
+improve = "Package as shesh-search component MIT zero keys one-command MCP server for Claude Desktop/Cursor, Tor option, better than Tavily free forever private no API key, upgrade wrapper: Guard policy allow search deny exfil protected paths, cache ~/.cache/shesh/search/, result ranking via RRF"
+conflict_risk = "low — self-hosted, separate Docker, no conflict"
+
+[upstream.searxng]
+repo = "searxng/searxng"
+ref = "master"
+license = "AGPL-3.0"
+provides = ["searxng-metasearch"]
+steal = ["SearXNG self-hosted metasearch 70+ engines, no key, fully private, no monthly fees, aggregates 70+ sources"]
+improve = "Self-host on localhost:3939, use as backend for agent-search, no API key, fully private"
+conflict_risk = "low — Docker, separate"
+
+# ── Rust eBPF / File watcher / etc ──
+
+[upstream.notify-rs]
+repo = "notify-rs/notify"
+ref = "main"
+license = "MIT"
+provides = ["notify-watcher"]
+steal = ["Cross-platform filesystem notification library Rust 3.3k★, used by Alacritty, cargo watch, mdBook, Zed — RecommendedWatcher selects best backend inotify/FSEvents/ReadDirectoryChangesW automatically"]
+improve = "Replace custom polling loop in smart-organizer --watch (audit found it wastes I/O) with notify-rs RecommendedWatcher <100ms reaction"
+conflict_risk = "low — library, no conflict"
+
+[upstream.aya-rs]
+repo = "aya-rs/aya"
+ref = "main"
+license = "MIT"
+provides = ["aya-ebpf"]
+steal = ["Aya pure Rust eBPF library 4.7k★, focus developer experience, no libbpf dep, fast builds, BTF portable, supports tokio/async-std"]
+improve = "Use aya + aya-template cargo generate for execve/openat/tcp-retransmit tracers in shesh-ebpf, read-only behind Guard"
+conflict_risk = "low — eBPF runs in kernel, not userspace, separate domain"
