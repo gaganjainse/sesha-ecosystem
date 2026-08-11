@@ -122,10 +122,12 @@ def list_pending_issues(component: str = "general") -> list[dict]:
         filtered = []
         for iss in issues:
             labs = [lb["name"] for lb in iss.get("labels", [])]
+            # Strict: only component-matching or general, no fallback to arbitrary
+            # Previously had fallback to all pending which caused blocked kernel task claim — fixed
             if f"component:{component}" in labs or "component:general" in labs:
                 filtered.append(iss)
-        if not filtered:
-            filtered = issues
+        # FIX: Do NOT fallback to arbitrary pending when no matching component — return empty to wait
+        # User reported bug: Worker-Soma fell back to blocked kernel task when no shesh-system issue
         return filtered
     return issues
 
