@@ -33,9 +33,8 @@ import random
 import socket
 import string
 import subprocess
-import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 SWARM = ROOT / "swarm"
@@ -65,7 +64,7 @@ def gen_agent_id(role: str = "worker") -> str:
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def ensure_dirs() -> None:

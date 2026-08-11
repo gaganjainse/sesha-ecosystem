@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import re
 import sys
@@ -32,6 +33,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools/swarm"))
 
 import common as swarm
+from datetime import UTC
 
 SWARM = ROOT / "swarm"
 
@@ -77,16 +79,41 @@ def seed_from_todo(todo_path: pathlib.Path) -> int:
     swarm.ensure_dirs()
     tasks = parse_todos(todo_path)
     count = 0
+    # Try GitHub Issues seeding if PAT present
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import github_auth
+        import github_queue as ghq
+
+        pat = github_auth.load_pat()
+        use_github = pat is not None and os.environ.get("SWARM_USE_GITHUB", "1") == "1"
+    except Exception:
+        use_github = False
+
     for t in tasks:
-        qfile = SWARM / "queue" / f"{t['id']}.json"
-        if qfile.exists():
-            continue
-        qfile.write_text(json.dumps(t, indent=2) + "\n")
-        count += 1
-    swarm.append_ledger({"type": "seed", "count": count, "source": str(todo_path)})
-    print(f"Seeded {count} new tasks from {todo_path} (total pending {len(swarm.list_tasks('pending'))})")
+        if use_github:
+            # Create issue via API (checks existing)
+            try:
+                res = ghq.create_issue(t)
+                if res:
+                    count += 1
+            except Exception as e:
+                print(f"Failed create issue for {t['id']}: {e}")
+                # fallback to file
+                qfile = SWARM / "queue" / f"{t['id']}.json"
+                if not qfile.exists():
+                    qfile.write_text(json.dumps(t, indent=2) + "\n")
+                    count += 1
+        else:
+            qfile = SWARM / "queue" / f"{t['id']}.json"
+            if qfile.exists():
+                continue
+            qfile.write_text(json.dumps(t, indent=2) + "\n")
+            count += 1
+    swarm.append_ledger({"type": "seed", "count": count, "source": str(todo_path), "github": use_github if 'use_github' in locals() else False})
+    print(f"Seeded {count} new tasks from {todo_path} (total pending file {len(swarm.list_tasks('pending'))}) github={use_github if 'use_github' in locals() else False}")
     # git push
-    swarm.sh(f"git add swarm/queue && git commit -m 'swarm: seed {count} tasks from TODO' && git push origin main")
+    swarm.sh(f"git add swarm/queue swarm/ledger.jsonl && git commit -m 'swarm: seed {count} tasks from TODO' && git push origin main || true")
     return count
 
 
@@ -141,10 +168,10 @@ def monitor_loop(poll_sec: int = 60) -> None:
                 try:
                     data = json.loads(claim_file.read_text())
                     claimed_at = data.get("claimed_at", "")
-                    from datetime import datetime, timezone
+                    from datetime import datetime
 
                     dt = datetime.fromisoformat(claimed_at.replace("Z", "+00:00"))
-                    age_min = (datetime.now(timezone.utc) - dt).total_seconds() / 60
+                    age_min = (datetime.now(UTC) - dt).total_seconds() / 60
                     if age_min > 10:
                         # check if heartbeat recent
                         hb_file = SWARM / "heartbeats" / f"{data['agent_id']}.json"
