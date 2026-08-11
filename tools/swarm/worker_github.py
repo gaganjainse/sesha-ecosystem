@@ -1,46 +1,50 @@
 #!/usr/bin/env python3
-"""Worker that uses GitHub Issues + PRs + gh CLI — proper implementation.
+"""Safe GitHub-Issues swarm worker.
 
-Flow:
-1. List pending issues via github_queue.list_pending_issues(component)
-2. Atomic claim via github_queue.claim_issue_atomic() — creates branch via GitHub API (422 if exists = already claimed)
-3. Checkout branch locally: git checkout -b <branch>
-4. Do work: here calls autopilot runner or simulated
-5. Run gate: make check
-6. If green: git add + commit + push origin <branch>
-7. Create PR via API (github_queue.create_pr) or gh CLI: gh pr create --title --body --base main --head <branch>
-8. Artifact + close issue via comment, label swarm:done handled by auto-merge Action after merge
+The worker owns queue coordination, branch isolation, gates, and PR creation.
+It deliberately does *not* pretend to implement a task: a real implementation
+callback must be supplied with ``--executor module:function`` or
+``SHESH_WORKER_EXECUTOR``.  Without one, the process polls harmlessly and
+never claims an issue or creates a marker-only PR.
 
-Fallback: if GH_TOKEN/PAT missing, uses file queue (common.py)
+Executor protocol::
 
-Usage:
-  python tools/swarm/worker_github.py --component shesh-memory --poll 45 --once
-  python tools/swarm/worker_github.py --github --component shesh-system
+    def implement(issue: dict, root: pathlib.Path, branch: str, component: str):
+        # edit the checked-out worktree and return (success, summary)
+        return True, "implemented ..."
 
-Requires PAT with contents:write, issues:write, pull-requests:write
+A callback may instead return ``True``/``False`` or a summary string.  It runs
+only after an atomic GitHub claim and must leave the worktree with the real
+source/documentation change.  The worker refuses to commit an empty tree.
+
+GitHub HTTPS pushes use ``tools/git_askpass.py`` with a PAT loaded through
+``github_auth``.  The token is kept in the process environment or the 0600
+PAT file; it is never put in a remote URL, Git config, command line, or log.
 """
 
 from __future__ import annotations
 
 import argparse
+import importlib
+import os
 import pathlib
+import subprocess
 import sys
 import time
+from collections.abc import Callable
+from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/swarm"))
 
-import common as fileq
-import github_auth
-import github_queue as ghq
+import common as fileq  # noqa: E402
+import github_auth  # noqa: E402
+import github_queue as ghq  # noqa: E402
 
-try:
-    from tools.autopilot import runner as _autopilot_runner  # noqa: F401
-
-    HAS_RUNNER = True
-except Exception:
-    HAS_RUNNER = False
+Executor = Callable[[dict, pathlib.Path, str, str], Any]
+DEFAULT_GIT_NAME = "shesh-swarm-worker"
+DEFAULT_GIT_EMAIL = "shesh-swarm-worker@users.noreply.github.com"
 
 
 def has_gh_cli() -> bool:
@@ -49,60 +53,167 @@ def has_gh_cli() -> bool:
     return shutil.which("gh") is not None
 
 
-def run_gh(args: list[str]) -> tuple[int, str, str]:
-    import subprocess
-
+def _run_git(*args: str, timeout: int = 120) -> tuple[int, str, str]:
+    """Run Git without a shell so branch/title text cannot be interpreted."""
     try:
         proc = subprocess.run(
-            ["gh"] + args, capture_output=True, text=True, timeout=30, cwd=str(ROOT)
+            ["git", *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
         )
         return proc.returncode, proc.stdout, proc.stderr
-    except Exception as e:
-        return 1, "", str(e)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return 1, "", str(exc)
 
 
-def do_work(issue: dict, branch: str, agent_id: str, component: str, simulate: bool = False) -> tuple[bool, str]:
-    """Attempt the task.
+def _run_command(*args: str, timeout: int = 900) -> tuple[int, str, str]:
+    try:
+        proc = subprocess.run(
+            list(args),
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+        return proc.returncode, proc.stdout, proc.stderr
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return 1, "", str(exc)
 
-    Script workers have no autonomous implementer: autopilot's process_task
-    needs an Implement callback that only an in-loop agent session can supply.
-    Default behaviour is therefore to *refuse* so the caller releases the
-    claim and no fake 'done' PR closes a real issue. Pass --simulate for
-    pipeline dry-runs (marker artifact + green gate + PR exercise).
-    """
-    print(f"[{agent_id}] Working on issue #{issue['number']} {issue['title'][:80]} in branch {branch}")
-    if not simulate:
-        return False, "no autonomous implementer configured (agent-driven swarm); released for an agent worker"
 
-    marker = ROOT / f"swarm/artifacts/work-issue-{issue['number']}.txt"
-    marker.parent.mkdir(parents=True, exist_ok=True)
-    marker.write_text(f"Worked by {agent_id}\nIssue #{issue['number']}\nTitle: {issue['title']}\nBranch: {branch}\nComponent: {component}\n")
+def configure_git_environment(pat: str) -> None:
+    """Configure inherited Git/gh authentication without persisting secrets."""
+    os.environ.update(github_auth.git_environment(pat))
+    # A clean Arena clone has no user config.  Environment identity works for
+    # this process and does not alter the user's global Git identity.
+    os.environ.setdefault("GIT_AUTHOR_NAME", DEFAULT_GIT_NAME)
+    os.environ.setdefault("GIT_AUTHOR_EMAIL", DEFAULT_GIT_EMAIL)
+    os.environ.setdefault("GIT_COMMITTER_NAME", DEFAULT_GIT_NAME)
+    os.environ.setdefault("GIT_COMMITTER_EMAIL", DEFAULT_GIT_EMAIL)
 
-    time.sleep(2)
-    return True, f"Simulated completion of issue #{issue['number']} in {branch}"
+
+def load_executor(spec: str | None) -> Executor | None:
+    """Load a ``module:function`` implementation callback."""
+    if not spec:
+        return None
+    module_name, separator, function_name = spec.partition(":")
+    if not separator or not module_name or not function_name:
+        raise ValueError("executor must use module:function syntax")
+    module = importlib.import_module(module_name)
+    callback = getattr(module, function_name, None)
+    if not callable(callback):
+        raise TypeError(f"executor {spec!r} is not callable")
+    return callback
+
+
+def _executor_result(result: Any) -> tuple[bool, str]:
+    if isinstance(result, tuple) and len(result) == 2:
+        return bool(result[0]), str(result[1])
+    if isinstance(result, bool):
+        return result, "executor returned success" if result else "executor returned failure"
+    if isinstance(result, str):
+        return True, result
+    if result is None:
+        return False, "executor returned no result"
+    return True, f"executor completed ({type(result).__name__})"
+
+
+def do_work(
+    issue: dict,
+    branch: str,
+    agent_id: str,
+    component: str,
+    executor: Executor | None,
+) -> tuple[bool, str]:
+    """Run the supplied implementation callback; never create a fake marker."""
+    if executor is None:
+        return False, "no implementation callback configured"
+    print(
+        f"[{agent_id}] Implementing issue #{issue['number']} "
+        f"{issue['title'][:80]} in branch {branch}"
+    )
+    try:
+        return _executor_result(executor(issue, ROOT, branch, component))
+    except Exception as exc:  # callback errors must release the claim
+        return False, f"executor failed: {exc}"
+
+
+def checkout_main() -> bool:
+    rc, _, err = _run_git("checkout", "-f", "main")
+    if rc != 0:
+        print(f"Checkout main failed: {err[:500]}", file=sys.stderr)
+        return False
+    rc, _, err = _run_git("reset", "--hard", "origin/main")
+    if rc != 0:
+        print(f"Reset main failed: {err[:500]}", file=sys.stderr)
+        return False
+    return True
 
 
 def checkout_branch(branch: str) -> bool:
-    # Check if branch exists locally
-    rc, _, _ = fileq.sh(f"git checkout -b {branch}", cwd=ROOT)
+    """Check out the exact remote branch created by the atomic claim."""
+    rc, _, err = _run_git("fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
     if rc != 0:
-        # Try checkout existing
-        rc, _, _ = fileq.sh(f"git checkout {branch}", cwd=ROOT)
-        if rc != 0:
-            # Fetch and checkout remote
-            fileq.sh("git fetch origin", cwd=ROOT)
-            rc, _, _ = fileq.sh(f"git checkout {branch}", cwd=ROOT)
-    return rc == 0
+        print(f"Fetch {branch} failed: {err[:500]}", file=sys.stderr)
+        return False
+    rc, _, err = _run_git("checkout", "-B", branch, f"origin/{branch}")
+    if rc != 0:
+        print(f"Checkout {branch} failed: {err[:500]}", file=sys.stderr)
+        return False
+    return True
+
+
+def commit_work(component: str, issue: dict) -> tuple[bool, str]:
+    """Stage and commit real changes; reject an empty worktree."""
+    rc, _, err = _run_git("add", "-A")
+    if rc != 0:
+        return False, f"git add failed: {err[-500:]}"
+
+    rc, _, err = _run_git("diff", "--cached", "--quiet")
+    if rc == 0:
+        return False, "executor produced no repository changes"
+    if rc != 1:
+        return False, f"staged diff check failed: {err[-500:]}"
+
+    title = " ".join(issue.get("title", "").split())[:80]
+    message = f"feat({component}): swarm #{issue['number']} {title}".strip()
+    rc, _, err = _run_git("commit", "-m", message)
+    if rc != 0:
+        return False, f"git commit failed: {err[-500:]}"
+    return True, message
 
 
 def push_branch(branch: str) -> bool:
-    rc, out, err = fileq.sh(f"git push -u origin {branch}", cwd=ROOT)
+    rc, _, err = _run_git("push", "--set-upstream", "origin", branch)
     if rc != 0:
-        print(f"Push {branch} failed: {err[:500]}", file=sys.stderr)
-        # Try push with --force-with-lease? No, we want safety — if push fails, rebase
-        fileq.sh(f"git pull --rebase origin {branch} || true", cwd=ROOT)
-        rc, out, err = fileq.sh(f"git push -u origin {branch}", cwd=ROOT)
-    return rc == 0
+        print(f"Push {branch} failed: {err[:800]}", file=sys.stderr)
+        return False
+    return True
+
+
+def run_gate() -> tuple[bool, str]:
+    rc, out, err = _run_command("make", "check")
+    if rc == 0:
+        return True, out[-2000:]
+    return False, (out + err)[-3000:]
+
+
+def run_gh(args: list[str]) -> tuple[int, str, str]:
+    try:
+        proc = subprocess.run(
+            ["gh", *args],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=60,
+            check=False,
+        )
+        return proc.returncode, proc.stdout, proc.stderr
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return 1, "", str(exc)
 
 
 def create_pr_with_gh(branch: str, issue_number: int, title: str) -> bool:
@@ -112,9 +223,13 @@ def create_pr_with_gh(branch: str, issue_number: int, title: str) -> bool:
                 "pr",
                 "create",
                 "--title",
-                f"{title} (swarm #{issue_number})",
+                title,
                 "--body",
-                f"Closes #{issue_number}\n\nSwarm worker {branch}\n\nAuto-merge Action will merge if `make check` green.",
+                (
+                    f"Closes #{issue_number}\n\n"
+                    f"Swarm worker branch: {branch}\n\n"
+                    "Auto-merge Action will merge only after `make check` passes."
+                ),
                 "--base",
                 "main",
                 "--head",
@@ -124,174 +239,195 @@ def create_pr_with_gh(branch: str, issue_number: int, title: str) -> bool:
             ]
         )
         if rc == 0:
-            print(f"Created PR via gh: {out}")
+            print(f"Created PR via gh: {out.strip()}")
             return True
-        else:
-            print(f"gh pr create failed: {err}", file=sys.stderr)
-            return False
-    else:
-        # Use API
-        res = ghq.create_pr(branch, issue_number, title, body=f"Swarm worker {branch}")
-        return res is not None
+        print(f"gh pr create failed: {err[:800]}", file=sys.stderr)
+        return False
+
+    result = ghq.create_pr(branch, issue_number, title, body=f"Swarm worker {branch}")
+    return result is not None
+
+
+def release_claim(issue_number: int, agent_id: str, branch: str, reason: str) -> None:
+    """Return failed/no-op work to GitHub and restore the local main branch."""
+    ghq.release_issue_claim(issue_number, agent_id, branch, reason)
+    checkout_main()
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Swarm worker GitHub Issues + PR")
-    ap.add_argument("--component", default="general", help="component filter e.g., shesh-memory")
-    ap.add_argument("--poll", type=int, default=45)
-    ap.add_argument("--once", action="store_true")
-    ap.add_argument("--github", action="store_true", help="force GitHub Issues queue")
-    ap.add_argument("--list", action="store_true")
+    ap = argparse.ArgumentParser(description="Safe swarm worker: GitHub Issues + PR")
+    ap.add_argument("--component", default="general", help="component filter, e.g. shesh-memory")
+    ap.add_argument("--poll", type=int, default=45, help="poll interval in seconds")
+    ap.add_argument("--once", action="store_true", help="inspect/do at most one task")
+    ap.add_argument("--github", action="store_true", help="require GitHub Issues queue")
+    ap.add_argument("--list", action="store_true", help="list pending issues and exit")
     ap.add_argument("--setup", action="store_true", help="selective clone only needed repos")
     ap.add_argument("--clean", action="store_true", help="clean caches")
-    ap.add_argument("--simulate", action="store_true", help="dry-run: marker artifact instead of refusing work")
+    ap.add_argument(
+        "--executor",
+        default=None,
+        help="real implementation callback as module:function (or SHESH_WORKER_EXECUTOR)",
+    )
     args = ap.parse_args()
 
-    # Efficiency: selective clone
     if args.setup or args.clean:
-        import subprocess
-
         if args.clean:
-            subprocess.run(
-                ["python", "tools/setup_worker.py", "--clean"], cwd=str(ROOT)
-            )
+            subprocess.run([sys.executable, "tools/setup_worker.py", "--clean"], cwd=str(ROOT), check=False)
         if args.component != "general":
             subprocess.run(
-                ["python", "tools/setup_worker.py", "--component", args.component],
+                [sys.executable, "tools/setup_worker.py", "--component", args.component],
                 cwd=str(ROOT),
+                check=False,
             )
         else:
             print("Setup efficient — platform role no src clone needed")
 
     pat = github_auth.load_pat()
-    use_github = args.github or (pat is not None)
+    use_github = args.github or pat is not None
+    if use_github and not pat:
+        print("GitHub mode requested but no PAT is available; refusing unsafe fallback.", file=sys.stderr)
+        return 2
+    if pat:
+        configure_git_environment(pat)
+
+    executor_spec = args.executor or os.environ.get("SHESH_WORKER_EXECUTOR")
+    try:
+        executor = load_executor(executor_spec)
+    except (ImportError, TypeError, ValueError) as exc:
+        print(f"Invalid implementation executor: {exc}", file=sys.stderr)
+        return 2
 
     agent_id = fileq.gen_agent_id(f"worker-{args.component}")
-    print(f"Worker {agent_id} component={args.component} use_github={use_github} has_gh={has_gh_cli()} runner={HAS_RUNNER}")
+    print(
+        f"Worker {agent_id} component={args.component} "
+        f"use_github={use_github} has_gh={has_gh_cli()} "
+        f"executor={executor_spec or 'none'}"
+    )
     if pat:
-        print(f"PAT present (len {len(pat)})")
-    else:
-        print("No PAT — falling back to file queue for claim, but Issues queue will not work. Set GITHUB_PAT.")
+        print(f"PAT present: {pat[:4]}****{pat[-4:] if len(pat) > 8 else ''}")
 
     if args.list:
         if use_github:
             issues = ghq.list_pending_issues(args.component)
-            for iss in issues[:20]:
-                print(f"#{iss['number']} [{','.join( [lb['name'] for lb in iss.get('labels',[])])}] {iss['title']}")
+            for issue in issues[:20]:
+                labels = ",".join(label["name"] for label in issue.get("labels", []))
+                print(f"#{issue['number']} [{labels}] {issue['title']}")
             print(f"Total {len(issues)}")
         else:
             pending = fileq.list_tasks("pending")
-            for t in pending[:20]:
-                print(f"{t['id']} {t['component']}: {t['title']}")
+            for task in pending[:20]:
+                print(f"{task['id']} {task['component']}: {task['title']}")
+            print(f"Total {len(pending)}")
         return 0
+
+    if executor is None:
+        print(
+            "No implementation callback configured; polling safely without "
+            "claiming issues or creating marker-only PRs. "
+            "Pass --executor module:function to enable work."
+        )
 
     completed = 0
     while True:
         try:
-            fileq.sh("git pull --rebase origin main", cwd=ROOT)
-
-            if use_github:
-                issues = ghq.list_pending_issues(args.component)
-                # Filter: if component filter, prefer matching
-                if not issues:
-                    print(f"[{agent_id}] No pending GitHub issues for {args.component}, waiting {args.poll}s")
-                    fileq.heartbeat(agent_id, f"worker-{args.component}", {"tasks_completed": completed})
-                    fileq.sh("git add swarm/heartbeats && git commit -m 'swarm: heartbeat' --allow-empty && git push origin main || true", cwd=ROOT)
-                    if args.once:
-                        break
-                    time.sleep(args.poll)
-                    continue
-
-                issue = issues[0]
-                issue_number = issue["number"]
-                print(f"[{agent_id}] Attempting atomic claim issue #{issue_number}: {issue['title'][:60]}")
-                ok, branch_or_err = ghq.claim_issue_atomic(issue_number, agent_id)
-                if not ok:
-                    print(f"[{agent_id}] Claim failed: {branch_or_err}")
-                    time.sleep(3)
-                    continue
-
-                branch = branch_or_err
-                # Checkout branch locally (should already exist remote after claim, but we created via API so fetch)
-                fileq.sh("git fetch origin", cwd=ROOT)
-                checkout_branch(branch)
-
-                # Do work
-                success, summary = do_work(issue, branch, agent_id, args.component, simulate=args.simulate)
-                if not success:
-                    print(f"[{agent_id}] Refusing issue #{issue_number}: {summary}")
-                    ghq.release_claim(issue_number, agent_id, branch, summary)
-                    fileq.sh(f"git checkout main && git branch -D {branch}", cwd=ROOT)
-                    if args.once:
-                        break
-                    time.sleep(args.poll)
-                    continue
-
-                # Gate
-                rc, out, err = fileq.sh("make check", cwd=ROOT)
-                if rc != 0:
-                    print(f"Gate failed for issue #{issue_number}: {err[-500:]}")
-                    fileq.sh(f"git add -A && git commit -m 'swarm: work {issue_number} failed gate' && git push origin {branch} || true", cwd=ROOT)
-                    ghq.comment_issue(issue_number, f"❌ Gate failed for {branch} by {agent_id}: {summary}\n\nFix and push.")
-                    # Don't mark done, keep claimed — worker can retry or orchestrator re-queues after stale
-                    continue
-
-                # Gate green — push and PR
-                fileq.sh(f"git add -A && git commit -m 'feat({args.component}): swarm #{issue_number} {issue['title'][:50]}' --allow-empty && git push origin {branch} || true", cwd=ROOT)
-                created = create_pr_with_gh(branch, issue_number, issue["title"])
-                if created:
-                    print(f"[{agent_id}] PR created for issue #{issue_number}, waiting for auto-merge Action")
-                    fileq.heartbeat(agent_id, f"worker-{args.component}", {"tasks_completed": completed + 1, "last_pr": branch})
-                else:
-                    print(f"[{agent_id}] PR creation failed, but branch pushed {branch}")
-
-                completed += 1
+            if executor is None:
                 if args.once:
-                    break
+                    return 0
+                time.sleep(args.poll)
+                continue
 
+            if not use_github:
+                print("A real executor requires --github and a PAT; refusing file-queue simulation.")
+                return 2
+
+            if not checkout_main():
+                time.sleep(args.poll)
+                continue
+            issues = ghq.list_pending_issues(args.component)
+            if not issues:
+                print(f"[{agent_id}] No pending GitHub issues for {args.component}, waiting {args.poll}s")
+                if args.once:
+                    return 0
+                time.sleep(args.poll)
+                continue
+
+            issue = issues[0]
+            issue_number = issue["number"]
+            print(f"[{agent_id}] Attempting atomic claim issue #{issue_number}: {issue['title'][:80]}")
+            ok, branch_or_err = ghq.claim_issue_atomic(issue_number, agent_id)
+            if not ok:
+                print(f"[{agent_id}] Claim failed: {branch_or_err}")
+                if args.once:
+                    return 1
+                time.sleep(3)
+                continue
+
+            branch = branch_or_err
+            if not checkout_branch(branch):
+                release_claim(issue_number, agent_id, branch, "could not check out claimed branch")
+                if args.once:
+                    return 1
+                continue
+
+            success, summary = do_work(issue, branch, agent_id, args.component, executor)
+            if not success:
+                print(f"[{agent_id}] Work refused/failed: {summary}", file=sys.stderr)
+                release_claim(issue_number, agent_id, branch, summary)
+                if args.once:
+                    return 1
+                continue
+
+            gate_ok, gate_output = run_gate()
+            if not gate_ok:
+                reason = f"gate failed: {gate_output}"
+                print(f"[{agent_id}] {reason}", file=sys.stderr)
+                release_claim(issue_number, agent_id, branch, reason)
+                if args.once:
+                    return 1
+                continue
+
+            committed, commit_summary = commit_work(args.component, issue)
+            if not committed:
+                print(f"[{agent_id}] {commit_summary}", file=sys.stderr)
+                release_claim(issue_number, agent_id, branch, commit_summary)
+                if args.once:
+                    return 1
+                continue
+
+            if not push_branch(branch):
+                release_claim(issue_number, agent_id, branch, "GitHub branch push failed")
+                if args.once:
+                    return 1
+                continue
+
+            created = create_pr_with_gh(branch, issue_number, issue["title"])
+            if not created:
+                # Preserve real pushed work for manual recovery; do not delete a
+                # branch that contains a valid commit merely because PR API failed.
+                ghq.comment_issue(
+                    issue_number,
+                    f"⚠️ Branch `{branch}` was pushed by `{agent_id}` but PR creation failed. "
+                    "The issue remains claimed for manual recovery.",
+                )
+                print(f"[{agent_id}] PR creation failed; real branch preserved", file=sys.stderr)
             else:
-                # File queue fallback — strict, no arbitrary fallback (fixed defect)
-                pending = fileq.list_tasks("pending")
-                if args.component != "general":
-                    pending = [
-                        t
-                        for t in pending
-                        if args.component in t.get("component", "")
-                        or "general" in t.get("component", "")
-                    ]
-                if not pending:
-                    print(f"[{agent_id}] No file queue tasks, waiting")
-                    if args.once:
-                        break
-                    time.sleep(args.poll)
-                    continue
-                task = pending[0]
-                if not fileq.try_claim(task["id"], agent_id):
-                    time.sleep(2)
-                    continue
-                success, summary = do_work({"number": 0, "title": task["title"]}, f"swarm/{task['id']}/{agent_id}", agent_id, args.component, simulate=args.simulate)
-                rc, _, _ = fileq.sh("make check", cwd=ROOT)
-                if rc == 0:
-                    fileq.complete_task(task["id"], agent_id, summary, "done")
-                else:
-                    fileq.complete_task(task["id"], agent_id, f"gate failed {summary}", "failed")
                 completed += 1
-                if args.once:
-                    break
+                print(f"[{agent_id}] PR created for issue #{issue_number}; completed={completed}")
 
+            if not checkout_main():
+                return 1
+            if args.once:
+                return 0 if created else 1
             time.sleep(1)
 
         except KeyboardInterrupt:
             print("\nWorker stopped")
-            break
-        except Exception as e:
-            print(f"Worker error {e}")
-            import traceback
-
-            traceback.print_exc()
+            return 0
+        except Exception as exc:
+            print(f"Worker error: {exc}", file=sys.stderr)
+            if args.once:
+                return 1
             time.sleep(args.poll)
-
-    return 0
 
 
 if __name__ == "__main__":

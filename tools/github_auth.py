@@ -20,6 +20,7 @@ import argparse
 import os
 import pathlib
 import stat
+import subprocess
 import sys
 
 
@@ -130,6 +131,46 @@ def needs_password() -> bool:
     return enc.exists() and not plain.exists()
 
 
+def git_environment(pat: str | None = None) -> dict[str, str]:
+    """Return a child environment that can authenticate GitHub HTTPS pushes.
+
+    Git's HTTPS transport does not read ``GITHUB_PAT`` by itself.  The
+    askpass helper reads the token from the process environment or the
+    0600 PAT file only when Git asks for credentials; the token is never
+    embedded in a remote URL, config file, command line, or log message.
+    """
+    token = pat or load_pat()
+    if not token:
+        return dict(os.environ)
+
+    env = dict(os.environ)
+    env["GITHUB_PAT"] = token
+    env.setdefault("GH_TOKEN", token)
+    env["GIT_ASKPASS"] = str(pathlib.Path(__file__).with_name("git_askpass.py"))
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    env.setdefault("GIT_USERNAME", "x-access-token")
+    return env
+
+
+def git_repo_root(start: pathlib.Path | None = None) -> pathlib.Path | None:
+    """Find the Git worktree containing *start*, if any."""
+    cwd = start or pathlib.Path.cwd()
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            cwd=str(cwd),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0:
+        return None
+    value = result.stdout.strip()
+    return pathlib.Path(value) if value else None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="GitHub PAT loader")
     ap.add_argument("--check", action="store_true")
@@ -165,13 +206,14 @@ def main() -> int:
     print(f"PAT found: {redacted} (len {len(pat)})")
     print(f"Source: env or {pathlib.Path.home() / '.config/shesh/github.pat'} or enc or gh hosts.yml")
     try:
-        import subprocess
-
-        remote = subprocess.check_output(
-            ["git", "-C", "/home/user", "remote", "get-url", "origin"],
-            text=True,
-        ).strip()
-        print(f"git remote origin: {remote}")
+        repo = git_repo_root()
+        if repo:
+            remote = subprocess.check_output(
+                ["git", "-C", str(repo), "remote", "get-url", "origin"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+            ).strip()
+            print(f"git remote origin: {remote}")
     except Exception:
         pass
     return 0
