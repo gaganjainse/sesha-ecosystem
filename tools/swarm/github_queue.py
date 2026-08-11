@@ -61,6 +61,34 @@ def _request(method: str, url: str, data: dict | None = None) -> tuple[int, Any]
         return 0, {"message": str(e)}
 
 
+def ensure_label(name: str, color: str = "fbca04", description: str = "") -> None:
+    """Create a repo label if missing (422 = already exists, ignored)."""
+    status, resp = _request(
+        "POST",
+        f"{API_BASE}/labels",
+        {"name": name, "color": color, "description": description},
+    )
+    if status not in (200, 201, 422):
+        print(f"ensure_label {name}: {status} {resp}", file=sys.stderr)
+
+
+def release_claim(issue_number: int, agent_id: str, work_branch: str, reason: str) -> None:
+    """Undo a claim: drop lock + work branch, hand the issue back to swarm:pending."""
+    _request("DELETE", f"{API_BASE}/git/refs/heads/swarm/claims/issue-{issue_number}")
+    _request("DELETE", f"{API_BASE}/git/refs/heads/{work_branch}")
+    _request("DELETE", f"{API_BASE}/issues/{issue_number}/labels/swarm:claimed")
+    _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/labels",
+        {"labels": ["swarm:pending"]},
+    )
+    _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/comments",
+        {"body": f"♻️ Claim released by `{agent_id}`: {reason}\n\nBack to `swarm:pending` for an agent-driven worker."},
+    )
+
+
 def create_issue(task: dict) -> tuple[int, dict] | None:
     pat = _pat()
     if not pat:
@@ -95,6 +123,8 @@ Auto-merge Action swarm-auto-merge.yml merges PR if make check green.
         f"component:{task.get('component','general')}",
         task.get("priority", "P1"),
     ]
+    for lab in labels:
+        ensure_label(lab)
     data = {"title": title, "body": body, "labels": labels}
     status, resp = _request("POST", f"{API_BASE}/issues", data)
     if status in (200, 201):
