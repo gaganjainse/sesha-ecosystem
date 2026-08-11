@@ -98,6 +98,20 @@
       "upstream": null,
       "version": "0.1.0"
     },
+    "shesh-ebpf": {
+      "channel": "canary",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "ebpf-telemetry",
+        "performance-sensing",
+        "system-metrics"
+      ],
+      "repo": "gaganjainse/shesh-ebpf",
+      "upstream": null,
+      "version": "0.1.0"
+    },
     "shesh-files": {
       "channel": "canary",
       "layer": "soma",
@@ -307,6 +321,6 @@
       "version": "1.4.5-sesha1"
     }
   },
-  "count": 18,
-  "sha256": "4780bbfe8f21e43204b3a3c5d7b7bdaa0b9a2d7f4e0e1533f49d07e42c1c42da"
+  "count": 19,
+  "sha256": "e2d4b298c81c70fb0cb331df1fe679df1da15aeb44e211169ff9d0e02dfb292d"
 }
