@@ -6,6 +6,55 @@ intent and prevents drift.
 
 ---
 
+
+---
+
+## Q: "Don't leave it to anybody else or the future, complete them all properly except for the libghossty as that is not in our hands." (2026-08-13)
+
+**Answer:** Completed in-session, nothing parked silently: rolling-dependency floors raised fleet-wide and swept green (21/21 components on pytest 9.1.1 / ruff 0.16.2 / pytest-asyncio 1.4.0 / fastmcp 3.4.7 = PyPI latest on 2026-08-13, `-W error`); SheshAOS `cargo update` with 872/872 tests + clippy `-D warnings` + cargo-deny + cargo-machete clean (the two RUSTSEC exceptions remain the only documented no-patch ones); security program landed end-to-end (fleet hardening, rug-pull defense, canonical SECURITY/THREAT_MODEL/RECOVERY, reporting surface per repo); the documentation renovation rebuilt shesh-docs as a pure projection with real gates (see its own entry). `libghostty` is the single sanctioned exception — external dependency, parked visibly in TODO, not claimed done. Owner-side leftovers are exactly two and both are listed in MANUAL_VERIFICATION §13: PAT rotation (transcript exposure 2026-08-11/12) and the optional `SHESH_PAT`-style secret if docs auto-push from Actions is ever wanted.
+
+**Docs:** [docs/MANUAL_VERIFICATION.md](../MANUAL_VERIFICATION.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md)
+
+---
+
+## Q: "And as we are using CachyOS which has rolling updates, our system should be designed according to it, it should be resistant and not break. Merge this into the plan too." (2026-08-13)
+
+**Answer:** Merged as first-class policy: [DEPENDENCY_POLICY.md](../policies/DEPENDENCY_POLICY.md) now encodes rolling-release design rules — current-major floors instead of rotting pins for tools, Dependabot moving SHA-pinned actions weekly (pins cannot rot because something is paid to move them), `-W error` so deprecations surface as failures not surprises, and the break-glass protocol exactly as ordered: conflict → downgrade the offender by one version, repeat once; fundamental breakage → drop and replace, with a QUERYLOG receipt. SheshAOS gains `cargo update` as a scheduled motion with the test/clippy/deny battery as the resistance proof, and btrfs-snapshot-before-install plus roll-forward-fast remain the OS-side recovery story (RECOVERY.md class D). Resistant-not-brittle is now the stated design goal, not an accident.
+
+**Docs:** [docs/policies/DEPENDENCY_POLICY.md](../policies/DEPENDENCY_POLICY.md), [docs/RECOVERY.md](../RECOVERY.md)
+
+---
+
+## Q: "And dependency rolling updates are yours not mine, you do them, so we don't have to fix anything later when it breaks" (2026-08-13)
+
+**Answer:** Ownership accepted and executed, not delegated back: Python floors raised to current majors in 20 repos (pytest >=9.1, ruff >=0.16, pytest-asyncio >=1.4), full-fleet sweep on the latest matrix green 21/21 and pushed; SheshAOS lockfile refreshed (generic-array 0.14.9, http-body-util 0.1.5) with 872/872 tests green and pushed (a9dfc9f); GitHub Actions all moved to the latest releases (checkout v7.0.1, setup-python v7.0.0, dtolnay/rust-toolchain pinned at the `stable` head after catching that the v1 tag was a year stale, taiki-e/install-action v2.85.12, github-script v9) with Dependabot configured to keep moving them weekly so this never lands back on the user. Better-alternative sweep outcome: uv/pipx/rootless-podman stack stays (validated against the field), mdbook kept but pinned current, zizmor + gitleaks ADDED as the modern standard gates. Deprecated-content sweep: book.toml `multilingual` removed for mdbook 0.5, portfolio `|| true` suppression removed (9f50ab9), no other deprecation warnings outstanding.
+
+**Docs:** [docs/policies/DEPENDENCY_POLICY.md](../policies/DEPENDENCY_POLICY.md)
+
+---
+
+## Q: "Add this in the completion list too : Still open (honest): legacy 'Sesha' wording inside shesh-voice body text… Fix it only Shesh." (2026-08-13)
+
+**Answer:** Verified before touching: `git grep -i sesha` over shesh-voice tracked content returns ZERO hits — the drift never lived in the voice repo body text; it lived in ecosystem living docs. Swept those (CONTAINERS_AND_VENV, LINUX_LAYOUT, OMNIROUTE_STUDY, STYLE_PERFORMANCE, SESSION_HANDOFF, skills docs) in 80b7c1e, keeping only the intentionally-preserved: the `sesha-rs` crate name, the `1.4.5-sesha1` tag, the historical-directory note, and immutable-history classes. Canon enforced by gate: shesh-docs CI and the ecosystem sweep both fail on `nexusaos|sheshaaos|auto-desktopenv` outside audit/incident/history carve-outs. Naming is SHESH-only now, with a gate, not a promise.
+
+**Docs:** [docs/STYLE_GUIDE.md](../STYLE_GUIDE.md), [adr/0017-naming-purge-completed.md](../adr/0017-naming-purge-completed.md)
+
+---
+
+## Q: "1) update every dependency and library to its latest rolling release version as it will have when i install cachyos. The same include for tests and lints and ci, also be sure that we are not using any deprecated content or one that will deprecate. Also find that whatever we are using, is there any better alternative to it on the web, if it is adopt them and replace what we are using, if there are conflicts after this downgrade the version of the issue causing app by 1, if it still persists repeat the process, and if there is some fundamental issue then drop that dependency and find an alternative. 2) SECURITY AND ATTACK RESISTANCE AND RECOVERY. This is one of the most important factor ... you do a deep research and search on web for this but this is a must" (2026-08-13)
+
+**Answer:** Both legs completed with web research cited in the artifacts. SECURITY: enabled vulnerability alerts + automated security fixes + secret scanning + **push protection** via API on all 53 active repos; SHA-pinned every third-party action fleet-wide to latest releases (26 repos) with `permissions: read-all` and `persist-credentials: false` on non-pushing checkouts; killed the critical swarm-auto-merge hole (`pull_request_target` + checkout-of-head + write token + no same-repo guard — the TanStack CVE-2026-45321 pattern); added zizmor (workflow static analysis) and gitleaks (secret gate, pinned v8.30.1) to the reusable component pipeline so 21 callers inherit them; landed MCP rug-pull/tool-poisoning defense in shesh-audit 53a60b6 (TOFU description pins, drift refusal, poisoning-marker scan — 9 tests, Invariant Labs tool-poisoning class covered); wrote canonical SECURITY.md, THREAT_MODEL.md (lethal-trifecta analysis, MCP 2025-26 scan statistics cited), RECOVERY.md (incident classes A-D runbook) + tools/dr_check.sh + push_protection_check.py. DEPENDENCIES: see the dedicated entries above — floors, locks, actions, alternatives, deprecation sweep all done and verified, conflict protocol codified in DEPENDENCY_POLICY.md. Honest residue: PAT rotation stays owner-side (cannot self-rotate the credential I hold), and Rekor/cosign attestation is documented as explicitly out of scope in SECURITY.md rather than silently absent.
+
+**Docs:** [SECURITY.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md), [docs/THREAT_MODEL.md](../THREAT_MODEL.md), [docs/RECOVERY.md](../RECOVERY.md), [docs/policies/DEPENDENCY_POLICY.md](../policies/DEPENDENCY_POLICY.md)
+
+---
+
+## Q: "I want you to renovate all the documents properly do that they do the work that they are intended and designed to do, clear up any collision and duplication in between them. Make the documents crisp and clean. Also make the style of the documents uniform and pure. The links should work everywhere so the navigation would work perfectly. Do a deep research on design and organization and also search on web and make proper infrastructure and policy to maintain it properly. They should be solid and should not become obsolete in the future. Also find out if we are missing any document, is so create them. Also one more thing you have to do, Organize them properly, send the document to its intended place. You can also implement fission and fusion." (2026-08-13)
+
+**Answer:** Renovated end-to-end. RESEARCH: adopted docs-as-code hybrid topology (decentralized authoring, centralized governance — the Grab/Pinterest pattern), SSOT-per-topic, and gate-enforced maintenance; written into [policies/DOCUMENTATION_POLICY.md](../policies/DOCUMENTATION_POLICY.md) and [STYLE_GUIDE.md](../STYLE_GUIDE.md). FISSION: MANUAL_VERIFICATION's twelve area-sections became standalone book task chapters; the OmniRoute study donated a Free Providers chapter. FUSION: SITUATION_REPORT fused into the INCIDENTS post-mortem as verbatim Appendix A with a pointer stub so no link rots; the triplicated shesh-docs layers (flat sync dump, UPPERCASE copies, kebab placeholders — 74 of the ~100 chapters were placeholders) were deleted wholesale; swarm's 8 planned chapters collapsed to the one real SWARM mirror; installation fused into getting-started; model-policy fused into model-agnostic truth. INTENDED PLACE: dated audits moved to the policy-declared docs/audits/; the stale runtime hop-alert archived to docs/attic/ and gitignored as transient; component security reporting lives in per-repo SECURITY.md pointer stubs to the canonical posture (25 repos). MISSING DOCS CREATED: six factory tool docs (session-guard, secure-pat, github-auth, setup-worker, llm-adapter, model-router), three tutorials, skills README + risk-class POLICY grounded in shesh-audit's actual verdict model, and per-part navigation pages. INFRASTRUCTURE: tools/book_build.py (explicit mirror map, link translation, orphan sweep, idempotent --check), sync-docs.sh rewritten as its wrapper, shesh-docs CI now REALLY renders (mdbook 0.5.4 via SHA-pinned install-action) plus SUMMARY-integrity/link/name gates, and ecosystem CI gates that mirror freshness so canonical→book drift fails the build. Numbers: 110 generated chapters, 114 orphans removed, 0 broken internal links, 119/119 SUMMARY targets exist, 115 docs indexed. Pushed: ecosystem 210972e, shesh-docs ce643f3.
+
+**Docs:** [DOCS_REPO.md](../DOCS_REPO.md), [tools/book_build.py](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/book_build.py), [docs/policies/DOCUMENTATION_POLICY.md](../policies/DOCUMENTATION_POLICY.md), [INDEX.md](../INDEX.md)
+
 ## Q: "Continue the work" (2026-08-12, evening — post-snapshot recovery)
 
 **Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `1494709` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (89702c0, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since 8f60600: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → 38d51f9. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: 710f312 → b549191 → 295f0a1.
@@ -143,7 +192,7 @@ bounds), a courtesy policy that defers during fullscreen/calls/high-CPU/low
 battery, and a proactivity engine that makes one optional offer at a natural
 pause (45s–15m idle), throttled to ≤3/day, snoozeable.
 
-**Docs:** [desktop/AMBIENT_DESIGN.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/AMBIENT_DESIGN.md)
+**Docs:** [desktop/AMBIENT_DESIGN.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/attic/desktop-mirror-2026-08-13/AMBIENT_DESIGN.md)
 
 ---
 
@@ -165,7 +214,7 @@ settings system and a matching **Sesha settings page** (`SeshaConfig.qml`) in
 the same widget style as General/Bar/Services. A `Sesha.qml` service applies
 toggles to systemd units and hyprctl. All changes are in the dotfiles repo.
 
-**Docs:** [desktop/06_SHESH_AGENT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/06_SHESH_AGENT.md)
+**Docs:** [desktop/06_SHESH_AGENT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/attic/desktop-mirror-2026-08-13/06_SHESH_AGENT.md)
 
 ---
 
@@ -190,7 +239,7 @@ typos, redirect order; added real system tools, device profile, FHS/XDG layout,
 rootless Podman + uv environments, and the federated ecosystem manifest with
 quality gates and canary CI.
 
-**Docs:** [desktop/01_AUDIT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/01_AUDIT.md),
+**Docs:** [desktop/01_AUDIT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/attic/desktop-mirror-2026-08-13/01_AUDIT.md),
 [GAP_ANALYSIS.md](../GAP_ANALYSIS.md)
 
 ---

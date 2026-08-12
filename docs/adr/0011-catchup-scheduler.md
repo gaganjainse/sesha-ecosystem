@@ -30,5 +30,5 @@ Not cron, not systemd `OnCalendar` alone.
 - ❌ Jitter makes exact timing non-deterministic — documented.
 
 ## Links
-- `docs/desktop/AMBIENT_DESIGN.md`, `docs/desktop/07_AUTOMATIONS.md`
+- `docs/attic/desktop-mirror-2026-08-13/AMBIENT_DESIGN.md`, `docs/attic/desktop-mirror-2026-08-13/07_AUTOMATIONS.md` (canonical now: shesh-desktop repo docs/SHESH/)
 - `shesh-desktop/tools/shesh-ambient/`

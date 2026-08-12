@@ -34,5 +34,5 @@ Data-aware signals wired in `signals.py` + `offer_for_moment()`.
 - ❌ GUI hookup needed — ambient service → Quickshell overlay (wiring todo).
 
 ## Links
-- `docs/desktop/AMBIENT_DESIGN.md`
+- `docs/attic/desktop-mirror-2026-08-13/AMBIENT_DESIGN.md` (canonical now: shesh-desktop repo docs/SHESH/)
 - `shesh-desktop/tools/shesh-ambient/signals.py`

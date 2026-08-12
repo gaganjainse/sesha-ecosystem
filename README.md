@@ -133,4 +133,4 @@ The full map: **[docs/INDEX.md](docs/INDEX.md)** (generated, CI-checked).
 - **Mind:** [Learning/memory](docs/LEARNING.md) · [Tooling catalog](docs/TOOLING_CATALOG.md) · [Style & performance](docs/STYLE_PERFORMANCE.md)
 - **Process:** [Gap analysis](docs/GAP_ANALYSIS.md) · [Swarm](docs/SWARM.md) · [Query log](docs/queries/QUERYLOG.md)
 - **Components:** [docs/components/](docs/components) — one page per component, generated cross-links
-- **Desktop:** [docs/desktop/](docs/desktop) — the canonical SHESH desktop set
+- **Desktop:** [shesh-desktop/docs/SHESH/](https://github.com/gaganjainse/shesh-desktop/tree/main/docs/SHESH) — the canonical SHESH desktop set (mirrored by the book; old in-repo mirror retired to docs/attic/desktop-mirror-2026-08-13)

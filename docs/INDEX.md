@@ -69,9 +69,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Multi-Agent & Orchestration Architecture](architecture/MULTI_AGENT.md)
 - [Repository Topology — the federated "sinkhole"](architecture/REPO_TOPOLOGY.md)
 
-## attic/
-- [🚨 SESSION HOP RECOMMENDED](attic/2026-08-11-session-hop-alert.md)
-
 ## audits/
 - [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
 
@@ -98,22 +95,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [shesh-skills](components/shesh-skills.md)
 - [shesh-system](components/shesh-system.md)
 - [Shesh-Voice](components/shesh-voice.md)
-
-## desktop/
-- [Shesh Ecosystem — Master Index](desktop/00_INDEX.md)
-- [01 — Independent Audit (verified against the live repo, 2026-08-09)](desktop/01_AUDIT.md)
-- [02 — Roadmap & Execution Plan](desktop/02_ROADMAP.md)
-- [03 — Disk Structure: Work vs Personal vs Job](desktop/03_DISK_STRUCTURE.md)
-- [04 — Device Profile: MSI Sword 16 HX B14VEKG on CachyOS 260628](desktop/04_DEVICE_PROFILE.md)
-- [05 — Smart-Organizer v2](desktop/05_SMART_ORGANIZER_V2.md)
-- [06 — Shesh: the local, voice-first desktop agent](desktop/06_SHESH_AGENT.md)
-- [07 — Automations Catalog](desktop/07_AUTOMATIONS.md)
-- [08 — The Broader Tool Ecosystem](desktop/08_ECOSYSTEM_TOOLS.md)
-- [09 — AI Prompts & Session Playbook](desktop/09_AI_PROMPTS.md)
-- [10 — Licenses, Versions & Source Manifest](desktop/10_LICENSES_AND_SOURCES.md)
-- [Ambient Shesh — scheduling without a 24/7 assumption](desktop/AMBIENT_DESIGN.md)
-- [Shesh Documentation](desktop/SHESH_README.md)
-- [Shesh — Implementation Checklist](desktop/checklist.md)
 
 ## policies/
 - [Dependency Policy — rolling with the river, never drowning in it](policies/DEPENDENCY_POLICY.md)
@@ -156,3 +137,5 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Manual Verification](wiki/Manual-Verification.md)
 - [Roadmap](wiki/Roadmap.md)
 - [Security](wiki/Security.md)
+
+_16 archived docs under attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._

@@ -1,6 +1,7 @@
 # SESSION HANDOFF — Shesh ecosystem
 
-**Generated:** 2026-08-12 (live update via tools/live_update.py)
+**Generated:** 2026-08-12 (live update via tools/live_update.py) ·
+**State-refresh:** 2026-08-13 evening — see §0 first.
 **Purpose:** Load this at the start of a new session to continue exactly
 where this one stopped, without re-deriving context.
 
@@ -9,9 +10,45 @@ where this one stopped, without re-deriving context.
 > The query log at `docs/queries/QUERYLOG.md` has the full decision trail.
 > For next session copy-paste, read `docs/NEXT_SESSION_PROMPT.md` — it contains everything needed without re-explaining.
 
-**NEW:** Session hopping + swarm parallelization added this session — see §11 and §12 below.
-Copy `docs/NEXT_SESSION_PROMPT.md` into new Arena chat to continue — it includes GitHub profile, all repos, PAT instructions, commands.
+Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it includes GitHub profile, all repos, PAT instructions, commands.
 
+---
+
+## 0. Current position — 2026-08-13 evening (security + rolling deps + docs renovation session)
+
+Three user mandates landed this session, all pushed and gate-verified:
+
+- **Security / attack resistance / recovery (research-backed, cited in-repo):**
+  push protection + secret scanning on all 53 active repos (API-verified);
+  every third-party Action SHA-pinned at latest releases with weekly
+  Dependabot moves; `pull_request_target` RCE pattern removed from
+  swarm-auto-merge; zizmor + gitleaks gates in the reusable pipeline;
+  MCP rug-pull/tool-poisoning defense (`tool_pins.py`, TOFU + drift
+  refusal) landed in shesh-audit (`53a60b6`); canonical
+  `SECURITY.md` + `docs/THREAT_MODEL.md` + `docs/RECOVERY.md` +
+  `tools/dr_check.sh`.
+- **Rolling dependencies (owned by the agent now):** Python floors at
+  current majors (pytest 9.1.1, ruff 0.16.2, pytest-asyncio 1.4.0, fastmcp
+  3.4.7 — PyPI-latest on 2026-08-13); fleet sweep 21/21 green; SheshAOS
+  Cargo.lock refreshed (`a9dfc9f`, 872/872 tests + clippy/deny/machete
+  clean); conflict protocol codified in `docs/policies/DEPENDENCY_POLICY.md`
+  (downgrade-by-one → drop-and-replace).
+- **Docs renovation:** shesh-docs is now a pure projection —
+  `tools/book_build.py` (mirror map + fissions + generators + link
+  translation + orphan sweep), 74 placeholders replaced with real content,
+  114 orphan/duplicate files removed, mdbook render gate in CI; audits moved
+  to `docs/audits/`, SITUATION_REPORT fused into the INCIDENTS post-mortem,
+  desktop mirror retired to `docs/attic/` (canonical = shesh-desktop repo).
+- **Naming:** SHESH-only canon enforced fleet-wide including shesh-desktop
+  body text (`504ee8e`); shesh-voice verified zero-legacy.
+- **Owner-side leftovers (cannot be done by the agent):** rotate the GitHub
+  PAT (transcript exposure 2026-08-11/12); optional Actions secret if
+  cross-repo docs auto-push is wanted later. Both listed in
+  `docs/MANUAL_VERIFICATION.md` §13.
+
+Tips: ecosystem `210972e`→(this refresh), shesh-docs `ce643f3`, shesh-desktop
+`504ee8e`, SheshAOS `a9dfc9f`, shesh-audit `78c9d86`. CI poll for the day's
+pushes is the first job of the next session if not appended below.
 
 ---
 
@@ -22,18 +59,20 @@ Sword 16 HX). It is a federation of small MCP components governed by a
 policy/audit layer, with a Newelle-based voice frontend and a Rust
 governance kernel (SheshAOS, in progress).
 
-- **Naming (FINAL):** the product is **Shesh**, the kernel is **SheshAOS**.
-  All repos/packages/imports are `shesh-*` / `shesh_*`. "Shesh" was the
-  previous spelling and must not be reintroduced (except in the archived
-  kernel repo `shesh-kernel`, which GitHub redirects).
+- **Naming (FINAL, canon):** the product/OS is **SHESH**, the kernel project
+  is **SheshAOS**. All repos/packages/imports are `shesh-*` / `shesh_*`;
+  env vars `SHESH_*`. Legacy names (Sesha-, -shesha-, NexusAOS) survive only
+  in immutable-history classes (ADR/QUERYLOG/audits/attic) and real frozen
+  artifacts (`sesha-rs` crate, tag `1.4.5-sesha1`, archived repos
+  `shesh-kernel`/`SeshaOS`). Gates: rename sweep + shesh-docs name gate.
 
 ## 2. Repositories (all under github.com/gaganjainse)
 
 | Repo | Layer | Tests | Purpose |
 |------|-------|------:|---------|
-| SheshAOS | Brain | 981 (Rust) | Governance kernel (12 crates) — merge pending |
-| shesh-ecosystem | — | 30 (Python) | Manifest, gates, docs, **autopilot**, this wiki source |
-| shesh-audit | Brain | 20 | Hash-chained event log, GuardedMCP, Nexus bridge, secrets |
+| SheshAOS | Brain | 872 (Rust) | Governance kernel — merge pending |
+| shesh-ecosystem | — | 61 (Python) | Manifest, gates, docs, **autopilot**, this wiki source |
+| shesh-audit | Brain | 29 | Hash-chained event log, GuardedMCP, tool pins, Nexus bridge, secrets |
 | shesh-secrets | Brain | 8 | env/gopass/keepassxc/file secret resolution |
 | shesh-orchestrator | Mind | 28 | Multi-agent RLM runtime, sessions, A2A, traces |
 | shesh-memory | Mind | 26 | Episodes, FTS, vector embeddings, habits, intentions, compaction |
@@ -52,8 +91,8 @@ governance kernel (SheshAOS, in progress).
 | shesh-mcp-bundle | Soma | 4 | filesystem/fetch/git proxied through Guard |
 | shesh-acp | Soma | 12 | Agent Client Protocol (editor integration) |
 
-**Component tests: 182 · Ecosystem tests: 30 · Desktop ambient: 26
-= 238 total, all green.**
+**Component tests: 235+ (2026-08-13 sweep) · Ecosystem tests: 61 · Desktop
+ambient: 26 · SheshAOS: 872 — all green.**
 
 ## 3. Where the code lives on disk
 

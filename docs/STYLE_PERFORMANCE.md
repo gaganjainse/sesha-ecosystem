@@ -88,7 +88,7 @@ This point added to `SOURCES.md` and `REPO_TOPOLOGY.md`.
 
 ## How far till CachyOS install and first release with style+performance intact
 
-See `docs/desktop/02_ROADMAP.md` Phases 0–7, but filtered to **backend only, not look**:
+See `shesh-desktop/docs/SHESH/02_ROADMAP.md` Phases 0–7, but filtered to **backend only, not look**:
 
 - **Phase 0 Pre-install fixes (1–2 sessions):** Fix N-01..N-10 new bugs introduced by prior AI + BUG-05 MSI DMI content check + HIGH-05 zram config + etc — 10 things in `01_AUDIT.md` §E — **must do BEFORE installing CachyOS**, else `./setup install` crashes. Does NOT break look, only backend installer.
 - **Phase 1 CI gates (½ session):** Expand ShellCheck to all `.sh`, Arch container CI — so bugs never reach main — backend only

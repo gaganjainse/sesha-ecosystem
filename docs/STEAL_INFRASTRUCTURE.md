@@ -116,7 +116,7 @@ See `docs/STYLE_PERFORMANCE.md` for full.
 
 ### 7. How far till CachyOS install and first release with style+performance intact
 
-From `docs/desktop/02_ROADMAP.md` Phases 0-7:
+From `shesh-desktop/docs/SHESH/02_ROADMAP.md` Phases 0-7:
 
 - **Till CachyOS install:** Phase 0 Pre-install fixes (16 tasks) — 1–2 sessions fixing N-01..N-10 new bugs introduced by prior AI + BUG-05 MSI DMI content check + HIGH-05 zram config + etc — must do BEFORE installing CachyOS, else `./setup install` crashes. Does NOT break look, only backend installer.
 - **Till shippable after Phase 3 (fast/pretty):** Phases 0–3 first week

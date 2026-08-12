@@ -3,7 +3,7 @@
 You are continuing **Shesh** — federated local-first AI OS for CachyOS/Hyprland
 MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 
-**Owner:** Gagan Jain (@gaganjainse) — 27 repos https://github.com/gaganjainse
+**Owner:** Gagan Jain (@gaganjainse) — 53-repo fleet https://github.com/gaganjainse
 **Main repo:** shesh-ecosystem **Target OS:** CachyOS 260628 + Hyprland 0.55 + Quickshell
 **Lang policy:** Rust, Python 3.11+, Lua, QML/JS, Bash only — MCP/JSON (ADR-0001)
 
@@ -12,15 +12,19 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 - Locks: stable 1, canary 18, devel 19 — SHA256 audited
 - Components cloned in /home/user/src (22 repos): shesh-* + SheshAOS/SheshAOS/shesha-kernel/SheshAOS
 - MCP servers: shesh-*-mcp, 9 in servers.json + containers/secrets/calendar
-- Tests: 30 eco (make check), 182 comp, 26 desktop = 238 green
+- Tests: 61 eco (make check), 235+ comp, 26 desktop, 872 SheshAOS (cargo) — all green 2026-08-13
 
 **Stack must respect:**
 - docs/SESSION_HANDOFF.md READ FIRST, live anchor
 - docs/AUDIT_AND_ROADMAP.md 15 decisions D1-D15
 - TODO.md ⬜todo ✅done 🟡in-progress 🔴blocked — 11 left
-- docs/MANUAL_VERIFICATION.md 13-section hardware checklist
+- docs/MANUAL_VERIFICATION.md 16-section checklist (hardware + rolling-deps + security + recovery drill)
+- SECURITY.md + docs/THREAT_MODEL.md + docs/RECOVERY.md — canonical security posture/runbooks
+- docs/policies/DEPENDENCY_POLICY.md — rolling-release ownership: agent bumps, downgrade-one break-glass
+- docs/policies/DOCUMENTATION_POLICY.md + docs/STYLE_GUIDE.md + docs/INDEX.md — docs SSOT + nav root
+- tools/book_build.py — shesh-docs pure projection (mirror map/fissions/orphan sweep); sync-docs.sh wraps it
 - docs/queries/QUERYLOG.md full trail newest first — append after each user msg
-- docs/SESSION_PROTOCOL.md 60-sec hop protocol
+- docs/SESSION_PROTOCOL.md 60-sec hop protocol (docs/SESSION_HOP_ALERT.md is transient, untracked)
 - docs/adr/ 15 ADRs
 - docs/GETTING_STARTED.md full install + Ollama 6GB stack
 - Containerfile, distrobox.ini, tools/install.sh --channel
@@ -32,9 +36,9 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 - Flow new session:
   1. Guard detects enc exists but plain missing → NEED_PASSWORD
   2. Agent automatically asks you for password via ask_user UI
-  3. You give password (<YOUR_ENCRYPTION_PASSWORD>) → tools/secure_pat.py decrypts enc → plain 600
+  3. You give password (`YOUR_ENCRYPTION_PASSWORD`) → tools/secure_pat.py decrypts enc → plain 600
   4. tools/github_auth.py loads it, never logs value
-- Manual: python tools/secure_pat.py --prompt (prompts GetPass) or --password <pw>
+- Manual: python tools/secure_pat.py --prompt (prompts GetPass) or --password `PW`
 - Handoff: python tools/secure_pat.py --handoff deletes plain, keeps enc
 - Alt providers if enc missing: env GITHUB_PAT/GH_TOKEN or gh auth login
 - Do NOT echo PAT. Tool redacts.
@@ -54,7 +58,7 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 
 **Autopilot rules:**
 1. Pick highest ⬜ not blocked from TODO.md
-2. Branch feat/<thing> — small change one component
+2. Branch feat/`THING` — small change one component
 3. Tests — never push red — pytest -q -p no:cacheprovider
 4. GuardedMCP from shesh-audit
 5. No secrets in config — via shesh-secrets env:, gopass:, file:0600
@@ -62,9 +66,8 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 7. Before push: session_guard --tick — if hop needed, handoff not new task
 8. Archive not delete, no force-push main
 
-**Handoff metrics:**
-- Workspace 89.0 MB, files 3675, age 436.6 min, uncommitted 4
-- Lock canary 18, pending 11
+**Handoff metrics (regenerated at hop):**
+- Last state-refresh 2026-08-13 — run `python tools/session_guard.py --status` for live numbers
 
 **Swarm parallel:**
 - docs/SWARM.md — GitHub as bus via swarm/ queue/claims/heartbeats
@@ -75,5 +78,5 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 **Message to give you:** "Continue Shesh — read SESSION_HANDOFF first, TODO top-to-bottom, next ⬜. PAT encrypted at ~/.config/shesh/github.pat.enc — agent will ask password and decrypt. Run session_guard --status and make check."
 
 ---
-Generated: 2026-08-11T16:49:08.884117+00:00 — handoff /home/user/dist/handoff.json
+Generated: 2026-08-11T16:49:08 by tools/session_guard.py --handoff · hand-refreshed 2026-08-13 (numbers/canon); regenerates on next hop
 PAT status at gen: {'enc_exists': True, 'plain_exists': False, 'need_password': True}
