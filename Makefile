@@ -5,7 +5,7 @@ PY ?= python3
 RUFF ?= $(PY) -m ruff
 PYTEST ?= $(PY) -m pytest
 
-.PHONY: help lint test silent-failures resolve check all clean
+.PHONY: help lint test silent-failures resolve check all clean linkcheck verify-all
 
 help:
 	@echo "Shesh Ecosystem gates:"
@@ -16,6 +16,9 @@ help:
 	@echo "  make depgraph  regenerate + check docs/architecture/DEPENDENCY_GRAPH.md"
 	@echo "  make silent-failures  audit cwd for silent-failure patterns (SF1-SF6)"
 	@echo "  make upstream  query upstream repos for new releases (network)"
+	@echo "  make linkcheck broken relative links under docs/"
+	@echo "  make verify-all  orchestrator sweep: remotes+fetch, worktree-vs-origin"
+	@echo "                   content verify, per-component strict gates, SF self-audit"
 	@echo "  make clean     remove caches and generated locks"
 
 lint:
@@ -43,6 +46,21 @@ check: lint test
 
 upstream:
 	$(PY) scripts/upstream_tracker.py
+
+linkcheck:
+	$(PY) tools/linkcheck.py docs
+
+# Orchestrator-scale verification (network + a provisioned venv required):
+#   1. every sibling clone gets its origin remote back and is fetched
+#   2. every worktree is byte-compared against origin/<default> (catches
+#      snapshot-restore damage that git status cannot see)
+#   3. every component runs pytest -W error + ruff (no suppression policy)
+#   4. the SF1-SF6 audit runs on this repo itself
+verify-all:
+	GIT_ASKPASS=$(CURDIR)/tools/git_askpass.py $(PY) tools/sync_repos.py
+	$(PY) tools/verify_worktrees.py
+	SHESH_VENV_PY=$${SHESH_VENV_PY:-/tmp/fm3/bin/python} bash tools/verify_all_strict.sh
+	$(PY) tools/silent_failures.py .
 
 clean:
 	rm -rf .pytest_cache __pycache__ scripts/__pycache__ tests/__pycache__

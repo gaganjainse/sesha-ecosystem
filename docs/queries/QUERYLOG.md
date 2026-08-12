@@ -47,7 +47,7 @@ an autopilot loop (`scripts/supervise.sh`) and an agent skill
 (`skills/autopilot.md`) so work continues without re-asking. Everything links back
 to TODO.md.
 
-**Docs:** [TODO.md](../TODO.md), [SUPERVISOR.md](../SUPERVISOR.md),
+**Docs:** [TODO.md](../../TODO.md), [scripts/supervise.sh](../../scripts/supervise.sh),
 [skills/autopilot.md](../skills/autopilot.md)
 
 ---
