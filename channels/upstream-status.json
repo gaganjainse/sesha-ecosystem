@@ -1,6 +1,6 @@
 {
   "components": {
-    "auto-desktopenv": {
+    "shesh-desktop": {
       "archived": false,
       "error": null,
       "latest_release": "2026.05.11",

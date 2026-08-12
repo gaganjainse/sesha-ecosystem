@@ -19,7 +19,7 @@ We **never** hand-edit these except via the package manager or our installer:
 | `/var` | system state/logs | journal, pacman cache |
 | `/run`, `/tmp` | runtime/ephemeral | never persist anything here |
 
-Rule: anything in `/etc` or `/usr/local` we add carries a comment `# managed-by=auto-desktopenv`
+Rule: anything in `/etc` or `/usr/local` we add carries a comment `# managed-by=shesh-desktop`
 so `2.undo-setups.sh` can revert it precisely.
 
 ---

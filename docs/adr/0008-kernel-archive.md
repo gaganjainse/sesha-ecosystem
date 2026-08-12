@@ -11,7 +11,7 @@
   1. Leaf crates first: protocols, waveobj, wps, blockctl, wconfig.
   2. Then ai/remote/rpc/gui/kernel/vault/tui/terminal.
   3. Reconcile `NexusError`, TUI API divergence.
-  4. Bring in `sheshaos-protocols` (ACP+MCP wire impls) + CLI/worker bins.
+  4. Bring in `shesh-protocols` (ACP+MCP wire impls) + CLI/worker bins.
   5. Fix upstream breaks: `russh`, `zig`.
   6. Gate: `cargo test --workspace` green on stable.
 - Shesh ecosystem continues with SheshAOS Rust + Python `shesh-audit` bridge (`NexusBridge` emits EventKind JSONL).

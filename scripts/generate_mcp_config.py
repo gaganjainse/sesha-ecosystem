@@ -25,7 +25,7 @@ DEFAULT_CONFIG_DIR = Path.home() / ".config" / "shesh" / "mcp"
 
 # Map repo -> MCP command name (the console_script each package installs)
 SERVER_COMMANDS = {
-    "auto-desktopenv": None,  # dotfiles fork, not an MCP server
+    "shesh-desktop": None,  # dotfiles fork, not an MCP server
     "shesh-voice": None,  # Newelle fork, not an MCP server
     "shesh-audit": "shesh-audit-mcp",
     "shesh-system": "shesh-system-mcp",

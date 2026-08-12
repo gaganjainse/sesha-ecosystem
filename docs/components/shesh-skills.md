@@ -1,18 +1,18 @@
-# shesha-skills
+# shesh-skills
 
 **everyday tools + Markdown skills** — Notes, web search/fetch, git, docs, reminders.
 
 - Layer: Mind (Mind)
 - License: GPL-3.0
-- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ---
-**Everyday tools and skills for the Shesha agent.** A stdio MCP server plus a library of
+**Everyday tools and skills for the Shesh agent.** A stdio MCP server plus a library of
 Markdown skills covering notes, web research, coding, docs, scheduling, and safety/governance.
 
 - License: GPL-3.0
 - Spans: Soma (actuators) + Mind (workflows)
-- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ## Tools (MCP)
 
@@ -35,7 +35,7 @@ Skills are prompt-level workflows the agent loads per task; the safety skill alw
 uv sync --extra dev
 uv run pytest -q          # offline; network/git are mocked
 uv run ruff check .
-uv run shesha-skills-mcp
+uv run shesh-skills-mcp
 ```
 
 ## Design

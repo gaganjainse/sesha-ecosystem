@@ -1,10 +1,10 @@
 # Style + Performance — Non-Negotiable (illogical-impulse + CachyOS)
 
-> User: "My need is style + performance. I am using illogical impulse because i love its look, and using CachyOS because i love its performance. We can't compromise on this, and last point don't break these systems or anything else per se. I am already using end-4's dots-hyprland so i don't need looks, i need a good backend and other systems that integrate into that look, do you understand. I am not using native Hyprland and need to customize it, i am already using the best customized dotfiles riced look."
+> User: "My need is style + performance. I am using illogical impulse because i love its look, and using CachyOS because i love its performance. We can't compromise on this, and last point don't break these systems or anything else per se. I am already using end-4's shesh-desktop so i don't need looks, i need a good backend and other systems that integrate into that look, do you understand. I am not using native Hyprland and need to customize it, i am already using the best customized dotfiles riced look."
 
 ## What you are using
 
-- **Look:** `illogical-impulse` — end-4's `dots-hyprland` — the best customized dotfiles riced look, Material You, Quickshell `ii` widgets, anti-flashbang, screen translate, clipboard IPC, keybinds, Lua config Hyprland ≥0.55, Quickshell framework
+- **Look:** `illogical-impulse` — end-4's `shesh-desktop` — the best customized dotfiles riced look, Material You, Quickshell `ii` widgets, anti-flashbang, screen translate, clipboard IPC, keybinds, Lua config Hyprland ≥0.55, Quickshell framework
 - **Performance:** CachyOS 260628 (Arch-based, Linux 6.18 live / 7.1 installed, BORE scheduler, LTO, PGO, BOLT, x86-64-v3/v4, Zen4, gaming meta) — you love its performance
 
 You are **NOT** using native Hyprland and need to customize it — you already have best customized look, you need **good backend and other systems that integrate into that look** without breaking it.
@@ -80,7 +80,7 @@ Our job is not just to fork and wrap, but to **upgrade the wrapper for our needs
 Examples:
 
 - **Newelle → shesh-voice:** strip GNOME, add Quickshell overlay, prewire MCP servers, 6GB-safe models, wake "hey shesh", faster-whisper, Piper — upgrade
-- **dots-hyprland → shesh-desktop:** keep `custom/` thin, add `shesh` config object to Quickshell settings system + Sesha settings page `SeshaConfig.qml` in same widget style as General/Bar/Services, service `Sesha.qml` applies toggles to systemd units and hyprctl — upgrade, not just fork
+- **shesh-desktop → shesh-desktop:** keep `custom/` thin, add `shesh` config object to Quickshell settings system + Sesha settings page `SeshaConfig.qml` in same widget style as General/Bar/Services, service `Sesha.qml` applies toggles to systemd units and hyprctl — upgrade, not just fork
 - **modelcontextprotocol/servers filesystem → shesh-mcp-bundle:** proxy via Guard with tool prefixing `fs_*`, handshake, skip-if-missing, policy check every call, log + Nexus event — upgrade with governance
 - **phone-harness concept → shesh-phone:** macOS-only OCR→coordinate→act loop ported to ADB on Realme Narzo 90x, safe-area bounds, moondream2 vision instead of OCR — upgrade and specialize
 

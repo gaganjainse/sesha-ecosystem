@@ -65,7 +65,7 @@ This is the conceptual map every other document in the ecosystem references.
 
 Two protocols only (everything else is an adapter):
 
-1. **Nexus Kernel Protocol** (from `sheshaos-rpc`, JSON-RPC over Unix socket) — Brain-internal and
+1. **Nexus Kernel Protocol** (from `shesh-rpc`, JSON-RPC over Unix socket) — Brain-internal and
    Brain↔Mind. Strongly typed, append-only event semantics, policy-checked.
 2. **Model Context Protocol (MCP 2026-07-28)** — Brain↔Soma. Every actuator/sensor is an MCP
    server (stdio locally; HTTP only when explicitly bridged). This lets us reuse the entire MCP
@@ -93,8 +93,8 @@ providers → tool broker → IPC/MCP/ACP):
 1. **Soma first (this ecosystem):** make the body reliable — dotfiles, MCP servers, organizer,
    automations, voice. A body you can trust.
 2. **Brain wiring:** connect Shesh's audit log to SheshAOS's event store; route MCP tool calls
-   through `sheshaos-kernel` policy instead of Newelle executing directly.
-3. **Mind specialists:** plug SheshOS model routing into `sheshaos-ai`'s provider abstraction; use
+   through `shesh-kernel` policy instead of Newelle executing directly.
+3. **Mind specialists:** plug SheshOS model routing into `shesh-ai`'s provider abstraction; use
    `llm-eval-harness` to grade each specialist.
 4. **Reflection loop:** the mind uses the audit log + eval harness to propose improvements to skills
    (the "Continual Harness" idea — small, evidence-backed updates, never mutating the base prompt).
@@ -108,7 +108,7 @@ behind it without changing how Soma works.
 ## 5. Naming conventions (everything is ours)
 
 - **No "Jarvis".** The agent is **Shesh** (शेष) across all layers.
-- **Nexus** = the brain/kernel family (SheshAOS, shesh-kernel, sheshaos-* crates).
+- **Nexus** = the brain/kernel family (SheshAOS, shesh-kernel, shesh-* crates).
 - **Shesh** = the whole body / the user-facing agent (SheshOS = the mind spec, shesh-* MCP organs).
 - **Soma** = the bodily/device layer codename (soma-* sensors/actuators).
 - Components we integrate keep their **upstream names** in `sources/upstream/` (attribution), but our

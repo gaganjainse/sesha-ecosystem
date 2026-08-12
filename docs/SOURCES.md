@@ -50,8 +50,8 @@ system prompt. **This is exactly how Shesh should learn safely.** Implement in `
 
 ### ⭐ SheshAOS (you) — MIT  → `shesh-brain`
 The kernel: event store, policy engine, scheduler, router, tool broker, RPC. Already 981 tests.
-- **Steal (from yourself):** `sheshaos-kernel`, `sheshaos-rpc`, `sheshaos-ai` provider abstraction,
-  `sheshaos-terminal`, resource budgets, append-only audit, manifest lifecycle.
+- **Steal (from yourself):** `shesh-kernel`, `shesh-rpc`, `shesh-ai` provider abstraction,
+  `shesh-terminal`, resource budgets, append-only audit, manifest lifecycle.
 - **Adapt:** target CachyOS/Hyprland instead of Ubuntu/GNOME; make policy gate MCP tool calls; expose
   the event log as `shesh-audit`.
 - **Branches to study:** `bolt-optimize-raf-loop` (UI perf), `palette-ux-theme-switcher-a11y`

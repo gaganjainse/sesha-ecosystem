@@ -29,7 +29,7 @@ This page summarizes status.
 - **shesh-kernel → SheshAOS merge.** The archived Rust kernel diverged at the
   type level (`NexusError`/TUI API). Port leaf crates first (protocols,
   waveobj, wps, blockctl, wconfig), reconcile APIs, bring in
-  `sheshaos-protocols`, fix upstream `russh`/`zig` build breaks, gate on
+  `shesh-protocols`, fix upstream `russh`/`zig` build breaks, gate on
   `cargo test --workspace`. See `KERNEL_MERGE_PLAN.md` in SheshAOS.
 - **Hardware validation on the physical MSI Sword 16 HX** — display @144 Hz,
   NVIDIA/MUX, wake word, PipeWire, Quickshell. See [[Manual-Verification]].

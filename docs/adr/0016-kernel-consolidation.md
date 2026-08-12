@@ -9,7 +9,7 @@ TODO §1 carried a 🔴-blocked plan to merge the archived `shesha-kernel` (Rust
 13 crates + worker bin) into `SheshAOS` (Rust, 12 crates). Two questions were
 re-opened in review on 2026-08-12:
 
-1. Do we actually need what the merge would bring (esp. `nexusaos-protocols`
+1. Do we actually need what the merge would bring (esp. `shesh-protocols`
    — the 2,045-LOC ACP+MCP wire implementation)?
 2. The kernel's `waveobj`/`wps`/`blockctl`/`wconfig` crates were the start of a
    **1:1 Rust port of Wave Terminal** (crate names mirror `wavetermdev/waveterm`
@@ -23,7 +23,7 @@ re-opened in review on 2026-08-12:
   wrapper (`shesh-audit`), 191 component tests green across 19/20 components.
 - **Python↔Rust bridge already exists:** `shesh_audit/nexus_bridge.py` emits
   Nexus-format JSONL events into the Rust event store path.
-- `nexusaos-protocols` in Rust would be a **third implementation of owned wires**;
+- `shesh-protocols` in Rust would be a **third implementation of owned wires**;
   no consumer requires Rust-native ACP/MCP today.
 - Wave Terminal = ~60k LOC TS (React 19/Monaco/xterm-webgl) + ~75k LOC Go,
   22k★, actively maintained. A solo Rust port is multi-year and was, by the
@@ -31,19 +31,19 @@ re-opened in review on 2026-08-12:
 - Divergence between kernel and SheshAOS is shallow in most crates but total in
   the ones that matter (`NexusError`, TUI API); kernel has 2 extra files
   (`protocols`, worker bin) worth noting, nothing blocking.
-- SeshaOS (359 LOC) was already folded into SheshAOS; redundantly live.
+- SheshAOS (359 LOC) was already folded into SheshAOS; redundantly live.
 
 ## Decision
 
 - **Withdraw the kernel-merge plan.** No crate porting. `shesha-kernel` remains
   archived (ADR-0008). Close GitHub issues #7–13.
-- **Archive SeshaOS** (superseded by SheshAOS; folded in per TODO).
+- **Archive SheshAOS** (superseded by SheshAOS; folded in per TODO).
 - **Adopt stock Wave Terminal** as the mission-control surface. No rewrite, no
   heavy fork: integration via documented surfaces only (custom `widgets.json`
   widgets, `wsh` RPC, workspaces, OpenAI-compatible AI endpoint → OmniRoute or
   local Ollama). Fork `gaganjainse/waveterm` = pin + insurance, upstream-first
   patches. Wrapper/config lives in `gaganjainse/shesh-wave`.
-- **SheshAOS stays the canonical Rust kernel.** `nexusaos-protocols` is demoted
+- **SheshAOS stays the canonical Rust kernel.** `shesh-protocols` is demoted
   to P3 archive-candidate — port only if a future Rust consumer needs native
   ACP/MCP. `shesh-brain` scope unchanged.
 - Rust crate prefix `sheshaaos-*` normalization deferred to the next Rust-enabled
@@ -56,7 +56,7 @@ re-opened in review on 2026-08-12:
   (foot/ghostty/tmux) is orthogonal and free.
 - ✅ Zero third implementation of protocol wires to maintain.
 - ❌ Rust ambitions narrowed to governance kernel + salvage-optional crates.
-- ❌ `sheshaos-protocols` Rust ACP/MCP parity postponed indefinitely.
+- ❌ `shesh-protocols` Rust ACP/MCP parity postponed indefinitely.
 
 ## Links
 

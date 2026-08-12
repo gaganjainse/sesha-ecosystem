@@ -105,7 +105,9 @@ def test_apply_and_change_detection(tmp_path: Path) -> None:
     assert "hello.txt" in llu.changed_files(repo)
 
 
-def test_implement_applies_verified_diff(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_implement_applies_verified_diff(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     repo = _init_repo(tmp_path)
 
     class _StubAdapter:
@@ -122,7 +124,9 @@ def test_implement_applies_verified_diff(tmp_path: Path, monkeypatch: pytest.Mon
     assert (repo / "hello.txt").exists()
 
 
-def test_implement_refuses_diffless_model_output(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_implement_refuses_diffless_model_output(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     repo = _init_repo(tmp_path)
 
     class _EmptyAdapter:

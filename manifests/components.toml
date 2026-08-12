@@ -44,8 +44,8 @@ version = "0.1.0"
 license = "MIT"
 channel = "devel"
 provides = ["task-router", "scheduler", "tool-broker"]
-upstream = { name = "shesh-kernel", repo = "gaganjainse/shesh-kernel", ref = "main" }
-notes = "Packaged sheshaos-kernel for desktop; routes tool calls through policy."
+upstream = { name = "shesh-kernel", repo = "gaganjainse/shesha-kernel", ref = "main" }
+notes = "Packaged shesh-kernel for desktop; routes tool calls through policy."
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MIND — deliberative models (SheshOS specialist routing, small models on 6GB)
@@ -246,7 +246,7 @@ provides = ["omniroute", "free-gateway", "big-models", "cloud-fallback"]
 upstream = { name = "OmniRoute", repo = "diegosouzapw/OmniRoute", ref = "main" }
 notes = "Forked OmniRoute 291 providers 90+ free 500+ models 1.53B free tokens/mo RTK+Caveman 15-95% compression, optional to local Ollama primary in final product, where enable is user choice (settings GUI). For making ecosystem (dev), use free big models via OmniRoute gateway http://localhost:20128/v1 — industry-used Claude/GPT/Gemini/DeepSeek/Llama/Mistral/Qwen/Kimi/GLM etc free."
 
-[component.auto-desktopenv]
+[component.shesh-desktop]
 layer = "soma"
 repo = "gaganjainse/shesh-desktop"
 version = "rolling"

@@ -8,9 +8,9 @@ new; update it on every change so we don't drift.
 Last updated: 2026-08-12 (live update via tools/live_update.py)
 
 ## New session accomplishments (2026-08-11)
-- ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesha-* from rename commit 0d4f0f1), updated Makefile Shesha→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
-- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
-- ✅ Doc sync: renamed docs/components/shesha-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
+- ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit 0d4f0f1), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
+- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SheshAOS + shesha-kernel + SheshAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
+- ✅ Doc sync: renamed docs/components/shesh-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
 - ✅ ADRs: created docs/adr/ with 15 ADRs for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard policy) + index README
 - ✅ Getting-started: created docs/GETTING_STARTED.md (developer quick start, full CachyOS install, Ollama 6GB stack, Rust/uv/Podman, pipx component install, voice, secrets, backup, phone, containers, everyday use, canary promotion, hardware checks, troubleshooting)
 - ✅ Platform onboarding: Containerfile (Arch-based reproducible dev container), distrobox.ini, tools/install.sh with --channel stable|canary|devel, btrfs snapshot creation + rollback docs, pipx upgrade loop, MCP config generation
@@ -27,7 +27,7 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 - ✅ shesh-ecosystem created & pushed
 - ✅ All 12 components split into own repos (beyond the original 3)
 - ✅ shesh-voice: Newelle fork renamed + MCP overlay (was missing)
-- 🟡 shesh-audit standalone done; **NexusAOS Rust bridge now added** (Python→shared JSONL)
+- 🟡 shesh-audit standalone done; **SheshAOS Rust bridge now added** (Python→shared JSONL)
 - ✅ Arch/Fedora/Ubuntu canary CI; CachyOS is Arch-based so covered
 - ✅ shesh-kernel merge question resolved — withdrawn, no payload needed (ADR-0016)
 
@@ -40,17 +40,17 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 
 ## 1. Brain (governance / AOS)  🟡
 - ✅ `shesh-audit` — hash-chained append-only event log + allow/confirm/deny policy (11 tests)
-- ✅ `SheshAOS` — Rust governance kernel rebranded; SeshaOS folded in
+- ✅ `SheshAOS` — Rust governance kernel rebranded; SheshAOS folded in
 - ✅ **shesh-kernel → SheshAOS merge — WITHDRAWN by decision (ADR-0016, 2026-08-12).**
   Full-repo audit showed the protocol wires the merge existed to get — ACP and MCP — are
   already implemented and tested in Python (shesh-acp server; 17 `*-mcp` servers; GuardedMCP),
-  and the Python↔Rust bridge is `nexus_bridge` JSONL. The Rust `nexusaos-protocols` crate
+  and the Python↔Rust bridge is `nexus_bridge` JSONL. The Rust `shesh-protocols` crate
   would be a third implementation of owned wires. The iced/GUI terminal porting was the
   abandoned Wave rewrite; verdict: adopt stock Wave Terminal as mission control (shesh-wave).
-  shesha-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
+  shesha-kernel stays archived (ADR-0008); SheshAOS archived as superseded (was already
   folded into SheshAOS). No merge, no port — kernel chapter closed.
 - ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
-- ✅ NexusAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)
+- ✅ SheshAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)
 - ✅ `shesh-ebpf` — eBPF telemetry via Aya (read-only; 4 tests) — added to manifest
 
 ## 2. Mind (deliberation / AM)  🟢
@@ -60,7 +60,7 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
 - ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
-- ✅ **`shesh-brain`** — packaged nexusaos-kernel for desktop; routes tool calls through policy — **IMPLEMENTED 2026-08-11** minimal wrapper GuardedMCP, routes via Guard, Nexus bridge emit, scheduler stub, 2 tests, repo gaganjainse/shesh-brain pushed
+- ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **IMPLEMENTED 2026-08-11** minimal wrapper GuardedMCP, routes via Guard, Nexus bridge emit, scheduler stub, 2 tests, repo gaganjainse/shesh-brain pushed
 - ✅ LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline) — now via ModelAgnosticAdapter with strict JSON schema, validation+repair loop 3 retries, fallback chain free-first→stub, LLM-as-judge score >=0.7
 - ✅ A2A over Unix socket — UDS broker with role routing (3 tests); then optional remote (opt-in)
 - ✅ Persistent/background agent sessions — SessionManager with start/get/list/cancel (25 tests)
@@ -116,7 +116,7 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 ## 6. Docs & knowledge  🟢
 - ✅ Architecture docs (Body, topology, languages, containers, Linux layout, multi-agent, ACP/A2A, learning)
 - ✅ Gap analysis + tooling catalog + attribution
-- ✅ Per-component READMEs standardized — synced from src repos (17 components) + renamed shesha→shesh
+- ✅ Per-component READMEs standardized — synced from src repos (17 components) + renamed shesh→shesh
 - ✅ Keep `docs/queries/QUERYLOG.md` appended on every user prompt (autopilot does this) — updated this session
 - ✅ Doc synchronization: when a component changes, copy its README into `docs/components/` — done this session, needs automation job next
 - ✅ Architecture Decision Records (ADRs) for each protocol decision — 15 ADRs in docs/adr/ + index

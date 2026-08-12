@@ -192,7 +192,7 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
 - [ ] **shesh-kernel → SheshAOS merge**: the Rust trees diverged at the type
       level. Follow `KERNEL_MERGE_PLAN.md` in SheshAOS; port leaf crates first,
-      reconcile `NexusError`/TUI, bring in `sheshaos-protocols`, fix the
+      reconcile `NexusError`/TUI, bring in `shesh-protocols`, fix the
       upstream `russh`/`zig` build breaks, gate on `cargo test --workspace`.
 - [ ] **Hardware validation on the physical MSI** (this whole document)
 - [ ] Rebase shesh-voice on upstream Newelle periodically

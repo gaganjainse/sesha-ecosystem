@@ -14,7 +14,7 @@ Three channels with strict promotion:
 
 - **devel**: every component's `main` head; `devel.lock` = all 19 components (stable+canary+devel). Daily dev, may break.
 - **canary**: daily canary CI (`.github/workflows/canary.yml`) on Arch/Fedora/Ubuntu matrix + `e2e-canary.sh` covering all 16 MCPs; `canary.lock` = 16 components. Soak 24h.
-- **stable**: only `auto-desktopenv` (desktop) after btrfs snapshot verified. Promoted manually after MANUAL_VERIFICATION.
+- **stable**: only `shesh-desktop` (desktop) after btrfs snapshot verified. Promoted manually after MANUAL_VERIFICATION.
 
 Rules:
 - `resolve()` filters: stable=0, canary≤1, devel≤2 rank.

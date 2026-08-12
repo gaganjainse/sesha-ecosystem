@@ -11,7 +11,7 @@ Building voice from scratch would take months; forking with heavy edits would ma
 
 ## Decision
 - Fork Newelle as `shesh-voice` (GPL-3.0), keep **core untouched**.
-- Add overlay dir `shesha-overlay/` (now `shesh-overlay/`) containing:
+- Add overlay dir `shesh-overlay/` (now `shesh-overlay/`) containing:
   - `shesh-mcp-servers.json` — wires all `shesh-*` MCP servers.
   - Default model = local Ollama `phi4-mini` (not cloud).
   - Wake word model: "hey shesh" via openwakeword.

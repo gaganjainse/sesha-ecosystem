@@ -1,4 +1,4 @@
-# 💾 shesha-backup
+# 💾 shesh-backup
 
 **Verified local restic backups.** Wraps `restic` with safe defaults: only
 runs on AC, respects a daily schedule, verifies snapshots, and never forgets/
@@ -6,7 +6,7 @@ prunes unless explicitly asked.
 
 - License: GPL-3.0
 - Layer: Soma
-- Part of: [Shesha ecosystem](https://github.com/gaganjainse/shesha-ecosystem)
+- Part of: [Shesh ecosystem](https://github.com/gaganjainse/shesh-ecosystem)
 
 ## MCP tools
 
@@ -15,7 +15,7 @@ prunes unless explicitly asked.
 - `run_backup()` — run if due and on AC
 - `run_prune()` — apply retention policy (explicit, destructive)
 
-State lives in `~/.local/state/shesha/backup/`. The restic password is read
+State lives in `~/.local/state/shesh/backup/`. The restic password is read
 from the environment (never stored in config).
 
 ## Develop

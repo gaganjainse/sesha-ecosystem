@@ -24,7 +24,7 @@ We need:
 - ✅ `canary.lock` = tested combination; `stable.lock` = daily driver.
 - ✅ 30 ecosystem tests offline; component tests isolated (`--confcutdir`).
 - ❌ Need to sync READMEs to `docs/components/` — we automate via doc-sync job.
-- ❌ Renames require GitHub redirects (handled — shesha→shesh).
+- ❌ Renames require GitHub redirects (handled — shesh→shesh).
 
 ## Links
 - `docs/architecture/REPO_TOPOLOGY.md`

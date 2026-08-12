@@ -15,7 +15,7 @@ Legend: ✅ exists · 🟡 partial · ❌ missing
 | MCP (agent→tools) | ✅ | 3 servers live + shesh-skills |
 | **ACP (editor→agent)** | ❌ **P0** | Need a `shesh-acp` server so Shesh runs inside Zed/JetBrains/Neovim with file/terminal/diff/permission UX. MCP and ACP stack, not compete. |
 | **A2A (agent→agent)** | ❌ P1 | Multi-agent coordination across trust boundaries; adopt Google A2A rather than inventing. |
-| JSON-RPC (brain internal) | ✅ in SheshAOS | `sheshaos-rpc` already used; wire Brain↔Soma over it. |
+| JSON-RPC (brain internal) | ✅ in SheshAOS | `shesh-rpc` already used; wire Brain↔Soma over it. |
 | Event stream / audit | 🟡 | Log exists conceptually; need `shesh-audit` component (append-only, hash-chained, queryable). |
 | Streaming (voice/UI) | 🟡 | Newelle streams TTS/STT; our MCP servers are request/response; add SSE/streaming for long tasks. |
 

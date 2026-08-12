@@ -40,7 +40,7 @@ That's the whole list for the daily-driver system.
 ## 3. Why this minimizes FFI overhead and risk
 
 1. **Process boundaries, not linkage.** Every component is a separate process speaking **MCP (stdio) or
-   JSON-RPC (Unix socket)** — exactly how SheshAOS (`sheshaos-rpc`) and Newelle already work. There is
+   JSON-RPC (Unix socket)** — exactly how SheshAOS (`shesh-rpc`) and Newelle already work. There is
    no `ctypes`/`cdylib`/CGo/JNI in our architecture. Each language stays inside its own memory space;
    a crash in one organ doesn't take down the brain.
 2. **Serialization stays simple:** JSON for MCP/control (low volume), SQLite for local state. Use

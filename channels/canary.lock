@@ -1,24 +1,5 @@
 {
   "components": {
-    "auto-desktopenv": {
-      "channel": "stable",
-      "layer": "soma",
-      "license": "GPL-3.0",
-      "models": [],
-      "provides": [
-        "dotfiles",
-        "hyprland-config",
-        "installer",
-        "quickshell"
-      ],
-      "repo": "gaganjainse/shesh-desktop",
-      "upstream": {
-        "name": "dots-hyprland",
-        "ref": "main",
-        "repo": "end-4/dots-hyprland"
-      },
-      "version": "rolling"
-    },
     "shesh-acp": {
       "channel": "canary",
       "layer": "soma",
@@ -97,6 +78,25 @@
       "repo": "gaganjainse/shesh-containers",
       "upstream": null,
       "version": "0.1.0"
+    },
+    "shesh-desktop": {
+      "channel": "stable",
+      "layer": "soma",
+      "license": "GPL-3.0",
+      "models": [],
+      "provides": [
+        "dotfiles",
+        "hyprland-config",
+        "installer",
+        "quickshell"
+      ],
+      "repo": "gaganjainse/shesh-desktop",
+      "upstream": {
+        "name": "dots-hyprland",
+        "ref": "main",
+        "repo": "end-4/dots-hyprland"
+      },
+      "version": "rolling"
     },
     "shesh-ebpf": {
       "channel": "canary",
@@ -322,5 +322,5 @@
     }
   },
   "count": 19,
-  "sha256": "1cd4802b594a4f27f00318ee0d956df962c6f31dbcb3593b2abd5b9c7b0a8892"
+  "sha256": "1812fb871fc3550601c9d1ba5d18595377457d5dfa75c980bf88392340315cd1"
 }

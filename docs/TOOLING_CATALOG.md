@@ -51,7 +51,7 @@ To add next (each is a small Markdown file + optional tool wiring):
 
 - **email-messaging** — read/send via local client/CLI (e.g., `neomutt`/`thunderbird` API), never store passwords.
 - **calendar** — CalDAV (`vdirsyncer` + `khal`) for local-first scheduling.
-- **terminal-ops** — safe shell patterns over SSH (wraps sheshaos-terminal patterns).
+- **terminal-ops** — safe shell patterns over SSH (wraps shesh-terminal patterns).
 - **container-ops** — podman/distrobox control (build/run/list) for sandboxed tasks.
 - **kernel-tuning** — eBPF/telemetry queries (research track), read-only by default.
 - **media** — screenshots, screen recording, wallpaper, audio routing.

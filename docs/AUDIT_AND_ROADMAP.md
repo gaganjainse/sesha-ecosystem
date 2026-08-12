@@ -96,7 +96,7 @@ checkable version is TODO.md.
 - [P0] **Shesh-kernel → SheshAOS merge.** Rebase archived kernel onto
   SheshAOS; port leaf crates first (protocols, waveobj, wps, blockctl,
   wconfig), reconcile `NexusError`/TUI API divergence, bring
-  `sheshaos-protocols` (ACP+MCP wire impls) and CLI/worker bins; fix
+  `shesh-protocols` (ACP+MCP wire impls) and CLI/worker bins; fix
   upstream build breaks (`russh::Error::msg` removed, `zig` required by
   terminal); gate on `cargo test --workspace` green. See
   `KERNEL_MERGE_PLAN.md` in SheshAOS.

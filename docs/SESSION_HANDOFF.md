@@ -23,7 +23,7 @@ policy/audit layer, with a Newelle-based voice frontend and a Rust
 governance kernel (SheshAOS, in progress).
 
 - **Naming (FINAL):** the product is **Shesh**, the kernel is **SheshAOS**.
-  All repos/packages/imports are `shesh-*` / `shesh_*`. "Shesha" was the
+  All repos/packages/imports are `shesh-*` / `shesh_*`. "Shesh" was the
   previous spelling and must not be reintroduced (except in the archived
   kernel repo `shesh-kernel`, which GitHub redirects).
 
@@ -102,11 +102,11 @@ Before building any feature, **run the autopilot tests**:
 10. Mark hardware-only items 🟡 rather than faking success.
 11. **Upgrade wrapper, not just fork and wrap:** Customize and specialize for our system and improve it — e.g., Newelle fork stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models, renamed Shesh (Newelle core).
 12. **Integrating various systems, no conflict — cautious but enterprising:** namespace via MCP stdio, Guard, separate systemd services, separate config dirs, btrfs subvolumes, Python venvs via uv, one job per component, one process per MCP server.
-13. **Style + Performance non-negotiable:** illogical-impulse look (end-4 dots-hyprland) + CachyOS performance, don't break systems, already using best customized dotfiles riced look, need good backend that integrates into look. Improve style, not change — if something better in other dotfiles (ML4W, JaKooLit, HyDE, Noctalia, Caelestia, DankMaterialShell, ekremx25, qs-hyprview, HyprPanel, rishot pill morphing), include it for functionalities, better response/animations, smooth buttery feel, better bluetooth wifi integration.
+13. **Style + Performance non-negotiable:** illogical-impulse look (end-4 shesh-desktop) + CachyOS performance, don't break systems, already using best customized dotfiles riced look, need good backend that integrates into look. Improve style, not change — if something better in other dotfiles (ML4W, JaKooLit, HyDE, Noctalia, Caelestia, DankMaterialShell, ekremx25, qs-hyprview, HyprPanel, rishot pill morphing), include it for functionalities, better response/animations, smooth buttery feel, better bluetooth wifi integration.
 
 ## 6. What is DONE
 
-- ✅ All 19 repos renamed Shesha→Shesh (GitHub redirects old names)
+- ✅ All 19 repos renamed Shesh→Shesh (GitHub redirects old names)
 - ✅ Governance: audit log, GuardedMCP, policy, Nexus event bridge, secrets
 - ✅ Agents: orchestrator with roles, persistent sessions+cancel, A2A UDS,
   local JSONL traces, LLM planner/critic with Ollama + stubs
@@ -136,7 +136,7 @@ Before building any feature, **run the autopilot tests**:
 - **shesh-kernel → SheshAOS merge.** The archived Rust kernel diverged at
   the type level. Follow `KERNEL_MERGE_PLAN.md` in SheshAOS: port leaf
   crates first (protocols, waveobj, wps, blockctl, wconfig), reconcile
-  `NexusError`/TUI APIs, bring in `sheshaos-protocols` (ACP+MCP wire impls)
+  `NexusError`/TUI APIs, bring in `shesh-protocols` (ACP+MCP wire impls)
   and CLI/worker, fix upstream breaks (`russh::Error::msg` removed; `zig`
   required by terminal crate), gate on `cargo test --workspace` green.
 - **Hardware validation on the physical MSI Sword 16 HX** — run through
@@ -209,7 +209,7 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 - **Tested before push** — autopilot refuses red commits.
 - **Small, reversible, audited** — commits, events, rollback.
 - **No secrets in repos** — shesh-secrets only.
-- **Shesh, not Shesha; SheshAOS, not SheshAOS.**
+- **Shesh, not Shesh; SheshAOS, not SheshAOS.**
 - **Steal first, make second** — first thought when challenged with an issue = steal from open-source (SOURCES.md, awesome-hyprland, best MCP servers 2026, Rust crates). Check if something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved. Only if not found, then make yourself. Never engage in pointless brooding — discard what we made if something better exists to steal.
 - **Proper working versions, not minimal stubs** — don't make minimal versions that become dead code/stubs. Make proper working versions with real implementation, tests, integration, docs. We have a lot of time, freely, no limited time constraint.
 - **Upgrade wrapper, not just fork and wrap** — customize and specialize for our system and improve it (e.g., Newelle → shesh-voice stripped GNOME, added Quickshell overlay, prewired MCP, 6GB-safe models).
@@ -248,9 +248,9 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 
 ## 13. New session accomplishments (2026-08-11)
 
-- Fixed manifest/lock drift (shesha→shesh), regenerated locks (1/16/19), Makefile, test_manifest, ruff E741, `make check` green 30 tests
+- Fixed manifest/lock drift (shesh→shesh), regenerated locks (1/16/19), Makefile, test_manifest, ruff E741, `make check` green 30 tests
 - Cloned 22 repos into `src/`, verified 182 component tests
-- Renamed `docs/components/shesha-*.md→shesh-*.md` and synced from `src/*/README.md`
+- Renamed `docs/components/shesh-*.md→shesh-*.md` and synced from `src/*/README.md`
 - Created 15 ADRs `docs/adr/` + index, `docs/GETTING_STARTED.md`, `Containerfile`, `distrobox.ini`, `tools/install.sh` (btrfs snapshot+rollback), `scripts/sign_artifacts.py` (sigstore+SLSA), `scripts/export_traces_otlp.py` (OTLP), CI updated with audit guard + provenance
 - Implemented session protocol (`docs/SESSION_PROTOCOL.md`, `tools/session_guard.py`, `tools/github_auth.py`, `docs/NEXT_SESSION_PROMPT.md` auto-generated)
 - Implemented swarm (`docs/SWARM.md`, `swarm/README.md`, `tools/swarm/common.py`, `orchestrator.py`, `worker.py`, `swarm/queue/` 26 tasks seeded from TODO)
