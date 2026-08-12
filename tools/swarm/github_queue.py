@@ -22,6 +22,9 @@ REPO = os.environ.get("SWARM_REPO", "shesh-ecosystem")
 API_BASE = f"https://api.github.com/repos/{OWNER}/{REPO}"
 PROJECT_NUMBER = os.environ.get("GITHUB_PROJECT_NUMBER")
 BLOCKED_LABELS = {"blocked", "swarm:blocked"}
+# Circuit breaker: an issue that fails this many claim cycles is labelled
+# swarm:blocked so no autonomous worker retries it forever (2026-08-11 churn).
+MAX_ATTEMPTS = int(os.environ.get("SWARM_MAX_ATTEMPTS", "3"))
 
 
 def is_blocked_issue(issue: dict) -> bool:
@@ -234,6 +237,57 @@ def comment_issue(issue_number: int, body: str) -> None:
     )
 
 
+def _swarm_labels(issue_number: int) -> set[str]:
+    status, issue = _request("GET", f"{API_BASE}/issues/{issue_number}")
+    if status != 200:
+        return set()
+    return {label.get("name", "") for label in issue.get("labels", [])}
+
+
+def attempt_count(issue_number: int) -> int:
+    """How many failed claim cycles this issue has absorbed (swarm:attempt-N)."""
+    counts = []
+    for name in _swarm_labels(issue_number):
+        match = re.fullmatch(r"swarm:attempt-(\d+)", name)
+        if match:
+            counts.append(int(match.group(1)))
+    return max(counts, default=0)
+
+
+def record_attempt(issue_number: int) -> int:
+    """Label the next failed-attempt notch; returns the new attempt count."""
+    count = attempt_count(issue_number) + 1
+    label = f"swarm:attempt-{count}"
+    ensure_label(label, color="e99695", description="failed swarm claim cycles")
+    _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/labels",
+        {"labels": [label]},
+    )
+    return count
+
+
+def block_issue(issue_number: int, reason: str) -> None:
+    """Take an issue out of the autonomous queue until a human unblocks it."""
+    ensure_label("swarm:blocked", color="b60205", description="needs human decision")
+    _request(
+        "DELETE", f"{API_BASE}/issues/{issue_number}/labels/swarm:pending"
+    )
+    _request(
+        "POST",
+        f"{API_BASE}/issues/{issue_number}/labels",
+        {"labels": ["swarm:blocked"]},
+    )
+    comment_issue(
+        issue_number,
+        "⛔ **Swarm circuit breaker tripped.**\n\n"
+        f"Reason: {reason[:800]}\n\n"
+        f"This issue failed {MAX_ATTEMPTS} claim cycles, so autonomous workers "
+        "will skip it to avoid endless retry churn. A human should refine the "
+        "task spec, then remove `swarm:blocked` and re-add `swarm:pending`.",
+    )
+
+
 def _pr_body(issue_number: int, body: str) -> str:
     content = body.strip()
     if issue_number:
@@ -312,6 +366,14 @@ def release_issue_claim(
             )
         },
     )
+
+    # Circuit breaker — never let one issue churn autonomous workers forever.
+    attempts = record_attempt(issue_number)
+    if attempts >= MAX_ATTEMPTS:
+        block_issue(
+            issue_number,
+            f"release by `{agent_id}` was failure #{attempts}: {reason[:300]}",
+        )
     return ok
 
 

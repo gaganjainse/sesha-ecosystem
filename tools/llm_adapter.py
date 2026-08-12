@@ -219,6 +219,27 @@ def grade_output(data: dict, task: TaskSpec) -> float:
 
 # --- Model adapter with LiteLLM / fallback ---
 
+
+def _chat_completions(endpoint: str, token: str, model: str, prompt: str, timeout: int = 60) -> str:
+    """Minimal OpenAI-compatible chat call (stdlib only, no litellm needed)."""
+    import urllib.request
+
+    payload = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.2,
+        }
+    ).encode()
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(endpoint, data=payload, headers=headers)
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        j = json.loads(resp.read().decode())
+        return j["choices"][0]["message"]["content"] or ""
+
+
 class ModelAgnosticAdapter:
     def __init__(self, models_toml: pathlib.Path | None = None):
         self.models = load_models(models_toml or ROOT / "manifests/models.toml")
@@ -281,6 +302,18 @@ class ModelAgnosticAdapter:
             except Exception as e:
                 return f"{{'error': 'ollama failed {e}'}}"
 
+        # OmniRoute — our self-hosted OpenAI-compatible gateway (shesh-omniroute).
+        # Any OpenAI-compatible endpoint works: SHESH_OMNIROUTE_BASE_URL + key.
+        if model.provider == "omniroute":
+            base = os.environ.get("SHESH_OMNIROUTE_BASE_URL", "").rstrip("/")
+            key = os.environ.get("SHESH_OMNIROUTE_API_KEY", "")
+            if not base:
+                raise RuntimeError("SHESH_OMNIROUTE_BASE_URL not set")
+            return _chat_completions(
+                f"{base}/v1/chat/completions" if not base.endswith("/v1") else f"{base}/chat/completions",
+                key, model.model, prompt,
+            )
+
         # Groq, OpenRouter, GitHub Models, HuggingFace — try LiteLLM if installed, else try direct API
         # For free, we try to use env API keys — if not present, fail and trigger fallback
         env_key_map = {
@@ -312,37 +345,21 @@ class ModelAgnosticAdapter:
         except Exception as e:
             raise RuntimeError(f"litellm failed for {model.model}: {e}") from e
 
-        # Fallback direct API calls (simplified)
-        # For GitHub Models: https://models.inference.ai.azure.com
+        # Fallback direct API calls — OpenAI-compatible chat completions.
         if model.provider == "github":
-            try:
-                import urllib.request
-                import json as _json
-
-                # GitHub Models endpoint
-                token = api_key or os.environ.get("GITHUB_PAT") or ""
-                if not token:
-                    raise RuntimeError("No GitHub token for github models")
-                data = _json.dumps(
-                    {
-                        "model": model.model,
-                        "messages": [{"role": "user", "content": prompt}],
-                        "temperature": 0.2,
-                    }
-                ).encode()
-                req = urllib.request.Request(
-                    "https://models.inference.ai.azure.com/chat/completions",
-                    data=data,
-                    headers={
-                        "Content-Type": "application/json",
-                        "Authorization": f"Bearer {token}",
-                    },
-                )
-                with urllib.request.urlopen(req, timeout=30) as resp:
-                    j = _json.loads(resp.read().decode())
-                    return j["choices"][0]["message"]["content"]
-            except Exception as e:
-                raise RuntimeError(f"github models failed: {e}") from e
+            token = api_key or os.environ.get("GITHUB_PAT") or os.environ.get("GITHUB_TOKEN") or ""
+            if not token:
+                raise RuntimeError("No GitHub token for github models")
+            last_exc: Exception | None = None
+            for endpoint in (
+                "https://models.github.ai/inference/chat/completions",
+                "https://models.inference.ai.azure.com/chat/completions",  # legacy
+            ):
+                try:
+                    return _chat_completions(endpoint, token, model.model, prompt)
+                except Exception as e:  # try next known endpoint
+                    last_exc = e
+            raise RuntimeError(f"github models failed: {last_exc}") from last_exc
 
         raise RuntimeError(f"Provider {model.provider} not implemented without litellm")
 
@@ -357,6 +374,9 @@ class ModelAgnosticAdapter:
 
         last_error = None
         for model in candidates:
+            # OmniRoute needs its gateway configured, else skip silently.
+            if model.provider == "omniroute" and not os.environ.get("SHESH_OMNIROUTE_BASE_URL"):
+                continue
             # Skip models that require API key not present (except stub and ollama)
             if model.provider in ("groq", "openrouter", "huggingface", "github"):
                 # Check key exists, else skip to next
