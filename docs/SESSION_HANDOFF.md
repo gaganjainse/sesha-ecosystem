@@ -57,8 +57,8 @@ governance kernel (SheshAOS, in progress).
 
 ## 3. Where the code lives on disk
 
-- Components: `/home/user/sesha/components/shesh-*/`
-- Ecosystem: `/home/user/sesha/shesh-ecosystem/` (also cloned into
+- Components: `/home/user/src/shesh-*/  (canonical layout; `sesha` dir names on older machines are the known legacy typo — see below)`
+- Ecosystem: `/home/user/shesh-ecosystem/` (canonical) — also cloned into
   `shesh-ecosystem` under components in some checkouts — use the
   `shesh-ecosystem` repo at the workspace root)
 - Each component: `pyproject.toml`, `src/shesh_<name>/`, `tests/`,
@@ -185,7 +185,7 @@ Before building any feature, **run the autopilot tests**:
 ## 9. First commands for a fresh session
 
 ```bash
-cd /home/user/sesha/shesh-ecosystem
+cd /home/user/shesh-ecosystem
 export PATH="$HOME/.local/bin:$PATH"
 
 # 1. Verify everything is green

@@ -41,7 +41,7 @@ From `GAP_ANALYSIS.md` + `SOURCES.md` second-wave research, but filtered to **ba
 - **shesh-messaging** — Telegram/Signal isolated opt-in services — backend, separate systemd services, no UI conflict
 - **shesh-containers** — podman/distrobox sandboxed `run_sandboxed(["echo","hi"])` with `--cap-drop=ALL --network=none` — backend, no UI
 - **shesh-ebpf** — eBPF telemetry with Aya Rust read-only — backend, no UI, behind Guard
-- **shesh-omniroute** — free big models gateway 291 providers 90+ free, optional to local Ollama primary — backend, where enable is user choice in settings GUI `SeshaConfig.qml` (in same widget style as General/Bar/Services, not breaking style)
+- **shesh-omniroute** — free big models gateway 291 providers 90+ free, optional to local Ollama primary — backend, where enable is user choice in settings GUI `SheshConfig.qml` (in same widget style as General/Bar/Services, not breaking style)
 
 ### What we must NOT steal for looks
 
@@ -80,7 +80,7 @@ Our job is not just to fork and wrap, but to **upgrade the wrapper for our needs
 Examples:
 
 - **Newelle → shesh-voice:** strip GNOME, add Quickshell overlay, prewire MCP servers, 6GB-safe models, wake "hey shesh", faster-whisper, Piper — upgrade
-- **shesh-desktop → shesh-desktop:** keep `custom/` thin, add `shesh` config object to Quickshell settings system + Sesha settings page `SeshaConfig.qml` in same widget style as General/Bar/Services, service `Sesha.qml` applies toggles to systemd units and hyprctl — upgrade, not just fork
+- **shesh-desktop → shesh-desktop:** keep `custom/` thin, add `shesh` config object to Quickshell settings system + SHESH settings page `SheshConfig.qml` in same widget style as General/Bar/Services, service `Shesh.qml` applies toggles to systemd units and hyprctl — upgrade, not just fork
 - **modelcontextprotocol/servers filesystem → shesh-mcp-bundle:** proxy via Guard with tool prefixing `fs_*`, handshake, skip-if-missing, policy check every call, log + Nexus event — upgrade with governance
 - **phone-harness concept → shesh-phone:** macOS-only OCR→coordinate→act loop ported to ADB on Realme Narzo 90x, safe-area bounds, moondream2 vision instead of OCR — upgrade and specialize
 

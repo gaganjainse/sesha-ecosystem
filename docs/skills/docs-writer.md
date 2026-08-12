@@ -6,7 +6,7 @@ description: Write and convert documentation and notes in Markdown. Keep them or
 # Docs & notes skill
 
 - **Capture first:** `append_note("inbox", ...)` for quick thoughts.
-- **Structure:** notes live under `~/Notes/{Daily,Tech,Ideas,Meetings,Sesha}`.
+- **Structure:** notes live under `~/Notes/{Daily,Tech,Ideas,Meetings,SHESH}`.
   Daily notes are named `YYYY-MM-DD.md`.
 - **Markdown everywhere:** use headings, tables for comparisons, code fences with language.
 - **Convert docs:** `convert_to_markdown(path)` for PDF/DOCX/XLSX (pandoc).

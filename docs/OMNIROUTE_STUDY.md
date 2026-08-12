@@ -125,7 +125,7 @@ Yes — for **making** ecosystem (development work in Arena), you can use OmniRo
 
 ## Integration into Shesh ecosystem
 
-- **As component:** `shesh-omniroute` (planned) — wraps OmniRoute gateway as MCP tool `omniroute_generate` with same model-agnostic adapter, optional to local AI, enabled via settings GUI `SeshaConfig.qml`
+- **As component:** `shesh-omniroute` (planned) — wraps OmniRoute gateway as MCP tool `omniroute_generate` with same model-agnostic adapter, optional to local AI, enabled via settings GUI `SheshConfig.qml`
 - **As dev tool:** `tools/omniroute/` (future) — uses OmniRoute free big models to make ecosystem (code generation) with rigorous quality (schema + validation + fallback chain + grading)
 - **Separation:** Dev tooling (OmniRoute usage for making) lives in `shesh-workspace`, not in `shesh-ecosystem` clean product — you enable in finished product is your choice
 

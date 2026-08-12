@@ -35,7 +35,7 @@ so `2.undo-setups.sh` can revert it precisely.
 | `XDG_BIN_HOME` | `~/.local/bin` | user binaries (sm-watcher, shesh-*-mcp) |
 
 Every Shesh component obeys these via the shared `tools/lib/common.sh` and Python `platformdirs`/
-`pathlib` conventions — no hardcoded `~/.sesha` sprawl.
+`pathlib` conventions — no hardcoded `~/.shesh` sprawl (a legacy `~/.cache/sesha` dir from pre-canon builds may exist on old installs; delete it at migration).
 
 ---
 
@@ -43,7 +43,7 @@ Every Shesh component obeys these via the shared `tools/lib/common.sh` and Pytho
 
 | Component | Config | State/data | Cache |
 |---|---|---|---|
-| Shesh MCP servers | `~/.config/shesh/` | `~/.local/state/shesh/.venv` | `~/.cache/sesha` |
+| Shesh MCP servers | `~/.config/shesh/` | `~/.local/state/shesh/.venv` | `~/.cache/shesh` |
 | Audit log | — | `~/.local/share/shesh/audit/` | — |
 | Smart-organizer | `~/.config/smart-organizer/` | `~/.local/share/smart-organizer/{history.db,undo}` | `~/.cache/smart-organizer` |
 | Ollama models | `~/.config/ollama` | **`~/AI/Models/ollama`** (symlinked, large) | — |

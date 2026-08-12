@@ -8,7 +8,7 @@
 
 ## 1. Python — Astral `uv` (not pip/venv/poetry)
 
-Each Python component (`sesha` MCP servers, classifier, rag-service) is a proper uv project:
+Each Python component (`shesh-*` MCP servers, classifier, rag-service) is a proper uv project:
 
 ```bash
 cd tools/shesh
