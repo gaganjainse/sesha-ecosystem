@@ -56,10 +56,14 @@ jobs:
         run: |
           if [ -d src/shesh-audit ]; then
             for repo in shesh-audit shesh-mind shesh-memory shesh-orchestrator shesh-skills shesh-acp shesh-harness shesh-backup shesh-calendar shesh-mcp-bundle shesh-containers shesh-phone shesh-secrets shesh-shell shesh-system shesh-files; do
-              [ -f src/$repo/README.md ] && cp src/$repo/README.md docs/components/$repo.md || true
+              if [ -f "src/$repo/README.md" ]; then
+                cp "src/$repo/README.md" "docs/components/$repo.md"
+              else
+                echo "skip (no README): $repo"
+              fi
             done
           fi
-          ls docs/components/ | wc -l
+          find docs/components -maxdepth 1 -name '*.md' | wc -l
 
       - name: License gate + ruff + pytest
         run: |
@@ -115,15 +119,17 @@ jobs:
         run: |
           git config user.name "shesh-janitor[bot]"
           git config user.email "shesh-janitor@users.noreply.github.com"
-          git add channels/ docs/components/ swarm/ || true
+          git add -A channels/ docs/components/ swarm/
           git diff --cached --quiet || git commit -m "chore: swarm janitor — locks + docs sync + re-queue stale [skip ci]"
           git push origin main || echo "Push failed or nothing to push"
 
       - name: Comment summary
         run: |
-          echo "### Swarm Janitor run $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
-          echo "- Locks deterministic check + regen if drift" >> $GITHUB_STEP_SUMMARY
-          echo "- Docs/components sync (if src cached)" >> $GITHUB_STEP_SUMMARY
-          echo "- Seeded Issues from TODO.md ⬜ (if enabled)" >> $GITHUB_STEP_SUMMARY
-          echo "- Re-queued stale claims >10 min" >> $GITHUB_STEP_SUMMARY
-          echo "- Uses GITHUB_TOKEN, no PAT needed, runs every hour while you travel" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Swarm Janitor run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "- Locks deterministic check + regen if drift"
+            echo "- Docs/components sync (if src cached)"
+            echo "- Seeded Issues from TODO.md ⬜ (if enabled)"
+            echo "- Re-queued stale claims >10 min"
+            echo "- Uses GITHUB_TOKEN, no PAT needed, runs every hour while you travel"
+          } >> "$GITHUB_STEP_SUMMARY"

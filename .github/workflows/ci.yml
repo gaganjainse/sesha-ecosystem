@@ -36,6 +36,17 @@ jobs:
       - name: Silent-failure audit (self)
         run: python tools/silent_failures.py .
 
+      # Workflow linter (expression injection, stale actions, embedded
+      # shellcheck). Version + tarball sha256 pinned — supply-chain hygiene
+      # for a lint binary we download at gate time.
+      - name: actionlint (workflows)
+        run: |
+          curl -sfL -o /tmp/actionlint.tgz \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  /tmp/actionlint.tgz" | sha256sum -c -
+          tar -xzf /tmp/actionlint.tgz -C /tmp actionlint
+          /tmp/actionlint .github/workflows/*.yml
+
       - name: Tests (pytest)
         run: python -m pytest tests/ -q
 
@@ -120,6 +131,38 @@ jobs:
 
       - name: Graph must equal the generated truth
         run: python tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
+
+  workflow-lint:
+    name: actionlint across all repos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned actionlint
+        run: |
+          curl -sfL -o /tmp/actionlint.tgz \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  /tmp/actionlint.tgz" | sha256sum -c -
+          tar -xzf /tmp/actionlint.tgz -C /tmp actionlint
+
+      - name: Shallow-clone component checkouts
+        run: |
+          mkdir -p "$HOME/src"
+          python tools/depgraph.py --list-repos | while read -r repo; do
+            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+          done
+
+      - name: Lint every repo's workflows
+        run: |
+          set -e
+          /tmp/actionlint .github/workflows/*.yml
+          for repo in $(python tools/depgraph.py --list-repos); do
+            wf="$HOME/src/$repo/.github/workflows"
+            if [ -d "$wf" ]; then
+              echo "== $repo"
+              /tmp/actionlint "$wf"/*.yml
+            fi
+          done
 
   silent-failures:
     name: Silent-failure audit

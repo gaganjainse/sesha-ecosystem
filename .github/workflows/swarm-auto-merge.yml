@@ -72,26 +72,30 @@ jobs:
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PR fields are attacker-controlled text: they pass through env,
+          # never inline in the script (actionlint expression injection).
+          PR_NUM: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           # Only auto-merge if PR has label swarm and game is green
           # Use gh CLI (preinstalled)
           gh --version
-          PR_NUM=${{ github.event.pull_request.number }}
-          echo "PR $PR_NUM from ${{ github.head_ref }} — gates green, attempting squash merge"
+          echo "PR $PR_NUM from $HEAD_REF — gates green, attempting squash merge"
 
           # Check if PR still has swarm label
-          gh pr view $PR_NUM --json labels --jq '.labels[].name' | grep -q "swarm" || echo "no swarm label, but continuing as head_ref is swarm/"
+          gh pr view "$PR_NUM" --json labels --jq '.labels[].name' | grep -q "swarm" || echo "no swarm label, but continuing as head_ref is swarm/"
 
           # Merge and enable auto-merge.
           # NOTE: no `gh pr review --approve` — GitHub Actions tokens are
           # not permitted to approve PRs (addPullRequestReview denied).
-          gh pr merge $PR_NUM --squash --auto --delete-branch || gh pr merge $PR_NUM --squash --delete-branch
+          gh pr merge "$PR_NUM" --squash --auto --delete-branch || gh pr merge "$PR_NUM" --squash --delete-branch
 
           # Comment on linked issue if any
-          ISSUE=$(echo "${{ github.event.pull_request.body }}" | grep -oE "#[0-9]+" | head -1 | tr -d '#')
+          ISSUE=$(echo "$PR_BODY" | grep -oE "#[0-9]+" | head -1 | tr -d '#')
           if [ -n "$ISSUE" ]; then
-            gh issue comment $ISSUE --body "✅ PR #$PR_NUM auto-merged via swarm gate. Task done."
-            gh issue edit $ISSUE --remove-label "swarm:pending,swarm:claimed" --add-label "swarm:done"
+            gh issue comment "$ISSUE" --body "✅ PR #$PR_NUM auto-merged via swarm gate. Task done."
+            gh issue edit "$ISSUE" --remove-label "swarm:pending,swarm:claimed" --add-label "swarm:done"
           fi
 
       - name: Comment on failure
