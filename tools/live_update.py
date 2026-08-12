@@ -32,7 +32,6 @@ from __future__ import annotations
 
 import argparse
 import datetime
-import json
 import pathlib
 import re
 import subprocess
@@ -64,7 +63,7 @@ def append_query_log(query: str, answer: str) -> None:
 
 **Answer:** {answer}
 
-**Docs:** Auto-updated via live_update.py at {datetime.datetime.now(datetime.timezone.utc).isoformat()}
+**Docs:** Auto-updated via live_update.py at {datetime.datetime.now(datetime.UTC).isoformat()}
 
 ---
 """
@@ -210,7 +209,6 @@ def aggregate_all_agents() -> None:
 
     # Gather PDF full extract if exists
     pdf_extract = ""
-    pdf_path = ROOT / "uploads/I just gave them the start as.pdf"
     # We have /tmp/full_pdf.txt from earlier extraction
     full_pdf_path = pathlib.Path("/tmp/full_pdf.txt")
     if full_pdf_path.exists():
@@ -219,7 +217,7 @@ def aggregate_all_agents() -> None:
     content = f"""# Query Log — All Agents Aggregated (Live Update Automatic)
 
 > Aggregates query logs from 5 other agents that user worked with for some time + main agent
-> Generated: {datetime.datetime.now(datetime.timezone.utc).isoformat()} via tools/live_update.py --swarm
+> Generated: {datetime.datetime.now(datetime.UTC).isoformat()} via tools/live_update.py --swarm
 > This fixes user complaint: What about query log of 5 other agents? Now automatic, not manual.
 
 ## Ledger (swarm/ledger.jsonl last 10k chars)
@@ -281,7 +279,6 @@ The workspace is clean and ready; the worker should not be restarted until its c
 
 
 def main() -> int:
-    import argparse
 
     ap = argparse.ArgumentParser(description="Live update system — automatic")
     ap.add_argument("--query", help="User query to append to QUERYLOG")

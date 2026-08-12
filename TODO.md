@@ -29,7 +29,7 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 - ✅ shesh-voice: Newelle fork renamed + MCP overlay (was missing)
 - 🟡 shesh-audit standalone done; **NexusAOS Rust bridge now added** (Python→shared JSONL)
 - ✅ Arch/Fedora/Ubuntu canary CI; CachyOS is Arch-based so covered
-- 🔴 shesh-kernel merge remains blocked on Rust type reconciliation
+- ✅ shesh-kernel merge question resolved — withdrawn, no payload needed (ADR-0016)
 
 ## 0. Project identity & naming ✅
 - ✅ Sesha → **Shesh** (शेष) across all repos/code/docs
@@ -41,17 +41,17 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 ## 1. Brain (governance / AOS)  🟡
 - ✅ `shesh-audit` — hash-chained append-only event log + allow/confirm/deny policy (11 tests)
 - ✅ `SheshAOS` — Rust governance kernel rebranded; SeshaOS folded in
-- 🔴 **shesh-kernel → SheshAOS merge** — type-diverged, do NOT force. See `KERNEL_MERGE_PLAN.md`.
-  - ⬜ Rebase archived shesh-kernel onto SheshAOS main
-  - ⬜ Port leaf crates first (protocols, waveobj, wps, blockctl, wconfig)
-  - ⬜ Then ai/remote/rpc/gui/kernel/vault/tui/terminal
-  - ⬜ Reconcile `NexusError`/TUI API divergence
-  - ⬜ Bring in `sheshaos-protocols` (ACP+MCP wire impl) and CLI/worker bins
-  - ⬜ Fix pre-existing upstream build breaks: `russh::Error::msg` removed; `zig` required by terminal
-  - ⬜ Gate: `cargo test --workspace` green on stable
+- ✅ **shesh-kernel → SheshAOS merge — WITHDRAWN by decision (ADR-0016, 2026-08-12).**
+  Full-repo audit showed the protocol wires the merge existed to get — ACP and MCP — are
+  already implemented and tested in Python (shesh-acp server; 17 `*-mcp` servers; GuardedMCP),
+  and the Python↔Rust bridge is `nexus_bridge` JSONL. The Rust `nexusaos-protocols` crate
+  would be a third implementation of owned wires. The iced/GUI terminal porting was the
+  abandoned Wave rewrite; verdict: adopt stock Wave Terminal as mission control (shesh-wave).
+  shesha-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
+  folded into SheshAOS). No merge, no port — kernel chapter closed.
 - ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
 - ✅ NexusAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)
-- 💡 Future: eBPF telemetry with Aya (Rust) for system/performance sensing
+- ✅ `shesh-ebpf` — eBPF telemetry via Aya (read-only; 4 tests) — added to manifest
 
 ## 2. Mind (deliberation / AM)  🟢
 - ✅ `shesh-memory` — episodic/semantic/intention/mannerism/habit memory + token-bounded context assembly (15 tests)
