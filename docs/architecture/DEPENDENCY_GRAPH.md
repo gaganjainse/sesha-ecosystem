@@ -26,14 +26,10 @@ graph TD
     shesh --> shesh_vault
     shesh_ai --> shesh_wconfig
     shesh_ai --> shesh_wps
-    shesh_blockctl --> shesh_waveobj
-    shesh_blockctl --> shesh_wps
     shesh_remote --> shesh_blockctl
     shesh_remote --> shesh_wps
     shesh_rpc --> shesh_waveobj
     shesh_rpc --> shesh_wps
-    shesh_vault --> shesh_kernel
-    shesh_wconfig --> shesh_waveobj
     shesh_wconfig --> shesh_wps
 ```
 
