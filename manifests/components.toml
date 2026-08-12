@@ -246,18 +246,6 @@ provides = ["omniroute", "free-gateway", "big-models", "cloud-fallback"]
 upstream = { name = "OmniRoute", repo = "diegosouzapw/OmniRoute", ref = "main" }
 notes = "Forked OmniRoute 291 providers 90+ free 500+ models 1.53B free tokens/mo RTK+Caveman 15-95% compression, optional to local Ollama primary in final product, where enable is user choice (settings GUI). For making ecosystem (dev), use free big models via OmniRoute gateway http://localhost:20128/v1 — industry-used Claude/GPT/Gemini/DeepSeek/Llama/Mistral/Qwen/Kimi/GLM etc free."
 
-[component.shesh-ebpf]
-layer = "soma"
-repo = "gaganjainse/shesh-ebpf"
-version = "0.1.0"
-license = "GPL-3.0"
-channel = "canary"
-provides = ["ebpf-telemetry", "system-metrics", "performance-sensing"]
-notes = "eBPF telemetry with Aya (Rust) for system/performance sensing read-only — P2, future Aya programs for execve/openat/tcp via BPF_MAP_TYPE_PERF_EVENT_ARRAY, behind Guard"
-
-# ─────────────────────────────────────────────────────────────────────────────
-# BASE — the desktop substrate (fork of end-4, stays closest to upstream)
-# ─────────────────────────────────────────────────────────────────────────────
 [component.auto-desktopenv]
 layer = "soma"
 repo = "gaganjainse/shesh-desktop"
