@@ -108,10 +108,17 @@ REPO_URL = {
     "shesh-mcp-bundle": "https://github.com/gaganjainse/shesh-mcp-bundle.git",
     "shesh-acp": "https://github.com/gaganjainse/shesh-acp.git",
     "shesh-voice": "https://github.com/gaganjainse/shesh-voice.git",
+    "shesh-brain": "https://github.com/gaganjainse/shesh-brain.git",
+    "shesh-ebpf": "https://github.com/gaganjainse/shesh-ebpf.git",
+    "shesh-media": "https://github.com/gaganjainse/shesh-media.git",
+    "shesh-messaging": "https://github.com/gaganjainse/shesh-messaging.git",
     "shesh-desktop": "https://github.com/gaganjainse/shesh-desktop.git",
     "SheshAOS": "https://github.com/gaganjainse/SheshAOS.git",
+    "shesh-omniroute": "https://github.com/gaganjainse/shesh-omniroute.git",
+    "shesh-wave": "https://github.com/gaganjainse/shesh-wave.git",
+    "waveterm": "https://github.com/gaganjainse/waveterm.git",
     # Archived (ADR-0016): kept for reference clones only
-    "SheshAOS": "https://github.com/gaganjainse/SeshaOS.git",
+    "SeshaOS": "https://github.com/gaganjainse/SeshaOS.git",
     "shesha-kernel": "https://github.com/gaganjainse/shesha-kernel.git",
 }
 

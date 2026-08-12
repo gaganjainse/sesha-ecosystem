@@ -241,10 +241,27 @@ def _chat_completions(endpoint: str, token: str, model: str, prompt: str, timeou
 
 
 class ModelAgnosticAdapter:
+    _ollama_probe: bool | None = None  # process-wide probe cache
+
     def __init__(self, models_toml: pathlib.Path | None = None):
         self.models = load_models(models_toml or ROOT / "manifests/models.toml")
         # Filter to free only if user wants free (default free)
         self.free_models = [m for m in self.models if m.free]
+
+    def _ollama_available(self) -> bool:
+        if ModelAgnosticAdapter._ollama_probe is None:
+            import shutil
+            import socket
+
+            ok = shutil.which("ollama") is not None
+            if not ok:
+                try:
+                    with socket.create_connection(("127.0.0.1", 11434), timeout=0.4):
+                        ok = True
+                except OSError:
+                    ok = False
+            ModelAgnosticAdapter._ollama_probe = ok
+        return ModelAgnosticAdapter._ollama_probe
 
     def models_for_role(self, role: str) -> list[ModelSpec]:
         """Return models that support role, sorted by priority."""
@@ -376,6 +393,9 @@ class ModelAgnosticAdapter:
         for model in candidates:
             # OmniRoute needs its gateway configured, else skip silently.
             if model.provider == "omniroute" and not os.environ.get("SHESH_OMNIROUTE_BASE_URL"):
+                continue
+            # Ollama: skip fast when neither binary nor daemon exists (CI runners)
+            if model.provider == "ollama" and not self._ollama_available():
                 continue
             # Skip models that require API key not present (except stub and ollama)
             if model.provider in ("groq", "openrouter", "huggingface", "github"):

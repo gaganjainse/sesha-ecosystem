@@ -64,7 +64,15 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          set +e
           python tools/swarm/worker_github.py \
             --once --github \
             --component "${{ inputs.component || 'general' }}" \
             --executor llm_executor:implement
+          rc=$?
+          set -e
+          case $rc in
+            0) echo "cycle completed" ;;
+            1) echo "::warning::worker cycle produced no green PR (model unavailable or repair rounds exhausted) — circuit breaker counts it; not a workflow failure" ;;
+            *) echo "::error::worker infrastructure failure rc=$rc"; exit $rc ;;
+          esac
