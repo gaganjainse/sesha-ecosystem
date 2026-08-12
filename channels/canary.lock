@@ -101,7 +101,7 @@
     "shesh-ebpf": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "ebpf-telemetry",
@@ -322,5 +322,5 @@
     }
   },
   "count": 19,
-  "sha256": "e2d4b298c81c70fb0cb331df1fe679df1da15aeb44e211169ff9d0e02dfb292d"
+  "sha256": "1cd4802b594a4f27f00318ee0d956df962c6f31dbcb3593b2abd5b9c7b0a8892"
 }
