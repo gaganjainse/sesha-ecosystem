@@ -40,14 +40,14 @@ Last updated: 2026-08-12 (live update via tools/live_update.py)
 
 ## 1. Brain (governance / AOS)  🟡
 - ✅ `shesh-audit` — hash-chained append-only event log + allow/confirm/deny policy (11 tests)
-- ✅ `SheshAOS` — Rust governance kernel rebranded; SheshAOS folded in
+- ✅ `SheshAOS` — Rust governance kernel rebranded; SeshaOS folded in
 - ✅ **shesh-kernel → SheshAOS merge — WITHDRAWN by decision (ADR-0016, 2026-08-12).**
   Full-repo audit showed the protocol wires the merge existed to get — ACP and MCP — are
   already implemented and tested in Python (shesh-acp server; 17 `*-mcp` servers; GuardedMCP),
   and the Python↔Rust bridge is `nexus_bridge` JSONL. The Rust `shesh-protocols` crate
   would be a third implementation of owned wires. The iced/GUI terminal porting was the
   abandoned Wave rewrite; verdict: adopt stock Wave Terminal as mission control (shesh-wave).
-  shesha-kernel stays archived (ADR-0008); SheshAOS archived as superseded (was already
+  shesha-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
   folded into SheshAOS). No merge, no port — kernel chapter closed.
 - ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
 - ✅ SheshAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)

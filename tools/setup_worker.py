@@ -147,7 +147,7 @@ def clone_repo(name: str, shallow: bool = True) -> bool:
     # Clone
     depth_flag = "--depth 1 --single-branch" if shallow else ""
     # For large repos, always shallow
-    if name in ("shesh-voice", "shesh-desktop", "SheshAOS", "SheshAOS", "shesha-kernel"):
+    if name in ("shesh-voice", "shesh-desktop", "SheshAOS", "SeshaOS", "shesha-kernel"):
         depth_flag = "--depth 1 --single-branch --filter=blob:none"
     print(f"Cloning {name} {depth_flag} ...")
     rc, out = sh(f"git clone {depth_flag} {url} {dest} 2>&1 | tail -n 20")

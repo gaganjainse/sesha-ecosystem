@@ -31,13 +31,13 @@ re-opened in review on 2026-08-12:
 - Divergence between kernel and SheshAOS is shallow in most crates but total in
   the ones that matter (`NexusError`, TUI API); kernel has 2 extra files
   (`protocols`, worker bin) worth noting, nothing blocking.
-- SheshAOS (359 LOC) was already folded into SheshAOS; redundantly live.
+- SeshaOS (359 LOC) was already folded into SheshAOS; redundantly live.
 
 ## Decision
 
 - **Withdraw the kernel-merge plan.** No crate porting. `shesha-kernel` remains
   archived (ADR-0008). Close GitHub issues #7–13.
-- **Archive SheshAOS** (superseded by SheshAOS; folded in per TODO).
+- **Archive SeshaOS** (superseded by SheshAOS; folded in per TODO).
 - **Adopt stock Wave Terminal** as the mission-control surface. No rewrite, no
   heavy fork: integration via documented surfaces only (custom `widgets.json`
   widgets, `wsh` RPC, workspaces, OpenAI-compatible AI endpoint → OmniRoute or
