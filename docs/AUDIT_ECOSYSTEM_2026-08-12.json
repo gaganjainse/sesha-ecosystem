@@ -1,0 +1,1564 @@
+[
+  {
+    "repo": "SheshAOS",
+    "path": "/home/user/src/SheshAOS",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/bolt-optimize-raf-loop-3172663892613263744",
+      "origin/dependabot/cargo/generic-array-0.14.9",
+      "origin/main",
+      "origin/palette-ux-theme-switcher-a11y-10671882861848990637",
+      "origin/recovery/phase-1"
+    ],
+    "n_files": 156,
+    "py_files": 0,
+    "rs_files": 87,
+    "has_tests": false,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "shesha": [
+        [
+          "scripts/setup-github.sh",
+          1
+        ]
+      ],
+      "seshaos": [
+        [
+          "sesha/Cargo.toml",
+          1
+        ]
+      ]
+    },
+    "stub_hits": {
+      "placeholder": [
+        [
+          "crates/shesh-vault/src/resolver.rs",
+          33
+        ],
+        [
+          "crates/shesh-vault/src/snippet.rs",
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "repo": "shesh-acp",
+    "path": "/home/user/src/shesh-acp",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {
+      "placeholder": [
+        [
+          "src/shesh_acp/server.py",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-audit",
+    "path": "/home/user/src/shesh-audit",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 12,
+    "py_files": 8,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-backup",
+    "path": "/home/user/src/shesh-backup",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-brain",
+    "path": "/home/user/src/shesh-brain",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 4,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-calendar",
+    "path": "/home/user/src/shesh-calendar",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 4,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-containers",
+    "path": "/home/user/src/shesh-containers",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 4,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-desktop",
+    "path": "/home/user/src/shesh-desktop",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 1201,
+    "py_files": 24,
+    "rs_files": 1,
+    "has_tests": false,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "dots-hyprland": [
+        [
+          ".github/ISSUE_TEMPLATE/1-issue.yml",
+          3
+        ],
+        [
+          ".github/ISSUE_TEMPLATE/2-feature_request.yml",
+          1
+        ],
+        [
+          ".github/README.md",
+          11
+        ],
+        [
+          ".github/workflows/dist-update-notification.yml",
+          2
+        ],
+        [
+          "README.md",
+          6
+        ],
+        [
+          "docs/SHESH/00_INDEX.md",
+          1
+        ],
+        [
+          "docs/SHESH/01_AUDIT.md",
+          2
+        ],
+        [
+          "docs/SHESH/08_ECOSYSTEM_TOOLS.md",
+          1
+        ],
+        [
+          "docs/SHESH/09_AI_PROMPTS.md",
+          2
+        ],
+        [
+          "docs/SHESH/10_LICENSES_AND_SOURCES.md",
+          2
+        ],
+        [
+          "docs/SHESH_README.md",
+          1
+        ],
+        [
+          "dots/.config/quickshell/ii/modules/settings/About.qml",
+          3
+        ],
+        [
+          "dots/.config/quickshell/ii/welcome.qml",
+          1
+        ],
+        [
+          "sdata/dist-arch/README.md",
+          1
+        ],
+        [
+          "sdata/dist-arch/install-deps.sh",
+          2
+        ],
+        [
+          "sdata/dist-fedora/README.md",
+          1
+        ],
+        [
+          "sdata/dist-gentoo/README.md",
+          1
+        ],
+        [
+          "sdata/dist-gentoo/install-deps.sh",
+          1
+        ],
+        [
+          "sdata/dist-nix/README.md",
+          10
+        ],
+        [
+          "sdata/lib/dist-determine.sh",
+          1
+        ],
+        [
+          "sdata/subcmd-install/1.deps-router.sh",
+          4
+        ],
+        [
+          "sdata/subcmd-install/3.files-exp.sh",
+          1
+        ],
+        [
+          "sdata/subcmd-install/3.files-legacy.sh",
+          1
+        ],
+        [
+          "sdata/subcmd-install/options.sh",
+          2
+        ],
+        [
+          "sdata/uv/README.md",
+          1
+        ]
+      ]
+    },
+    "stub_hits": {
+      "bare_pass": [
+        [
+          "dots/.config/kitty/scroll_mark.py",
+          1
+        ],
+        [
+          "tools/mux-switcher/msi-mux-switcher.py",
+          3
+        ],
+        [
+          "tools/shesh-ambient/src/shesh_ambient/cli.py",
+          1
+        ]
+      ],
+      "placeholder": [
+        [
+          "dots/.config/quickshell/ii/translations/tools/translation-cleaner.py",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-docs",
+    "path": "/home/user/src/shesh-docs",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 200,
+    "py_files": 0,
+    "rs_files": 0,
+    "has_tests": false,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "auto-desktopenv": [
+        [
+          ".github/workflows/ci.yml",
+          1
+        ],
+        [
+          "src/queries/querylog.md",
+          1
+        ]
+      ],
+      "nexusaos": [
+        [
+          ".github/workflows/ci.yml",
+          1
+        ],
+        [
+          "src/AUDIT_EXHAUSTIVE.json",
+          4
+        ],
+        [
+          "src/AUDIT_EXHAUSTIVE.md",
+          4
+        ],
+        [
+          "src/queries/querylog.md",
+          5
+        ]
+      ],
+      "dots-hyprland": [
+        [
+          "src/AUDIT_AND_ROADMAP.md",
+          1
+        ],
+        [
+          "src/AUDIT_EXHAUSTIVE.md",
+          1
+        ],
+        [
+          "src/SESSION_HANDOFF.md",
+          1
+        ],
+        [
+          "src/SOURCES.md",
+          3
+        ],
+        [
+          "src/STEAL_INFRASTRUCTURE.md",
+          1
+        ],
+        [
+          "src/architecture/REPO_TOPOLOGY.md",
+          1
+        ],
+        [
+          "src/components/shesh-desktop.md",
+          6
+        ],
+        [
+          "src/desktop/10-licenses-sources.md",
+          2
+        ],
+        [
+          "src/factory/steal-infrastructure.md",
+          1
+        ],
+        [
+          "src/product/architecture/repo-topology.md",
+          1
+        ],
+        [
+          "src/product/reference/manifest.md",
+          2
+        ],
+        [
+          "src/product/reference/upstreams.md",
+          3
+        ]
+      ],
+      "shesha": [
+        [
+          "src/AUDIT_EXHAUSTIVE.json",
+          13
+        ],
+        [
+          "src/AUDIT_EXHAUSTIVE.md",
+          5
+        ],
+        [
+          "src/EFFICIENCY.md",
+          1
+        ],
+        [
+          "src/NEXT_SESSION_PROMPT.md",
+          1
+        ],
+        [
+          "src/adr/0008-kernel-archive.md",
+          1
+        ],
+        [
+          "src/components/shesh-desktop.md",
+          1
+        ],
+        [
+          "src/factory/efficiency.md",
+          1
+        ],
+        [
+          "src/product/reference/manifest.md",
+          1
+        ],
+        [
+          "src/queries/querylog.md",
+          6
+        ]
+      ],
+      "seshaos": [
+        [
+          "src/AUDIT_EXHAUSTIVE.json",
+          2
+        ],
+        [
+          "src/AUDIT_EXHAUSTIVE.md",
+          2
+        ],
+        [
+          "src/queries/querylog.md",
+          5
+        ]
+      ]
+    },
+    "stub_hits": {}
+  },
+  {
+    "repo": "shesh-ebpf",
+    "path": "/home/user/src/shesh-ebpf",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 10,
+    "py_files": 4,
+    "rs_files": 1,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {
+      "placeholder": [
+        [
+          "ebpf-rs/src/main.rs",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-files",
+    "path": "/home/user/src/shesh-files",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 11,
+    "py_files": 2,
+    "rs_files": 1,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-harness",
+    "path": "/home/user/src/shesh-harness",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 11,
+    "py_files": 7,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-mcp-bundle",
+    "path": "/home/user/src/shesh-mcp-bundle",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 4,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-media",
+    "path": "/home/user/src/shesh-media",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-memory",
+    "path": "/home/user/src/shesh-memory",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 17,
+    "py_files": 13,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-messaging",
+    "path": "/home/user/src/shesh-messaging",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 4,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-mind",
+    "path": "/home/user/src/shesh-mind",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-omniroute",
+    "path": "/home/user/src/shesh-omniroute",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 11,
+    "py_files": 6,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {
+      "bare_pass": [
+        [
+          "tests/test_omniroute.py",
+          2
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-orchestrator",
+    "path": "/home/user/src/shesh-orchestrator",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 21,
+    "py_files": 17,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {
+      "bare_pass": [
+        [
+          "src/shesh_orchestrator/llm.py",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-phone",
+    "path": "/home/user/src/shesh-phone",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 3,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-secrets",
+    "path": "/home/user/src/shesh-secrets",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 7,
+    "py_files": 3,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-shell",
+    "path": "/home/user/src/shesh-shell",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 7,
+    "py_files": 3,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-skills",
+    "path": "/home/user/src/shesh-skills",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 14,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-system",
+    "path": "/home/user/src/shesh-system",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 5,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-voice",
+    "path": "/home/user/src/shesh-voice",
+    "branch": "master",
+    "default_branch": "master",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/archive/aarch64",
+      "origin/archive/multichat",
+      "origin/archive/snap",
+      "origin/macOS",
+      "origin/master"
+    ],
+    "n_files": 339,
+    "py_files": 182,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "shesha": [
+        [
+          "tests/test_overlay.py",
+          2
+        ]
+      ]
+    },
+    "stub_hits": {
+      "bare_pass": [
+        [
+          "src/controller.py",
+          1
+        ],
+        [
+          "src/extensions.py",
+          2
+        ],
+        [
+          "src/handlers/embeddings/embedding.py",
+          2
+        ],
+        [
+          "src/handlers/embeddings/llama_cpp_handler.py",
+          6
+        ],
+        [
+          "src/handlers/handler.py",
+          2
+        ],
+        [
+          "src/handlers/image_generator/openai_image_handler.py",
+          1
+        ],
+        [
+          "src/handlers/image_generator/openrouter_image_handler.py",
+          1
+        ],
+        [
+          "src/handlers/image_generator/stablediffusion_cpp_handler.py",
+          16
+        ],
+        [
+          "src/handlers/interfaces/api_handler.py",
+          6
+        ],
+        [
+          "src/handlers/interfaces/chat_interface.py",
+          1
+        ],
+        [
+          "src/handlers/interfaces/gui_api_handler.py",
+          6
+        ],
+        [
+          "src/handlers/interfaces/interface.py",
+          4
+        ],
+        [
+          "src/handlers/interfaces/telegram_handler.py",
+          7
+        ],
+        [
+          "src/handlers/llm/gemini_handler.py",
+          1
+        ],
+        [
+          "src/handlers/llm/llama_cpp_handler.py",
+          6
+        ],
+        [
+          "src/handlers/llm/llm.py",
+          2
+        ],
+        [
+          "src/handlers/memory/llamaindex_memory_handler.py",
+          1
+        ],
+        [
+          "src/handlers/memory/memory_handler.py",
+          2
+        ],
+        [
+          "src/handlers/rag/rag_handler.py",
+          8
+        ],
+        [
+          "src/handlers/stt/stt.py",
+          1
+        ],
+        [
+          "src/handlers/stt/whispercpp_handler.py",
+          1
+        ],
+        [
+          "src/handlers/tts/kokoro_handler.py",
+          1
+        ],
+        [
+          "src/handlers/tts/tts.py",
+          6
+        ],
+        [
+          "src/integrations/agent_tools.py",
+          1
+        ],
+        [
+          "src/integrations/mcp_oauth.py",
+          3
+        ],
+        [
+          "src/tools.py",
+          3
+        ],
+        [
+          "src/ui/explorer.py",
+          1
+        ],
+        [
+          "src/ui/mcp_catalog.py",
+          1
+        ],
+        [
+          "src/ui/settings.py",
+          1
+        ],
+        [
+          "src/ui/widgets/call.py",
+          4
+        ],
+        [
+          "src/ui/widgets/chat_history.py",
+          2
+        ],
+        [
+          "src/ui/widgets/chat_tab.py",
+          5
+        ],
+        [
+          "src/ui/widgets/file_read.py",
+          1
+        ],
+        [
+          "src/ui/widgets/folderrow.py",
+          1
+        ],
+        [
+          "src/ui/widgets/message.py",
+          3
+        ],
+        [
+          "src/ui/widgets/scheduled_task.py",
+          1
+        ],
+        [
+          "src/ui/widgets/terminal_dialog.py",
+          1
+        ],
+        [
+          "src/ui_controller.py",
+          11
+        ],
+        [
+          "src/utility/background_process.py",
+          5
+        ],
+        [
+          "src/utility/command_runner.py",
+          5
+        ],
+        [
+          "src/utility/command_sessions.py",
+          8
+        ],
+        [
+          "src/utility/message_chunk.py",
+          1
+        ],
+        [
+          "src/utility/system.py",
+          2
+        ],
+        [
+          "src/utility/util.py",
+          2
+        ],
+        [
+          "src/utility/vad.py",
+          1
+        ],
+        [
+          "src/utility/wakeword_detector.py",
+          2
+        ],
+        [
+          "src/window.py",
+          7
+        ]
+      ],
+      "placeholder": [
+        [
+          "src/handlers/embeddings/llama_cpp_handler.py",
+          1
+        ],
+        [
+          "src/handlers/image_generator/stablediffusion_cpp_handler.py",
+          1
+        ],
+        [
+          "src/handlers/llm/gemini_handler.py",
+          5
+        ],
+        [
+          "src/handlers/llm/llama_cpp_handler.py",
+          1
+        ],
+        [
+          "src/handlers/stt/whispercpp_handler.py",
+          1
+        ],
+        [
+          "src/ui/mcp_catalog.py",
+          15
+        ],
+        [
+          "src/ui/mini_window.py",
+          11
+        ],
+        [
+          "src/ui/model_library.py",
+          2
+        ],
+        [
+          "src/ui/settings.py",
+          8
+        ],
+        [
+          "src/ui/widgets/browser.py",
+          2
+        ],
+        [
+          "src/ui/widgets/chat_history.py",
+          41
+        ],
+        [
+          "src/ui/widgets/chat_tab.py",
+          2
+        ],
+        [
+          "src/ui/widgets/code_editor.py",
+          2
+        ],
+        [
+          "src/ui/widgets/image_generator.py",
+          2
+        ],
+        [
+          "src/ui/widgets/image_generator_mini_app.py",
+          1
+        ],
+        [
+          "src/ui/widgets/latex.py",
+          21
+        ],
+        [
+          "src/ui/widgets/message.py",
+          19
+        ],
+        [
+          "src/ui/widgets/multiline.py",
+          7
+        ],
+        [
+          "src/ui/widgets/question.py",
+          1
+        ],
+        [
+          "src/ui/widgets/scheduled_task.py",
+          1
+        ],
+        [
+          "src/utility/__init__.py",
+          1
+        ],
+        [
+          "src/utility/replacehelper.py",
+          6
+        ],
+        [
+          "src/utility/strings.py",
+          12
+        ],
+        [
+          "src/utility/util.py",
+          3
+        ],
+        [
+          "src/window.py",
+          8
+        ]
+      ],
+      "NotImplementedError": [
+        [
+          "src/handlers/image_generator/image_generator.py",
+          1
+        ],
+        [
+          "src/ui/widgets/latex.py",
+          2
+        ]
+      ],
+      "TODO_FIXME": [
+        [
+          "src/integrations/todo_list.py",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-wave",
+    "path": "/home/user/src/shesh-wave",
+    "branch": "main",
+    "default_branch": null,
+    "dirty": [],
+    "remote_branches": [
+      "origin/main"
+    ],
+    "n_files": 8,
+    "py_files": 1,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "shesha": [
+        [
+          "README.md",
+          1
+        ],
+        [
+          "docs/WAVE_INTEGRATION.md",
+          1
+        ]
+      ]
+    },
+    "stub_hits": {},
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-ecosystem",
+    "path": "/home/user/shesh-ecosystem",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [
+      " M TODO.md",
+      " M docs/queries/QUERYLOG.md",
+      " M tools/ecosystem_audit.py",
+      "?? docs/AUDIT_ECOSYSTEM_2026-08-12.json"
+    ],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 199,
+    "py_files": 48,
+    "rs_files": 0,
+    "has_tests": true,
+    "has_ci": true,
+    "has_readme": true,
+    "old_names": {
+      "auto-desktopenv": [
+        [
+          "docs/AUDIT_ECOSYSTEM_2026-08-12.json",
+          2
+        ],
+        [
+          "docs/queries/QUERYLOG.md",
+          1
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          1
+        ]
+      ],
+      "shesha": [
+        [
+          "docs/AUDIT_ECOSYSTEM_2026-08-12.json",
+          6
+        ],
+        [
+          "TODO.md",
+          3
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.json",
+          13
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.md",
+          5
+        ],
+        [
+          "docs/EFFICIENCY.md",
+          1
+        ],
+        [
+          "docs/NEXT_SESSION_PROMPT.md",
+          1
+        ],
+        [
+          "docs/adr/0008-kernel-archive.md",
+          1
+        ],
+        [
+          "docs/adr/0016-kernel-consolidation.md",
+          2
+        ],
+        [
+          "docs/adr/0017-naming-purge-completed.md",
+          1
+        ],
+        [
+          "docs/queries/QUERYLOG.md",
+          5
+        ],
+        [
+          "manifests/components.toml",
+          1
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          2
+        ],
+        [
+          "tools/session_guard.py",
+          1
+        ],
+        [
+          "tools/setup_worker.py",
+          3
+        ],
+        [
+          "tools/verify_all_strict.sh",
+          1
+        ]
+      ],
+      "seshaos": [
+        [
+          "docs/AUDIT_ECOSYSTEM_2026-08-12.json",
+          3
+        ],
+        [
+          "TODO.md",
+          2
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.json",
+          2
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.md",
+          2
+        ],
+        [
+          "docs/adr/0016-kernel-consolidation.md",
+          2
+        ],
+        [
+          "docs/queries/QUERYLOG.md",
+          4
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          2
+        ],
+        [
+          "tools/session_guard.py",
+          1
+        ],
+        [
+          "tools/setup_worker.py",
+          3
+        ],
+        [
+          "tools/verify_all_strict.sh",
+          1
+        ]
+      ],
+      "nexusaos": [
+        [
+          "docs/AUDIT_ECOSYSTEM_2026-08-12.json",
+          2
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.json",
+          4
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.md",
+          4
+        ],
+        [
+          "docs/queries/QUERYLOG.md",
+          4
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          1
+        ]
+      ],
+      "dots-hyprland": [
+        [
+          "docs/AUDIT_ECOSYSTEM_2026-08-12.json",
+          3
+        ],
+        [
+          "ATTRIBUTION.md",
+          2
+        ],
+        [
+          "TODO.md",
+          2
+        ],
+        [
+          "channels/upstream-status.json",
+          1
+        ],
+        [
+          "docs/AUDIT_AND_ROADMAP.md",
+          1
+        ],
+        [
+          "docs/AUDIT_EXHAUSTIVE.md",
+          1
+        ],
+        [
+          "docs/SESSION_HANDOFF.md",
+          1
+        ],
+        [
+          "docs/SOURCES.md",
+          3
+        ],
+        [
+          "docs/STEAL_INFRASTRUCTURE.md",
+          1
+        ],
+        [
+          "docs/architecture/REPO_TOPOLOGY.md",
+          1
+        ],
+        [
+          "docs/components/shesh-desktop.md",
+          6
+        ],
+        [
+          "docs/desktop/00_INDEX.md",
+          1
+        ],
+        [
+          "docs/desktop/01_AUDIT.md",
+          2
+        ],
+        [
+          "docs/desktop/08_ECOSYSTEM_TOOLS.md",
+          1
+        ],
+        [
+          "docs/desktop/09_AI_PROMPTS.md",
+          2
+        ],
+        [
+          "docs/desktop/10_LICENSES_AND_SOURCES.md",
+          2
+        ],
+        [
+          "docs/desktop/SHESHA_README.md",
+          1
+        ],
+        [
+          "manifests/components.toml",
+          2
+        ],
+        [
+          "manifests/upstreams.toml",
+          2
+        ],
+        [
+          "scripts/fork-setup.sh",
+          3
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          1
+        ]
+      ]
+    },
+    "stub_hits": {
+      "bare_pass": [
+        [
+          "scripts/resolve_manifest.py",
+          1
+        ],
+        [
+          "tools/github_auth.py",
+          1
+        ],
+        [
+          "tools/llm_adapter.py",
+          2
+        ],
+        [
+          "tools/model_router.py",
+          3
+        ],
+        [
+          "tools/secure_pat.py",
+          1
+        ],
+        [
+          "tools/swarm/common.py",
+          1
+        ],
+        [
+          "tools/swarm/orchestrator.py",
+          1
+        ],
+        [
+          "tools/swarm/worker.py",
+          1
+        ],
+        [
+          "tools/swarm/worker_github.py",
+          1
+        ]
+      ],
+      "TODO_FIXME": [
+        [
+          "tests/test_swarm_worker.py",
+          1
+        ],
+        [
+          "tools/autopilot/__init__.py",
+          1
+        ],
+        [
+          "tools/autopilot/cli.py",
+          4
+        ],
+        [
+          "tools/autopilot/runner.py",
+          2
+        ],
+        [
+          "tools/ecosystem_audit.py",
+          4
+        ],
+        [
+          "tools/live_update.py",
+          5
+        ],
+        [
+          "tools/llm_adapter.py",
+          1
+        ],
+        [
+          "tools/session_guard.py",
+          9
+        ],
+        [
+          "tools/steal/patch_applier.py",
+          1
+        ],
+        [
+          "tools/swarm/github_queue.py",
+          1
+        ],
+        [
+          "tools/swarm/llm_executor.py",
+          2
+        ],
+        [
+          "tools/swarm/orchestrator.py",
+          9
+        ]
+      ],
+      "NotImplementedError": [
+        [
+          "tools/ecosystem_audit.py",
+          2
+        ]
+      ],
+      "placeholder": [
+        [
+          "tools/ecosystem_audit.py",
+          5
+        ],
+        [
+          "tools/swarm/llm_executor.py",
+          1
+        ]
+      ]
+    },
+    "ruff": "skipped(ruff not installed in this interpreter)"
+  },
+  {
+    "repo": "shesh-workspace",
+    "path": "/home/user/shesh-workspace",
+    "branch": "main",
+    "default_branch": "main",
+    "dirty": [],
+    "vs_default(behind_ahead)": "0\t0",
+    "remote_branches": [
+      "origin",
+      "origin/main"
+    ],
+    "n_files": 9,
+    "py_files": 0,
+    "rs_files": 0,
+    "has_tests": false,
+    "has_ci": false,
+    "has_readme": true,
+    "old_names": {},
+    "stub_hits": {}
+  }
+]

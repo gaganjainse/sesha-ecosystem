@@ -5,7 +5,17 @@ The single anchored list of everything to do. Status: ✅ done · 🟡 in progre
 (Brain / Mind / Soma) and to platform work. Check this before starting anything
 new; update it on every change so we don't drift.
 
-Last updated: 2026-08-12 (live update via tools/live_update.py)
+Last updated: 2026-08-12 (evening — post-recovery, via this session)
+
+## New session accomplishments (2026-08-12, orchestration + hardening)
+- ✅ **Dependency graph truth**: tools/depgraph.py (cargo metadata + pyprojects + manifest) regenerates docs/architecture/DEPENDENCY_GRAPH.md; CI freshness gate rejects hand edits; last 4 phantom edges (vault→kernel, blockctl→waveobj/wps, wconfig→waveobj) fell when SheshAOS's manifests were trimmed (3f75f03/89702c0)
+- ✅ **Silent-failure eradication (SF1-SF6)**: tools/silent_failures.py + ecosystem-wide CI (clones all repos). Fixed 9 BLE001 + 17 TRY + 20 AST swallows across 21 Python components, 77 in ecosystem tools, 19 SF4 + 3 SF1 in shesh-desktop (folders.sh fake-savings + safety.sh fake-backup real bugs), 105 SF1 in shesh-voice (window.py console-crash silence fixed for real). Ecosystem audit now: **0 errors**
+- ✅ **SheshAOS supply-chain**: MIT LICENSE added (README always claimed it), cargo-deny (2 documented ignores only: RUSTSEC-2023-0071 no-patch-exists, RUSTSEC-2017-0008 unreachable-path), cargo-machete (~24 unused decls removed), typos, all wired into CI; canonical license.workspace inheritance; internal path deps versioned (wildcards=deny)
+- ✅ **Workspace automation adopted**: tools/sync_repos.py, verify_worktrees.py, ecosystem_audit.py (ad-hoc `git reset --hard` + ambient `pip install` removed), verify_all_strict.sh, linkcheck.py + `make verify-all`/`make linkcheck`; link integrity now CI-gated (found 21 rotted links)
+- ✅ **Post-snapshot recovery runbook executed**: remotes restored, exec bits repo-wide, waveterm build/ restored from git objects, media/system suppression commits re-dropped from archived patches
+- ⬜ **Deferred decisions (from the 16:41 directive)**: reusable component-CI callable workflow (one workflow referenced by every component vs per-repo vendored copies); fork/archive triage (hyprdots vs Hyprland-Dots overlap; register/servers/prime-agent/phone-harness/Memento-Skills/browser-use/khoj/leon/pipecat/openWakeWord keep-or-archive); TODO.md seed-vs-clear policy for the janitor loop
+- 🟡 **Naming drift to reconcile**: desktop docs mirror names diverged (docs/SHESH/06_SHESH_AGENT.md in shesh-desktop vs docs/desktop/06_SESHA_AGENT.md here; SHESH_README vs SHESHA_README) — decide one canonical, update sync-docs.sh mapping
+- 🟡 **PAT rotation required by the USER** (org owner action): the PAT at ~/.config/shesh/github.pat appeared in an earlier plaintext transcript — rotate it on GitHub, then rewrite the file
 
 ## New session accomplishments (2026-08-11)
 - ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit 0d4f0f1), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)

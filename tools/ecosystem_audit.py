@@ -122,7 +122,11 @@ def audit(repo: Path) -> dict:
     r["stub_hits"] = grep_stubs(repo, files)
     if r["py_files"]:
         rc, out, err = sh([sys.executable, "-m", "ruff", "check", "."], repo, 180)
-        r["ruff"] = "clean" if rc == 0 else f"FAIL({(out + err).count(chr(10))} lines)"
+        ruff_blob = out + err
+        if rc != 0 and "No module named ruff" in ruff_blob:
+            r["ruff"] = "skipped(ruff not installed in this interpreter)"
+        else:
+            r["ruff"] = "clean" if rc == 0 else f"FAIL({ruff_blob.count(chr(10))} lines)"
     if r["has_tests"] and os.environ.get("SHESH_AUDIT_PYTEST") == "1":
         rc, out, err = sh([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider"], repo, 420)
         tail = (out + err).strip().splitlines()

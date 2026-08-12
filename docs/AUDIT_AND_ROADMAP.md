@@ -5,7 +5,26 @@ every task remaining across the Shesh ecosystem. Generated from the live
 repos and this session's decisions. This is the anchor document; TODO.md
 is the actionable checklist derived from it._
 
-Last audited: 2026-08-12 (live update via tools/live_update.py)
+Last audited: 2026-08-12 (evening — full hardening pass; see 2026-08-12 evening delta below)
+
+## 2026-08-12 evening delta
+
+- **Dependency truth**: hand-drawn graphs replaced by tools/depgraph.py + CI
+  freshness gate; cargo-machete trimmed ~24 declared-but-unused Rust deps
+  (which is why the hand graphs had phantom edges).
+- **Silent failures (17:40 directive) done ecosystem-wide**: 0 error-class
+  findings across every clone; three real bugs surfaced and fixed
+  (smart-organizer fake savings, safety.sh fake backup, voice console-crash
+  silence) plus the earlier component batch (harness outage-as-zero-score,
+  omniroute config revert, swarm claim race).
+- **Supply chain**: SheshAOS has a real LICENSE, deny/machete/typos CI;
+  actionlint 1.7.12 pinned org-wide; link integrity gated.
+- **Workspace self-service (16:41 directive)**: orchestrator toolkit adopted
+  into tools/ with `make verify-all`; home dir de-cluttered to
+  archive/adopted-or-oneoff-2026-08-12/.
+- Open threads moved to TODO.md: callable component-CI workflow decision,
+  fork/archive triage, SHESH/SESHA mirror naming drift, janitor TODO policy,
+  and the PAT rotation (user action).
 
 ---
 
