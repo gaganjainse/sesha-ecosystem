@@ -61,10 +61,11 @@ governance kernel (SheshAOS, in progress).
 
 - **Naming (FINAL, canon):** the product/OS is **SHESH**, the kernel project
   is **SheshAOS**. All repos/packages/imports are `shesh-*` / `shesh_*`;
-  env vars `SHESH_*`. Legacy names (Sesha-, -shesha-, NexusAOS) survive only
-  in immutable-history classes (ADR/QUERYLOG/audits/attic) and real frozen
-  artifacts (`sesha-rs` crate, tag `1.4.5-sesha1`, archived repos
-  `shesh-kernel`/`SeshaOS`). Gates: rename sweep + shesh-docs name gate.
+  env vars `SHESH_*`. Legacy spellings survive only in immutable-history
+  classes (ADR/QUERYLOG/audits/attic) and real frozen artifacts — exact list
+  in [ADR-0017](adr/0017-naming-purge-completed.md). Gates: rename sweep +
+  shesh-docs name gate (living docs must not even enumerate the old tokens —
+  the gate caught this paragraph doing so; fixed).
 
 ## 2. Repositories (all under github.com/gaganjainse)
 

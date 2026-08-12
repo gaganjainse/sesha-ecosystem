@@ -41,7 +41,9 @@ except ImportError as e:
     sys.exit(1)
 EOF
 
-[ "$fail" -eq 0 ] && echo "DR-CHECK PASS" || {
+if [ "$fail" -eq 0 ]; then
+    echo "DR-CHECK PASS"
+else
     echo "DR-CHECK FAIL"
     exit 1
-}
+fi
