@@ -7,7 +7,8 @@ ECO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fail=0
 
 check() { # name, cmd..., fix-hint
-    local name="$1"; shift
+    local name="$1"
+    shift
     if "$@" >/dev/null 2>&1; then
         echo "ok   $name"
     else
@@ -16,17 +17,17 @@ check() { # name, cmd..., fix-hint
     fi
 }
 
-check "PAT perms 600"       test "$(stat -c '%a' "$HOME/.config/shesh/github.pat")" = 600 \
-      "chmod 600 ~/.config/shesh/github.pat"
-check "askpass executable"  test -x "$ECO/tools/git_askpass.py" \
-      "chmod +x tools/git_askpass.py (exec bits are restore-fragile)"
-check "archive dir exists"  test -d "$HOME/archive" \
-      "mkdir ~/archive — archive-not-delete needs its home"
-check "ecosystem remote"    git -C "$ECO" remote get-url origin \
-      "re-add origin (RECOVERY.md incident class A)"
-check "push protection on"  python3 "$ECO/tools/security/push_protection_check.py" \
-      "$HOME/.config/shesh/github.pat" \
-      "re-enable secret scanning push protection via the org API"
+check "PAT perms 600" test "$(stat -c '%a' "$HOME/.config/shesh/github.pat")" = 600 \
+    "chmod 600 ~/.config/shesh/github.pat"
+check "askpass executable" test -x "$ECO/tools/git_askpass.py" \
+    "chmod +x tools/git_askpass.py (exec bits are restore-fragile)"
+check "archive dir exists" test -d "$HOME/archive" \
+    "mkdir ~/archive — archive-not-delete needs its home"
+check "ecosystem remote" git -C "$ECO" remote get-url origin \
+    "re-add origin (RECOVERY.md incident class A)"
+check "push protection on" python3 "$ECO/tools/security/push_protection_check.py" \
+    "$HOME/.config/shesh/github.pat" \
+    "re-enable secret scanning push protection via the org API"
 
 python3 - "$ECO" <<'EOF'
 import sys
@@ -40,4 +41,7 @@ except ImportError as e:
     sys.exit(1)
 EOF
 
-[ "$fail" -eq 0 ] && echo "DR-CHECK PASS" || { echo "DR-CHECK FAIL"; exit 1; }
+[ "$fail" -eq 0 ] && echo "DR-CHECK PASS" || {
+    echo "DR-CHECK FAIL"
+    exit 1
+}
