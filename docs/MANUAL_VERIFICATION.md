@@ -5,8 +5,7 @@ in this build sandbox** — they need you, on the actual MSI laptop, with real
 hardware, accounts, and GUI apps. Work through this top-to-bottom after
 installing. Tick items as you confirm them.
 
-> Last updated: 2026-08-12. This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/queries/QUERYLOG.md` records what changed and why.
-> companion `docs/queries/QUERYLOG.md` records what changed and why.
+> Last updated: 2026-08-13 (16 sections — added rolling-dependency, security-posture and recovery-drill sections). This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/queries/QUERYLOG.md` records what changed and why.
 
 ---
 
@@ -186,7 +185,74 @@ bash scripts/e2e-canary.sh   # from shesh-ecosystem
 
 ---
 
-## 12. Known things that need deliberate (non-autopilot) work
+## 12. Rolling dependency hygiene (monthly, ~5 minutes)
+
+CachyOS rolls; so do we. Full protocol: `docs/policies/DEPENDENCY_POLICY.md`.
+
+- [ ] **Dependabot PRs are landing green**: each repo → Pull requests →
+      filter `author:app/dependabot` — weekly grouped bumps for GitHub
+      Actions and pip should be merged, not piling up.
+- [ ] **SheshAOS supply-chain job is green** (cargo-deny + cargo-machete +
+      typos): https://github.com/gaganjainse/SheshAOS/actions
+- [ ] **Python tool floors are current** — spot-check the big three:
+      `pip index versions pytest ruff fastmcp` (or pypi.org) against the
+      `>=` floors in any component `pyproject.toml`. If PyPI shows newer
+      majors, that is a legitimate task to hand the agent (policy §Bumps).
+- [ ] **Rust tree refreshes monthly** — agent runs `cargo update` in
+      SheshAOS, then `cargo test --workspace` + `cargo clippy --all-targets
+      -- -D warnings` must stay green before the lockfile lands.
+- [ ] **No deprecated actions/content**: if GitHub emails "Node X
+      deprecation" or a workflow annotation warns, hand it to the agent —
+      never pin-and-forget.
+- [ ] **Break-glass works** (only if a bump breaks CI): downgrade the
+      offender by exactly one minor, repeat once; if still broken, drop and
+      replace per policy — and the incident gets a QUERYLOG entry.
+
+## 13. Security posture (GitHub-side browser checks, quarterly)
+
+Canonical posture: `SECURITY.md`; threat model: `docs/THREAT_MODEL.md`.
+
+- [ ] **Push protection + secret scanning ON**, every repo: Settings →
+      Code security → both toggles enabled (enabled fleet-wide 2026-08-13;
+      verify a random sample).
+- [ ] **Private vulnerability reporting enabled** on shesh-ecosystem:
+      Settings → Code security → "Private vulnerability reporting".
+- [ ] **Dependabot alerts are empty or triaged**: Security tab →
+      Dependabot — zero unreviewed criticals.
+- [ ] **SHA pins intact**: open any recent CI run → "Set up job” step
+      shows actions by 40-char SHA, and Dependabot keeps moving them weekly.
+- [ ] **PAT hygiene**: `~/.config/shesh/github.pat` is mode 600
+      (`stat -c %a`), never pasted into chats. **Outstanding owner action:
+      rotate the PAT** — it appeared twice in tool transcripts on
+      2026-08-11/12 (GitHub → Settings → Developer settings → revoke +
+      regenerate, then re-seed the file).
+- [ ] **Tool-pin defense live** (shesh-audit ≥ 53a60b6): first MCP server
+      boot prints `learned pin` lines to stderr; a tampered tool
+      description must refuse with `ToolPinDrift` (demo:
+      `python -m shesh_audit.tool_pins --help`).
+- [ ] **swarm-auto-merge canary**: the workflow refuses non-`swarm/*`
+      branches and `pull_request_target` is gone from the trigger list
+      (Settings → Actions → run history shows only `pull_request`).
+
+## 14. Recovery drill (quarterly, ~15 minutes)
+
+Runbook: `docs/RECOVERY.md`. Automated checker: `tools/dr_check.sh`.
+
+- [ ] `bash tools/dr_check.sh` reports all-green locally.
+- [ ] **Backup restore actually restores**: `restic restore latest --target
+      /tmp/restore-test --include ~/.config` (dry-run of your real data),
+      spot-read a file, delete the target.
+- [ ] **Workspace-restore drill known by heart**: re-seed PAT perms
+      (`chmod 600`), re-add dropped `origin` remotes, `git fetch`, mixed
+      `git reset origin/<branch>`, exec bits from `git ls-files -s` — the
+      exact commands are in RECOVERY.md class C.
+- [ ] **Stale-base repair drill**: know the graft pattern
+      (`git commit-tree HEAD^{tree} -p origin/main`) for when a sandbox
+      snapshot rewinds HEAD — RECOVERY.md class C §2.
+- [ ] **Incident comms path works**: you can open a `SECURITY: …` issue
+      without proof-of-concept details, per SECURITY.md.
+
+## 15. Known things that need deliberate (non-autopilot) work
 
 These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
@@ -205,7 +271,7 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 ---
 
 
-## 13. Wiki (one-time setup)
+## 16. Wiki (one-time setup)
 
 - [ ] Open https://github.com/gaganjainse/SheshAOS/wikis and click **"Create the first page"**
       (GitHub has no API to initialize a wiki; this single click creates the

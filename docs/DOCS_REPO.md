@@ -50,9 +50,10 @@
 - `WORKSPACE_SEPARATION.md` — product vs factory
 - `SITUATION_REPORT.md` — 5 agents started all stopped analysis
 - `FOOLPROOF_SWARM_PROMPTS.md` — 5 agents prompts
-- `AUDIT_EXHAUSTIVE.md` + JSON — 54 repos audited
+- `audits/AUDIT_EXHAUSTIVE.md` + JSON — 54 repos audited (moved to docs/audits/ 2026-08-13)
 - `SKILL_MARKETPLACE.md`, `UPDATE_MIRROR.md` — P2 future
-- `SECURITY.md`, `CONTRIBUTING.md` — missing, now placeholders
+- `SECURITY.md`, `CONTRIBUTING.md` — created 2026-08-13 as full documents
+  (canonical security posture + contribution rules), no longer placeholders
 - `DOCS_REPO.md` — this file
 
 **Build:**
@@ -74,4 +75,13 @@ npm run dev
 - Desktop: https://github.com/gaganjainse/shesh-desktop
 - Docs: https://github.com/gaganjainse/shesh-docs (this repo) — reading only compilation
 
-**Status:** Created 2026-08-11, 168 files, pushed main 64b5301, properly organised, navigation easy, no issues.
+**Status:** Rebuilt 2026-08-13 as a **pure projection** — `tools/book_build.py`
+(explicit mirror map + fissions + generators + link translation + orphan
+sweep) generates every chapter from canonical sources; 74 placeholder
+chapters were replaced with real mirrored or authored content, the flat
+duplicate dump layers were deleted, and the render is gated in CI (mdbook
+build + link check + SUMMARY integrity + name gate). `scripts/sync-docs.sh`
+is now a thin wrapper over the engine (`DOCS_REPO`/`SRC_ROOT` overridable).
+
+Created 2026-08-11; properly organised; navigation verified by the
+SUMMARY-integrity gate — every chapter target must exist.

@@ -13,7 +13,8 @@ pat_path = sys.argv[1] if len(sys.argv) > 1 else None
 if not pat_path:
     print("usage: push_protection_check.py <pat-path>", file=sys.stderr)
     raise SystemExit(2)
-PAT = open(pat_path).read().strip()
+with open(pat_path, encoding="utf-8") as fh:
+    PAT = fh.read().strip()
 req = urllib.request.Request(
     "https://api.github.com/repos/gaganjainse/shesh-ecosystem",
     headers={"Authorization": f"Bearer {PAT}", "Accept": "application/vnd.github+json"})

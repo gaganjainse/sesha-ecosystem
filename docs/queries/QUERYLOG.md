@@ -1039,7 +1039,7 @@ I started the requested GitHub worker, but stopped it safely after finding a que
 The workspace is clean and ready; the worker should not be restarted until its component-filter fallback is corrected or a component:shesh-system pending issue is available.
 ```
 
-**Docs:** [SITUATION_REPORT.md](../SITUATION_REPORT.md), [AUDIT_EXHAUSTIVE.md](../AUDIT_EXHAUSTIVE.md), [FOOLPROOF_SWARM_PROMPTS.md](../FOOLPROOF_SWARM_PROMPTS.md)
+**Docs:** [SITUATION_REPORT.md](../SITUATION_REPORT.md), [AUDIT_EXHAUSTIVE.md](../audits/AUDIT_EXHAUSTIVE.md), [FOOLPROOF_SWARM_PROMPTS.md](../FOOLPROOF_SWARM_PROMPTS.md)
 
 ---
 

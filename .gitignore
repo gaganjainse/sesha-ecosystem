@@ -24,3 +24,8 @@ src/
 # OS/editor
 .DS_Store
 *.swp
+
+# Transient runtime alert written by tools/session_guard.py on hop
+# recommendation — committed copies go stale instantly (archived example:
+# docs/attic/2026-08-11-session-hop-alert.md).
+docs/SESSION_HOP_ALERT.md

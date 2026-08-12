@@ -205,3 +205,29 @@ jobs:
           done
           # shellcheck disable=SC2086  # PATHS intentionally word-splits
           python tools/silent_failures.py $PATHS
+
+  book-mirror:
+    name: shesh-docs mirror is fresh
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Public repo: GITHUB_TOKEN read is enough. The book tree must equal
+      # a regeneration from these canonical docs, or canonical and mirror
+      # have drifted — the failure message says how to fix it.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          repository: gaganjainse/shesh-docs
+          path: shesh-docs
+          persist-credentials: false
+
+      - name: Book tree matches canonical sources
+        run: |
+          DOCS_REPO="$GITHUB_WORKSPACE/shesh-docs" SRC_ROOT="$HOME/src" \
+            python tools/book_build.py --check || {
+              echo "shesh-docs is stale — run:"
+              echo "  DOCS_REPO=<shesh-docs checkout> bash scripts/sync-docs.sh && push"
+              exit 1
+            }

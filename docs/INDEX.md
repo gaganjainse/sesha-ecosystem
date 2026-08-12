@@ -6,7 +6,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 ## Top level
 - [ACP & A2A Integration](ACP_A2A.md)
 - [Complete Audit & Master Roadmap](AUDIT_AND_ROADMAP.md)
-- [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](AUDIT_EXHAUSTIVE.md)
 - [Containers, Virtual Environments & Reproducible Dev](CONTAINERS_AND_VENV.md)
 - [Docs Repo — shesh-docs — Compilation for Reading Only](DOCS_REPO.md)
 - [Efficiency — How to Work Longer and Faster for Free](EFFICIENCY.md)
@@ -24,9 +23,8 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)](OMNIROUTE_STUDY.md)
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
-- [🚨 SESSION HOP RECOMMENDED](SESSION_HOP_ALERT.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
-- [Situation Report — 5 Agents Started All Stopped (2026-08-11)](SITUATION_REPORT.md)
+- [Situation Report — fused into the incident record](SITUATION_REPORT.md)
 - [Skill Marketplace — Sharing Evolved Skills (Opt-in, P2)](SKILL_MARKETPLACE.md)
 - [Sources & Steal-Map](SOURCES.md)
 - [Steal Infrastructure — So You Don't Have To Write It Many Times](STEAL_INFRASTRUCTURE.md)
@@ -70,6 +68,12 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Language & FFI Policy](architecture/LANGUAGE_POLICY.md)
 - [Multi-Agent & Orchestration Architecture](architecture/MULTI_AGENT.md)
 - [Repository Topology — the federated "sinkhole"](architecture/REPO_TOPOLOGY.md)
+
+## attic/
+- [🚨 SESSION HOP RECOMMENDED](attic/2026-08-11-session-hop-alert.md)
+
+## audits/
+- [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
 
 ## components/
 - [shesh-acp](components/shesh-acp.md)
@@ -122,12 +126,27 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Query Log — All Agents Aggregated (Live Update Automatic)](queries/QUERYLOG_ALL_AGENTS.md)
 
 ## skills/
+- [Skills policy — tool risk classes](skills/POLICY.md)
+- [Skills — the behavior library](skills/README.md)
 - [Autopilot](skills/autopilot.md)
 - [Coding](skills/coding.md)
 - [Daily-Briefing](skills/daily-briefing.md)
 - [Docs-Writer](skills/docs-writer.md)
 - [Safety-Governance](skills/safety-governance.md)
 - [Web-Research](skills/web-research.md)
+
+## tools/
+- [github_auth.py + git_askpass.py — PAT loading without leaks](tools/github-auth.md)
+- [llm_adapter.py — one guarded shape over every model](tools/llm-adapter.md)
+- [model_router.py — capability-based, free-first model picking](tools/model-router.md)
+- [secure_pat.py — password-encrypted GitHub PAT at rest](tools/secure-pat.md)
+- [session_guard.py — session health monitor and handoff generator](tools/session-guard.md)
+- [setup_worker.py — minimal per-role workspaces](tools/setup-worker.md)
+
+## tutorials/
+- [Tutorial — organize Downloads with Smart Organizer v2](tutorials/organize-downloads.md)
+- [Tutorial — memory and recall (RAG today, vector search planned)](tutorials/rag-vector.md)
+- [Tutorial — voice, settings, and organizer working together](tutorials/voice-settings-organizer.md)
 
 ## wiki/
 - [Architecture](wiki/Architecture.md)

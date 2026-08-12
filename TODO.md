@@ -148,7 +148,7 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 - ✅ Efficiency — docs/EFFICIENCY.md with 10 strategies selective shallow clone 36M→2M, no Rust toolchain, clean caches, relevant gates, file queue vs Issues API, PAT encrypted, deterministic stubs, src/ persistence, GitHub Actions free, platform worker zero clones
 - ✅ Travel mode — docs/TRAVEL_MODE.md with 1 orchestrator tab on phone + janitor hourly true hours unattended
 - ✅ Swarm startup — docs/SWARM_STARTUP_GUIDE.md with exact prompts for 5 chats (orchestrator + 4 workers by layer) + further division per-component
-- ✅ Exhaustive audit — docs/AUDIT_EXHAUSTIVE.md + AUDIT_EXHAUSTIVE.json for 54 unique repos
+- ✅ Exhaustive audit — docs/audits/AUDIT_EXHAUSTIVE.md + .json for 54 unique repos
 
 ## 7. Autopilot (this session's meta-task)  ✅
 - ✅ `scripts/supervise.sh` — loops: pick next ⬜, make a branch, implement, test, commit, update TODO, repeat
@@ -158,7 +158,7 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 ## 8. New: Clear base for multi-agent (2026-08-11 exhaustive audit + backlog clear) ✅
 - ✅ Cloned all 41 user repos + 13 forked upstreams (Newelle, dots-hyprland, agent-client-protocol, prime-agent, Memento-Skills, phone-harness, servers, etc) shallow --depth 1, total 54 unique audited, 1.5G src/ (cleaned after audit to 86M)
 - ✅ Forked everything needed: OmniRoute already forked, plus prime-agent, Memento-Skills, phone-harness, servers, Hermes-Function-Calling, Hyprland-Dots, hyprdots, leon, pipecat, openWakeWord, browser-use, khoj, etc via PAT (some 404 like block/goose moved)
-- ✅ Exhaustive audit: docs/AUDIT_EXHAUSTIVE.md + JSON with per-repo readme/pyproject/tests/ci/license/size/last_commit, gaps per layer, loose ends, upgrade plan
+- ✅ Exhaustive audit: docs/audits/AUDIT_EXHAUSTIVE.md + JSON with per-repo readme/pyproject/tests/ci/license/size/last_commit, gaps per layer, loose ends, upgrade plan
 - ✅ Cleared backlogs: shesh-brain (packaged kernel wrapper GuardedMCP 2 tests), shesh-media (grim+slurp screenshots, wf-recorder, swaybg, wpctl 3 tests), shesh-messaging (Telegram/Signal isolated opt-in flag file + token via shesh-secrets 3 tests) all implemented and pushed to GitHub
 - ✅ Upgraded system: manifest now 22 devel (18 canary) including shesh-brain, shesh-media, shesh-messaging, shesh-omniroute; locks regen; make check GATE OK 30 tests; ruff clean; session protocol + swarm proper via Issues atomic lock + PR auto-merge + scheduled janitor + llm-worker free via GitHub Models; secure PAT password flow; efficiency selective clone; model-agnostic free omniroute
 - ✅ Separation proper: shesh-ecosystem=product clean, shesh-workspace=factory messy (pushed fbb77e3), shesh-omniroute=gateway optional, OmniRoute fork 291 providers
