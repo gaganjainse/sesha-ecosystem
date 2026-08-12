@@ -13,6 +13,7 @@ help:
 	@echo "  make test      pytest (offline, no hardware)"
 	@echo "  make resolve   build shesh.lock from the manifest"
 	@echo "  make check     license + manifest + tests (CI gate)"
+	@echo "  make depgraph  regenerate + check docs/architecture/DEPENDENCY_GRAPH.md"
 	@echo "  make upstream  query upstream repos for new releases (network)"
 	@echo "  make clean     remove caches and generated locks"
 
@@ -24,6 +25,10 @@ test:
 
 resolve:
 	$(PY) scripts/resolve_manifest.py --channel canary
+
+depgraph:
+	$(PY) tools/depgraph.py > docs/architecture/DEPENDENCY_GRAPH.md
+	$(PY) tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
 
 check: lint test
 	$(PY) scripts/check_licenses.py manifests/components.toml

@@ -19,6 +19,9 @@
 | 0013 | [Hierarchical Memory + Token-Bounded Context](0013-hierarchical-memory.md) | 2026-08-09 | Accepted |
 | 0014 | [Habit Learning is Frequentist with Decay](0014-habit-learning.md) | 2026-08-09 | Accepted |
 | 0015 | [Every Tool Call Through shesh-audit Guard](0015-guard-policy.md) | 2026-08-09 | Accepted |
+| 0016 | [Kernel Consolidation — Merge Withdrawn, Wave Adopted](0016-kernel-consolidation.md) | 2026-08-12 | Accepted |
+| 0017 | [Canonical Naming Purge Completed](0017-naming-purge-completed.md) | 2026-08-12 | Accepted |
+| 0018 | [Adopt-vs-Build Decisions & the 2026-08-12 Excision](0018-adopt-vs-build.md) | 2026-08-12 | Accepted |
 
 ## How to add a new ADR
 

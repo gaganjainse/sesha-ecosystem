@@ -42,31 +42,69 @@ jobs:
           python scripts/resolve_manifest.py --channel canary --out channels/canary.lock
           diff /tmp/c1.lock channels/canary.lock
 
-      - name: Audit guard — protected paths must be denied (unit check)
+      - name: Audit guard — protected paths must be denied
         run: |
+          python -m pip install --quiet "git+https://github.com/gaganjainse/shesh-audit.git@main"
           python - <<'PY'
-          import sys
-          sys.path.insert(0, "scripts")
-          # Simulate guard check without needing full component install
-          # If shesh-audit available, it should deny .ssh
-          try:
-              from pathlib import Path
-              sys.path.insert(0, str(Path("src/shesh-audit/src") if (Path("src/shesh-audit/src").exists()) else ""))
-              # Fallback inline policy list check
-              protected = [".ssh", ".gnupg", "Vaults"]
-              for p in protected:
-                  assert any(x in p for x in protected), f"guard should protect {p}"
-              print("audit guard sanity ok")
-          except Exception as e:
-              print(f"audit guard check skipped: {e}")
+          from shesh_audit.gate import Guard
+
+          g = Guard()  # default policy, in-memory audit at a tmp root is fine for gating
+          cases = [
+              ("write_file", {"path": "/home/u/.ssh/config"}, "deny"),
+              ("write_file", {"path": "/home/u/.gnupg/key"}, "deny"),
+              ("write_file", {"path": "/home/u/Documents/Job/cv.pdf"}, "deny"),
+              ("write_file", {"path": "/home/u/Vaults/notes.md"}, "deny"),
+              ("get_system_status", {}, "allow"),
+              ("some_unknown_tool", {}, "confirm"),
+          ]
+          for tool, args, want in cases:
+              d = g.check(tool, args)
+              assert d.verdict == want, f"{tool}: want {want}, got {d.verdict} ({d.reason})"
+          print(f"guard gate ok: {len(cases)} verdicts asserted")
           PY
 
-      - name: Supply-chain — sign artifacts + provenance (offline, cosign optional)
+      - name: Supply-chain — sign artifacts + provenance + OTLP offline export
         run: |
           python scripts/sign_artifacts.py --channel canary --artifacts channels/canary.lock manifests/components.toml --out dist/provenance.json
           cat dist/provenance.json
-          python scripts/export_traces_otlp.py --traces-dir /tmp/traces-not-exist --out dist/otlp-sample.json || true
+          # Offline OTLP sample: synthesize spans, export, validate shape.
+          python - <<'PY'
+          import json, time
+          spans = [
+              {"id": f"ci-{i}", "name": f"ci.span.{i}", "start": time.time(),
+               "duration_ms": 3 + i, "status": "ok" if i else "error",
+               "attributes": {"ci": "true", "i": i}}
+              for i in range(2)
+          ]
+          with open("/tmp/ci-traces.jsonl", "w") as f:
+              for s in spans:
+                  f.write(json.dumps(s) + "\n")
+          PY
+          python scripts/export_traces_otlp.py --traces /tmp/ci-traces.jsonl --out dist/otlp-sample.json
+          python - <<'PY'
+          import json
+          d = json.load(open("dist/otlp-sample.json"))
+          spans = d["resourceSpans"][0]["scopeSpans"][0]["spans"]
+          assert len(spans) == 2 and spans[0]["status"]["code"] == 2
+          print("otlp sample valid")
+          PY
           ls -lh dist/
 
       - name: Check working tree is clean (except dist)
         run: git diff --exit-code -- . ':!dist'
+
+  depgraph:
+    name: Dependency graph freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shallow-clone component checkouts (depgraph reads sibling repos)
+        run: |
+          mkdir -p "$HOME/src"
+          python tools/depgraph.py --list-repos | while read -r repo; do
+            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+          done
+
+      - name: Graph must equal the generated truth
+        run: python tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md

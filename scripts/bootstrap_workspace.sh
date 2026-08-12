@@ -17,6 +17,17 @@ echo "== pip toolchain =="
 python3 -m pip install --quiet --upgrade ruff pytest cryptography || {
     echo "pip failed — check network"; exit 1; }
 
+echo "== rust toolchain =="            # SheshAOS workspace builds need stable + fmt + clippy
+export PATH="$HOME/.cargo/bin:$PATH"
+if ! command -v cargo >/dev/null 2>&1; then
+    curl -sSf --proto '=https' --tlsv1.2 https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+rustup component list --installed 2>/dev/null | grep -q rustfmt || {
+    echo "   adding rustfmt + clippy components"
+    rustup component add rustfmt clippy >/dev/null; }
+cargo --version
+
 echo "== git identity =="
 if ! git config user.name >/dev/null 2>&1; then
     name="$(git log --format='%an' -50 2>/dev/null | grep -iv -e 'actions' -e '\[bot\]' | head -1 || true)"

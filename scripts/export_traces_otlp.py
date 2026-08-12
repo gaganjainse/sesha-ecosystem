@@ -21,18 +21,14 @@ from pathlib import Path
 TRACE_PATH = Path.home() / ".local" / "share" / "shesh" / "traces" / "traces.jsonl"
 
 
-def _to_iso(ts: float) -> str:
-    return datetime.fromtimestamp(ts, tz=UTC).isoformat()
-
-
-def load_spans(since: str | None) -> list[dict]:
-    if not TRACE_PATH.exists():
+def load_spans_from(path: Path, since: str | None) -> list[dict]:
+    if not path.exists():
         return []
     cutoff = 0.0
     if since:
         cutoff = datetime.fromisoformat(since).timestamp()
     out = []
-    for line in TRACE_PATH.read_text().splitlines():
+    for line in path.read_text().splitlines():
         try:
             s = json.loads(line)
         except json.JSONDecodeError:
@@ -40,6 +36,14 @@ def load_spans(since: str | None) -> list[dict]:
         if s.get("start", 0) >= cutoff:
             out.append(s)
     return out
+
+
+def _to_iso(ts: float) -> str:
+    return datetime.fromtimestamp(ts, tz=UTC).isoformat()
+
+
+def load_spans(since: str | None) -> list[dict]:
+    return load_spans_from(TRACE_PATH, since)
 
 
 def to_otlp(spans: list[dict]) -> dict:
@@ -87,8 +91,18 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--endpoint", default="http://localhost:4318/v1/traces")
     ap.add_argument("--since", help="ISO datetime; only spans after this time")
+    ap.add_argument("--traces", type=Path, default=TRACE_PATH,
+                    help="trace JSONL to read (default: the live shesh trace path)")
+    ap.add_argument("--out", type=Path,
+                    help="offline mode: write the OTLP JSON payload here instead of POSTing")
     args = ap.parse_args()
-    return export(args.endpoint, load_spans(args.since))
+    spans = load_spans_from(args.traces, args.since)
+    if args.out:
+        payload = to_otlp(spans)
+        args.out.write_text(json.dumps(payload, indent=2) + "\n")
+        print(f"wrote OTLP payload ({len(spans)} spans) to {args.out}")
+        return 0
+    return export(args.endpoint, spans)
 
 
 if __name__ == "__main__":
