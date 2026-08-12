@@ -5,6 +5,9 @@ on:
     branches: [main, canary, devel]
   pull_request:
 
+# Least privilege by default; jobs that write declare it explicitly.
+permissions: read-all
+
 jobs:
   gates:
     runs-on: ubuntu-latest
@@ -12,9 +15,11 @@ jobs:
       matrix:
         python: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: ${{ matrix.python }}
 
@@ -125,7 +130,9 @@ jobs:
     name: Dependency graph freshness
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
 
       - name: Shallow-clone component checkouts (depgraph reads sibling repos)
         run: |
@@ -141,7 +148,9 @@ jobs:
     name: actionlint across all repos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
 
       - name: Install pinned actionlint
         run: |
@@ -173,7 +182,9 @@ jobs:
     name: Silent-failure audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
 
       - name: Shallow-clone component checkouts (auditor reads sibling repos)
         run: |

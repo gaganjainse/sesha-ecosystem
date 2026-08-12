@@ -34,6 +34,9 @@ on:
         type: string
         default: ""
 
+# Least privilege by default; jobs that write declare it explicitly.
+permissions: read-all
+
 jobs:
   python:
     runs-on: ubuntu-latest
@@ -42,8 +45,10 @@ jobs:
       matrix:
         python: ${{ fromJSON(inputs.python-versions) }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: ${{ matrix.python }}
       - name: Install toolchain
@@ -64,12 +69,28 @@ jobs:
         run: ruff check src/ tests/
       - name: Pytest (warnings are errors)
         run: pytest tests/ -q -W error
+      - name: Workflow security scan (zizmor)
+        if: hashFiles('.github/workflows') != ''
+        run: |
+          pip install -q zizmor
+          zizmor --no-online-audits --format plain .github/workflows/
+      - name: Secret scan (gitleaks)
+        run: |
+          set -euo pipefail
+          # Pinned (no unauthenticated api.github.com call — rate-limit flake);
+          # bump alongside the quarterly dependency review (docs/policies/).
+          GL_VER="v8.30.1"
+          curl -sfL -o /tmp/gl.tgz "https://github.com/gitleaks/gitleaks/releases/download/${GL_VER}/gitleaks_${GL_VER#v}_linux_x64.tar.gz"
+          tar -xzf /tmp/gl.tgz -C /tmp gitleaks
+          /tmp/gitleaks git --redact --no-banner .
   rust:
     if: ${{ inputs.rust-manifest != '' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
+      - uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9  # v1
         with:
           components: rustfmt, clippy
       - name: cargo fmt

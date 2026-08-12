@@ -5,29 +5,39 @@ name: Swarm Auto-Merge
 # Uses same gates as CI but also checks linked issue
 
 on:
+  # SECURITY: this workflow deliberately does NOT use pull_request_target.
+  # It checks out and EXECUTES (ruff/pytest) PR code with a write-scoped
+  # token; on p_r_t a fork branch named swarm/x would run attacker code in
+  # our trust context (the textbook-critical pattern — TanStack CVE-2026-45321).
+  # Same-repo swarm branches trigger pull_request exactly the same way,
+  # so the dangerous trigger bought us nothing but the vulnerability.
   pull_request:
     branches: [main, canary, devel]
     paths-ignore:
       - 'docs/**'
-  pull_request_target:
-    types: [opened, synchronize, reopened, labeled]
-    branches: [main]
+
+# Least privilege by default; jobs that write declare it explicitly.
+permissions: read-all
 
 jobs:
   swarm-gate:
-    if: startsWith(github.head_ref, 'swarm/')
+    # Belt and braces: even on pull_request, only merge OUR OWN swarm branches.
+    if: >-
+      startsWith(github.head_ref, 'swarm/')
+      && github.event.pull_request.head.repo.full_name == 'gaganjainse/shesh-ecosystem'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
+          persist-credentials: false  # token not needed after clone
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: "3.11"
 
