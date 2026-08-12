@@ -33,6 +33,7 @@ import random
 import socket
 import string
 import subprocess
+import sys
 import time
 from datetime import datetime, UTC
 
@@ -50,9 +51,9 @@ def sh(cmd: str, cwd: pathlib.Path = ROOT) -> tuple[int, str, str]:
         proc = subprocess.run(
             cmd, shell=True, cwd=str(cwd), capture_output=True, text=True, timeout=30
         )
-        return proc.returncode, proc.stdout, proc.stderr
     except subprocess.TimeoutExpired as e:
         return 1, "", f"timeout {e}"
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def gen_agent_id(role: str = "worker") -> str:
@@ -90,7 +91,10 @@ def list_tasks(status: str = "pending") -> list[dict]:
             data = json.loads(p.read_text())
             if data.get("status", "pending") == status:
                 tasks.append(data)
-        except Exception:
+        except (OSError, json.JSONDecodeError) as e:
+            # A corrupt queue file must be visible, not silently skipped
+            # (a skipped task looks identical to "no work pending").
+            print(f"skipping unreadable queue file {p.name}: {e}", file=sys.stderr)
             continue
     # Sort by priority (P0 first) then created_at
     def prio_key(t):
@@ -129,7 +133,8 @@ def try_claim(task_id: str, agent_id: str) -> bool:
             existing = json.loads(claim_file.read_text())
             if existing.get("agent_id") != agent_id:
                 return False
-        except Exception:
+        except (OSError, json.JSONDecodeError):
+            # Unreadable claim = contested; refuse to claim.
             return False
 
     # Create claim locally
@@ -154,16 +159,12 @@ def try_claim(task_id: str, agent_id: str) -> bool:
                     # conflict — remove our claim file that got recreated?
                     # Actually our claim file would have been merged — if it's not ours, we lost
                     print(f"Task {task_id} already claimed by {existing.get('agent_id')}")
-                    # Clean up: remove our version if we created it but pull overwrote?
-                    # If pull kept our version, we'd still have ours — so check
-                    # Best: if existing claim not ours, abort
-                    # Remove local file that may be ours incorrectly
-                    if attempt == 0:
-                        # The file on disk after pull is the remote one, not ours
-                        pass
                     return False
-            except Exception:
-                pass
+            except (OSError, json.JSONDecodeError) as e:
+                # Cannot verify claim ownership mid-race. Proceeding would risk
+                # double-claiming the task — abort conservatively, out loud.
+                print(f"Task {task_id}: claim file unreadable after pull ({e}); aborting claim")
+                return False
 
         # Ensure our claim file still exists with our id (re-create if pull removed)
         claim_file.write_text(json.dumps(claim, indent=2) + "\n")
@@ -182,7 +183,8 @@ def try_claim(task_id: str, agent_id: str) -> bool:
     # Failed to claim after retries
     try:
         claim_file.unlink()
-    except Exception:
+    except OSError:
+        # Best-effort cleanup of our own stale claim; absence is harmless.
         pass
     return False
 
@@ -207,8 +209,17 @@ def complete_task(task_id: str, agent_id: str, summary: str, status: str = "done
             data["completed_by"] = agent_id
             data["completed_at"] = utc_now()
             qfile.write_text(json.dumps(data, indent=2) + "\n")
-        except Exception:
-            pass
+        except (OSError, json.JSONDecodeError) as e:
+            # The queue file is how the orchestrator knows work is done; if it
+            # stays 'pending' the task gets re-issued. Rewrite the completion
+            # record (original fields beyond recovery, note that) — loudly.
+            print(f"WARNING: queue file {qfile} unreadable ({e}); "
+                  f"rewriting minimal completion record", file=sys.stderr)
+            qfile.write_text(json.dumps({
+                "id": task_id, "status": status, "completed_by": agent_id,
+                "completed_at": utc_now(),
+                "recovered_after_corruption": True,
+            }, indent=2) + "\n")
 
     append_ledger({"type": "completed", "task_id": task_id, "agent_id": agent_id, "status": status})
     # Push

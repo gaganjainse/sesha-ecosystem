@@ -126,11 +126,11 @@ REPO_URL = {
 def sh(cmd: str) -> tuple[int, str]:
     try:
         out = subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.STDOUT, timeout=60)
-        return 0, out
     except subprocess.CalledProcessError as e:
         return e.returncode, e.output
-    except Exception as e:
+    except (OSError, subprocess.SubprocessError) as e:
         return 1, str(e)
+    return 0, out
 
 
 def clone_repo(name: str, shallow: bool = True) -> bool:

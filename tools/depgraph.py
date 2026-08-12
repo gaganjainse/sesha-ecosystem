@@ -41,14 +41,6 @@ def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
             ["cargo", "metadata", "--format-version", "1", "--locked", "--no-deps",
              "--manifest-path", str(sheshaos / "Cargo.toml")],
             capture_output=True, text=True, timeout=120, check=True).stdout
-        meta = json.loads(out)
-        members = {p["name"] for p in meta["packages"]}
-        edges: dict[str, set[str]] = {name: set() for name in members}
-        for pkg in meta["packages"]:
-            for dep in pkg["dependencies"]:
-                if dep["name"] in members:
-                    edges[pkg["name"]].add(dep["name"])
-        return edges
     except (FileNotFoundError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
         # cargo-less fallback: parse Cargo.tomls (workspace member list + dep paths)
         root = tomllib.loads((sheshaos / "Cargo.toml").read_text())
@@ -66,6 +58,15 @@ def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
                 if re.search(rf"^{re.escape(other)}\s*[=.]", text, re.M):
                     edges[name].add(other)
         return edges
+
+    meta = json.loads(out)
+    members = {p["name"] for p in meta["packages"]}
+    edges = {name: set() for name in members}
+    for pkg in meta["packages"]:
+        for dep in pkg["dependencies"]:
+            if dep["name"] in members:
+                edges[pkg["name"]].add(dep["name"])
+    return edges
 
 
 def python_edges_components(src: Path) -> dict[str, set[str]]:

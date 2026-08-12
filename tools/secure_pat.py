@@ -85,7 +85,8 @@ def ensure_decrypted(password: str | None = None) -> str | None:
                 print(f"Fixing perms {PLAIN_FILE} -> 600", file=sys.stderr)
                 os.chmod(PLAIN_FILE, 0o600)
             return PLAIN_FILE.read_text().strip()
-        except Exception:
+        except (OSError, UnicodeDecodeError):
+            # Plain file unreadable — try the encrypted store below.
             pass
 
     if not ENC_FILE.exists():
@@ -98,8 +99,8 @@ def ensure_decrypted(password: str | None = None) -> str | None:
         if not password:
             try:
                 password = getpass.getpass("Enter password to decrypt GitHub PAT: ")
-            except Exception:
-                print("Need password to decrypt", file=sys.stderr)
+            except (EOFError, KeyboardInterrupt, OSError) as e:
+                print(f"Need password to decrypt ({type(e).__name__})", file=sys.stderr)
                 return None
 
     try:
@@ -108,10 +109,10 @@ def ensure_decrypted(password: str | None = None) -> str | None:
         PLAIN_FILE.write_text(pat + "\n")
         os.chmod(PLAIN_FILE, 0o600)
         print(f"Decrypted {ENC_FILE} -> {PLAIN_FILE}")
-        return pat
-    except Exception as e:
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as e:
         print(f"Decrypt failed: {e}", file=sys.stderr)
         return None
+    return pat
 
 
 def main() -> int:
@@ -132,7 +133,7 @@ def main() -> int:
         if not pwd:
             try:
                 pwd = getpass.getpass("Password: ")
-            except Exception:
+            except (EOFError, KeyboardInterrupt, OSError):
                 pwd = ""
 
     if args.store:

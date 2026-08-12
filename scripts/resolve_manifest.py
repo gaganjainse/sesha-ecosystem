@@ -34,11 +34,18 @@ VALID_CHANNELS = {"stable", "canary", "devel"}
 REQUIRED_FIELDS = {"layer", "repo", "version", "license", "channel", "provides"}
 
 
+class ManifestError(ValueError):
+    """The manifest lacks the tables resolve_manifest needs."""
+
+    def __init__(self) -> None:
+        super().__init__("manifest must contain [ecosystem] and [component.*] tables")
+
+
 def load_manifest(path: Path) -> dict:
     with path.open("rb") as f:
         data = tomllib.load(f)
     if "ecosystem" not in data or "component" not in data:
-        raise ValueError("manifest must contain [ecosystem] and [component.*] tables")
+        raise ManifestError
     return data
 
 

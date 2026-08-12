@@ -3,7 +3,11 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "UP", "B", "SIM"]
+# BLE001 (blind `except Exception`) and TRY* (exception-flow hygiene) are
+# errors here, not style hints — blind catches are where silent failures
+# live (2026-08-12 ecosystem-wide silent-failure sweep). Sites that must
+# stay broad (daemon/process boundaries) carry `# noqa: BLE001` + a reason.
+select = ["E", "F", "W", "UP", "B", "SIM", "BLE", "TRY"]
 ignore = [
   "E402",   # module imports after sys.path setup in tests/scripts
 ]

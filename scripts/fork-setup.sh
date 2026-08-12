@@ -12,8 +12,8 @@
 # Nothing is pushed; this only clones/configures remotes locally.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SHALLOW=""
-[[ "${1:-}" == "--shallow" ]] && SHALLOW="--depth 1"
+SHALLOW=()
+[[ "${1:-}" == "--shallow" ]] && SHALLOW=(--depth 1)
 
 mkdir -p "$ROOT/sources/upstream" "$ROOT/sources/forks"
 
@@ -35,11 +35,15 @@ clone_or_update() {
     git -C "$path" fetch --all --quiet
   else
     echo "==> cloning $upstream -> $dir"
-    git clone $SHALLOW "https://github.com/${upstream}.git" "$path"
+    git clone "${SHALLOW[@]}" "https://github.com/${upstream}.git" "$path"
     # Point 'origin' at our fork (assumes it exists on GitHub); keep 'upstream' tracking source.
     if command -v gh >/dev/null && gh repo view "$fork" >/dev/null 2>&1; then
-      git -C "$path" remote rename origin upstream 2>/dev/null || true
-      git -C "$path" remote add origin "https://github.com/${fork}.git" 2>/dev/null || true
+      if git -C "$path" remote get-url upstream >/dev/null 2>&1; then
+        echo "    upstream remote already configured; leaving remotes as-is"
+      else
+        git -C "$path" remote rename origin upstream
+        git -C "$path" remote add origin "https://github.com/${fork}.git"
+      fi
     fi
   fi
 }

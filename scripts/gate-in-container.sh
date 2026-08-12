@@ -6,18 +6,27 @@ set -euo pipefail
 
 cd /src
 
-echo "==> distro: $(. /etc/os-release 2>/dev/null && echo "$PRETTY_NAME" || uname -a)"
-
-# Install only what we need (best-effort across pacman/dnf/apt).
-if command -v pacman >/dev/null; then
-  pacman -Sy --noconfirm --needed python python-pip ruff >/dev/null 2>&1 || true
-elif command -v dnf >/dev/null; then
-  dnf install -y python3 python3-pip >/dev/null 2>&1 || true
-elif command -v apt-get >/dev/null; then
-  apt-get update -y >/dev/null 2>&1 && apt-get install -y python3 python3-pip >/dev/null 2>&1 || true
+if [ -r /etc/os-release ]; then
+  # shellcheck source=/dev/null
+  . /etc/os-release
+  echo "==> distro: ${PRETTY_NAME}"
+else
+  echo "==> distro: $(uname -a)"
 fi
 
-python3 -m pip install --quiet --break-system-packages --user ruff pytest 2>/dev/null || true
+# Install only what we need (best-effort across pacman/dnf/apt), then VERIFY.
+if command -v pacman >/dev/null; then
+  pacman -Sy --noconfirm --needed python python-pip ruff >/dev/null
+elif command -v dnf >/dev/null; then
+  dnf install -y python3 python3-pip >/dev/null
+elif command -v apt-get >/dev/null; then
+  apt-get update -y >/dev/null && apt-get install -y python3 python3-pip >/dev/null
+fi
+
+if ! python3 -m ruff --version >/dev/null 2>&1; then
+  python3 -m pip install --quiet --break-system-packages --user ruff pytest
+fi
+python3 -m ruff --version   # hard-fail here with a clear message, not at the gate
 
 echo "==> lint"
 python3 -m ruff check scripts/ tests/
@@ -33,4 +42,4 @@ for ch in stable canary devel; do
   python3 scripts/resolve_manifest.py --channel "$ch" --out "/tmp/${ch}.lock"
 done
 
-echo "==> GATE PASSED ($(. /etc/os-release 2>/dev/null && echo "$ID"))"
+echo "==> GATE PASSED (${ID:-unknown-distro})"

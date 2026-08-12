@@ -117,7 +117,10 @@ def main() -> int:
                         "valid": True,
                     }
                 )
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
+                # Benchmark boundary: one model erroring must not abort the
+                # whole matrix. The failure is printed AND recorded
+                # (score 0.0, valid=False) — visible in the results table.
                 print(f"  [{model.name:30}] FAILED: {e}")
                 results.append(
                     {

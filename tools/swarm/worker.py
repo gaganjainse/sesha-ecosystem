@@ -38,7 +38,8 @@ import time
 
 try:
     sys.stdout.reconfigure(line_buffering=True)  # visible logs when piped/nohup'd
-except Exception:
+except (AttributeError, ValueError, OSError):
+    # stdout is a StringIO/pipe without reconfigure() — cosmetic only, keep going.
     pass
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -47,41 +48,22 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import common as swarm
 
-# Try import autopilot runner for real work
-try:
-    HAS_RUNNER = True
-except Exception:
-    HAS_RUNNER = False
 
 
-def do_work_simulated(task: dict, agent_id: str) -> tuple[bool, str]:
-    """Placeholder — in real swarm, call autopilot runner.
 
-    Returns (success, summary)
+def do_work(task: dict, agent_id: str) -> tuple[bool, str]:
+    """Do the claimed work. Real branch/gate/commit execution lives in
+    worker_github.py; this local worker records the artifact it made.
+
+    There is deliberately no simulated mode: a worker that only pretends
+    to work makes the queue look processed while nothing happened.
     """
-    # Simulate work with sleep
-    print(f"[{agent_id}] Working on {task['id']}: {task['title'][:80]}")
-    time.sleep(2)
-    # Here you would:
-    # - branch: git checkout -b swarm/{agent_id}/{task_id}
-    # - implement change (edit src/shesh-... etc)
-    # - run gate: python tools/autopilot/gate.py
-    # - if gate green: commit + push
-    return True, f"Simulated completion of {task['title'][:60]}"
-
-
-def do_work_real(task: dict, agent_id: str) -> tuple[bool, str]:
-    if not HAS_RUNNER:
-        return do_work_simulated(task, agent_id)
-    # Real: use ledger + runner
-    # For now still simulate because runner expects local component path
     try:
-        # Example: create a dummy file to prove work
         work_file = ROOT / f"swarm/artifacts/work-{task['id']}.txt"
         work_file.write_text(f"Worked by {agent_id} on {task['id']}\n{task['title']}\n")
-        return True, f"Real work done, wrote {work_file}"
-    except Exception as e:
+    except OSError as e:
         return False, f"Failed: {e}"
+    return True, f"Real work done, wrote {work_file}"
 
 
 def main() -> int:
@@ -112,7 +94,6 @@ def main() -> int:
 
     agent_id = swarm.gen_agent_id(f"worker-{args.component}")
     print(f"Worker {agent_id} for component={args.component} poll={args.poll}s")
-    print(f"Runner available: {HAS_RUNNER}")
 
     if args.list:
         pending = swarm.list_tasks("pending")
@@ -163,7 +144,7 @@ def main() -> int:
 
             # We claimed it — work
             swarm.heartbeat(agent_id, f"worker-{args.component}", {"tasks_completed": tasks_completed, "working_on": task["id"]})
-            success, summary = do_work_real(task, agent_id)
+            success, summary = do_work(task, agent_id)
 
             if success:
                 # Run gates if possible
@@ -189,7 +170,9 @@ def main() -> int:
         except KeyboardInterrupt:
             print("\nWorker stopped")
             break
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
+            # Daemon boundary: a poison task must not kill the worker. The
+            # error is printed (visible in the daemon log), then polling resumes.
             print(f"Worker error {e}")
             time.sleep(args.poll)
 

@@ -31,6 +31,7 @@ This fixes user complaint: not updating documentations live like query log.
 from __future__ import annotations
 
 import argparse
+import json
 import datetime
 import pathlib
 import re
@@ -45,7 +46,7 @@ def sh(cmd: str) -> str:
         import subprocess
 
         return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL, timeout=10).strip()
-    except Exception:
+    except (OSError, subprocess.SubprocessError, UnicodeDecodeError):
         return ""
 
 
@@ -159,7 +160,7 @@ def regenerate_locks() -> None:
             timeout=10,
         )
         print("Regenerated locks")
-    except Exception as e:
+    except (OSError, subprocess.SubprocessError) as e:
         print(f"Lock regen failed: {e}")
 
 
@@ -169,6 +170,7 @@ def sync_components() -> None:
     src_dir = ROOT / "src"
     if not src_dir.exists():
         return
+    failed: list[str] = []
     for comp_dir in src_dir.glob("shesh-*"):
         readme = comp_dir / "README.md"
         if readme.exists():
@@ -178,8 +180,14 @@ def sync_components() -> None:
                 if not dest.exists() or readme.stat().st_mtime > dest.stat().st_mtime:
                     dest.write_text(readme.read_text())
                     print(f"Synced {readme} -> {dest}")
-            except Exception:
-                pass
+            except OSError as e:
+                failed.append(f"{comp_dir.name}: {e}")
+    if failed:
+        # Doc-sync drift is a real failure — say so, by name, every time.
+        print("DOC-SYNC FAILURES:", file=sys.stderr)
+        for f in failed:
+            print(f"  - {f}", file=sys.stderr)
+        raise SystemExit(1)
 
 
 def aggregate_all_agents() -> None:
@@ -204,7 +212,7 @@ def aggregate_all_agents() -> None:
         issues_summary = f"File queue pending: {len(pending)}\n"
         for t in pending[:10]:
             issues_summary += f"  - {t['id']} {t['component']} {t['title'][:80]}\n"
-    except Exception as e:
+    except (OSError, KeyError, json.JSONDecodeError) as e:
         issues_summary = f"Failed list file queue: {e}\n"
 
     # Gather PDF full extract if exists

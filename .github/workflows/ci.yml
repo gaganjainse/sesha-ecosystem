@@ -22,7 +22,19 @@ jobs:
         run: python -m pip install --upgrade pip ruff pytest
 
       - name: Lint (ruff)
-        run: python -m ruff check scripts/ tests/
+        run: python -m ruff check scripts/ tests/ tools/
+
+      - name: Lint shell scripts (bash -n + shellcheck)
+        run: |
+          sudo apt-get install -y -qq shellcheck
+          set -e
+          mapfile -t SHELLS < <(git ls-files '*.sh' '*.bash')
+          echo "shell files: ${SHELLS[*]}"
+          for f in "${SHELLS[@]}"; do bash -n "$f"; done
+          shellcheck "${SHELLS[@]}"
+
+      - name: Silent-failure audit (self)
+        run: python tools/silent_failures.py .
 
       - name: Tests (pytest)
         run: python -m pytest tests/ -q
@@ -108,3 +120,26 @@ jobs:
 
       - name: Graph must equal the generated truth
         run: python tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
+
+  silent-failures:
+    name: Silent-failure audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shallow-clone component checkouts (auditor reads sibling repos)
+        run: |
+          mkdir -p "$HOME/src"
+          python tools/depgraph.py --list-repos | while read -r repo; do
+            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+          done
+
+      - name: No silent failures anywhere in the ecosystem
+        run: |
+          set -e
+          PATHS="."
+          for repo in $(python tools/depgraph.py --list-repos); do
+            PATHS="$PATHS $HOME/src/$repo"
+          done
+          # shellcheck disable=SC2086  # PATHS intentionally word-splits
+          python tools/silent_failures.py $PATHS

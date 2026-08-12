@@ -143,6 +143,47 @@ Example valid output for planner role:
     return base
 
 
+# --- Errors (messages shaped here, not at raise sites) ---
+
+class AdapterError(RuntimeError):
+    """Base for llm_adapter failures."""
+
+
+class MissingConfigError(AdapterError):
+    """A required environment variable is not set."""
+
+    def __init__(self, var: str) -> None:
+        super().__init__(f"{var} not set")
+
+
+class MissingAPIKeyError(AdapterError):
+    """A provider has no API key in the environment."""
+
+    def __init__(self, provider: str, env_var: str) -> None:
+        super().__init__(f"no API key for {provider} ({env_var})")
+
+
+class ProviderCallError(AdapterError):
+    """A concrete backend call failed."""
+
+    def __init__(self, backend: str, model: str, cause: BaseException) -> None:
+        super().__init__(f"{backend} failed for {model}: {cause}")
+
+
+class UnsupportedProviderError(AdapterError):
+    """No code path exists for this provider without litellm."""
+
+    def __init__(self, provider: str) -> None:
+        super().__init__(f"provider {provider} not implemented without litellm")
+
+
+class ChainExhaustedError(AdapterError):
+    """Every model in the chain failed, including the stub."""
+
+    def __init__(self) -> None:
+        super().__init__("all models failed including stub")
+
+
 # --- Validation ---
 
 def extract_json(text: str) -> tuple[dict | None, str | None]:
@@ -152,17 +193,18 @@ def extract_json(text: str) -> tuple[dict | None, str | None]:
     if m:
         try:
             return json.loads(m.group(1)), None
-        except Exception as e:
+        except json.JSONDecodeError as e:
             err = f"fenced json parse failed: {e}"
             # fall through to brace scan
-            pass
     else:
         err = None
 
     # Try raw JSON
     try:
         return json.loads(text.strip()), None
-    except Exception:
+    except json.JSONDecodeError:
+        # Expected when the model wraps JSON in prose — the brace-scan below
+        # is the recovery path for exactly that.
         pass
 
     # Balanced brace scan — find first { and last } and try to parse inner
@@ -181,10 +223,9 @@ def extract_json(text: str) -> tuple[dict | None, str | None]:
                     candidate = text[start : i + 1]
                     try:
                         return json.loads(candidate), None
-                    except Exception as e:
+                    except json.JSONDecodeError as e:
                         err = f"brace scan candidate failed: {e}"
                         start = None
-                        continue
     return None, err or "no JSON found"
 
 
@@ -306,8 +347,8 @@ class ModelAgnosticAdapter:
                     with urllib.request.urlopen(req, timeout=30) as resp:
                         j = _json.loads(resp.read().decode())
                         return j.get("response", "")
-                except Exception:
-                    # Fallback to ollama CLI
+                except (OSError, ValueError) as http_err:
+                    # Daemon unreachable or reply unparseable — try the CLI.
                     proc = subprocess.run(
                         ["ollama", "run", model.model, prompt],
                         capture_output=True,
@@ -316,8 +357,12 @@ class ModelAgnosticAdapter:
                     )
                     if proc.returncode == 0:
                         return proc.stdout
-            except Exception as e:
-                return f"{{'error': 'ollama failed {e}'}}"
+                    raise ProviderCallError("ollama-cli", model.model,
+                                            RuntimeError(proc.stderr.strip()[:300] or http_err)) from http_err
+            except (OSError, subprocess.SubprocessError) as e:
+                # Real JSON, not the old single-quoted pseudo-dict that
+                # extract_json() could never parse.
+                return _json.dumps({"error": str(ProviderCallError("ollama", model.model, e))})
 
         # OmniRoute — our self-hosted OpenAI-compatible gateway (shesh-omniroute).
         # Any OpenAI-compatible endpoint works: SHESH_OMNIROUTE_BASE_URL + key.
@@ -325,7 +370,7 @@ class ModelAgnosticAdapter:
             base = os.environ.get("SHESH_OMNIROUTE_BASE_URL", "").rstrip("/")
             key = os.environ.get("SHESH_OMNIROUTE_API_KEY", "")
             if not base:
-                raise RuntimeError("SHESH_OMNIROUTE_BASE_URL not set")
+                raise MissingConfigError("SHESH_OMNIROUTE_BASE_URL")
             return _chat_completions(
                 f"{base}/v1/chat/completions" if not base.endswith("/v1") else f"{base}/chat/completions",
                 key, model.model, prompt,
@@ -344,7 +389,7 @@ class ModelAgnosticAdapter:
 
         # If no API key for provider that needs it, fail fast to trigger fallback
         if model.provider in ("groq", "openrouter", "huggingface") and not api_key:
-            raise RuntimeError(f"No API key for {model.provider} ({key_env})")
+            raise MissingAPIKeyError(model.provider, key_env)
 
         # Try LiteLLM if available
         try:
@@ -358,15 +403,16 @@ class ModelAgnosticAdapter:
             )
             return resp.choices[0].message.content or ""
         except ImportError:
+            # litellm not installed — fall through to the direct HTTP path below.
             pass
         except Exception as e:
-            raise RuntimeError(f"litellm failed for {model.model}: {e}") from e
+            raise ProviderCallError("litellm", model.model, e) from e
 
         # Fallback direct API calls — OpenAI-compatible chat completions.
         if model.provider == "github":
             token = api_key or os.environ.get("GITHUB_PAT") or os.environ.get("GITHUB_TOKEN") or ""
             if not token:
-                raise RuntimeError("No GitHub token for github models")
+                raise MissingAPIKeyError("github", "GITHUB_TOKEN/GITHUB_PAT")
             last_exc: Exception | None = None
             for endpoint in (
                 "https://models.github.ai/inference/chat/completions",
@@ -374,11 +420,11 @@ class ModelAgnosticAdapter:
             ):
                 try:
                     return _chat_completions(endpoint, token, model.model, prompt)
-                except Exception as e:  # try next known endpoint
+                except (OSError, ValueError) as e:  # try next known endpoint
                     last_exc = e
-            raise RuntimeError(f"github models failed: {last_exc}") from last_exc
+            raise ProviderCallError("github-models", model.model, last_exc) from last_exc
 
-        raise RuntimeError(f"Provider {model.provider} not implemented without litellm")
+        raise UnsupportedProviderError(model.provider)
 
     def generate(self, task: TaskSpec, user_prompt: str, max_retries: int = 3) -> tuple[dict, ModelSpec, float]:
         """Generate with retry, validation, fallback chain — model-agnostic quality consistency."""
@@ -423,7 +469,10 @@ class ModelAgnosticAdapter:
                 prompt = build_prompt(task, user_prompt, task.schema, previous_error=last_error)
                 try:
                     raw = self._call_model(model, prompt)
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001 - chain boundary: any model
+                    # failure is logged, then the next candidate model is tried.
+                    # Narrowing here would let one backend's exotic error kill
+                    # the whole chain, which is the thing this class exists to prevent.
                     last_error = f"model {model.name} failed: {e}"
                     print(last_error, file=sys.stderr)
                     break  # try next model, not retry same model if API key missing etc.
@@ -460,7 +509,7 @@ class ModelAgnosticAdapter:
                 data = {"error": "stub failed", "fallback": True}
             return data, stub_model, 1.0
 
-        raise RuntimeError("All models failed including stub")
+        raise ChainExhaustedError
 
 
 # --- CLI for testing model-agnostic quality ---

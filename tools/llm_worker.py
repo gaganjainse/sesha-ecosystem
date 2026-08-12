@@ -48,8 +48,10 @@ def pick_issue(free_only: bool = True) -> dict | None:
         # If issues are GitHub Issues dicts (have number), return first
         if issues and isinstance(issues[0], dict) and "number" in issues[0]:
             return issues[0]
-    except Exception:
-        pass
+    except Exception as e:  # noqa: BLE001
+        # Designed degradation: offline/no-PAT workers use the file queue.
+        # It used to be silent; now the daemon log shows which mode it is in.
+        print(f"GitHub issue poll failed ({e}); falling back to file queue", file=sys.stderr)
 
     # Fallback file queue
     sys.path.insert(0, str(ROOT / "tools/swarm"))
@@ -98,7 +100,9 @@ def main() -> int:
             if not issue:
                 print(f"Issue #{args.issue} not found in pending, trying file queue")
                 issue = {"number": args.issue, "title": f"issue-{args.issue}", "body": ""}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
+            # Designed degradation: if the GitHub queue is unreachable we work
+            # the numbered issue against the file queue. Printed, not silent.
             print(f"Failed get issue {args.issue}: {e}")
             issue = {"number": args.issue, "title": f"issue-{args.issue}", "body": ""}
     elif args.pick:
@@ -181,10 +185,14 @@ def main() -> int:
                 )
                 subprocess.run(["git", "push", "origin", branch], cwd=str(ROOT), capture_output=True)
                 ghq.create_pr(branch, issue_num, f"[swarm][llm] issue #{issue_num} via {used_model.name}", body=data.get("summary",""))
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
+                # Best-effort publish step: any failure (git, gh, network) is
+                # printed; the completed work stays local in the branch.
                 print(f"Failed push/PR: {e}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
+        # Process boundary: the one-shot worker must exit nonzero and LOUD for
+        # any unhandled failure — full traceback to stderr, status 1 to caller.
         print(f"LLM worker failed: {e}")
         import traceback
 

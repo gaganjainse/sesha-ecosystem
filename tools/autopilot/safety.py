@@ -16,6 +16,27 @@ class SafetyError(RuntimeError):
     """Raised when an action would violate a hard invariant."""
 
 
+class ProtectedPathError(SafetyError):
+    """A path under a protected location (SSH keys, vaults, job files)."""
+
+    def __init__(self, path: Path) -> None:
+        super().__init__(f"refusing to touch protected path: {path}")
+
+
+class TestsFailingError(SafetyError):
+    """Refusing to commit while the test gate is red."""
+
+    def __init__(self, repo: Path) -> None:
+        super().__init__(f"{repo}: tests fail; refusing to commit")
+
+
+class PushFailedError(SafetyError):
+    """git push exited nonzero."""
+
+    def __init__(self, stderr: str) -> None:
+        super().__init__(f"push failed: {stderr.strip()}")
+
+
 @dataclass(frozen=True)
 class SafetyReport:
     ok: bool
@@ -76,7 +97,7 @@ def assert_safe_path(path: Path) -> None:
     resolved = path.resolve()
     for bad in PROTECTED_PATHS:
         if bad in str(resolved):
-            raise SafetyError(f"refusing to touch protected path: {resolved}")
+            raise ProtectedPathError(resolved)
 
 
 def assert_can_commit(repo: Path) -> SafetyReport:
@@ -85,7 +106,7 @@ def assert_can_commit(repo: Path) -> SafetyReport:
     if not has_uncommitted(repo):
         return SafetyReport(False, "nothing staged to commit")
     if not tests_pass(repo):
-        raise SafetyError(f"{repo}: tests fail; refusing to commit")
+        raise TestsFailingError(repo)
     return SafetyReport(True, "ok")
 
 
@@ -124,7 +145,7 @@ def safe_push(repo: Path) -> None:
         raise SafetyError(report.reason)
     rc, _, err = _git(repo, "push", "-q", "origin", "HEAD")
     if rc != 0:
-        raise SafetyError(f"push failed: {err.strip()}")
+        raise PushFailedError(err)
 
 
 def rollback(repo: Path) -> None:

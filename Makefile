@@ -5,7 +5,7 @@ PY ?= python3
 RUFF ?= $(PY) -m ruff
 PYTEST ?= $(PY) -m pytest
 
-.PHONY: help lint test resolve check all clean
+.PHONY: help lint test silent-failures resolve check all clean
 
 help:
 	@echo "Shesh Ecosystem gates:"
@@ -14,14 +14,18 @@ help:
 	@echo "  make resolve   build shesh.lock from the manifest"
 	@echo "  make check     license + manifest + tests (CI gate)"
 	@echo "  make depgraph  regenerate + check docs/architecture/DEPENDENCY_GRAPH.md"
+	@echo "  make silent-failures  audit cwd for silent-failure patterns (SF1-SF6)"
 	@echo "  make upstream  query upstream repos for new releases (network)"
 	@echo "  make clean     remove caches and generated locks"
 
 lint:
-	$(RUFF) check scripts/ tests/
+	$(RUFF) check scripts/ tests/ tools/
 
 test:
 	$(PYTEST) tests/ -q
+
+silent-failures:
+	$(PY) tools/silent_failures.py .
 
 resolve:
 	$(PY) scripts/resolve_manifest.py --channel canary

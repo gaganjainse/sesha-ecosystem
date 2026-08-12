@@ -51,6 +51,7 @@ def test_apply_writes_state(tmp_path, monkeypatch):
 
 def test_resolve_lock_builds_when_missing(tmp_path, monkeypatch):
     import contextlib
+    import subprocess
 
     called = {}
 
@@ -64,6 +65,8 @@ def test_resolve_lock_builds_when_missing(tmp_path, monkeypatch):
     (tmp_path / "manifests" / "components.toml").parent.mkdir(parents=True, exist_ok=True)
     (tmp_path / "manifests" / "components.toml").write_text("[component]\n")
     # resolve_lock should call resolve_manifest.py
-    with contextlib.suppress(Exception):
+    # The call-through is what this test verifies; a failure of the resolved
+    # script itself (missing channel content etc.) is not this test's subject.
+    with contextlib.suppress(OSError, subprocess.SubprocessError):
         ac.resolve_lock("devel")
     assert "resolve_manifest.py" in " ".join(called.get("cmd", []))

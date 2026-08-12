@@ -72,13 +72,16 @@ def _request(method: str, url: str, data: dict | None = None) -> tuple[int, Any]
             j = json.loads(txt) if txt else {}
             return resp.status, j
     except urllib.error.HTTPError as e:
-        txt = e.read().decode() if hasattr(e, "read") else ""
+        try:
+            txt = e.read().decode(errors="replace")
+        finally:
+            e.close()  # an HTTPError is a live socket; never leak it
         try:
             j = json.loads(txt) if txt else {"message": txt}
-        except Exception:
+        except json.JSONDecodeError:
             j = {"message": txt, "status": e.code}
         return e.code, j
-    except Exception as e:
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
         return 0, {"message": str(e)}
 
 

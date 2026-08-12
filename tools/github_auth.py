@@ -32,9 +32,10 @@ def _check_perms(p: pathlib.Path) -> bool:
             return False
         if st.st_mode & stat.S_IRWXG:
             print(f"WARN group-readable {p}, should be 600", file=sys.stderr)
-        return True
-    except Exception:
+    except OSError:
+        # stat failed (file vanished mid-check): treat the file as unusable.
         return False
+    return True
 
 
 def _try_decrypt_encrypted(password: str | None = None) -> str | None:
@@ -75,10 +76,12 @@ def _try_decrypt_encrypted(password: str | None = None) -> str | None:
         plain_file.write_text(pat + "\n")
         os.chmod(plain_file, 0o600)
         print(f"Decrypted {enc_file} -> {plain_file}", file=sys.stderr)
-        return pat
-    except Exception as e:
+    except (OSError, ValueError, KeyError) as e:
+        # Wrong password / corrupt blob / unreadable file all land here and
+        # are reported on stderr — never silently retried or ignored.
         print(f"Decrypt failed: {e}", file=sys.stderr)
         return None
+    return pat
 
 
 def load_pat(password: str | None = None) -> str | None:
@@ -99,7 +102,8 @@ def load_pat(password: str | None = None) -> str | None:
                 token = p.read_text().strip()
                 if token:
                     return token
-            except Exception:
+            except (OSError, UnicodeDecodeError):
+                # This candidate file is unusable — try the next known path.
                 continue
 
     # 2b. try encrypted with provided password
@@ -118,7 +122,8 @@ def load_pat(password: str | None = None) -> str | None:
                     token = line.split("oauth_token:")[-1].strip().strip('"').strip("'")
                     if token:
                         return token
-        except Exception:
+        except (OSError, IndexError, UnicodeDecodeError):
+            # Probe chain: this source is unusable -> try the next one.
             pass
 
     return None
@@ -214,8 +219,9 @@ def main() -> int:
                 stderr=subprocess.DEVNULL,
             ).strip()
             print(f"git remote origin: {remote}")
-    except Exception:
-        pass
+    except (OSError, subprocess.SubprocessError) as e:
+        # Diagnostic print only — the auth outcome was already decided above.
+        print(f"(git remote probe failed: {e})")
     return 0
 
 

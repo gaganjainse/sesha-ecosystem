@@ -35,21 +35,27 @@ run() {
 tick() {
   # --- Session guard check FIRST ---
   if [ -f tools/session_guard.py ]; then
-    python3 tools/session_guard.py --tick || true
+    python3 tools/session_guard.py --tick || log "WARN: session_guard tick failed (continuing)"
     if [ -f docs/SESSION_HOP_ALERT.md ]; then
       log "🚨 SESSION HOP ALERT exists — recommend handoff before new task"
-      cat docs/SESSION_HOP_ALERT.md | head -n 20
+      head -n 20 docs/SESSION_HOP_ALERT.md
       # Don't start new big task if hop needed — finish and exit
       if grep -q "HOP RECOMMENDED" docs/SESSION_HOP_ALERT.md 2>/dev/null; then
         log "Hop needed — not starting new task, generating handoff"
-        python3 tools/session_guard.py --handoff || true
+        python3 tools/session_guard.py --handoff || log "WARN: handoff generation failed"
         return 1
       fi
     fi
   fi
 
+  if [ ! -f TODO.md ]; then
+    log "TODO.md missing — nothing to do"
+    return 1
+  fi
   local item
-  item="$(next_todo || true)"
+  # next_todo reads a file we just verified exists; an awk failure from here
+  # is a real error and kills the tick loudly (set -e).
+  item="$(next_todo)"
   if [ -z "$item" ]; then
     log "No actionable todos found."
     return 1
@@ -64,7 +70,9 @@ tick() {
   if [ "$DRY" = 0 ]; then
     log "Running gates..."
     if [ -d tests ]; then python3 -m pytest tests/ -q || { echo "tests failed"; return 2; }; fi
-    python3 -m ruff check scripts/ tests/ 2>/dev/null || true
+    # Lint is a REAL gate: output visible, failure blocks the tick. Same scope
+    # as `make lint` (scripts/ tests/ tools/).
+    python3 -m ruff check scripts/ tests/ tools/ || { echo "lint failed"; return 2; }
   fi
 
   # Append to query log (agent fills in the answer).
@@ -83,7 +91,11 @@ EOF
 
   log "Commit + update TODO status for: $item"
   run git add -A
-  run git commit -q -m "wip: ${item//✅/}" || true
+  if run git commit -q -m "wip: ${item//✅/}"; then
+    :
+  elif [ "$DRY" = 0 ]; then
+    log "WARN: nothing was committed — the tick produced no changes"
+  fi
   log "Tick complete on branch $branch. Push when ready."
 }
 

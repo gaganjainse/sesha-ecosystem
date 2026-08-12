@@ -44,7 +44,8 @@ import github_queue as ghq  # noqa: E402
 
 try:
     sys.stdout.reconfigure(line_buffering=True)  # visible logs when piped/nohup'd
-except Exception:
+except (AttributeError, ValueError, OSError):
+    # stdout is a StringIO/pipe without reconfigure() — cosmetic only, keep going.
     pass
 
 Executor = Callable[[dict, pathlib.Path, str, str], Any]
@@ -69,9 +70,9 @@ def _run_git(*args: str, timeout: int = 120) -> tuple[int, str, str]:
             timeout=timeout,
             check=False,
         )
-        return proc.returncode, proc.stdout, proc.stderr
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def _run_command(*args: str, timeout: int = 900) -> tuple[int, str, str]:
@@ -84,9 +85,9 @@ def _run_command(*args: str, timeout: int = 900) -> tuple[int, str, str]:
             timeout=timeout,
             check=False,
         )
-        return proc.returncode, proc.stdout, proc.stderr
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def configure_git_environment(pat: str) -> None:
@@ -100,17 +101,31 @@ def configure_git_environment(pat: str) -> None:
     os.environ.setdefault("GIT_COMMITTER_EMAIL", DEFAULT_GIT_EMAIL)
 
 
+class ExecutorSpecError(ValueError):
+    """SHESH_WORKER_EXECUTOR was not in module:function form."""
+
+    def __init__(self) -> None:
+        super().__init__("executor must use module:function syntax")
+
+
+class ExecutorNotCallableError(TypeError):
+    """The resolved executor attribute is not callable."""
+
+    def __init__(self, spec: str) -> None:
+        super().__init__(f"executor {spec!r} is not callable")
+
+
 def load_executor(spec: str | None) -> Executor | None:
     """Load a ``module:function`` implementation callback."""
     if not spec:
         return None
     module_name, separator, function_name = spec.partition(":")
     if not separator or not module_name or not function_name:
-        raise ValueError("executor must use module:function syntax")
+        raise ExecutorSpecError
     module = importlib.import_module(module_name)
     callback = getattr(module, function_name, None)
     if not callable(callback):
-        raise TypeError(f"executor {spec!r} is not callable")
+        raise ExecutorNotCallableError(spec)
     return callback
 
 
@@ -142,7 +157,11 @@ def do_work(
     )
     try:
         return _executor_result(executor(issue, ROOT, branch, component))
-    except Exception as exc:  # callback errors must release the claim
+    except Exception as exc:  # noqa: BLE001
+        # Boundary: any executor (pluggable user code) failure must release
+        # the claim and report failure — an exotic raised type must not
+        # leave the task wedged as "claimed" forever. The summary string
+        # carries the error into the ledger; nothing is swallowed.
         return False, f"executor failed: {exc}"
 
 
@@ -216,9 +235,9 @@ def run_gh(args: list[str]) -> tuple[int, str, str]:
             timeout=60,
             check=False,
         )
-        return proc.returncode, proc.stdout, proc.stderr
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def create_pr_with_gh(branch: str, issue_number: int, title: str) -> bool:
@@ -428,7 +447,9 @@ def main() -> int:
         except KeyboardInterrupt:
             print("\nWorker stopped")
             return 0
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
+            # Daemon boundary: a poisoned issue must not kill the worker.
+            # The error goes to stderr (the daemon log) and polling resumes.
             print(f"Worker error: {exc}", file=sys.stderr)
             if args.once:
                 return 1

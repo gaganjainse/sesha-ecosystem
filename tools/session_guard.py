@@ -31,7 +31,7 @@ def sh(cmd: str) -> str:
         return subprocess.check_output(
             cmd, shell=True, text=True, stderr=subprocess.DEVNULL
         ).strip()
-    except Exception:
+    except (OSError, subprocess.SubprocessError, UnicodeDecodeError):
         return ""
 
 
@@ -39,7 +39,7 @@ def get_workspace_mb() -> float:
     try:
         out = sh("du -sm /home/user 2>/dev/null | cut -f1")
         return float(out) if out else 0
-    except Exception:
+    except ValueError:
         return 0
 
 
@@ -47,7 +47,7 @@ def get_file_count() -> int:
     try:
         out = sh("find /home/user -type f 2>/dev/null | wc -l")
         return int(out) if out else 0
-    except Exception:
+    except ValueError:
         return 0
 
 
@@ -55,7 +55,7 @@ def get_uncommitted() -> int:
     try:
         out = sh("cd /home/user && git status --porcelain 2>/dev/null | wc -l")
         return int(out) if out else 0
-    except Exception:
+    except ValueError:
         return 0
 
 
@@ -69,13 +69,14 @@ def get_session_age_min() -> float:
                 j = json.loads(line)
                 first = j.get("ts")
                 break
-            except Exception:
+            except (json.JSONDecodeError, ValueError):
+                # tolerate individual corrupt log lines
                 continue
         if not first:
             return 0
         dt = datetime.fromisoformat(first.replace("Z", "+00:00"))
         return (datetime.now(UTC) - dt).total_seconds() / 60
-    except Exception:
+    except (OSError, ValueError):
         return 0
 
 
@@ -89,10 +90,11 @@ def get_avg_latency() -> float:
                 j = json.loads(line)
                 if "latency_ms" in j:
                     vals.append(float(j["latency_ms"]))
-            except Exception:
+            except (json.JSONDecodeError, ValueError, TypeError):
+                # tolerate individual corrupt log lines
                 continue
         return sum(vals) / len(vals) if vals else 0
-    except Exception:
+    except (OSError, ValueError):
         return 0
 
 
@@ -184,7 +186,7 @@ def get_pat_status() -> dict:
             "plain_exists": plain.exists(),
             "need_password": enc.exists() and not plain.exists(),
         }
-    except Exception:
+    except OSError:
         return {"enc_exists": False, "plain_exists": False, "need_password": False}
 
 
@@ -193,12 +195,12 @@ def generate_next_prompt() -> str:
         lock_count = json.loads(
             (ROOT / "channels/canary.lock").read_text()
         ).get("count", "?")
-    except Exception:
+    except (OSError, json.JSONDecodeError):
         lock_count = "?"
 
     try:
         todo_pending = (ROOT / "TODO.md").read_text().count("⬜")
-    except Exception:
+    except OSError:
         todo_pending = "?"
 
     pat_status = get_pat_status()
@@ -365,7 +367,7 @@ def main() -> int:
                 print("🔒 Handoff security: deleting plain PAT, keeping encrypted")
                 plain.unlink()
                 print(f"Deleted {plain}, kept {enc} — next session will need password")
-        except Exception as e:
+        except OSError as e:
             print(f"Handoff PAT delete failed: {e}")
 
         print("Copy NEXT_SESSION_PROMPT.md into new chat to continue without explaining.")

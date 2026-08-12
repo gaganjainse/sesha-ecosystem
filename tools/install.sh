@@ -121,7 +121,11 @@ if $DRY_RUN; then
 else
   echo "==> Generating MCP config"
   python3 "$HERE/scripts/generate_mcp_config.py" --channel "$CHANNEL" || echo "WARN: MCP config gen failed"
-  ls -lh ~/.config/shesh/mcp/servers.json || true
+  if [ -f ~/.config/shesh/mcp/servers.json ]; then
+    ls -lh ~/.config/shesh/mcp/servers.json
+  else
+    echo "WARN: ~/.config/shesh/mcp/servers.json was not generated"
+  fi
 fi
 
 # 5. Optional e2e check

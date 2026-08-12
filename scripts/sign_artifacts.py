@@ -30,7 +30,8 @@ def load_lock_sha(channel: str) -> str:
     try:
         data = json.loads(lock.read_text())
         return data.get("sha256", "unknown")
-    except Exception:
+    except (OSError, json.JSONDecodeError):
+        # Unreadable/corrupt lock -> visible sentinel, not a fabricated sha.
         return "invalid-lock"
 
 
@@ -49,14 +50,14 @@ def sign_with_cosign(artifact: pathlib.Path) -> bool:
             str(artifact) + ".sig",
         ]
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if r.returncode == 0:
-            print(f"signed {artifact} -> {artifact}.sig")
-            return True
-        print(f"cosign failed {artifact}: {r.stderr}", file=sys.stderr)
-        return False
-    except Exception as e:
+    except (OSError, subprocess.SubprocessError) as e:
         print(f"cosign exception {artifact}: {e}", file=sys.stderr)
         return False
+    if r.returncode == 0:
+        print(f"signed {artifact} -> {artifact}.sig")
+        return True
+    print(f"cosign failed {artifact}: {r.stderr}", file=sys.stderr)
+    return False
 
 
 def main() -> int:

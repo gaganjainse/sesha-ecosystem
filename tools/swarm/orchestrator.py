@@ -95,8 +95,9 @@ def parse_todos(todo_path: pathlib.Path) -> list[dict]:
 
 
 try:
-    sys.stdout.reconfigure(line_buffering=True)  # keep logs visible when piped/nohup'd
-except Exception:
+    sys.stdout.reconfigure(line_buffering=True)  # visible logs when piped/nohup'd
+except (AttributeError, ValueError, OSError):
+    # stdout is a StringIO/pipe without reconfigure() — cosmetic only, keep going.
     pass
 
 
@@ -132,7 +133,9 @@ def seed_from_todo(todo_path: pathlib.Path) -> int:
 
         pat = github_auth.load_pat()
         use_github = pat is not None and os.environ.get("SWARM_USE_GITHUB", "1") == "1"
-    except Exception:
+    except (ImportError, OSError) as e:
+        # GitHub seeding is an enhancement; the file queue is the baseline.
+        print(f"GitHub seeding disabled ({e}); using file queue", file=sys.stderr)
         use_github = False
 
     for t in tasks:
@@ -142,7 +145,9 @@ def seed_from_todo(todo_path: pathlib.Path) -> int:
                 res = ghq.create_issue(t)
                 if res:
                     count += 1
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
+                # Per-task boundary: one failing issue must not abort seeding;
+                # it is printed and falls back to a queue file below.
                 print(f"Failed create issue for {t['id']}: {e}")
                 # fallback to file
                 qfile = SWARM / "queue" / f"{t['id']}.json"
@@ -182,16 +187,17 @@ def dashboard() -> None:
         try:
             d = json.loads(c.read_text())
             print(f"  - {d['task_id']} by {d['agent_id']} at {d['claimed_at']}")
-        except Exception:
-            pass
+        except (OSError, json.JSONDecodeError, KeyError) as e:
+            # A corrupt claim file is operationally meaningful (stuck claim).
+            print(f"  - CORRUPT claim file {c.name}: {e}")
 
     print(f"\nHeartbeats: {len(heartbeats)} agents")
     for hb in heartbeats:
         try:
             d = json.loads(hb.read_text())
             print(f"  - {d['agent_id']} role={d.get('role')} last={d.get('last_seen')} completed={d.get('tasks_completed',0)}")
-        except Exception:
-            pass
+        except (OSError, json.JSONDecodeError, KeyError) as e:
+            print(f"  - CORRUPT heartbeat file {hb.name}: {e}")
 
     print(f"\nArtifacts done: {len(artifacts)}")
     print(f"Ledger events: {SWARM / 'ledger.jsonl'} lines {sum(1 for _ in (SWARM / 'ledger.jsonl').read_text().splitlines()) if (SWARM / 'ledger.jsonl').exists() else 0}")
@@ -231,7 +237,10 @@ def monitor_loop(poll_sec: int = 60) -> None:
                                 qfile.write_text(json.dumps(qdata, indent=2) + "\n")
                             swarm.append_ledger({"type": "stale_requeued", "task_id": data["task_id"]})
                             tasks_completed += 1
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
+                    # Daemon boundary: a corrupt claim/heartbeat must not kill
+                    # the reaper loop; the error is printed and the next tick
+                    # re-reads everything from disk.
                     print(f"stale check error {e}")
 
             # Push heartbeats

@@ -36,9 +36,13 @@ sync_tree() {
         # Daemons need git identity + auth even on fresh machines/sandboxes.
         git -C "$TREE" config user.name  "$(git -C "$ROOT" config user.name  || echo shesh-swarm)"
         git -C "$TREE" config user.email "$(git -C "$ROOT" config user.email || echo shesh-swarm@localhost)"
-        git -C "$TREE" config credential.helper "$(git -C "$ROOT" config credential.helper || true)"
+        if helper="$(git -C "$ROOT" config credential.helper)"; then
+            git -C "$TREE" config credential.helper "$helper"
+        else
+            echo "warn: source repo has no credential helper — daemon tree needs auth setup"
+        fi
     fi
-    git -C "$TREE" checkout -q main 2>/dev/null || true
+    git -C "$TREE" checkout -q main
     git -C "$TREE" pull --rebase origin main --quiet || echo "warn: daemon tree pull failed (auth?) — see bootstrap"
 }
 
@@ -80,7 +84,7 @@ case "$cmd" in
             if is_running "$name"; then echo "● $name RUNNING (pid $(cat "$f"))"; else echo "○ $name dead"; fi
         done
         echo "--- heartbeats (fresh = daemon alive):"
-        ls -lt "$TREE"/swarm/heartbeats/*.json 2>/dev/null | head -4 || echo "  none yet"
+        find "$TREE/swarm/heartbeats" -name '*.json' -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -4 || echo "  none yet"
         echo "--- monitor log tail:"
         tail -3 "$LOGD"/monitor.log 2>/dev/null || echo "  (no log yet)"
         ;;

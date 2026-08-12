@@ -39,7 +39,9 @@ def gh_get(url: str) -> dict | list:
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             return json.loads(r.read())
-    except Exception as e:
+    except (OSError, ValueError) as e:
+        # Network or JSON failure -> explicit sentinel the caller renders
+        # (HTTPError decodes to ValueError via JSON or OSError via urllib).
         return {"_error": str(e)}
 
 def extract_features(upstream_name: str, max_issues: int = 10) -> dict:

@@ -39,8 +39,12 @@ echo "   $(git config user.name) <$(git config user.email)>"
 
 echo "== git HTTPS auth (PAT never stored in config) =="
 # Snapshot restores strip exec bits (files land 0600 rw-) — re-assert before git auth matters.
-chmod +x "$HOME/.git-cred-shesh" "$HOME/shesh-ecosystem/tools/git_askpass.py" 2>/dev/null || true
+for f in "$HOME/.git-cred-shesh" "$HOME/shesh-ecosystem/tools/git_askpass.py"; do
+    if [ -e "$f" ]; then chmod +x "$f"; fi
+done
 if [ -f "$HOME/.config/shesh/github.pat" ]; then
+    # shellcheck disable=SC2016 # the helper body is installed VERBATIM into
+    # git config; $ escapes below must not expand in this script.
     git config credential.helper '!f() { echo username='"${GITHUB_ACTOR:-gaganjainse}"'; echo "password=$(tr -d \"\\n\" < \"$HOME/.config/shesh/github.pat\")"; }; f'
     echo "   credential.helper -> reads ~/.config/shesh/github.pat (0600)"
 else

@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
-# Sync all docs to shesh-docs repo for reading only — properly organised, no navigation issues
-# Called by tools/live_update.py --docs ALL and by GitHub Actions
-
+# Sync all docs to the shesh-docs repo (mdbook) — properly organised.
+# Called by tools/live_update.py --docs ALL and by GitHub Actions.
+#
+# Failure policy: REQUIRED sources abort the sync loudly (set -e); OPTIONAL
+# sources print a SKIPPED line (missing source is a deploy-layout fact, not
+# an error). No copy may fail invisibly — that is how stale docs happen.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOCS_REPO="${DOCS_REPO:-/tmp/shesh-docs}"
 ECOSYSTEM_DOCS="$ROOT/docs"
-DESKTOP_DOCS="$ROOT/src/shesh-desktop/docs"
-WORKSPACE_DOCS="$ROOT/../shesh-workspace/docs" # if exists
+# Component checkouts live as siblings of the ecosystem checkout.
+SRC_ROOT="${SRC_ROOT:-$(cd "$ROOT/.." && pwd)/src}"
+DESKTOP_DOCS="$SRC_ROOT/shesh-desktop/docs"
+WORKSPACE_DOCS="${WORKSPACE_DOCS:-$SRC_ROOT/shesh-workspace/docs}"
 
 echo "Syncing docs to $DOCS_REPO ..."
 
@@ -23,23 +28,51 @@ mkdir -p "$DOCS_REPO/src/product/architecture" "$DOCS_REPO/src/product/concepts"
 mkdir -p "$DOCS_REPO/src/factory/swarm" "$DOCS_REPO/src/factory/steal"
 mkdir -p "$DOCS_REPO/src/gateway" "$DOCS_REPO/src/desktop" "$DOCS_REPO/src/adr" "$DOCS_REPO/src/audits" "$DOCS_REPO/src/verification" "$DOCS_REPO/src/skills" "$DOCS_REPO/src/policies" "$DOCS_REPO/src/queries" "$DOCS_REPO/src/portfolio"
 
-# Copy ecosystem docs (product + factory + gateway)
-echo "Copying ecosystem docs..."
-cp -r "$ECOSYSTEM_DOCS"/* "$DOCS_REPO/src/" 2>/dev/null || true
-cp "$ROOT/README.md" "$DOCS_REPO/src/product/overview.md" 2>/dev/null || true
-cp "$ROOT/docs/GETTING_STARTED.md" "$DOCS_REPO/src/product/getting-started.md" 2>/dev/null || true
-cp "$ROOT/manifests/components.toml" "$DOCS_REPO/src/product/reference/manifest.md" 2>/dev/null || true
-cp "$ROOT/manifests/models.toml" "$DOCS_REPO/src/product/reference/models.md" 2>/dev/null || true
+# copy_req SRC... DST — required copy: a missing source aborts the sync.
+copy_req() {
+  local dst="${!#}"
+  local srcs=("${@:1:$#-1}")
+  local s
+  for s in "${srcs[@]}"; do
+    if [ ! -e "$s" ]; then
+      echo "ERROR: required doc source missing: $s" >&2
+      return 1
+    fi
+  done
+  cp -r "${srcs[@]}" "$dst"
+}
 
-# Copy desktop docs
-if [ -d "$ROOT/src/shesh-desktop/docs" ]; then
-  echo "Copying desktop docs..."
-  cp -r "$ROOT/src/shesh-desktop/docs"/* "$DOCS_REPO/src/desktop/" 2>/dev/null || true
+# copy_opt SRC DST — optional copy: absent source is announced, never silent.
+copy_opt() {
+  local src="$1" dst="$2"
+  if [ -e "$src" ]; then
+    cp -r "$src" "$dst"
+  else
+    echo "SKIPPED (absent): $src"
+  fi
+}
+
+# Copy ecosystem docs (product + factory + gateway) — required.
+echo "Copying ecosystem docs..."
+copy_req "$ECOSYSTEM_DOCS"/* "$DOCS_REPO/src/"
+copy_req "$ROOT/README.md" "$DOCS_REPO/src/product/overview.md"
+copy_req "$ROOT/docs/GETTING_STARTED.md" "$DOCS_REPO/src/product/getting-started.md"
+copy_req "$ROOT/manifests/components.toml" "$DOCS_REPO/src/product/reference/manifest.md"
+copy_req "$ROOT/manifests/models.toml" "$DOCS_REPO/src/product/reference/models.md"
+
+# Copy desktop docs — optional (sibling checkout layout).
+echo "Copying desktop docs..."
+if [ -d "$DESKTOP_DOCS" ]; then
+  copy_req "$DESKTOP_DOCS"/* "$DOCS_REPO/src/desktop/"
+else
+  echo "SKIPPED (absent): $DESKTOP_DOCS"
 fi
 
-# Copy workspace docs if exists
-if [ -d "$ROOT/../shesh-workspace/docs" ]; then
-  cp -r "$ROOT/../shesh-workspace/docs"/* "$DOCS_REPO/src/factory/" 2>/dev/null || true
+# Copy workspace docs — optional.
+if [ -d "$WORKSPACE_DOCS" ]; then
+  copy_req "$WORKSPACE_DOCS"/* "$DOCS_REPO/src/factory/"
+else
+  echo "SKIPPED (absent): $WORKSPACE_DOCS"
 fi
 
 # Ensure SUMMARY.md exists (already in docs repo)

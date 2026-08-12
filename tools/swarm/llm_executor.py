@@ -276,9 +276,9 @@ def _run(root: pathlib.Path, cmd: list[str], timeout: int = 300) -> tuple[int, s
             cmd, cwd=str(root), capture_output=True, text=True,
             timeout=timeout, check=False,
         )
-        return proc.returncode, proc.stdout, proc.stderr
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, "", str(exc)
+    return proc.returncode, proc.stdout, proc.stderr
 
 
 def implement(
@@ -310,7 +310,9 @@ def implement(
         prompt = build_prompt(issue, repo_map, context, feedback)
         try:
             data, model, score = adapter.generate(task, prompt, max_retries=2)
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
+            # Provider-chain boundary: any provider error fails this round —
+            # the reason goes into the ledger; nothing is swallowed.
             return False, f"all providers failed: {exc}"
 
         diff = parse_diff(data)

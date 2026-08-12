@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import subprocess
 import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -42,6 +43,23 @@ class RunStats:
                 f"skipped={self.skipped} retried={self.retried}")
 
 
+class GateFailedError(RuntimeError):
+    """run_gate says the repo is not in a committable state."""
+
+    def __init__(self, report) -> None:
+        super().__init__(
+            f"gate failed: tests={report.tests_passed} "
+            f"ruff={report.ruff_passed}\n{report.test_output[:1000]}")
+
+
+def _gate_or_raise(repo: Path):
+    """Separate function so the raise lives outside the retry try (TRY301)."""
+    report = run_gate(repo)
+    if not report.ok:
+        raise GateFailedError(report)
+    return report
+
+
 def process_task(task: Task, implement: Implement, dry_run: bool,
                  stats: RunStats) -> None:
     """Implement, gate, commit, and push one task with retry+rollback."""
@@ -60,17 +78,15 @@ def process_task(task: Task, implement: Implement, dry_run: bool,
                     print(f"  · dry-run; would gate/commit {repo}")
                     stats.done += 1
                     return
-                report = run_gate(repo)
-                if not report.ok:
-                    raise RuntimeError(
-                        f"gate failed: tests={report.tests_passed} "
-                        f"ruff={report.ruff_passed}\n{report.test_output[:1000]}")
+                report = _gate_or_raise(repo)
                 # Commit and push through safety guards.
                 safety.safe_commit(repo, f"{task.id}: {task.title}")
                 safety.safe_push(repo)
                 stats.done += 1
                 print(f"  ✓ pushed ({report.n_tests} tests)")
-                return
+                return  # noqa: TRY300 — implement+gate+commit+push are one
+                # atomic unit of work; moving the return to `else` would let a
+                # push failure skip the retry/rollback this except provides.
             except Exception as e:  # noqa: BLE001
                 if attempt == 1:
                     stats.retried += 1
@@ -83,7 +99,9 @@ def process_task(task: Task, implement: Implement, dry_run: bool,
         stats.failed += 1
         stats.errors.append(f"{task.id}: {e}")
         if repo:
-            with contextlib.suppress(Exception):
+            # Best-effort rollback of the half-done task; a rollback failure
+            # must not mask the original error being reported.
+            with contextlib.suppress(OSError, subprocess.SubprocessError):
                 safety.rollback(repo)
         traceback.print_exc()
 
