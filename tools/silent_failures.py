@@ -10,7 +10,9 @@ Catches the failure-hidden patterns ruff/clippy cannot express blanket-wide:
                 (Exception/BaseException/bare) — a compact silent swallow.
   SF3 (error)   GitHub workflow steps with `continue-on-error: true`.
   SF4 (error)   shell scripts using `|| true` / `|| :` — a command whose
-                failure is structurally invisible.
+                failure is structurally invisible.  Workflow YAML `run:`
+                blocks are shell too: SF4 is enforced there as well (this
+                scan once missed `--seed TODO.md --dashboard || true`).
   SF5 (warn)    broad `except` (Exception/BaseException/bare) whose entire
                 body returns a neutral value (None/{}/[]/""/0). Sometimes
                 by design — listed for review, not gated.
@@ -140,8 +142,10 @@ def _scan_python(path: Path, text: str, report: Report) -> None:
                             f"name the specific exceptions"))
 
 
-def _scan_shell(path: Path, text: str, report: Report) -> None:
-    for i, line in enumerate(text.splitlines(), 1):
+def _sf4_lines(path: Path, text: str, report: Report, start: int = 1) -> int:
+    """Flag `|| true`/`|| :` line-endings; returns count found (for tests)."""
+    found = 0
+    for i, line in enumerate(text.splitlines(), start):
         stripped = line.strip()
         if stripped.startswith("#"):
             continue
@@ -151,13 +155,43 @@ def _scan_shell(path: Path, text: str, report: Report) -> None:
                 "SF4", "error", path, i,
                 "`|| true`/`|| :` makes a failure structurally invisible; "
                 "make the step idempotent or handle the rc explicitly"))
+            found += 1
+    return found
+
+
+def _scan_shell(path: Path, text: str, report: Report) -> None:
+    _sf4_lines(path, text, report)
 
 
 def _scan_workflow(path: Path, text: str, report: Report) -> None:
-    for i, line in enumerate(text.splitlines(), 1):
+    lines = text.splitlines()
+    for i, line in enumerate(lines, 1):
         if re.search(r"continue-on-error\s*:\s*true", line):
             report.record(Finding("SF3", "error", path, i,
                                   "continue-on-error: true hides job failures"))
+    # run: blocks are shell — SF4 applies there too. Block scalars start at
+    # `run: |`/`run: >` (optional chomping/indent hints); the body is the
+    # following more-indented lines. Inline `run: cmd` is one shell line.
+    in_run = False
+    run_indent_ground = 0
+    for i, line in enumerate(lines, 1):
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip())
+        if in_run:
+            if indent > run_indent_ground:
+                _sf4_lines(path, line, report, start=i)
+                continue
+            in_run = False
+        m = re.match(r"^( *)(?:- )?run: *(.*)$", line)
+        if m:
+            ground = len(m.group(1))
+            rest = m.group(2).strip()
+            if rest.startswith(("|", ">")):
+                in_run = True
+                run_indent_ground = ground
+            elif rest:
+                _sf4_lines(path, line, report, start=i)
 
 
 def _scan_rust(path: Path, text: str, report: Report) -> None:

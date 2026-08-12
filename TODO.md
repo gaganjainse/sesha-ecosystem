@@ -3,9 +3,11 @@
 The single anchored list of everything to do. Status: ✅ done · 🟡 in progress ·
 ⬜ todo · 🔴 blocked · 💡 future. Groups correspond to the Agentic Body layers
 (Brain / Mind / Soma) and to platform work. Check this before starting anything
-new; update it on every change so we don't drift.
+new; update it on every change so we don't drift. Ledger writes are
+**append-and-attest only** — agents may add items and flip ⬜→✅ with proof
+in the same commit, never clear (docs/policies/JANITOR_TODO_POLICY.md).
 
-Last updated: 2026-08-12 (evening — post-recovery, via this session)
+Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 
 ## New session accomplishments (2026-08-12, orchestration + hardening)
 - ✅ **Dependency graph truth**: tools/depgraph.py (cargo metadata + pyprojects + manifest) regenerates docs/architecture/DEPENDENCY_GRAPH.md; CI freshness gate rejects hand edits; last 4 phantom edges (vault→kernel, blockctl→waveobj/wps, wconfig→waveobj) fell when SheshAOS's manifests were trimmed (3f75f03/89702c0)

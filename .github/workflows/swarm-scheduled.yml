@@ -36,9 +36,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install tools
+        # mcp/fastmcp were installed here "|| true" with zero importers in this
+        # job — a suppressed no-op; dropped instead of kept lenient.
         run: |
           python -m pip install --upgrade pip ruff pytest
-          pip install mcp fastmcp -q || true
 
       - name: Resolve locks (deterministic check)
         run: |
@@ -80,7 +81,7 @@ jobs:
           # Use file queue + Issues API via our scripts — GITHUB_TOKEN has issues:write
           # Our github_queue.py loads PAT from GITHUB_PAT env, but GITHUB_TOKEN also works for same-repo Issues
           export GITHUB_PAT=$GH_TOKEN
-          python tools/swarm/orchestrator.py --seed TODO.md --dashboard || true
+          python tools/swarm/orchestrator.py --seed TODO.md --dashboard
 
       - name: Swarm — re-queue stale claims >10 min (file queue)
         if: ${{ inputs.requeue_stale != false }}

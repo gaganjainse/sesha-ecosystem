@@ -249,6 +249,7 @@ notes = "Forked OmniRoute 291 providers 90+ free 500+ models 1.53B free tokens/m
 [component.shesh-desktop]
 layer = "soma"
 repo = "gaganjainse/shesh-desktop"
+archived = true  # GitHub-archived read-only snapshot (2026-08-13 decision D2 garden); kept in the manifest for provenance (shesh-files/watcher was promoted out of it) — excluded from clone lists and audits
 version = "rolling"
 license = "GPL-3.0"
 channel = "stable"
