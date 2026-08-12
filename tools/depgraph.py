@@ -29,9 +29,43 @@ import tomllib
 from pathlib import Path
 
 ECO = Path(__file__).resolve().parent.parent          # shesh-ecosystem repo
-# Sibling checkouts live in "$SHESH_SRC" when set (CI clones there), else next
-# to the ecosystem checkout (developer workspace layout: ~/src/<repo>).
-SRC = Path(os.environ.get("SHESH_SRC", ECO.parent / "src"))
+
+
+def resolve_src() -> Path:
+    """Where the sibling component checkouts live.
+
+    Search order (first hit wins, printed in --check output for
+    transparency): $SHESH_SRC (explicit override, CI sets it) ->
+    $HOME/src (CI clone jobs land here) -> <ecosystem>/../src
+    (developer workspace). A candidate only counts if the SheshAOS
+    checkout is actually there — silently scanning the wrong tree is
+    exactly the class of failure this tool exists to prevent.
+    """
+    candidates = []
+    if os.environ.get("SHESH_SRC"):
+        candidates.append(Path(os.environ["SHESH_SRC"]))
+    candidates.append(Path.home() / "src")
+    candidates.append(ECO.parent / "src")
+    for cand in candidates:
+        if (cand / "SheshAOS" / ".git").exists():
+            return cand
+    return candidates[-1]  # let the missing-path error show truthfully
+
+
+SRC = resolve_src()
+
+
+def manifest_repos() -> list[str]:
+    """Repos declared in manifests/components.toml (install-time truth)."""
+    data = tomllib.loads((ECO / "manifests" / "components.toml").read_text())
+    return sorted(data.get("component", {}).keys())
+
+
+def list_repos() -> list[str]:
+    """Every repo the graph reads: SheshAOS + manifest components + any
+    checked-out shesh-*/pyproject.toml under SRC."""
+    found = {p.parent.name for p in SRC.glob("shesh-*/pyproject.toml")}
+    return sorted({"SheshAOS"} | set(manifest_repos()) | found)
 
 
 def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
@@ -167,8 +201,7 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.list_repos:
-        repos = sorted(p.parent.name for p in SRC.glob("shesh-*/pyproject.toml"))
-        print("\n".join(["SheshAOS", *repos]))
+        print("\n".join(list_repos()))
         return 0
 
     if args.json:

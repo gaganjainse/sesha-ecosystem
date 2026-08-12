@@ -46,7 +46,6 @@ done
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 LOCK="$HERE/channels/${CHANNEL}.lock"
-MANIFEST="$HERE/manifests/components.toml"
 
 echo "==> Shesh installer — channel=$CHANNEL dry_run=$DRY_RUN root=$ROOT"
 
@@ -77,7 +76,7 @@ if [[ ! -f "$LOCK" ]]; then
   fi
 fi
 
-echo "==> Lock: $(cat "$LOCK" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("count",0))' 2>/dev/null || echo "?") components"
+echo "==> Lock: $(python3 -c 'import json,sys; print(json.load(sys.stdin).get("count",0))' < "$LOCK" 2>/dev/null || echo "?") components"
 
 # 3. pipx upgrade
 if ! command -v pipx >/dev/null 2>&1; then
@@ -102,7 +101,7 @@ PY
 )
 
 echo "==> Will install/upgrade ${CHANNEL} components:"
-echo "$REPOS" | sed 's/^/  - /'
+while read -r repo_name; do echo "  - $repo_name"; done <<< "$REPOS"
 
 if $DRY_RUN; then
   echo "[dry-run] pipx install/upgrade for each repo"
