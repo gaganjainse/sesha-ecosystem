@@ -5,7 +5,7 @@ in this build sandbox** — they need you, on the actual MSI laptop, with real
 hardware, accounts, and GUI apps. Work through this top-to-bottom after
 installing. Tick items as you confirm them.
 
-> Last updated: 2026-08-10. This file is updated on every autopilot run; the
+> Last updated: 2026-08-12. This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/queries/QUERYLOG.md` records what changed and why.
 > companion `docs/queries/QUERYLOG.md` records what changed and why.
 
 ---

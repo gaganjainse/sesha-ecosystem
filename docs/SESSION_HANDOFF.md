@@ -1,6 +1,6 @@
 # SESSION HANDOFF — Shesh ecosystem
 
-**Generated:** 2026-08-11 (new session with swarm + session protocol)
+**Generated:** 2026-08-12 (live update via tools/live_update.py)
 **Purpose:** Load this at the start of a new session to continue exactly
 where this one stopped, without re-deriving context.
 

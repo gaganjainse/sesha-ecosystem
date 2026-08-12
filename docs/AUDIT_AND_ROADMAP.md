@@ -5,7 +5,7 @@ every task remaining across the Shesh ecosystem. Generated from the live
 repos and this session's decisions. This is the anchor document; TODO.md
 is the actionable checklist derived from it._
 
-Last audited: 2026-08-10
+Last audited: 2026-08-12 (live update via tools/live_update.py)
 
 ---
 
