@@ -215,6 +215,15 @@ channel = "canary"
 provides = ["screenshots", "recording", "wallpaper", "audio-routing"]
 notes = "Media tools — grim+slurp screenshots, wf-recorder screen recording, swaybg/hyprpaper wallpaper, wpctl/pactl audio routing — all behind Guard"
 
+[component.shesh-ebpf]
+layer = "soma"
+repo = "gaganjainse/shesh-ebpf"
+version = "0.1.0"
+license = "GPL-3.0-or-later"
+channel = "canary"
+provides = ["ebpf-telemetry", "system-metrics", "performance-sensing"]
+notes = "eBPF telemetry with Aya (Rust, read-only) — /proc metrics now, Aya probes later — all behind Guard"
+
 [component.shesh-messaging]
 layer = "soma"
 repo = "gaganjainse/shesh-messaging"

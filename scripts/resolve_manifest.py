@@ -26,7 +26,7 @@ except ModuleNotFoundError:  # pragma: no cover
 # which must be declared in a component's `separate_service = true`).
 COMPATIBLE_LICENSES = {
     "MIT", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0", "Apache-2",
-    "ISC", "Zlib", "GPL-3.0", "GPL-3", "LGPL-3.0", "LGPL-2.1", "MPL-2.0",
+    "ISC", "Zlib", "GPL-3.0", "GPL-3", "GPL-3.0-or-later", "LGPL-3.0", "LGPL-2.1", "MPL-2.0",
 }
 SERVICE_ONLY_LICENSES = {"AGPL-3.0", "AGPL-3", "SSPL-1.0", "Elastic-2.0"}
 VALID_LAYERS = {"brain", "mind", "soma"}
