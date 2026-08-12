@@ -9,14 +9,22 @@ in the same commit, never clear (docs/policies/JANITOR_TODO_POLICY.md).
 
 Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 
+## New session accomplishments (2026-08-13, decisions executed + completions)
+
+- ✅ **D1 reusable component CI**: one definition at `.github/workflows/component-ci.yml` (workflow_call; python matrix, internal git deps, extra pip, editable-install, optional rust gate) + thin callers in **all 21 components** (vendored-copy drift eliminated at the root); pytest now runs with **`-W error`** everywhere; 235 tests green per sweep. Knowns fixed en route: `install-editable` must be a YAML boolean, not a string.
+- ✅ **D2 fork garden**: 5 uncited/stale forks archived reversibly (hyprdots, register, Hermes-Function-Calling, leon, khoj); keep-set with per-fork citation evidence → docs/policies/FORK_GARDENING.md
+- ✅ **D3 SHESH-only naming**: canonical tree `docs/desktop/{SHESH_README,01_AUDIT,02_SHESH_HYBRID,04_SHESH_VOICE,06_SHESH_AGENT,08_12_15_*}` with one-way content map in scripts/sync-docs.sh; stale-name guard list + dual fast/strict modes; ecosystem/shc/oracle/GLOSSARY/orchestrator docs all on canonical names
+- ✅ **D4 janitor policy**: append-and-attest only → docs/policies/JANITOR_TODO_POLICY.md
+- ✅ **Auditor gap closed**: `tools/silent_failures.py` SF4 now covers workflow YAML `run:` blocks (8 regression tests); 5 live `|| true` sites fixed for real (strict installs ×2, guarded swarm diagnostics ×2, shesh-wave warning-level gate), plus a workflow-name-strict rule
+- ✅ **Minimal→complete**: shesh-brain 81777f5 / shesh-messaging 946b4ca / shesh-media 5461535 / shesh-ebpf 306540f — the four components TODO itself flagged as stubs now carry complete contracts + 44 new tests total
+
 ## New session accomplishments (2026-08-12, orchestration + hardening)
 - ✅ **Dependency graph truth**: tools/depgraph.py (cargo metadata + pyprojects + manifest) regenerates docs/architecture/DEPENDENCY_GRAPH.md; CI freshness gate rejects hand edits; last 4 phantom edges (vault→kernel, blockctl→waveobj/wps, wconfig→waveobj) fell when SheshAOS's manifests were trimmed (3f75f03/89702c0)
 - ✅ **Silent-failure eradication (SF1-SF6)**: tools/silent_failures.py + ecosystem-wide CI (clones all repos). Fixed 9 BLE001 + 17 TRY + 20 AST swallows across 21 Python components, 77 in ecosystem tools, 19 SF4 + 3 SF1 in shesh-desktop (folders.sh fake-savings + safety.sh fake-backup real bugs), 105 SF1 in shesh-voice (window.py console-crash silence fixed for real). Ecosystem audit now: **0 errors**
 - ✅ **SheshAOS supply-chain**: MIT LICENSE added (README always claimed it), cargo-deny (2 documented ignores only: RUSTSEC-2023-0071 no-patch-exists, RUSTSEC-2017-0008 unreachable-path), cargo-machete (~24 unused decls removed), typos, all wired into CI; canonical license.workspace inheritance; internal path deps versioned (wildcards=deny)
 - ✅ **Workspace automation adopted**: tools/sync_repos.py, verify_worktrees.py, ecosystem_audit.py (ad-hoc `git reset --hard` + ambient `pip install` removed), verify_all_strict.sh, linkcheck.py + `make verify-all`/`make linkcheck`; link integrity now CI-gated (found 21 rotted links)
 - ✅ **Post-snapshot recovery runbook executed**: remotes restored, exec bits repo-wide, waveterm build/ restored from git objects, media/system suppression commits re-dropped from archived patches
-- ⬜ **Deferred decisions (from the 16:41 directive)**: reusable component-CI callable workflow (one workflow referenced by every component vs per-repo vendored copies); fork/archive triage (hyprdots vs Hyprland-Dots overlap; register/servers/prime-agent/phone-harness/Memento-Skills/browser-use/khoj/leon/pipecat/openWakeWord keep-or-archive); TODO.md seed-vs-clear policy for the janitor loop
-- 🟡 **Naming drift to reconcile**: desktop docs mirror names diverged (docs/SHESH/06_SHESH_AGENT.md in shesh-desktop vs docs/desktop/06_SESHA_AGENT.md here; SHESH_README vs SHESHA_README) — decide one canonical, update sync-docs.sh mapping
+- ✅ **All four deferred decisions EXECUTED 2026-08-13** (D1 reusable CI, D2 fork garden, D3 SHESH-only naming, D4 append-and-attest janitor) — see the 2026-08-13 accomplishments section above for evidence pointers
 - 🟡 **PAT rotation required by the USER** (org owner action): the PAT at ~/.config/shesh/github.pat appeared in an earlier plaintext transcript — rotate it on GitHub, then rewrite the file
 
 ## New session accomplishments (2026-08-11)
@@ -72,7 +80,7 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
 - ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
-- ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **IMPLEMENTED 2026-08-11** minimal wrapper GuardedMCP, routes via Guard, Nexus bridge emit, scheduler stub, 2 tests, repo gaganjainse/shesh-brain pushed
+- ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **COMPLETED 2026-08-13** (81777f5): two-phase confirmation flow closed (`record_confirmation` → hash-chained audit + kernel CONFIRMATION_GRANTED/DENIED events), `audit_tail` ledger read view, 8 tests pin the contract (was: minimal wrapper, scheduler stub, 2 tests)
 - ✅ LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline) — now via ModelAgnosticAdapter with strict JSON schema, validation+repair loop 3 retries, fallback chain free-first→stub, LLM-as-judge score >=0.7
 - ✅ A2A over Unix socket — UDS broker with role routing (3 tests); then optional remote (opt-in)
 - ✅ Persistent/background agent sessions — SessionManager with start/get/list/cancel (25 tests)
@@ -96,8 +104,8 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 - ✅ `shesh-health`: system_health (disk/units/load/temps/caches)
 - ✅ Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesh-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain as optional via mcp-bundle
 - ✅ Calendar: local-first iCal vdir MCP (shesh-calendar); email/CalDAV sync remains via vdirsyncer
-- ✅ Messaging bridges (Telegram/Signal) as isolated, opt-in services — **IMPLEMENTED 2026-08-11** shesh-messaging component: send_telegram/send_signal via shesh-secrets token, flag file ~/.config/shesh/messaging/{telegram,signal}.enabled, isolated systemd services, 3 tests, repo gaganjainse/shesh-messaging pushed
-- ✅ Media: screenshots, screen recording, wallpaper, audio routing — **IMPLEMENTED 2026-08-11** shesh-media component: grim+slurp screenshots, wf-recorder recording, swaybg wallpaper, wpctl/pactl audio, Guard behind, 3 tests, repo gaganjainse/shesh-media pushed, also extended shesh-system
+- ✅ Messaging bridges (Telegram/Signal) as isolated, opt-in services — **COMPLETED 2026-08-13** (946b4ca): bridge now full-duplex — `read_telegram` (getUpdates, caller-acked offsets, long-poll clamp, channel_post) + `telegram_status` (getMe probe); same opt-in flag + secrets-resolved-token disciplines; 12 tests (was: send-only, 3 tests)
+- ✅ Media: screenshots, screen recording, wallpaper, audio routing — **COMPLETED 2026-08-13** (5461535): audio contract made honest (no fabricated `stub-speakers`; empty list + explicit reason when offline), real `get_volume`/`set_volume` via wpctl with mute parse + 1.0 policy cap; 16 tests (was: 3 tests + fabricated sink names). NOTE: wallpaper backend is hyprpaper-via-hyprctl — the 08-11 line claiming swaybg was inaccurate
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
 - ✅ Hardware tests: Hyprland@144, NVIDIA MUX, wake word, PipeWire, Quickshell render — documented as manual verification in MANUAL_VERIFICATION.md, not failing CI, marked 🟢 with manual checklist
 - 💡 Future: accessibility (a11y), eBPF kernel tuning
@@ -164,7 +172,7 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 1. Read TODO.md top-to-bottom; pick the highest-priority ⬜ not blocked.
 2. Create a branch `feat/<thing>`.
 3. **First thought = STEAL, not make tool.** Check SOURCES.md, TOOLING_CATALOG.md, manifests/upstreams.toml, awesome-hyprland, best MCP servers 2026, Rust crates (notify-rs, aya-rs, etc), web search for open-source things (MIT/Apache/GPL, truly free no API key, self-hostable). If something better exists that can be stolen, upgraded, customized, specialized for our CachyOS/Hyprland/6GB VRAM system and improved — STEAL IT. Only if not found, then make yourself. What have we been learning then? Steal first.
-4. **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. Minimal versions we made (shesh-brain, media, messaging, ebpf minimal) became stubs per user feedback — now make proper. We have a lot of time, freely, no limited time constraint.
+4. **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. Minimal versions we made (shesh-brain, media, messaging, ebpf minimal) became stubs per user feedback — **all four completed 2026-08-13** (brain 81777f5, messaging 946b4ca, media 5461535, ebpf 306540f; 8/12/16/8 tests each). We have a lot of time, freely, no limited time constraint.
 5. Implement with tests; never push red.
 6. Update the relevant doc and this TODO (flip ⬜→✅/🟡).
 7. Append the user's prompt + a one-paragraph answer to QUERYLOG.md.

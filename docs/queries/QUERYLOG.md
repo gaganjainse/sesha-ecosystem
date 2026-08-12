@@ -1054,3 +1054,23 @@ The workspace is clean and ready; the worker should not be restarted until its c
 **Docs:** Auto-updated via live_update.py at 2026-08-12T03:05:42.794621+00:00
 
 ---
+
+---
+
+## Q: 'We need to do the four decisions and open engineering and complete any minimal and incomplete to complete. You choose for 1,3,4 which of must and for 3, no drift only SHESH'
+
+**Answer:** All four decisions executed with the MUST options; the four stubbed components completed.
+
+**D1 (reusable CI):** `.github/workflows/component-ci.yml` (workflow_call: python matrix, internal git deps, extra pip, editable install, rust gate) is now THE one pipeline; all 21 components carry thin callers (each pushed and CI-green on the reusable definition). Bonus hardening: pytest runs `-W error` across the fleet (verified locally per repo before conversion), shesh-omniroute's caller fixed (`install-editable` must be YAML boolean — string form startup-fails). shesh-wave keeps its own workflow (shell-installer shape) with a tightened shellcheck gate.
+
+**D2 (fork triage):** citation evidence gathered across living docs+manifests; archived reversibly: hyprdots (stale upstream, superseded by Hyprland-Dots), register (zero true citations), Hermes-Function-Calling (0), leon (parked study entry only), khoj (audit-tally only). Keep-set with per-fork evidence in docs/policies/FORK_GARDENING.md.
+
+**D3 (SHESH only, no drift):** canonical nested desktop tree synced (SHESH_README/01..15), sync-docs.sh maps legacy source names one-way, stale-name sweep extended (nexusaos|sheshaaos|auto-desktopenv enforced in shesh-docs CI; carve-outs only for immutable history classes — queries/adr/dated audit snapshots).
+
+**D4 (janitor TODO policy):** docs/policies/JANITOR_TODO_POLICY.md — append-and-attest only: agents may add items and flip ⬜→✅ with proof in the same commit; never clear; orchestrator-only archival. TODO.md header now carries the rule.
+
+**Auditor gap closed (the important one):** silent_failures SF4 never scanned YAML run: blocks — that's how `|| true` hid in swarm-scheduled (--dashboard || true) and swarm-auto-merge (3 sites). Rule extended (SF4-YAML, 8 tests), all live offenders fixed for real (strict installs; guarded diagnostics; shesh-wave gate RAISED to warning level after verifying scripts are warning-clean). Archived shesh-desktop excluded from clone/audit lists via manifest archived=true.
+
+**Minimal→complete:** shesh-brain (confirmation second phase + audit tail, 2→8 tests), shesh-messaging (full-duplex telegram: getUpdates/getMe, 6→12), shesh-media (fabricated sink names REMOVED — offline now means empty+reason; real wpctl volume get/set, 9→16), shesh-ebpf (list_processes real /proc, race-tolerant, 4→8). All four pushed, all four CI-green locally verified (-W error).
+
+**Honestly NOT done:** shesh-voice is the frequent-change owner of its desktop docs; its versions still carry some legacy naming in body text (file mirror renamed at sync-time only). Failure-memory offline loop test, the recorded demo artifact, README→docs auto-sync job, and a11y remain queued. PAT rotation is still user-side action (issue #25 open).
