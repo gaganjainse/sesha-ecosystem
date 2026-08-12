@@ -5,7 +5,7 @@ The single anchored list of everything to do. Status: ✅ done · 🟡 in progre
 (Brain / Mind / Soma) and to platform work. Check this before starting anything
 new; update it on every change so we don't drift.
 
-Last updated: 2026-08-11 (new session: cloned all 22 component repos, fixed manifest/lock drift shesha→shesh, regenerated locks, renamed docs/components, fixed Makefile + test_manifest, created 15 ADRs, getting-started guide, Containerfile + distrobox.ini + installer with btrfs snapshot/rollback, synced component READMEs)
+Last updated: 2026-08-12 (live update via tools/live_update.py)
 
 ## New session accomplishments (2026-08-11)
 - ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesha-* from rename commit 0d4f0f1), updated Makefile Shesha→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
