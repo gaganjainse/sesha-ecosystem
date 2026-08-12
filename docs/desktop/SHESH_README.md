@@ -15,7 +15,7 @@ facts (correcting errors in earlier AI audits) and the map of every document.
 | [03_DISK_STRUCTURE](03_DISK_STRUCTURE.md) | On-disk layout: job vs personal vs projects, backup policy |
 | [04_DEVICE_PROFILE](04_DEVICE_PROFILE.md) | MSI Sword + CachyOS tuning: GPU/MUX, 144 Hz, power, kernel |
 | [05_SMART_ORGANIZER_V2](05_SMART_ORGANIZER_V2.md) | Real-time AI file organizer (Rust watcher + Python classifier) |
-| [06_SHESH_AGENT](06_SESHA_AGENT.md) | The voice agent: Newelle + Ollama + MCP + audit log |
+| [06_SHESH_AGENT](06_SHESH_AGENT.md) | The voice agent: Newelle + Ollama + MCP + audit log |
 | [07_AUTOMATIONS](07_AUTOMATIONS.md) | Every autonomous job, unit, and udev rule |
 | [08_ECOSYSTEM_TOOLS](08_ECOSYSTEM_TOOLS.md) | More tools to build + what to steal from other repos + phone harness |
 | [09_AI_PROMPTS](09_AI_PROMPTS.md) | Copy-paste prompts for AI pair-programming per phase/situation |

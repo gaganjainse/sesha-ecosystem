@@ -10,7 +10,7 @@ intent and prevents drift.
 
 **Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `1494709` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (89702c0, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since 8f60600: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → 38d51f9. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: 710f312 → b549191 → 295f0a1.
 
-**Docs:** [tools/](../../tools/) (sync_repos, verify_worktrees, ecosystem_audit, verify_all_strict, linkcheck), [docs/architecture/DEPENDENCY_GRAPH.md](../architecture/DEPENDENCY_GRAPH.md), [Makefile](../../Makefile)
+**Docs:** [tools/](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools) (sync_repos, verify_worktrees, ecosystem_audit, verify_all_strict, linkcheck), [docs/architecture/DEPENDENCY_GRAPH.md](../architecture/DEPENDENCY_GRAPH.md), [Makefile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Makefile)
 
 ---
 
@@ -18,7 +18,7 @@ intent and prevents drift.
 
 **Answer:** Built tools/silent_failures.py, an SF1-SF6 auditor: SF1 except-pass swallows without an adjacent reason comment, SF2 bare contextlib.suppress, SF3 workflow continue-on-error, SF4 shell `|| true`/`|| :`, SF5 warn-class neutral-value returns, SF6 warn-class reasonless `#[allow]`. Wired as an ecosystem CI job that clones EVERY repo and exits 1 on error-class findings. Swept and fixed for real: 9 BLE001 + 17 TRY + 20 AST pass-swallows across all 21 Python components (found real bugs: harness `_respond` returning "" on outage masquerading as model score 0.0 → ResponderUnavailableError; omniroute malformed config.json silently reverting to defaults → ConfigError; llm_adapter fake single-quote JSON payload; swarm claim-race double-claim + corrupt complete_task queue; messaging https socket leak; sync-docs.sh pointing at a desktop-docs path that had not existed for months; supervise.sh discarding lint-gate output; worker.py simulated-work path deleted), 77 findings in ecosystem tools/scripts, SheshAOS `#[allow]` attributes each given a reason comment (bb1b02d), sesha-bootstrap.sh multi-line brace expansion that bash could not parse at all. **Final cleanups (evening):** shesh-desktop 19 SF4 + 3 SF1 and shesh-voice 105 SF1 in 36 files (see the "Continue the work" entry) — after which the ecosystem-wide audit reports **0 errors**. The only intentional swallow pattern left standing is documented: except with an adjacent ≥3-word reason comment explaining why silence is correct at that probe/daemon/cleanup boundary.
 
-**Docs:** [tools/silent_failures.py](../../tools/silent_failures.py), [.github/workflows/ci.yml](../../.github/workflows/ci.yml) (silent-failures job)
+**Docs:** [tools/silent_failures.py](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/silent_failures.py), [.github/workflows/ci.yml](../../.github/workflows/ci.yml) (silent-failures job)
 
 ---
 
@@ -26,7 +26,7 @@ intent and prevents drift.
 
 **Answer:** Dependency graph: tools/depgraph.py derives the truth from three sources (cargo metadata on the SheshAOS workspace, pyproject dependencies of every component, manifests/components.toml for repo-level) and regenerates docs/architecture/DEPENDENCY_GRAPH.md; a CI freshness gate (`--check`) rejects hand edits, because the previous hand-drawn graph claimed edges the code never used (vault→kernel etc. — removed by the cargo-machete sweep in SheshAOS, which deleted ~24 declared-but-unused deps). Company-standard workspace systems adopted: per-repo gates (ruff/pytest -W error, clippy -D warnings, shfmt/shellcheck/bash -n), actionlint 1.7.12 sha256-pinned org-wide (27 repos), cargo-deny + cargo-machete + typos in SheshAOS CI, license inheritance via workspace.package, the MIT LICENSE file the README had always claimed, linkcheck, and the silent-failure auditor above. Workspace automation adopted into tools/: sync_repos.py (restore remotes + fetch + divergence report), verify_worktrees.py (byte-level worktree-vs-origin comparison that catches snapshot-restore damage git status cannot see), ecosystem_audit.py (per-repo health sweep; the ad-hoc original's `git reset --hard` and ambient `pip install` were removed before adoption), verify_all_strict.sh (per-component pytest -W error + ruff), linkcheck.py, all reachable through `make verify-all` / `make linkcheck`. Deferred decisions recorded in TODO.md: reusable component-CI callable workflow, fork/archive triage list, desktop-docs mirror naming drift.
 
-**Docs:** [tools/depgraph.py](../../tools/depgraph.py), [docs/architecture/DEPENDENCY_GRAPH.md](../architecture/DEPENDENCY_GRAPH.md), [Makefile](../../Makefile), [TODO.md](../../TODO.md)
+**Docs:** [tools/depgraph.py](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/depgraph.py), [docs/architecture/DEPENDENCY_GRAPH.md](../architecture/DEPENDENCY_GRAPH.md), [Makefile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Makefile), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md)
 
 ---
 
@@ -34,7 +34,7 @@ intent and prevents drift.
 
 **Answer (2026-08-11 new session):** Cloned all 22 dependent repos into /home/user/src (shesh-* + SheshAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop). Fixed manifest/lock drift from rename commit 0d4f0f1 (regenerated channels/*.lock — 16 canary, 19 devel, 1 stable — shesh naming; updated Makefile Shesha→Shesh; fixed ruff E741 in tests/autopilot/test_autopilot.py; test_manifest now accepts shesh|sesha; make check green 30 tests). Renamed docs/components/shesha-*.md → shesh-*.md and synced content from src READMEs (17 files). Created 15 ADRs in docs/adr/ for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard) + index README. Created docs/GETTING_STARTED.md (developer fast path, full CachyOS install with bootstrap, Ollama 6GB stack phi4-mini/qwen2.5-coder:3b/moondream2/nomic-embed-text, Rust/uv/Podman, pipx component install, voice overlay, secrets backends, restic backup, phone ADB safe-area, container sandbox, everyday use, canary promotion, hardware checks, troubleshooting). Added Containerfile (Arch-based reproducible dev), distrobox.ini, tools/install.sh with --channel stable|canary|devel, --dry-run, --check, btrfs snapshot to /.snapshots/pre-shesh-<channel>-<date> and rollback docs, pipx upgrade loop, MCP config generation. Updated TODO.md with new session accomplishments and marked Distrobox/Containerfile, Installer, ADRs, Getting-started, Doc-sync as ✅. make check now GATE OK.
 
-**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [GETTING_STARTED.md](../GETTING_STARTED.md), [adr/](../adr/), [TODO.md](../../TODO.md), [Containerfile](../../Containerfile), [distrobox.ini](../../distrobox.ini), [tools/install.sh](../../tools/install.sh), channels/*.lock, Makefile
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [GETTING_STARTED.md](../GETTING_STARTED.md), [adr/](../adr/), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [Containerfile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Containerfile), [distrobox.ini](https://github.com/gaganjainse/shesh-ecosystem/blob/main/distrobox.ini), [tools/install.sh](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/install.sh), channels/*.lock, Makefile
 
 ---
 
@@ -42,7 +42,7 @@ intent and prevents drift.
 
 **Answer:** Read docs/SESSION_HANDOFF.md — the handoff that says: this is Shesh local-first AI OS for CachyOS/Hyprland on MSI Sword 16 HX, naming FINAL is Shesh/SheshAOS/shesh-* (not Shesha), 19 repos (182 component tests + 30 ecosystem + 26 desktop = 238 total green), code lives in /home/user/sesha/components/shesh-*/ (here /home/user/src/), autopilot in tools/autopilot/ with safety/ledger/gate/runner/cli, contract: pick next pending TODO, work in one component, always run pytest -q -p no:cacheprovider, use GuardedMCP, no secrets in repos, commit with task id, append to QUERYLOG.md after each user message, archive not delete, mark hardware items 🟡. DONE: rename, governance, agents, memory, refinement, skills, calendar/containers/bundle, system/phone/ACP/ambient, platform manifest+config+e2e, autopilot safety core, wiki docs. REMAINS: 🔴 kernel merge (type-diverged, follow KERNEL_MERGE_PLAN.md), hardware validation on MSI, wiki one-time init, ACP editor testing; 🟡 P1 auto skill capture, Distrobox/Containerfile, installer btrfs, email/messaging bridges, media tools, OTLP traces, shesh-maint decision, ambient wiring. Gotchas: editable installs after rename, pytest isolation, wiki init needs UI click, Ollama models list, workspace budget <150 MB. First commands: verify all component tests green, read anchors SESSION_HANDOFF, TODO, AUDIT_AND_ROADMAP, MANUAL_VERIFICATION, continue P1. This new session follows that contract.
 
-**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [TODO.md](../../TODO.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md)
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md)
 
 ---
 
@@ -58,7 +58,7 @@ intent and prevents drift.
 
 **Answer:** Read SESSION_HANDOFF (which says READ THIS FIRST, then AUDIT_AND_ROADMAP, TODO, MANUAL_VERIFICATION, QUERYLOG), then AUDIT_AND_ROADMAP.md (15 decisions D1–D15, 16 repos verified, penny-picked task list P0/P1/P2, operating rules), TODO.md (master roadmap with ✅/🟡/⬜/🔴, status vs original plan, brain/mind/soma/platform/docs/autopilot), MANUAL_VERIFICATION.md (13-section hardware checklist: first boot, secrets, MCP mesh, voice, GPU/MUX, display, backup, phone, containers, agent behavior, security, canary/releases, known deliberate non-autopilot work, health command), QUERYLOG.md (full decision trail 20+ Q/A). Confirmed shesh-ecosystem is federation orchestrator, not AIM — corrected repo cloning. GitHub org gaganjainse has 27 public repos including shesh-* family, SheshAOS, SeshaOS, AIM, etc.
 
-**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](../../TODO.md), [MANUAL_VERIFICATION.md](../MANUAL_VERIFICATION.md), [queries/QUERYLOG.md](./QUERYLOG.md)
+**Docs:** [SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [MANUAL_VERIFICATION.md](../MANUAL_VERIFICATION.md), [queries/QUERYLOG.md](./QUERYLOG.md)
 
 ---
 
@@ -71,7 +71,7 @@ an autopilot loop (`scripts/supervise.sh`) and an agent skill
 (`skills/autopilot.md`) so work continues without re-asking. Everything links back
 to TODO.md.
 
-**Docs:** [TODO.md](../../TODO.md), [scripts/supervise.sh](../../scripts/supervise.sh),
+**Docs:** [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [scripts/supervise.sh](https://github.com/gaganjainse/shesh-ecosystem/blob/main/scripts/supervise.sh),
 [skills/autopilot.md](../skills/autopilot.md)
 
 ---
@@ -143,7 +143,7 @@ bounds), a courtesy policy that defers during fullscreen/calls/high-CPU/low
 battery, and a proactivity engine that makes one optional offer at a natural
 pause (45s–15m idle), throttled to ≤3/day, snoozeable.
 
-**Docs:** [desktop/AMBIENT_DESIGN.md](../desktop/AMBIENT_DESIGN.md)
+**Docs:** [desktop/AMBIENT_DESIGN.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/AMBIENT_DESIGN.md)
 
 ---
 
@@ -165,7 +165,7 @@ settings system and a matching **Sesha settings page** (`SeshaConfig.qml`) in
 the same widget style as General/Bar/Services. A `Sesha.qml` service applies
 toggles to systemd units and hyprctl. All changes are in the dotfiles repo.
 
-**Docs:** [desktop/06_SESHA_AGENT.md](../desktop/06_SESHA_AGENT.md)
+**Docs:** [desktop/06_SHESH_AGENT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/06_SHESH_AGENT.md)
 
 ---
 
@@ -190,7 +190,7 @@ typos, redirect order; added real system tools, device profile, FHS/XDG layout,
 rootless Podman + uv environments, and the federated ecosystem manifest with
 quality gates and canary CI.
 
-**Docs:** [desktop/01_AUDIT.md](../desktop/01_AUDIT.md),
+**Docs:** [desktop/01_AUDIT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop/01_AUDIT.md),
 [GAP_ANALYSIS.md](../GAP_ANALYSIS.md)
 
 ---
