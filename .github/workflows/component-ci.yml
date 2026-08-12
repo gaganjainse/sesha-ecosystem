@@ -1,0 +1,80 @@
+name: Component CI (reusable)
+
+# THE component pipeline for the shesh-* fastmcp ecosystem — Decision D1:
+# ONE workflow definition here; component repos carry a thin caller that
+# names only their deltas (internal deps, extra pip packages, rust gate).
+# Changes land here once instead of being vendored repo-by-repo.
+
+on:
+  workflow_call:
+    inputs:
+      python-versions:
+        description: JSON array of Python versions for the test matrix
+        required: false
+        type: string
+        default: '["3.11", "3.12", "3.13"]'
+      extra-pip:
+        description: Extra PyPI/test packages to install (space-separated)
+        required: false
+        type: string
+        default: ""
+      existing-repos:
+        description: Internal ecosystem repos installed from git@main (space-separated; not on PyPI)
+        required: false
+        type: string
+        default: ""
+      install-editable:
+        description: Run pip install -e . before tests (component needs its package importable)
+        required: false
+        type: boolean
+        default: false
+      rust-manifest:
+        description: Path to a Cargo.toml to fmt/clippy/test; empty disables the rust gate
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ${{ fromJSON(inputs.python-versions) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install toolchain
+        run: python -m pip install --upgrade pip ruff pytest fastmcp ${{ inputs.extra-pip }}
+      - name: Install internal ecosystem deps (not on PyPI — ecosystem tracks main)
+        if: ${{ inputs.existing-repos != '' }}
+        env:
+          REPOS: ${{ inputs.existing-repos }}
+        run: |
+          set -euo pipefail
+          for repo in $REPOS; do
+              pip install "git+https://github.com/gaganjainse/${repo}.git@main"
+          done
+      - name: Install component package (editable)
+        if: ${{ inputs.install-editable }}
+        run: pip install -e . -q
+      - name: Ruff
+        run: ruff check src/ tests/
+      - name: Pytest (warnings are errors)
+        run: pytest tests/ -q -W error
+  rust:
+    if: ${{ inputs.rust-manifest != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: cargo fmt
+        run: cargo fmt --manifest-path "${{ inputs.rust-manifest }}" --check
+      - name: cargo clippy
+        run: cargo clippy --manifest-path "${{ inputs.rust-manifest }}" -- -D warnings
+      - name: cargo test
+        run: cargo test --manifest-path "${{ inputs.rust-manifest }}"
