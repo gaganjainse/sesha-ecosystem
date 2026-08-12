@@ -115,16 +115,22 @@ the canary gate on real or VM hardware.
 
 ## Status
 
-Phase 1 — orchestrator + manifest + gates (this repo, ✅).
-Next: split `shesh-files`, `shesh-shell`, `shesh-system` out of shesh-desktop into their own
-repos, fork Newelle as `shesh-voice`, and wire `shesh-audit` to SheshAOS.
+Ecosystem-wide CI is green: one reusable component pipeline (D1) covers all
+21 components with `-W error`; silent-failure audit 0 errors; every third-party
+Action is SHA-pinned with Dependabot moving the pins weekly. See
+[SECURITY.md](SECURITY.md) for the posture and
+[docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for the threat model.
 
 ## Documentation index
 
-- **Start here:** [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md) — master roadmap; [GLOSSARY.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/GLOSSARY.md)
-- **Architecture:** [Agentic Body](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/architecture/AGENTIC_BODY.md) · [Repo topology](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/architecture/REPO_TOPOLOGY.md) · [Languages](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/architecture/LANGUAGE_POLICY.md) · [Multi-agent](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/architecture/MULTI_AGENT.md)
-- **Platform:** [Containers/uv](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/CONTAINERS_AND_VENV.md) · [Linux layout](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/LINUX_LAYOUT.md) · [ACP & A2A](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/ACP_A2A.md)
-- **Mind:** [Learning/memory](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/LEARNING.md) · [Tooling catalog](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/TOOLING_CATALOG.md)
-- **Process:** [Gap analysis](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/GAP_ANALYSIS.md) · [Autopilot skill](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/skills/autopilot.md) · [Query log](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/queries/QUERYLOG.md)
-- **Components:** [acp](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-acp.md) · [audit](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-audit.md) · [files](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-files.md) · [harness](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-harness.md) · [memory](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-memory.md) · [orchestrator](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-orchestrator.md) · [shell](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-shell.md) · [skills](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-skills.md) · [system](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/components/shesh-system.md)
-- **Desktop:** [Shesh desktop docs](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/desktop)
+The full map: **[docs/INDEX.md](docs/INDEX.md)** (generated, CI-checked).
+
+- **Start here:** [TODO.md](TODO.md) — master roadmap · [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md)
+- **Security:** [SECURITY.md](SECURITY.md) · [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) · [docs/RECOVERY.md](docs/RECOVERY.md)
+- **Policies:** [docs/policies/](docs/policies) — dependency, documentation, janitor-TODO, fork-gardening
+- **Architecture:** [Agentic Body](docs/architecture/AGENTIC_BODY.md) · [Repo topology](docs/architecture/REPO_TOPOLOGY.md) · [Languages](docs/architecture/LANGUAGE_POLICY.md) · [Multi-agent](docs/architecture/MULTI_AGENT.md) · [Dependency graph](docs/architecture/DEPENDENCY_GRAPH.md) (generated)
+- **Platform:** [Containers/uv](docs/CONTAINERS_AND_VENV.md) · [Linux layout](docs/LINUX_LAYOUT.md) · [ACP & A2A](docs/ACP_A2A.md)
+- **Mind:** [Learning/memory](docs/LEARNING.md) · [Tooling catalog](docs/TOOLING_CATALOG.md) · [Style & performance](docs/STYLE_PERFORMANCE.md)
+- **Process:** [Gap analysis](docs/GAP_ANALYSIS.md) · [Swarm](docs/SWARM.md) · [Query log](docs/queries/QUERYLOG.md)
+- **Components:** [docs/components/](docs/components) — one page per component, generated cross-links
+- **Desktop:** [docs/desktop/](docs/desktop) — the canonical SHESH desktop set

@@ -49,6 +49,7 @@ upstream:
 
 linkcheck:
 	$(PY) tools/linkcheck.py docs
+	$(PY) tools/docs_index.py --check
 
 # Orchestrator-scale verification (network + a provisioned venv required):
 #   1. every sibling clone gets its origin remote back and is fetched

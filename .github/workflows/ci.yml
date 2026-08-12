@@ -46,6 +46,9 @@ jobs:
       - name: Link integrity (docs)
         run: python tools/linkcheck.py docs
 
+      - name: Documentation navigation (INDEX freshness + README root)
+        run: python tools/docs_index.py --check
+
       # Workflow linter (expression injection, stale actions, embedded
       # shellcheck). Version + tarball sha256 pinned — supply-chain hygiene
       # for a lint binary we download at gate time.
