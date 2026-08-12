@@ -36,6 +36,11 @@ jobs:
       - name: Silent-failure audit (self)
         run: python tools/silent_failures.py .
 
+      # Markdown relative links rot silently during docs restructures —
+      # this gate found 21 broken links the day it was adopted.
+      - name: Link integrity (docs)
+        run: python tools/linkcheck.py docs
+
       # Workflow linter (expression injection, stale actions, embedded
       # shellcheck). Version + tarball sha256 pinned — supply-chain hygiene
       # for a lint binary we download at gate time.
