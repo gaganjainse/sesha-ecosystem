@@ -10,6 +10,42 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Make all sites live on Vercel, implement every feature, fix every bug" (2026-08-13)
+
+**Answer:** Deployments are split honestly by platform fit; repo-side configs committed + pushed.
+
+**Deployment prep (all pushed):**
+- GameVault → Vercel: vercel.json added (Next.js auto-detect; needs only 2 Supabase
+  env vars). Verified build green locally + CI. gamevault.vercel.app returns 402
+  (foreign project or Vercel plan limit) — documented; use a different subdomain.
+- FWRS → Vercel: api/index.py + vercel.json (stateless Flask over committed CSVs,
+  no DB). Smoke-tested locally: GET/POST 200 with LP results.
+- AIM: Vercel site is a demo page by design (api/index.py → demo.html). Full app
+  gets render.yaml (production Dockerfile: gunicorn, non-root, healthcheck) + MySQL
+  steps + schema.sql load note.
+- grievance-portal: Dockerfile rewritten (was php:8.3-cli with no COPY/CMD — broken);
+  now demo-grade artisan-serve + migrate --force + render.yaml.
+- rag-service: render.yaml (Dockerfile/uvicorn) + ChromaDB persistence caveat.
+- vyakrti-ide: already live; documented that the Rust backend can't run on Vercel.
+- docs/DEPLOYMENTS.md: platform matrix, per-repo steps, env var reference (never commit).
+
+**Bug fixes:**
+- AIM CI: removed `bandit --exit-zero` + dead `safety || true` (safety now requires
+  a login). New gate: bandit with bandit.yaml (documented exclusions), pip-audit
+  (0 vulns), flake8, py_compile, pytest 101. **Correction to prior note:** AIM was
+  NOT 18 high-severity bandit issues — 18 high-CONFIDENCE; severity is 1 HIGH (SHA1,
+  false positive per HIBP k-anonymity spec) + 9 medium (B608 parameterized-query
+  false positives, B104 bind 0.0.0.0, B108, B310, B704) — all documented.
+- Vyakrti README: test count 123 → 122 (verified).
+
+**Not done (needs owner, honest):** the actual Vercel/Render deploy clicks, DB
+provisioning, and secret values are account-side (documented in DEPLOYMENTS.md).
+ePustakalay still an empty placeholder — build it or archive it.
+
+**Docs:** docs/DEPLOYMENTS.md, this file.
+
 ## Q: "Reset timer, I'll rotate the PAT; clear dependabot + build boilerplate-as-code" (2026-08-13)
 
 **Answer:** Both delivered, all verified on origin/main.
