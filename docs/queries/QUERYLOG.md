@@ -16,6 +16,27 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Implement the federation consolidation — fold the small repos" (2026-08-13)
+
+**Answer:** Done. Created `shesh-core` monorepo (16 folded packages + wave config,
+175/175 tests, ruff clean, 15 unchanged console-script names). ADR-0019 records
+the decision. Kept as services: shesh-memory (33 tests), shesh-orchestrator (28),
+shesh-harness (23), shesh-phone, shesh-omniroute — all re-tested against
+`shesh-core>=0.1` (imports unchanged; only the dep declaration moved).
+
+**Ecosystem wiring:** manifest's 16 folded components' `repo` → gaganjainse/shesh-core
+(organs/`provides`/channels unchanged); locks regenerated (stable 1 / canary 19 /
+devel 23); fetch-components.sh clones each repo once + symlinks shared components;
+install.sh installs unique repos only (pipx would otherwise reinstall core 16×);
+generate_mcp_config: shesh-files → None (it never had a console script — latent bug).
+
+**Archived (17):** shesh-acp, audit, backup, brain, calendar, containers, ebpf,
+files, mcp-bundle, media, messaging, mind, secrets, shell, skills, system, wave.
+
+**Docs:** ADR-0019, REPO_TOPOLOGY §②, NEXT_SESSION_PROMPT, SESSION_HANDOFF §0.1, this file.
+
 ## Q: "Complete P0/P1/P2 — everything, master->main, no loose ends; CachyOS + end-4/dots-hyprland" (2026-08-13)
 
 **Answer:** Everything executed; verified on origin/main unless noted.

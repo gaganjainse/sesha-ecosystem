@@ -38,18 +38,23 @@
 - These are the "raw material" intake. Nothing here runs on your machine directly.
 
 ### ② Component repos (`shesh-<organ>`)
-- One repository per body organ, e.g.:
-  - `shesh-brain` — packaging/patches around SheshAOS kernel for desktop.
-  - `shesh-mind` — model routing + specialist prompts (from SheshOS).
-  - `shesh-voice` — Newelle fork/config + STT/TTS + wake word.
-  - `shesh-files` — smart-organizer v2 (Rust watcher + Python classifier).
-  - `shesh-shell` — Hyprland/MCP control (hyprland-control MCP).
-  - `shesh-system` — power/GPU/MUX/backup/maintenance MCP.
-  - `shesh-memory` — rag-service wrapper (sensory/long-term memory).
-  - `shesh-phone` — ADB Android harness.
-  - `shesh-audit` — the append-only event log/policy (SheshAOS bridge).
-- Each has its own tests, its own semver tag, and a `manifest.toml` declaring dependencies.
-- Components are independently usable (you can run `shesh-files` without the voice).
+- **Federation consolidation (2026-08-13, ADR-0016):** the 16 sub-~460-LOC modules
+  that were one repo per organ got folded into **`shesh-core`** — one repo shipping
+  all 16 packages with unchanged console-script names (175 tests, one pyproject,
+  one ruff config, one CI). Federation stays right for *independently versioned
+  services*, but a 150-line module is not a service — it's a file.
+- Remaining component repos (real services):
+  - `shesh-core` — audit (policy/event log), secrets, brain, mind, shell, system,
+    files, media, messaging, calendar, backup, containers, eBPF, skills,
+    mcp-bundle, acp, wave config.
+  - `shesh-memory` — hierarchical memory + habit learner (rag-service wrapper).
+  - `shesh-orchestrator` — multi-agent RLM runtime (coordinator/planner/coder/…).
+  - `shesh-harness` — skill marketplace primitives.
+  - `shesh-phone` — ADB Android harness (vision → tap).
+  - `shesh-omniroute` — free-model AI gateway wrapper (MIT).
+  - `shesh-voice` — Newelle fork (STT/TTS/wake word).
+  - `shesh-desktop` — end-4 dots fork + Quickshell overlay + device profile.
+- Each has its own tests; components are independently usable.
 
 ### ③ Ecosystem integration (this repo, `shesh-ecosystem`)
 - The **workspace manifest** pins every component to a specific tag + the upstream fork SHA.

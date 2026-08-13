@@ -14,6 +14,14 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
+## 0.1 Federation consolidation (2026-08-13) — ADR-0019
+16 sub-service shesh-* modules folded into the new `shesh-core` monorepo
+(16 packages + 15 unchanged console-script names, 175 tests). Kept as services:
+shesh-memory, shesh-orchestrator, shesh-harness, shesh-phone, shesh-omniroute
+(now depend on `shesh-core>=0.1`). 17 folded repos archived. Manifest organs
+unchanged (23); their repo field points at shesh-core; locks regenerated
+(stable 1 / canary 19 / devel 23). fetch-components.sh clones once + symlinks.
+
 ## 0. Current position — 2026-08-13 (fleet-wide rolling dependency update)
 
 **Rolling deps (one job, latest everywhere):** SheshAOS `ab27cd8` (8 crates to
