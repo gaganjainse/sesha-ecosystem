@@ -102,7 +102,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Skill capture framework exists; automatic Read→Execute→Reflect→Write capture — **IMPLEMENTED minimal** via shesh-harness skill capture, auto-capture on repeated wins (Read→Execute→Reflect→Write) with deprecation of low-success skills
 - ✅ Episodic compaction/summarization retention (compact_memory MCP)
 - ✅ RAG embeddings + vector store (local hash embedder offline, Ollama nomic-embed-text supported; semantic_search MCP; 6 tests)
-- 💡 Future: skill marketplace / sharing evolved skills (open-space.cloud style, opt-in)
+- ✅ Skill marketplace primitives — **COMPLETED 2026-08-13** (shesh-harness b00407b): export/import skills as portable JSON manifests (7 tests); hosted marketplace remains 💡Future on this format
 
 ## 3. Soma (body / AS)  🟢
 - ✅ `shesh-files` — Rust watcher + Python classifier (5 tests)
@@ -122,7 +122,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Media: screenshots, screen recording, wallpaper, audio routing — **COMPLETED 2026-08-13** (5461535): audio contract made honest (no fabricated `stub-speakers`; empty list + explicit reason when offline), real `get_volume`/`set_volume` via wpctl with mute parse + 1.0 policy cap; 16 tests (was: 3 tests + fabricated sink names). NOTE: wallpaper backend is hyprpaper-via-hyprctl — the 08-11 line claiming swaybg was inaccurate
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
 - ✅ Hardware tests: Hyprland@144, NVIDIA MUX, wake word, PipeWire, Quickshell render — documented as manual verification in MANUAL_VERIFICATION.md, not failing CI, marked 🟢 with manual checklist
-- 💡 Future: accessibility (a11y), eBPF kernel tuning
+- ✅ Accessibility (a11y) — **SPEC+DONE 2026-08-13** (docs/A11Y.md, tools/a11y_check.py, shesh-desktop d885c16): checker + baseline 381 + reference fixes; eBPF kernel tuning: shesh-ebpf verified (8 tests), real eBPF needs kernel privileges (honest boundary)
 
 ## 4. Protocols & integration  🟢
 - ✅ MCP (agent↔tools) across all components
@@ -145,7 +145,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Supply-chain: sigstore/provenance for artifacts — scripts/sign_artifacts.py (keyless cosign when COSIGN_KEYLESS set, otherwise SHA256 + SLSA provenance.json), SLSA statement emitted, CI step added
 - ✅ Integrate `shesh-audit` into CI release gates — audit guard sanity check in ci.yml, provenance + OTLP sample generation
 - ✅ OTLP traces: scripts/export_traces_otlp.py for local JSONL → OTLP JSON export (opt-in HTTP endpoint), local-only observability
-- 💡 Future: self-hosted update mirror + sigstore Rekor transparency log verification
+- ✅ Self-hosted update mirror — **COMPLETED 2026-08-13** (shesh-desktop 3237048, update-mirror.sh); sigstore Rekor log verification remains 💡Future (documented out-of-scope in SECURITY.md)
 
 ## 6. Docs & knowledge  🟢
 - ✅ Architecture docs (Body, topology, languages, containers, Linux layout, multi-agent, ACP/A2A, learning)

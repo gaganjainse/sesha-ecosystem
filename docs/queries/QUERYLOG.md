@@ -6,6 +6,53 @@ intent and prevents drift.
 
 ---
 
+## Q: "What are uses of these and efficiency ones can be done, if useful and can be done, then do it. Also Nexus is an old name, we changed it to Shesh so make proper changes" (2026-08-13)
+
+**Answer:** Two tracks.
+
+**Track 1 — Nexus → Shesh/Kernel rename (completed):**
+- SheshAOS: `nexus_ingest.rs` → `kernel_ingest.rs` (module + file, `363900b`);
+  fixed the broken `nexus_aos_architecture_brief.md` reference in
+  docs/architecture.md (file never existed → point at README/HANDOVER).
+- Ecosystem living docs swept (`006c3e7`): `nexus_bridge`→`kernel_bridge`,
+  `nexus-events.jsonl`→`kernel-events.jsonl`, Nexus bridge/event→kernel
+  bridge/event, NexusBridge→KernelBridge, NexusError→KernelError (current
+  identifiers), AGENTIC_BODY glossary now says "Kernel family (formerly
+  Nexus, renamed per SHESH canon)". AUDIT_AND_ROADMAP P1 flipped ✅.
+- Immutable history (QUERYLOG, ADRs, audits) untouched per policy.
+
+**Track 2 — the four pending items, uses + what was done:**
+- **eBPF/Aya** — use: low-overhead kernel telemetry (syscalls, exec, file
+  access) for performance sensing/security. Boundary honest: real eBPF needs
+  kernel privileges (BPF syscalls) — unavailable in any sandbox. Verified
+  shesh-ebpf healthy (8 tests, /proc-based backend) — that's the sandbox max.
+- **a11y** — use: screen-reader + keyboard-only usability of the shell.
+  Made it concrete: `tools/a11y_check.py` scans the 588-file Quickshell tree
+  for interactive elements without accessibleName (baseline 381), `docs/A11Y.md`
+  spec with checkpoints + fix pattern, reference fixes in killDialog + ConfigSwitch
+  (QtQuick Controls Button base → built-in accessibleName). Long tail is an
+  on-machine file-by-file pass (QML can't be rendered in a sandbox — mass
+  blind edits would risk the shell). (ecosystem 61b66a3, shesh-desktop d885c16)
+- **Skill marketplace** — use: share evolved skills across machines/users.
+  Built the honest primitive: shesh-harness `marketplace.py` — export skills
+  to a portable JSON manifest, validate, import additively (non-destructive,
+  overwrite opt-in, malformed reported). 7 tests. The hosted open-space.cloud
+  style marketplace remains Future on top of this format. (b00407b)
+- **RAG** — use: semantic retrieval beyond keyword FTS. Verified it's already
+  covered in-component: shesh-memory embeddings (local hash offline +
+  Ollama nomic-embed-text) + vectorstore + semantic_search MCP, 33 tests.
+  Roadmap P2 flipped ✅; rag-service stays an optional separate repo.
+- **Self-hosted update mirror** — use: CachyOS rolling resilience (updates
+  work when upstream is slow/down; repeated downloads cached = efficiency).
+  Built `tools/maintenance/update-mirror.sh`: pacman -Sw --cachedir (or
+  MIRROR_RSYNC) → repo-add local DB → prune keeping KEEP_VERSIONS per
+  package; fully dry-run safe; shellcheck clean; prune policy verified with
+  fake archives. (shesh-desktop 3237048)
+
+**Docs:** [docs/A11Y.md](../A11Y.md), [docs/AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
+
+---
+
 ## Q: "So every P0 and P1 is completed? Add what about P2" (2026-08-13)
 
 **Answer:** Honest audit first (verified against repos, not assumed), then

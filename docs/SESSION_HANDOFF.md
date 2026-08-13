@@ -14,15 +14,28 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 (P0/P1/P2 roadmap: feasible items all done)
+## 0. Current position — 2026-08-13 (Nexus→Shesh rename + P2 items done)
 
-Roadmap completion (this turn): every sandbox-feasible P1/P2 item is done —
+**Nexus → Shesh/Kernel rename (complete):** SheshAOS `nexus_ingest` →
+`kernel_ingest` (`363900b`); ecosystem living docs swept (`006c3e7`) —
+kernel_bridge/kernel-events.jsonl/KernelBridge/KernelError everywhere;
+AUDIT_AND_ROADMAP P1 flipped ✅; immutable history untouched.
+
+**Pending-item completion (this turn):** a11y spec + checker + reference
+fixes (ecosystem `61b66a3`, shesh-desktop `d885c16` — 381-element baseline,
+on-machine long tail); skill marketplace primitives (shesh-harness
+`b00407b` — export/import JSON manifests, 7 tests); RAG confirmed covered
+in-component (shesh-memory semantic_search, 33 tests); self-hosted update
+mirror (shesh-desktop `3237048` — update-mirror.sh, dry-run safe);
+eBPF boundary honest + shesh-ebpf verified (8 tests).
+
+Roadmap completion (earlier): every sandbox-feasible P1/P2 item is done —
 shesh-phone vision→tap loop (`78d120e`), ambient data-aware proactivity
 (`82b3173`), job-mode profile P2 (`827a851`), kernel bridge Rust ingest
-(SheshAOS `83e3358`+`1ddf28b`), email/IMAP setup (shesh-calendar `4e4e0cc`).
-All CI green. Remaining honest: P0 hardware validation (needs the MSI
-machine), eBPF/Aya (needs kernel privs), a11y + marketplace + mirror
-(roadmap 💡future), RAG (optional separate repo). See QUERYLOG 2026-08-13.
+(SheshAOS `83e3358`+`1ddf28b`+`363900b`), email/IMAP setup (shesh-calendar
+`4e4e0cc`). Remaining honest: P0 hardware validation (needs the MSI
+machine), real eBPF (needs kernel privs), a11y long tail (on-machine QML
+pass), hosted marketplace + Rekor (💡Future). See QUERYLOG 2026-08-13.
 
 Latest closures (new session, continued):
 - **Canary P0 e2e — GREEN on arch/fedora/ubuntu** (`4b0af81` → `f3b4a3c`):
