@@ -31,12 +31,17 @@ jobs:
 
       - name: Lint shell scripts (bash -n + shellcheck)
         run: |
-          sudo apt-get install -y -qq shellcheck
+          # shellcheck v0.11.0 pinned with sha256 (same hygiene as actionlint):
+          # apt's 0.10.x lags the rolling mandate; verified 0.11.0 clean here.
+          curl -sfL -o /tmp/shellcheck.txz \
+            https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz
+          echo "8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  /tmp/shellcheck.txz" | sha256sum -c -
+          tar -xJf /tmp/shellcheck.txz -C /tmp
           set -e
           mapfile -t SHELLS < <(git ls-files '*.sh' '*.bash')
           echo "shell files: ${SHELLS[*]}"
           for f in "${SHELLS[@]}"; do bash -n "$f"; done
-          shellcheck "${SHELLS[@]}"
+          /tmp/shellcheck-v0.11.0/shellcheck "${SHELLS[@]}"
 
       - name: Silent-failure audit (self)
         run: python tools/silent_failures.py .
