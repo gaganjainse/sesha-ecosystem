@@ -25,3 +25,8 @@ uv sync --extra dev
 uv run pytest -q        # 8 offline tests (restic is faked)
 uv run ruff check .
 ```
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

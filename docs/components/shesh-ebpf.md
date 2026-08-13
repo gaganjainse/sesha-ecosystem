@@ -27,3 +27,8 @@ cd ebpf-rs
 cargo build --release
 # Aya program: ebpf/src/main.rs — trace execve with BPF_MAP_TYPE_PERF_EVENT_ARRAY
 ```
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

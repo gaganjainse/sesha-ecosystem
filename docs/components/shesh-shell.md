@@ -25,3 +25,8 @@ uv run shesh-shell-mcp     # runs the stdio MCP server
 ```
 
 All Hyprland interactions go through `hyprctl`; tests mock subprocess so they need no display.
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

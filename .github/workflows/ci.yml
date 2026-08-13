@@ -231,3 +231,26 @@ jobs:
               echo "  DOCS_REPO=<shesh-docs checkout> bash scripts/sync-docs.sh && push"
               exit 1
             }
+
+  component-docs:
+    name: component README mirrors are fresh
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Shallow-clone component checkouts (README projection source)
+        run: |
+          mkdir -p "$HOME/src"
+          python tools/depgraph.py --list-repos | while read -r repo; do
+            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+          done
+
+      - name: docs/components matches component READMEs
+        run: |
+          python tools/sync_component_docs.py --check --src-root "$HOME/src" || {
+            echo "docs/components/ is stale — run:"
+            echo "  python tools/sync_component_docs.py && commit + push"
+            exit 1
+          }

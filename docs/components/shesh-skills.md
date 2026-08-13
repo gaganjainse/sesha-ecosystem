@@ -43,3 +43,8 @@ uv run shesh-skills-mcp
 - **Local-first:** web uses the keyless DuckDuckGo HTML endpoint; no cloud keys.
 - **Testable:** all side effects go through `runner.run`, monkeypatched in tests.
 - **Safe:** destructive actions require confirmation (see the safety-governance skill).
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

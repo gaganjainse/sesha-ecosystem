@@ -18,3 +18,8 @@ All behind Guard — protected paths denied.
 ```bash
 uv sync && uv run pytest
 ```
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

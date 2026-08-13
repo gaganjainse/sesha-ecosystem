@@ -40,3 +40,8 @@ sm-watcher | python -m classifier | shesh-files-apply   # apply layer lives in s
 ```
 
 Designed to run on an RTX 4050 / 6 GB laptop; the LLM is optional (`SHESH_NO_LLM=1`).
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

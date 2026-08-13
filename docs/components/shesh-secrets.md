@@ -15,3 +15,8 @@ Resolve secrets from **env**, **gopass**, **KeePassXC** (secret-service), or
 ```bash
 uv run pytest -q && uv run ruff check . && uv run shesh-secrets-mcp
 ```
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).

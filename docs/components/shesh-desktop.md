@@ -114,18 +114,23 @@ shesh-desktop/
 
 ## Documentation
 
-- [Setup Guide](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/SETUP.md)
-- [Smart Organizer](https://github.com/gaganjainse/shesh-desktop/blob/main/tools/smart-organizer/README.md)
-- [MUX Switcher](https://github.com/gaganjainse/shesh-desktop/blob/main/tools/mux-switcher/README.md)
-- [Directory Organization](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/DIRECTORY-ORGANIZATION.md)
+- [Setup Guide](docs/SETUP.md)
+- [Smart Organizer](tools/smart-organizer/README.md)
+- [MUX Switcher](tools/mux-switcher/README.md)
+- [Directory Organization](docs/DIRECTORY-ORGANIZATION.md)
 
 ## License
 
 GPL-3.0 — same as upstream [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland).
-See [`LICENSE`](https://github.com/gaganjainse/shesh-desktop/blob/main/LICENSE). Third-party components retain their own licenses; see
-[`docs/SHESH/10_LICENSES_AND_SOURCES.md`](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/SHESH/10_LICENSES_AND_SOURCES.md).
+See [`LICENSE`](LICENSE). Third-party components retain their own licenses; see
+[`docs/SHESH/10_LICENSES_AND_SOURCES.md`](docs/SHESH/10_LICENSES_AND_SOURCES.md).
 
 ## Acknowledgments
 
 - [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) - Base dotfiles
 - [illogical-impulse](https://ii.clsty.link) - Original design
+
+## Security
+
+Security posture and vulnerability reporting: [canonical ecosystem security
+policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).
