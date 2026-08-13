@@ -22,6 +22,14 @@ shesh-memory, shesh-orchestrator, shesh-harness, shesh-phone, shesh-omniroute
 unchanged (23); their repo field points at shesh-core; locks regenerated
 (stable 1 / canary 19 / devel 23). fetch-components.sh clones once + symlinks.
 
+## 0.2 One-link install hardened (2026-08-13) — before user's PC reset
+`bash <(curl -s .../shesh-desktop/main/tools/bootstrap.sh)` now installs the WHOLE
+stack (desktop + device profile + shesh-core MCP + policy + configs). Fixed:
+setup exec bit (100755), bootstrap flag passthrough (setup ignores unknown flags —
+bootstrap owns --device/--skip-* now), empty mcp_servers dir, install-shesh-stack
+canary default + shared venv + correct units. Guard policy is config-driven via
+~/.config/shesh/policy.json (Settings → Shesh → Governance).
+
 ## 0. Current position — 2026-08-13 (fleet-wide rolling dependency update)
 
 **Rolling deps (one job, latest everywhere):** SheshAOS `ab27cd8` (8 crates to

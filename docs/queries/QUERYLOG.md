@@ -20,6 +20,48 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Style same? Everything in settings? Policy section? Foolproof one-link install before PC reset?" (2026-08-13)
+
+**Answer:** Deep install-chain audit found and fixed 4 real install-breakers + added the policy section.
+
+**CRITICAL BUGS (would have broken a fresh install):**
+1. `setup` was committed 100644 → `./setup install` = Permission denied on every
+   fresh clone. Now 100755 (with diagnose/test.sh). Verified on origin.
+2. bootstrap passed `--device/--skip-ai/--skip-nvidia/--skip-zram/--skip-power/
+   --dry-run` to `./setup`, but setup's options.sh SILENTLY IGNORES unknown flags
+   (`*) shift`). Device profile never applied; `--dry-run` would have performed a
+   REAL install. bootstrap now runs `./setup install --force` (setup's actual
+   non-interactive flag) and handles --device/--skip-* itself.
+3. setup's MCP-server loop iterated `tools/shesh/mcp_servers/*.py` — a directory
+   that does not exist → 0 MCP servers installed, and nothing ever wrote
+   ~/.config/shesh/mcp/servers.json. The bootstrap now chains the ecosystem
+   installer (shesh-core + services + MCP config + units) after setup.
+4. install-shesh-stack.sh: CHANNEL defaulted to stable (enables 1 server), used
+   `uv pip install --system` (needs root), wrong unit names. Fixed: canary
+   default, shared ~/.local/state/shesh/.venv, generic units with absolute paths.
+
+**One-link install (the acceptance test) — NOW WORKS:**
+`bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)`
+→ preflight → pacman → clone desktop (submodules) → `setup install --force`
+→ apply-profile (sysctl/udev/144Hz) → install-shesh-stack (MCP+config+units)
+→ verify. `--dry-run` print-only (verified). setup gained SKIP_NVIDIA_SETUP/
+SKIP_AI_STACK/SKIP_POWER_SETUP env guards. tools/apply-profile.sh NEW.
+
+**Policy section (settings page):** shesh-audit policy was code-hardcoded; now
+`~/.config/shesh/policy.json` ({default_verdict, protected_paths}) via load_policy/
+save_policy, read by server + Guard (shesh-core @ 86e4efb). Settings → Shesh →
+Governance now has verdict selector + protect-secrets toggle; Shesh.qml writes
+the file + restarts shesh-audit-mcp. 34/34 audit, 180/180 core, ruff clean.
+
+**Docs:** README 21→23 components; portfolio (Astro) + resume 22→23 + PDF regen;
+GETTING_STARTED flags + no-code settings summary; shesh-docs (mdBook) regen.
+Style unchanged — all new UI uses the existing ConfigSwitch/StyledComboBox/
+ContentSection widgets the page already used.
+
+**Docs:** this file; SESSION_HANDOFF §0.2.
+
 ## Q: "Did you integrate with the riced dots so I can change settings without coding?" (2026-08-13)
 
 **Answer:** The Shesh settings page EXISTED but was broken; fixed + extended.
