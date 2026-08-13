@@ -13,17 +13,35 @@ PIP="python3 -m pip install --quiet --break-system-packages"
 fail() { echo "E2E FAIL: $*" >&2; exit 1; }
 
 echo "==> Installing all components"
-for comp in "$HERE"/../components/shesh-*/; do
+# Internal deps first (other components import these as `pip` deps):
+# shesh-secrets, shesh-audit, shesh-mind. Everything else alphabetically.
+BASE_ORDER="shesh-secrets shesh-audit shesh-mind"
+install_one() {
+  local comp="$1" name
   name=$(basename "$comp")
+  if [ ! -f "$comp/pyproject.toml" ] && [ ! -f "$comp/setup.py" ]; then
+    echo "   - $name (non-Python, skipped)"
+    return 0
+  fi
   echo "   - $name"
   (cd "$comp" && $PIP -e . >/dev/null 2>&1) || fail "install $name"
+}
+for base in $BASE_ORDER; do
+  [ -d "$HERE/../components/$base" ] && install_one "$HERE/../components/$base"
+done
+for comp in "$HERE"/../components/shesh-*/; do
+  name=$(basename "$comp")
+  case " $BASE_ORDER " in
+    *" $name "*) continue ;;
+  esac
+  install_one "$comp"
 done
 
 echo "==> Import check: every server module imports cleanly"
 python3 - <<'PY'
 import importlib
 mods = [
- "shesh_audit.server", "shesh_audit.gate", "shesh_audit.nexus_bridge",
+ "shesh_audit.server", "shesh_audit.gate", "shesh_audit.kernel_bridge",
  "shesh_system.server", "shesh_shell.server", "classifier",  # shesh-files (flat module)
  "shesh_skills.server", "shesh_memory.server", "shesh_harness.server",
  "shesh_mind.server", "shesh_orchestrator.server", "shesh_orchestrator.llm",

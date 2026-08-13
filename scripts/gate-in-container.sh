@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # scripts/gate-in-container.sh
 # Runs the offline quality gates inside an Arch (or other distro) container.
-# Used by the canary gate. Assumes the repo is mounted at /src (ro).
+# Used by the canary gate. Locates the repo root from the script path so it
+# works both when mounted at /src (local container) and as a plain CI
+# checkout.
 set -euo pipefail
 
-cd /src
+cd "$(dirname "$0")/.."
 
 if [ -r /etc/os-release ]; then
   # shellcheck source=/dev/null
