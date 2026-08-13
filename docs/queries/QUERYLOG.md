@@ -6,6 +6,33 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Clone every repo, deep study, brutal audit; then give extensive suggestions" (2026-08-13)
+
+**Answer:** Cloned 58/60 repos, file-level study of flagships, hash-level duplication
+analysis, live API verification. Delivered `shesh-fleet-audit.md` (findings + scorecard +
+reference comparison + P0/P1/P2 roadmap). Then executed the approved P0+P1 sweep.
+
+**Executed & pushed this session:**
+- Profile README rewritten to current reality (SheshAOS 877+/9 crates + CLI; dropped
+  NexusAOS/SeshaOS/nexus-kernel; added shesh-ecosystem/omniroute/ClinicLedger) — `gaganjainse` @ e202e2e.
+- Facts gate extended to all 8 projects (`resume-facts.json` projects map); ecosystem 30→63
+  (pytest --collect-only), Vyakrti 123→122; PDF regenerated — portfolio @ 07b5d4a + 49c4e4b.
+- Licenses: +28 LICENSE files; components.toml reconciled (audit/brain/mind MIT→GPL-3.0-or-later;
+  omniroute stays MIT) — shesh-ecosystem @ 0c4866e.
+- SECURITY.md ×11 portfolio repos. Kotlin trio consolidated (VillageClinicLedger +
+  ClinicLedger-Template archived); .artifacts removed from ClinicLedger.
+
+**Key audit findings (top):** encrypted PAT + password example committed to public
+`shesh-workspace/secrets/` (P0 — awaits owner rotation + new credential flow before purge);
+GameVault 72 open dependabot alerts (1 critical/35 high, Next.js 13 EOL); Vyakrti borrow
+checker is wired-in-but-simplified (no lifetimes/scope release) and jit_compiler is dead code
+(README itself is honest — no overclaim); boilerplate duplication (25× SECURITY.md, 11× ci.yml);
+license contradiction resolved.
+
+**Docs:** this file; audit at `shesh-fleet-audit.md` (workspace, pending repo placement).
+
 ## Q: "Benchmarks … do we need these, if yes then create them everywhere" (2026-08-13)
 
 **Answer:** Honest classification first — benchmarks only where there's a measurable hot path; no fake stubs anywhere. Created real benchmarks in **6 more repos** (8 total incl. pre-existing SheshAOS + shesha-kernel), documented reasons for the rest in `docs/BENCHMARKS.md`.
