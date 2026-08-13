@@ -69,6 +69,21 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 **Handoff metrics (regenerated at hop):**
 - Last state-refresh 2026-08-13 — run `python tools/session_guard.py --status` for live numbers
 
+**CI closure status (2026-08-13, new session):**
+- ✅ shesh-desktop lock-refresh GREEN — `9f46a15` (libgirepository-2.0-dev on
+  noble) → bot committed fresh lock `668e07fc`; stale desktop lock cleared.
+- ✅ portfolio Auto-Update GREEN — `cd30013` (prettier-normalize after
+  regeneration) + `c7673c2` (generator updated for the AI-OS repo rename; 8 curated,
+  22/22 tests).
+- Fleet: 173 GREEN / 0 PENDING / 16 RED — 13 are dependabot-PR/stale-SHA
+  runs, shesh-workspace janitor red = removed workflow (stale run), genuine
+  main reds only on out-of-scope repos (AIM tests, ClinicLedger Gradle) —
+  see QUERYLOG 2026-08-13 entry.
+- Fresh-session gotchas: `.git/config` (origin) + `~/.git-credentials` are
+  excluded from Arena snapshots → re-add remote + credential helper +
+  identity; reinstall cryptography/ruff/node24. Repo layout: this repo at
+  /home/user root, components in /home/user/src.
+
 **Swarm parallel:**
 - docs/SWARM.md — GitHub as bus via swarm/ queue/claims/heartbeats
 - Orchestrator: python tools/swarm/orchestrator.py --seed TODO.md --monitor (also supports --seed-issues for GitHub Issues)

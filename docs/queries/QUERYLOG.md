@@ -6,8 +6,19 @@ intent and prevents drift.
 
 ---
 
+## Q: "This was my conversation after the session compacted: …" — session-shift handoff; previous session's continuation planned CI-closure verification + handoff docs + new-session prompt (2026-08-13)
+
+**Answer (new session, executed):** The previous session (Orchestrator) had been asked to "shift to a completely new session right now. Prepare everything needed. And find me the prompt to give it." Its post-compaction continuation planned: verify the two unknown CI states, close quick wins, refresh SESSION_HANDOFF/NEXT_SESSION_PROMPT, log QUERYLOG, deliver the prompt. This tab executed that plan:
+- **shesh-desktop lock-refresh — CLOSED GREEN.** Handoff claimed `789e282` (libgirepository fix) pushed, but live main tip was `4959fa8` — fix never landed (parallel-session race). Re-applied as `9f46a15` (libgirepository-2.0-dev + gobject-introspection + libglib2.0-dev, verified against packages.ubuntu.com noble), dispatched → run 31663311293 **success**, bot committed fresh lock `668e07fc`. Handoff's run ID 31653522653 did not exist (404).
+- **portfolio Auto-Update — CLOSED GREEN.** Cause confirmed from log 31653325256: `prettier --check` failed on regenerated `src/data/projects.ts` + `public/projects.json`. Fixed with prettier-normalize step (`cd30013`), then a second real bug surfaced (run 31663341440): rename SheshaAOS→SeshAOS broke the generator's PRIORITY_ORDER lookup → only 7 curated → test floor ≥8 failed ("expected 7 to be greater than or equal to 8"). Fixed `auto-update-projects.mjs` (rename in PRIORITY_ORDER/ACCURATE_TESTS/TAG_MAP/bullets + DOCS_URLS for the legacy seshaos page slug) → 8 curated, 22/22 tests local; pushed `c7673c2` → run 31663621988 **success** + CI 31663621982 success. Local build's puppeteer failure is the known sandbox-only libnspr4 limitation (ubuntu-latest unaffected).
+- **Fleet re-poll (60 repos, latest run per workflow):** 173 GREEN, 0 PENDING, 16 RED — every red categorized: 13 are dependabot-PR/stale-SHA runs (pre-fix SHAs or PR branches: portfolio path-to-regexp pre-892b2f2, shesh-docs/she-sh-wave pip pre-fix, SheshAOS PR Checks 40477b7 = closed dependabot PR explained in prior session, Vyakrti/grievance-portal/pipecat/vyakrti-ide/waveterm dependabot PRs); shesh-workspace janitor red = stale run of a workflow **removed** at tip (20ec93e tools/ removal) — no longer exists; genuine main-branch reds are out-of-scope non-shesh projects: AIM (test fails: `app.py` lacks `fetch_settings_map`), ClinicLedger/ClinicLedger-Template (Gradle cache setup fail) — reported, not silently expanded into scope.
+- **Environment quirks recorded:** `.git/config` (origin remote) and `~/.git-credentials` are excluded from Arena snapshots → every fresh session must re-add remote + credential helper + identity; pip tools (cryptography/ruff) and node24 must be reinstalled. Session guard's `cd /home/user` hardcodes are fine with repo at /home/user root.
+- **State:** ecosystem main `7670f90`; desktop `668e07fc`; portfolio `c7673c2`; docs handoff refreshed in this commit.
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [docs/NEXT_SESSION_PROMPT.md](../NEXT_SESSION_PROMPT.md), this file.
 
 ---
+
 
 ## Q: "Don't leave it to anybody else or the future, complete them all properly except for the libghossty as that is not in our hands." (2026-08-13)
 

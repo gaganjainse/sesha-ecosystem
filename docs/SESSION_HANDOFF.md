@@ -14,9 +14,42 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 evening (security + rolling deps + docs renovation session)
+## 0. Current position — 2026-08-13 (CI closure: both known reds closed green)
 
-Three user mandates landed this session, all pushed and gate-verified:
+CI closure completed by the new session (2026-08-13):
+
+- **shesh-desktop lock-refresh — GREEN** (`9f46a15`): the `789e282`
+  girepository fix from the prior session never landed on main (parallel
+  race). Re-applied with the verified noble package
+  (`libgirepository-2.0-dev` + `gobject-introspection` + `libglib2.0-dev`),
+  dispatched → success → bot committed fresh lock `668e07fc`. The stale
+  desktop lock that was blocking dependabot security runs is gone.
+- **portfolio Auto-Update — GREEN** (`cd30013` + `c7673c2`): prettier
+  normalize step after regeneration (root cause of run 31653325256), then
+  the AI-OS repo rename (→ SeshAOS) broke the generator's priority lookup
+  (only 7 curated → ≥8 test failed). Generator renamed; 8 curated,
+  22/22 tests, run 31663621988 + CI green.
+- **Fleet poll (60 repos):** 173 GREEN / 0 PENDING / 16 RED. 13 reds are
+  dependabot-PR or stale-SHA runs (pre-fix SHAs, see QUERYLOG entry);
+  shesh-workspace janitor red is a stale run of a workflow removed at tip
+  (20ec93e); genuinely-red main branches exist only on out-of-scope
+  non-shesh repos (AIM tests, ClinicLedger Gradle cache) — reported,
+  not silently adopted.
+- **Known-good tips:** ecosystem `7670f90`, shesh-docs `82f62e2`,
+  shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
+  shesh-voice `8a6fd42`, shesh-wave `987da7b`.
+- **Fresh-session gotchas (Arena snapshot exclusions):** `.git/config`
+  (origin remote) and `~/.git-credentials` are not persisted → re-add
+  remote, credential helper, identity each session; reinstall
+  cryptography/ruff/node24.
+
+Remaining honest leftovers (owner-side / sanctioned): PAT rotation
+(transcript exposure), libghostty park, optional cross-repo docs auto-push
+secret — see MANUAL_VERIFICATION §13 and TODO.md.
+
+### Prior session (2026-08-13): security + rolling deps + docs renovation — record
+
+Three user mandates landed that session, all pushed and gate-verified:
 
 - **Security / attack resistance / recovery (research-backed, cited in-repo):**
   push protection + secret scanning on all 53 active repos (API-verified);
