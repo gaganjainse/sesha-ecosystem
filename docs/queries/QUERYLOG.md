@@ -6,6 +6,21 @@ intent and prevents drift.
 
 ---
 
+## Q: "Add CI workflow and tests and benchmarks and dependabots and GitHub actions to each and every repo … even the archives … no red in any repo … dotfiles linking … review the forks' mainstream updates" (2026-08-13)
+
+**Answer:** Full account-wide sweep (60 repos incl. 7 archived) + portfolio Vercel fix + fork upstream review.
+
+**Account sweep:** CI added to all 10 gap repos + all 7 archived (unarchive → configure → re-archive). New CIs immediately found 4 real bugs, all fixed root-cause: Hyprland-Dots emoji data misnamed `.sh` (split into RofiEmoji-data.txt, `45dfb48`); grievance-portal dead vite scripts (no frontend exists — removed) + Laravel bootstrap/cache dirs + composer-based CI (`baf4906`, `c92e353`); VillageClinicLedger invalid setup-java SHA (fixed to real v5 SHA). Dependabot configs added everywhere missing (incl. archives). Benchmarks: SheshAOS + shesha-kernel bench workflows green; other repos have no bench infra (honest — no stubs). **No-red:** dependabot `ignore` directives (documented) added for genuinely upstream-blocked advisories (grievance-portal guzzle/commonmark; waveterm sharp/serialize-javascript/uuid/image-size — Docusaurus chain + no-patch). OmniRoute secret-dependent upstream workflows disabled (fork has no secrets: Deploy VPS/Docker Hub/Wiki/Scorecard/Release-Green).
+
+**Portfolio Vercel fix (`25d0331`+`ef9a45d`):** Vercel build ran generate:all → PIL missing. Split `build` (astro only, no python) vs `build:full` (regenerates, CI path with pillow). Assets are committed + maintained by scheduled auto-update.
+
+**Dotfiles:** verified shesh-desktop `dots/` intact on main (a11y fixes present); install mechanism = `sdata/subcmd-install/3.files.sh` rsync-copy `dots/.config` → `$XDG_CONFIG_HOME` with backup + installed-file tracking + uninstall — clean and documented.
+
+**Fork upstream review (`docs/FORK_REVIEW.md`):** all 17 forks surveyed vs upstream. Adopted: **ollama** (17 behind → merged, incl. security fix #15504 digest-collision), **OmniRoute** (139 behind → fast-forward, latest fixes), **prime-agent** (11 behind → fast-forward). Deliberate divergence documented: pipecat (89 behind — our 6 ahead = security fixes), shesh-voice (19 behind — libghostty-parked). khoj/leon/browser-use minor or mid-refactor; openWakeWord/servers/waveterm/Hyprland-Dots current.
+
+**Docs:** [docs/FORK_REVIEW.md](../FORK_REVIEW.md), [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), this file.
+
+---
 ## Q: "Have you enabled branch protection for every repo … rulesets … update the meta data (About) … also you said 13 repos did not have dependabots but made only 11 new …" (2026-08-13)
 
 **Answer:** Yes — full GitHub settings + metadata sweep across the fleet, plus the dependabot gap closed and the vyakrti-ide Vercel build fixed.
