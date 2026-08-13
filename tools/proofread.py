@@ -82,7 +82,7 @@ def fetch_raw(name: str, branch: str, path: str) -> str | None:
     try:
         with urllib.request.urlopen(url, timeout=30) as r:
             return r.read().decode("utf-8", "replace")
-    except Exception:
+    except Exception:  # noqa: BLE001 — network fetch must not abort a fleet scan; absence is reported
         return None
 
 
@@ -177,7 +177,7 @@ def main() -> int:
                 if v:
                     violations.extend(v)
                     print(f"  {name}: {len(v)} violation(s)")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 — per-repo scan error is appended + surfaced
                 violations.append(f"{name}: scan error {type(e).__name__}: {e}")
         if args.grammar:
             for name in names:
@@ -221,6 +221,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except Exception as e:  # top-level: report, never hide
+    except Exception as e:  # noqa: BLE001 — top-level: report, never hide
         print(f"proofread error: {type(e).__name__}: {e}", file=sys.stderr)
         sys.exit(2)

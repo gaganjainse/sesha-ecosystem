@@ -85,7 +85,7 @@ else
   warn "components dir missing — fetch-components.sh may need network"
 fi
 # ensure console scripts resolve
-hash -r 2>/dev/null || true
+hash -r
 
 info "== 4. MCP client configs =="
 run python3 "$ECO/scripts/generate_mcp_config.py" --channel "$CHANNEL"

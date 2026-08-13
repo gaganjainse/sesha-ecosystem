@@ -46,7 +46,7 @@ SUPPRESSION = [
 def _strip_comments(yaml: str) -> str:
     # YAML full-line comments start with #; inline comments after code are kept
     # (a `|| true # reason` is still `|| true`).
-    return "\n".join(l for l in yaml.splitlines() if not l.lstrip().startswith("#"))
+    return "\n".join(line for line in yaml.splitlines() if not line.lstrip().startswith("#"))
 
 CANONICAL = Path(__file__).resolve().parent.parent / "templates" / "boilerplate"
 
@@ -56,7 +56,7 @@ def fetch_raw(name: str, branch: str, path: str) -> str | None:
     try:
         with urllib.request.urlopen(url, timeout=15) as r:
             return r.read().decode()
-    except Exception:
+    except Exception:  # noqa: BLE001 — raw fetch / contents API: absence is reported, not swallowed
         return None
 
 
@@ -79,7 +79,7 @@ def workflow_files(name: str, branch: str) -> list[str]:
     try:
         items = api(f"/repos/{USER}/{name}/contents/.github/workflows?ref={branch}")
         return [i["name"] for i in items if i["name"].endswith((".yml", ".yaml"))]
-    except Exception:
+    except Exception:  # noqa: BLE001 — raw fetch / contents API: absence is reported, not swallowed
         return []
 
 
@@ -113,7 +113,7 @@ def check_ci(name: str, branch: str, findings: list[str]) -> None:
 def repo_branch(name: str) -> str | None:
     try:
         return api(f"/repos/{USER}/{name}")["default_branch"]
-    except Exception:
+    except Exception:  # noqa: BLE001 — raw fetch / contents API: absence is reported, not swallowed
         return None
 
 
@@ -191,6 +191,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 — top-level report, never hide
         print(f"boilerplate_check error: {type(e).__name__}: {e}", file=sys.stderr)
         sys.exit(2)
