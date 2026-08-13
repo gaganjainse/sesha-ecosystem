@@ -113,12 +113,20 @@ def main() -> int:
                     default=here.parents[1] / "manifests" / "components.toml")
     ap.add_argument("--channel", choices=["stable", "canary", "devel"],
                     default="canary")
+    ap.add_argument("--servers", type=str, default="",
+                    help="comma-separated component names to enable (default: all on the channel)")
     ap.add_argument("--out", type=Path, default=DEFAULT_CONFIG_DIR)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
     components = load_components(args.manifest)
     chosen = select(components, args.channel)
+    if args.servers:
+        allow = {s.strip() for s in args.servers.split(",") if s.strip()}
+        chosen = [c for c in chosen if c.name in allow]
+        dropped = sorted({c.name for c in select(components, args.channel)} - allow)
+        if dropped:
+            print(f"# disabled by --servers: {', '.join(dropped)}")
     canonical = canonical_servers(chosen)
 
     write(args.out / "servers.json", canonical, dry_run=args.dry_run)
