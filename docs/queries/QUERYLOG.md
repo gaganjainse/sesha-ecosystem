@@ -6,6 +6,27 @@ intent and prevents drift.
 
 ---
 
+## Q: "One job, update all my dependencies to their respective latest rolling release version from github" (2026-08-13)
+
+**Answer:** Fleet-wide rolling dependency update to latest (from GitHub/PyPI/npm/crates.io), per the evergreen rolling-release mandate.
+
+**Python components (23):** already at latest — fastmcp 3.4.7, pytest 9.1.1, ruff 0.16.2, pytest-asyncio 1.4.0 = PyPI latest (floors from the 2026-08-13 sweep). No changes needed; verified by API sweep.
+
+**Rust (SheshAOS, `ab27cd8`):** 8 crates behind latest bumped to latest majors — criterion 0.5→0.8, dirs 5→6, notify 6.1→8.2, portable-pty 0.8→0.9, reqwest 0.12→0.13, rusqlite 0.32→0.40, sysinfo 0.32→0.39, toml 0.8→1.1. Fixes along the way: rusqlite 0.40 dropped u64:ToSql → explicit i64::try_from with overflow error; criterion 0.8 deprecated criterion::black_box → std::hint::black_box (3 benches); deny.toml + CDLA-Permissive-2.0 (webpki-root-certs, permissive). Verified 877/877 tests, clippy -D warnings, fmt, cargo-deny all clean.
+
+**npm portfolio (`cd94afb`):** globals 17.11, axe-core 4.13, puppeteer 25.6, typescript → 7.0.2 then **reverted to 6.x per conflict protocol**: TS 7 (Go rewrite) lacks the programmatic API astro check needs (upstream withastro/roadmap#1321). astro check 0 errors, 22/22 tests.
+
+**npm vyakrti-ide (`a79f152`):** react 19.2.8, react-dom 19.2.8, zustand 5.0.15, monaco-editor 0.56.0, lucide-react 1.31.0. tsc + vite build green.
+
+**npm waveterm (`f6ca6e8` + `639f381`):** lock resynced + all deps to wanted; then ai→5.0.x + @ai-sdk/react→4.0.67 to clear the vulnerable undici 5.29.0 chain (dependabot security run was failing). undici alerts 12→0. Remaining 6 alerts honest: image-size (vuln ≤2.0.2, **no upstream patch exists** — unfixable until upstream), sharp 0.32.6 + serialize-javascript 6.0.2 + uuid 8.3.2 (Docusaurus docs workspace; overrides destabilize the workspace install — tried, reverted per conflict protocol, needs upstream Docusaurus bump; dependabot runs confirm security_update_not_possible). 46/46 vitest; 17 pre-existing tsc errors in preview files unchanged (verified identical before/after).
+
+**pip (pipecat `fe1962a`):** uv lock -U full refresh. 0 alerts.
+
+**GitHub Actions:** verified all pins already at latest (checkout v7.0.1 3d3c42e5, setup-python v7.0.0 5fda3b95, dtolnay stable-head pin = documented policy; dependabot moves them weekly).
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), this file.
+
+---
 ## Q: "What are uses of these and efficiency ones can be done, if useful and can be done, then do it. Also Nexus is an old name, we changed it to Shesh so make proper changes" (2026-08-13)
 
 **Answer:** Two tracks.

@@ -14,7 +14,22 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 (Nexus→Shesh rename + P2 items done)
+## 0. Current position — 2026-08-13 (fleet-wide rolling dependency update)
+
+**Rolling deps (one job, latest everywhere):** SheshAOS `ab27cd8` (8 crates to
+latest majors, 877/877 tests, clippy/fmt/deny clean); portfolio `cd94afb`
+(TS7 reverted→6.x per conflict protocol, upstream needs astro API);
+vyakrti-ide `a79f152` (react 19, zustand 5, monaco 0.56); waveterm `f6ca6e8`
++ `639f381` (lock resync + ai/@ai-sdk bump cleared undici 12 alerts);
+pipecat `fe1962a` (uv lock -U). Remaining honest (waveterm docs workspace):
+image-size no upstream patch; sharp/serialize-javascript/uuid constrained by
+Docusaurus pins (override destabilizes install — documented). Python 23
+components + Actions already at latest. Full detail: QUERYLOG 2026-08-13.
+
+**Nexus→Shesh rename (complete):** SheshAOS `nexus_ingest` →
+`kernel_ingest` (`363900b`); ecosystem living docs swept (`006c3e7`) —
+kernel_bridge/kernel-events.jsonl/KernelBridge/KernelError everywhere;
+AUDIT_AND_ROADMAP P1 flipped ✅; immutable history untouched.
 
 **Nexus → Shesh/Kernel rename (complete):** SheshAOS `nexus_ingest` →
 `kernel_ingest` (`363900b`); ecosystem living docs swept (`006c3e7`) —
