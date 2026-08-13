@@ -6,6 +6,25 @@ intent and prevents drift.
 
 ---
 
+## Q: "Benchmarks … do we need these, if yes then create them everywhere" (2026-08-13)
+
+**Answer:** Honest classification first — benchmarks only where there's a measurable hot path; no fake stubs anywhere. Created real benchmarks in **6 more repos** (8 total incl. pre-existing SheshAOS + shesha-kernel), documented reasons for the rest in `docs/BENCHMARKS.md`.
+
+**New real benches (all verified locally, all pushed):**
+- **Vyakrti** `2fb85c0` — criterion benches for lexer + lex&parse (the per-keystroke IDE hot path); CI runs `cargo bench -- --test`.
+- **shesh-memory** `f8edb7d` — vector search (1000 docs, ~73 ms), context assembly (~186 µs), embedding (~29 µs).
+- **shesh-audit** `61a62d1` — guard allow/deny (~51/47 µs), hash-chained append (~34 µs).
+- **shesh-phone** `959a3d4` — vision→tap cycle + template match. **Benchmark caught a real perf bug: template match was 1.65 s** (pure-Python exhaustive scan). Fixed with coarse-to-fine search (4× downsample + full-res refine window, plus a coordinate-leak bug when refinement ties) → **95.7 ms, 17× faster**, 16/16 tests still green.
+- **FWRS** `c5e5ab6` — LP pipeline scaling (75 ms at 10/20 → 860 ms at 40/100).
+- **rag-service** `46e422e` — chunk_text/hybrid search/embedding over corpus.
+
+All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-triggered). Python benches are stdlib-only median-of-N report mode (no flaky gates); Rust uses criterion `-- --test` smoke.
+
+**Not benchmarked (documented):** config/dotfile repos, mobile apps (JMH disproportionate), I/O-bound MCP servers, forks (upstream owns bench infra), archived repos (frozen).
+
+**Docs:** [docs/BENCHMARKS.md](../BENCHMARKS.md), this file.
+
+---
 ## Q: "Add CI workflow and tests and benchmarks and dependabots and GitHub actions to each and every repo … even the archives … no red in any repo … dotfiles linking … review the forks' mainstream updates" (2026-08-13)
 
 **Answer:** Full account-wide sweep (60 repos incl. 7 archived) + portfolio Vercel fix + fork upstream review.
