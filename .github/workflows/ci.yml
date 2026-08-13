@@ -31,8 +31,9 @@ jobs:
 
       - name: Lint shell scripts (bash -n + shellcheck)
         run: |
-          # shellcheck v0.11.0 pinned with sha256 (same hygiene as actionlint):
-          # apt's 0.10.x lags the rolling mandate; verified 0.11.0 clean here.
+          # Pin shellcheck v0.11.0 with sha256 (same hygiene as actionlint):
+          # apt's 0.10.x lags the rolling mandate; 0.11.0 verified clean here.
+          # (Comment wording avoids '# shellcheck ...' directive syntax.)
           curl -sfL -o /tmp/shellcheck.txz \
             https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz
           echo "8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198  /tmp/shellcheck.txz" | sha256sum -c -
