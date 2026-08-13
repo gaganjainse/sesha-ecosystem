@@ -76,13 +76,13 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ **shesh-kernel → SheshAOS merge — WITHDRAWN by decision (ADR-0016, 2026-08-12).**
   Full-repo audit showed the protocol wires the merge existed to get — ACP and MCP — are
   already implemented and tested in Python (shesh-acp server; 17 `*-mcp` servers; GuardedMCP),
-  and the Python↔Rust bridge is `nexus_bridge` JSONL. The Rust `shesh-protocols` crate
+  and the Python↔Rust bridge is `kernel_bridge` JSONL. The Rust `shesh-protocols` crate
   would be a third implementation of owned wires. The iced/GUI terminal porting was the
   abandoned Wave rewrite; verdict: adopt stock Wave Terminal as mission control (shesh-wave).
   shesha-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
   folded into SheshAOS). No merge, no port — kernel chapter closed.
 - ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
-- ✅ SheshAOS event-store bridge (NexusBridge in shesh-audit; Guard emits Nexus-format events)
+- ✅ SheshAOS event-store bridge (KernelBridge in shesh-audit; Guard emits kernel-format events)
 - ✅ `shesh-ebpf` — eBPF telemetry via Aya (read-only; 4 tests) — added to manifest
 
 ## 2. Mind (deliberation / AM)  🟢
@@ -92,7 +92,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
 - ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (82b3173): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
 - ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop 827a851): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
-- ✅ **Nexus bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 83e3358): shesh-kernel nexus_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
+- ✅ **kernel bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 83e3358): shesh-kernel kernel_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
 - ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **COMPLETED 2026-08-13** (81777f5): two-phase confirmation flow closed (`record_confirmation` → hash-chained audit + kernel CONFIRMATION_GRANTED/DENIED events), `audit_tail` ledger read view, 8 tests pin the contract (was: minimal wrapper, scheduler stub, 2 tests)
 - ✅ LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline) — now via ModelAgnosticAdapter with strict JSON schema, validation+repair loop 3 retries, fallback chain free-first→stub, LLM-as-judge score >=0.7

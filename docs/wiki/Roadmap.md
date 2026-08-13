@@ -6,7 +6,7 @@ This page summarizes status.
 
 ## ✅ Done (autopilot, this cycle)
 
-- **Governance** — audit log, policy Guard, MCP gate, Nexus event bridge
+- **Governance** — audit log, policy Guard, MCP gate, kernel event bridge
 - **Agents** — multi-agent orchestrator, role-based model routing, persistent
   background sessions with cancel, A2A Unix-socket transport, local traces
 - **Memory** — episodes + FTS + vector embeddings, habits/intentions/mannerisms,
@@ -27,7 +27,7 @@ This page summarizes status.
 ## 🔴 Blocked (need deliberate / physical work)
 
 - **shesh-kernel → SheshAOS merge.** The archived Rust kernel diverged at the
-  type level (`NexusError`/TUI API). Port leaf crates first (protocols,
+  type level (`KernelError`/TUI API). Port leaf crates first (protocols,
   waveobj, wps, blockctl, wconfig), reconcile APIs, bring in
   `shesh-protocols`, fix upstream `russh`/`zig` build breaks, gate on
   `cargo test --workspace`. See `KERNEL_MERGE_PLAN.md` in SheshAOS.

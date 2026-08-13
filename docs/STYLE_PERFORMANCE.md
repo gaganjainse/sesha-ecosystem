@@ -25,7 +25,7 @@ You are **NOT** using native Hyprland and need to customize it — you already h
 - **shesh-files** — Rust watcher + Python classifier — watches Downloads/Desktop/Documents/Pictures, debounces 30s, emits JSON, deterministic extension/name rules first (no LLM, instant, private), optional Ollama phi4-mini for ambiguous, vision moondream2 for screenshots, rules.toml, SQLite history + undo log at `~/.local/share/smart-organizer/`, trash via `gio trash` not rm, always --dry-run capable, low-confidence → notify-send action buttons, wire into MCP so Shesh can say "organize downloads" / "undo last move", Quickshell indicator widget (last N moves, pause/resume, open undo) — integrates into illogical-impulse look via Quickshell widget, not replacing bar
 - **shesh-shell** — Hyprland/Quickshell MCP — `hyprctl` wrapper + Quickshell IPC, does NOT replace Hyprland config, only controls via existing Hyprland IPC, behind Guard
 - **shesh-system** — power/GPU/MUX/backup/status MCP — powerprofilesctl, MUX switch `msi-mux-switcher`, restic backup, update check read-only, health, maintenance cache clean — integrates via systemd user services, not via bar replacement, uses `powerprofilesctl` which CachyOS already has
-- **shesh-audit** — hash-chained append-only event log + policy Guard + Nexus bridge — logs every tool call, behind all MCP servers, no UI, no conflict with look
+- **shesh-audit** — hash-chained append-only event log + policy Guard + kernel bridge — logs every tool call, behind all MCP servers, no UI, no conflict with look
 - **shesh-voice** — Newelle fork overlay — wake word "hey shesh", STT faster-whisper, TTS Piper, MCP client stdio, 6GB-safe model defaults, about-screen "Shesh (Newelle core)" — integrates into illogical-impulse AI sidebar (Ollama/Gemini) as host for overlay, not replacing sidebar
 - **shesh-ambient** (in desktop) — polite catch-up scheduler + warm proactivity — OnStartupSec + jitter, not fixed wall-clock, heavy jobs need AC+idle, budget bounds, courtesy policy defers during fullscreen/calls/high-CPU/low battery, proactivity one optional offer at natural pause 45s–15m idle throttled ≤3/day snoozeable — integrates via Quickshell overlay, not interrupting look
 
@@ -57,7 +57,7 @@ From `REPO_TOPOLOGY.md` + `LANGUAGE_POLICY.md` already, plus second-wave researc
 
 - **One job per component** — `shesh-files` only watches Downloads/Desktop/Documents/Pictures, never touches `Projects/`, `Vaults/`, `Documents/Job`, `.ssh` — protected via `safety.sh`
 - **One process per MCP server** — `shesh-audit-mcp`, `shesh-system-mcp`, etc each stdio, separate systemd user services, not shared
-- **One policy gate** — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + Nexus event — behind all MCP servers
+- **One policy gate** — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + kernel event — behind all MCP servers
 - **Separate config dirs** — `~/.config/shesh/mcp/` per server, `~/.config/shesh/messaging/` flags, `~/.local/share/shesh/` state, `~/.cache/shesh/` cache
 - **Separate btrfs subvolumes** — `AI/Models` nocow, `Downloads` transient, `Documents/Personal` snapshot hourly, `Documents/Job` no snapshot per employer policy
 - **Namespace via MCP** — tool names prefixed `fs_*, fetch_*, git_*` via `shesh-mcp-bundle` proxy, so no collision
@@ -81,7 +81,7 @@ Examples:
 
 - **Newelle → shesh-voice:** strip GNOME, add Quickshell overlay, prewire MCP servers, 6GB-safe models, wake "hey shesh", faster-whisper, Piper — upgrade
 - **shesh-desktop → shesh-desktop:** keep `custom/` thin, add `shesh` config object to Quickshell settings system + SHESH settings page `SheshConfig.qml` in same widget style as General/Bar/Services, service `Shesh.qml` applies toggles to systemd units and hyprctl — upgrade, not just fork
-- **modelcontextprotocol/servers filesystem → shesh-mcp-bundle:** proxy via Guard with tool prefixing `fs_*`, handshake, skip-if-missing, policy check every call, log + Nexus event — upgrade with governance
+- **modelcontextprotocol/servers filesystem → shesh-mcp-bundle:** proxy via Guard with tool prefixing `fs_*`, handshake, skip-if-missing, policy check every call, log + kernel event — upgrade with governance
 - **phone-harness concept → shesh-phone:** macOS-only OCR→coordinate→act loop ported to ADB on Realme Narzo 90x, safe-area bounds, moondream2 vision instead of OCR — upgrade and specialize
 
 This point added to `SOURCES.md` and `REPO_TOPOLOGY.md`.

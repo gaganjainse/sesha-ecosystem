@@ -5,7 +5,7 @@ an MCP server. Tests count as of the latest autopilot run: **226 passing**.
 
 | Component | Layer | Tests | What it does |
 |-----------|-------|------:|--------------|
-| [shesh-audit](https://github.com/gaganjainse/shesh-audit) | Brain | 20 | Hash-chained event log, policy Guard, Nexus bridge, MCP gate |
+| [shesh-audit](https://github.com/gaganjainse/shesh-audit) | Brain | 20 | Hash-chained event log, policy Guard, kernel bridge, MCP gate |
 | [shesh-secrets](https://github.com/gaganjainse/shesh-secrets) | Brain | 8 | env/gopass/keepassxc/file secret resolution |
 | [shesh-orchestrator](https://github.com/gaganjainse/shesh-orchestrator) | Mind | 28 | RLM multi-agent runtime, sessions, A2A, traces |
 | [shesh-memory](https://github.com/gaganjainse/shesh-memory) | Mind | 26 | Episodes, FTS, vector embeddings, habits, intentions |

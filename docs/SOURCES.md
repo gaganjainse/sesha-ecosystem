@@ -194,7 +194,7 @@ We maintain `NOTICES.md` and a per-component `LICENSE` in each `shesh-*` repo. T
 
 1. **Fork & track:** Newelle, end-4/dots-hyprland — ✅ done, now shesh-voice 41M, shesh-desktop 22M
 2. **Promote from shesh-desktop:** `shesh-files`, `shesh-shell`, `shesh-system`, `shesh-voice` (Newelle wrapper config) — ✅ done
-3. **Bridge:** `shesh-audit` to SheshAOS event store — ✅ done via NexusBridge
+3. **Bridge:** `shesh-audit` to SheshAOS event store — ✅ done via KernelBridge
 4. **Reference-only (read, don't vendor yet):** Goose, Hermes, pi, Prime, computer-use-linux, pipecat, Leon — ✅ read, cataloged in TOOLING_CATALOG
 5. Set up the weekly upstream-tracker bot (see `scripts/upstream-tracker.py`) — ✅ done
 
@@ -289,7 +289,7 @@ User said: integrating various different systems, but there should be no conflic
 
 - [ ] One job per component — `shesh-files` only watches Downloads/Desktop/Documents/Pictures, never touches `Projects/`, `Vaults/`, `Documents/Job`, `.ssh`
 - [ ] One process per MCP server — `shesh-audit-mcp`, `shesh-system-mcp`, etc each stdio, not shared
-- [ ] One policy gate — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + Nexus event
+- [ ] One policy gate — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + kernel event
 - [ ] Separate config dirs — `~/.config/shesh/mcp/` per server, `~/.config/shesh/messaging/` flags, `~/.local/share/shesh/` state, `~/.cache/shesh/` cache
 - [ ] Separate btrfs subvolumes — `AI/Models` nocow, `Downloads` transient, `Documents/Personal` snapshot hourly, `Documents/Job` no snapshot per employer policy
 - [ ] Namespace via MCP — tool names prefixed `fs_*, fetch_*, git_*` via `shesh-mcp-bundle` proxy, so no collision

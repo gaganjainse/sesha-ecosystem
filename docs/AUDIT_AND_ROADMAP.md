@@ -36,7 +36,7 @@ Last audited: 2026-08-12 (evening — full hardening pass; see 2026-08-12 evenin
 - **Are the files (sesha-audit, pyproject.toml, etc.) present?** Yes. All 12
   components live in `/home/user/sesha/components/shesh-*/`, each with
   `pyproject.toml`, `src/`, `tests/`, README, and CI. shesh-audit has all 5
-  modules (`__init__, log, policy, gate, nexus_bridge, server`) plus 18 tests.
+  modules (`__init__, log, policy, gate, kernel_bridge, server`) plus 18 tests.
 - **What caused the workspace-over-budget notice?** The Rust toolchain
   (`~/.cargo`+`~/.rustup`, ~1 GB) installed to test the kernel merge, plus
   large git clones. Removed; workspace now 127 MB.
@@ -72,7 +72,7 @@ Last audited: 2026-08-12 (evening — full hardening pass; see 2026-08-12 evenin
 | Repo | Layer | Tests | Purpose |
 |------|-------|------:|---------|
 | SheshAOS | Brain | 981 (Rust) | Governance kernel; Rust workspace of 12 crates |
-| shesh-audit | Brain | 18 | Hash-chained event log + policy Guard + Nexus bridge |
+| shesh-audit | Brain | 18 | Hash-chained event log + policy Guard + kernel bridge |
 | shesh-mind | Mind | 13 | Role→model router (6 GB VRAM budget) |
 | shesh-memory | Mind | 15 | Episodic/semantic/intention/habit memory + context assembler |
 | shesh-harness | Mind | 7 | Continual Harness: immutable base, `/refine`, rollback |
@@ -114,14 +114,14 @@ checkable version is TODO.md.
 ### 3.1 Brain / governance
 - [P0] **Shesh-kernel → SheshAOS merge.** Rebase archived kernel onto
   SheshAOS; port leaf crates first (protocols, waveobj, wps, blockctl,
-  wconfig), reconcile `NexusError`/TUI API divergence, bring
+  wconfig), reconcile `KernelError`/TUI API divergence, bring
   `shesh-protocols` (ACP+MCP wire impls) and CLI/worker bins; fix
   upstream build breaks (`russh::Error::msg` removed, `zig` required by
   terminal); gate on `cargo test --workspace` green. See
   `KERNEL_MERGE_PLAN.md` in SheshAOS.
 - [P0] Wire shesh-audit Guard in front of **every** MCP tool call
   (orchestrator + skills currently declare it; enforce at the server boundary).
-- [P1] Nexus bridge: have Rust SheshAOS actually consume `nexus-events.jsonl`
+- [P1] kernel bridge: have Rust SheshAOS actually consume `kernel-events.jsonl`
   (currently Python writes it; Rust reads TBD).
 - [P1] Secret manager integration (KeePassXC/gopass); no keys in MCP config.
 - [P2] eBPF/Aya telemetry for system/performance sensing (read-only).

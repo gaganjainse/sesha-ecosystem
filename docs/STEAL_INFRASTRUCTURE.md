@@ -76,7 +76,7 @@ From `REPO_TOPOLOGY.md` + `LANGUAGE_POLICY.md` + second-wave research:
 
 - **One job per component** — `shesh-files` only watches Downloads/Desktop/Documents/Pictures, never touches `Projects/`, `Vaults/`, `Documents/Job`, `.ssh` — protected via `safety.sh`
 - **One process per MCP server** — `shesh-audit-mcp`, `shesh-system-mcp`, etc each stdio, separate systemd user services, not shared
-- **One policy gate** — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + Nexus event
+- **One policy gate** — every tool call passes Guard `check(actor, tool, args)` → allow/confirm/deny + logged + kernel event
 - **Separate config dirs** — `~/.config/shesh/mcp/` per server, `~/.config/shesh/messaging/` flags, `~/.local/share/shesh/` state, `~/.cache/shesh/` cache
 - **Separate btrfs subvolumes** — `AI/Models` nocow, `Downloads` transient, `Documents/Personal` snapshot hourly, `Documents/Job` no snapshot per employer policy
 - **Namespace via MCP** — tool names prefixed `fs_*, fetch_*, git_*` via `shesh-mcp-bundle` proxy, so no collision
@@ -90,7 +90,7 @@ From `REPO_TOPOLOGY.md` + `LANGUAGE_POLICY.md` + second-wave research:
 **We had been making minimal versions that become stubs — user called out, now make proper:**
 
 - Before: `shesh-brain` minimal wrapper GuardedMCP routes via Guard, scheduler stub, 2 tests — stub
-- Now: Proper working version should have real task-router that routes based on policy, scheduler that schedules with budget via SheshAOS RPC if available else via `systemd-run`, tool-broker that brokers tool calls via `shesh-audit` Guard + NexusBridge emit — with tests that actually check routing, not just `assert "allowed" in res`
+- Now: Proper working version should have real task-router that routes based on policy, scheduler that schedules with budget via SheshAOS RPC if available else via `systemd-run`, tool-broker that brokers tool calls via `shesh-audit` Guard + KernelBridge emit — with tests that actually check routing, not just `assert "allowed" in res`
 
 - Before: `shesh-media` minimal grim+slurp stub file creation, wpctl stub
 - Now: Proper should actually call `grim -g $(slurp)` region, `wf-recorder` with `pactl` audio, `swaybg`/`hyprpaper` with `matugen` palette extraction, `wpctl` parsing real sinks — with tests that check file exists and size >0, not just `ok`

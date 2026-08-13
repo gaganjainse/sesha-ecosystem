@@ -165,7 +165,7 @@ bash scripts/e2e-canary.sh   # from shesh-ecosystem
 
 - [ ] Every tool call is logged: `~/.local/share/shesh/audit/events.jsonl`
 - [ ] The hash chain verifies: no "tampered" results
-- [ ] Nexus-format events appear in `nexus-events.jsonl` for the Rust brain
+- [x] kernel-format events appear in `kernel-events.jsonl` and are ingested by the Rust kernel (`kernel_ingest`) — wiring done 2026-08-13; on-machine run remains a hardware check
 - [ ] Writing to `.ssh`, `.gnupg`, `Vaults/`, or job folders is **denied**
       (try via any MCP tool)
 - [ ] Destructive terminal commands in ACP ask for confirmation
@@ -258,7 +258,7 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
 - [ ] **shesh-kernel → SheshAOS merge**: the Rust trees diverged at the type
       level. Follow `KERNEL_MERGE_PLAN.md` in SheshAOS; port leaf crates first,
-      reconcile `NexusError`/TUI, bring in `shesh-protocols`, fix the
+      reconcile `KernelError`/TUI, bring in `shesh-protocols`, fix the
       upstream `russh`/`zig` build breaks, gate on `cargo test --workspace`.
 - [ ] **Hardware validation on the physical MSI** (this whole document)
 - [ ] Rebase shesh-voice on upstream Newelle periodically

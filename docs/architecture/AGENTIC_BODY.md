@@ -65,7 +65,7 @@ This is the conceptual map every other document in the ecosystem references.
 
 Two protocols only (everything else is an adapter):
 
-1. **Nexus Kernel Protocol** (from `shesh-rpc`, JSON-RPC over Unix socket) — Brain-internal and
+1. **Shesh Kernel Protocol** (from `shesh-rpc`, JSON-RPC over Unix socket) — Brain-internal and
    Brain↔Mind. Strongly typed, append-only event semantics, policy-checked.
 2. **Model Context Protocol (MCP 2026-07-28)** — Brain↔Soma. Every actuator/sensor is an MCP
    server (stdio locally; HTTP only when explicitly bridged). This lets us reuse the entire MCP
@@ -108,7 +108,7 @@ behind it without changing how Soma works.
 ## 5. Naming conventions (everything is ours)
 
 - **No "Jarvis".** The agent is **Shesh** (शेष) across all layers.
-- **Nexus** = the brain/kernel family (SheshAOS, shesh-kernel, shesh-* crates).
+- **Kernel family** = the brain/kernel family (SheshAOS, shesh-kernel, shesh-* crates) — formerly 'Nexus', renamed per SHESH canon.
 - **Shesh** = the whole body / the user-facing agent (SheshOS = the mind spec, shesh-* MCP organs).
 - **Soma** = the bodily/device layer codename (soma-* sensors/actuators).
 - Components we integrate keep their **upstream names** in `sources/upstream/` (attribution), but our
