@@ -54,12 +54,6 @@ bash ~/src/shesh-ecosystem/tools/install-shesh-stack.sh          # or: --skip-ai
 Both paths end in the same state: Hyprland + Quickshell desktop, Ollama running
 the 6GB model set, and the `shesh-*-mcp` servers installed + enabled as user
 services with `~/.config/shesh/mcp/servers.json` wired for your clients.
-# Path A script does:
-# - Installs Hyprland, Quickshell, matugen, greetd/regreet, pacman hooks
-# - Clones shesh-desktop to ~/Workspace/shesh-desktop (recurse submodules)
-# - Runs `./setup install --device <profile>` (end-4 install + Shesh profile)
-# - Enables shesh systemd units (ambient, file watcher, hyprland-control)
-```
 
 Reboot, log into Hyprland, check:
 

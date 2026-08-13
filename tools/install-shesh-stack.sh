@@ -135,6 +135,73 @@ if [[ -d "$UNIT_DIR" ]]; then
   done
 fi
 
+# shesh-mcp.target — the desktop's Settings → Shesh master switch toggles this.
+info "== 7b. shesh-mcp.target + automation tools =="
+TARGET="$UNIT_DIR/shesh-mcp.target"
+if [[ $DRY -eq 1 ]]; then
+  info "[dry-run] write shesh-mcp.target"
+else
+  {
+    echo "[Unit]"
+    echo "Description=Shesh MCP servers (Brain/Mind/Soma)"
+    echo "Documentation=https://github.com/gaganjainse/shesh-ecosystem"
+    echo "After=graphical-session.target"
+    for u in "$UNIT_DIR"/shesh-*-mcp.service; do
+      [[ -f "$u" ]] || continue
+      echo "Wants=$(basename "$u")"
+    done
+    echo ""
+    echo "[Install]"
+    echo "WantedBy=graphical-session.target"
+  } > "$TARGET"
+  ok "shesh-mcp.target written"
+fi
+if systemctl --user enable shesh-mcp.target >/dev/null 2>&1; then
+  ok "shesh-mcp.target enabled"
+else
+  warn "shesh-mcp.target enable failed (no user bus here?); unit files are still installed"
+fi
+
+DESKTOP="${SHESH_DESKTOP:-$HOME/Workspace/shesh-desktop}"
+if [[ -d "$DESKTOP/tools" ]]; then
+  # shesh-power: system script + udev rule (root) + user service
+  if [[ -f "$DESKTOP/tools/automation/shesh-power.sh" ]]; then
+    run sudo install -Dm755 "$DESKTOP/tools/automation/shesh-power.sh" /usr/local/bin/shesh-power.sh
+    if [[ -f "$DESKTOP/tools/automation/99-shesh-power.rules" ]]; then
+      run sudo install -Dm644 "$DESKTOP/tools/automation/99-shesh-power.rules" /etc/udev/rules.d/99-shesh-power.rules
+      run sudo udevadm control --reload-rules 2>/dev/null || warn "udevadm reload failed (rule installed; takes effect after reboot)"
+    fi
+    if [[ -f "$DESKTOP/tools/automation/shesh-power.service" ]]; then
+      run cp "$DESKTOP/tools/automation/shesh-power.service" "$UNIT_DIR/"
+    fi
+    ok "shesh-power installed (system script + udev rule + user service)"
+  fi
+  # shesh-ambient: python package + user units
+  if [[ -f "$DESKTOP/tools/shesh-ambient/pyproject.toml" ]]; then
+    run uv pip install --python "$VENV/bin/python" -e "$DESKTOP/tools/shesh-ambient"
+    for f in "$DESKTOP"/tools/shesh-ambient/units/*; do
+      [[ -f "$f" ]] || continue
+      run cp "$f" "$UNIT_DIR/"
+    done
+    ok "shesh-ambient installed (package + timer/service)"
+  fi
+  # mcp-bundle upstreams (filesystem/fetch/git) — the bundle proxies these
+  if command -v uvx >/dev/null 2>&1; then
+    run uv tool install mcp-server-fetch mcp-server-git
+    ok "mcp-bundle upstreams: fetch + git installed"
+  else
+    warn "uvx missing — fetch/git MCP bundles skipped"
+  fi
+  if command -v npx >/dev/null 2>&1; then
+    run npm install -g @modelcontextprotocol/server-filesystem
+    ok "mcp-bundle upstreams: filesystem installed"
+  else
+    warn "npx missing — filesystem MCP bundle skipped (install nodejs)"
+  fi
+else
+  warn "shesh-desktop not found at $DESKTOP — automation tools (power/ambient) skipped"
+fi
+
 info "== 8. Ollama model stack (6GB VRAM) =="
 if [[ $SKIP_AI -eq 0 ]]; then
   if ! command -v ollama >/dev/null 2>&1; then
@@ -157,6 +224,9 @@ check uv --version
 for c in "$BIN_LINK"/shesh-*-mcp; do
   [[ -e "$c" ]] && check test -x "$c"
 done
+[[ -f "$UNIT_DIR/shesh-mcp.target" ]] && check test -f "$UNIT_DIR/shesh-mcp.target"
+[[ -x /usr/local/bin/shesh-power.sh ]] && check test -x /usr/local/bin/shesh-power.sh
+[[ -f /etc/udev/rules.d/99-shesh-power.rules ]] && check test -f /etc/udev/rules.d/99-shesh-power.rules
 [[ $SKIP_AI -eq 0 ]] && check ollama list
 if [[ $fails -gt 0 ]]; then die "$fails verification step(s) failed — see above"; fi
 ok "Shesh stack installed. MCP config: ~/.config/shesh/mcp/servers.json"
