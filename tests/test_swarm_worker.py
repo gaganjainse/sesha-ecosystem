@@ -42,23 +42,38 @@ def test_askpass_reads_token_only_in_child_process() -> None:
     assert "secret-token" not in password.stderr
 
 
-def test_git_repo_root_does_not_assume_home_directory() -> None:
-    root = github_auth.git_repo_root(Path(__file__).resolve().parents[1])
+def test_git_repo_root_does_not_assume_home_directory(tmp_path: Path) -> None:
+    """The repo root is found wherever it lives — never assumed to be ~."""
+    repo = tmp_path / "nested" / "workspace"
+    repo.mkdir(parents=True)
+    (repo / ".git").mkdir()  # real clone marker
+    root = github_auth.git_repo_root(repo / "sub" / "dir")
+    assert root == repo
 
-    assert root == Path(__file__).resolve().parents[1]
 
-
-def test_git_repo_root_falls_back_when_git_refuses(monkeypatch) -> None:
+def test_git_repo_root_falls_back_when_git_refuses(tmp_path: Path, monkeypatch) -> None:
     """Root containers (CI) can hit 'dubious ownership' and git exits
     non-zero; the pure-path fallback must still find the worktree."""
     import subprocess
+
+    repo = tmp_path / "nested" / "workspace"
+    repo.mkdir(parents=True)
+    (repo / ".git").mkdir()
 
     def refusing_run(*args, **kwargs):  # noqa: ANN002, ANN003
         return subprocess.CompletedProcess(args[0], returncode=128, stdout="", stderr="")
 
     monkeypatch.setattr(subprocess, "run", refusing_run)
-    root = github_auth.git_repo_root(Path(__file__).resolve().parents[1])
-    assert root == Path(__file__).resolve().parents[1]
+    root = github_auth.git_repo_root(repo / "sub" / "dir")
+    assert root == repo
+
+
+def test_git_repo_root_none_when_no_git_metadata(tmp_path: Path) -> None:
+    """Container snapshot checkouts deliver the tree without .git — the
+    honest answer there is None, never a guessed path."""
+    plain = tmp_path / "snapshot"
+    plain.mkdir(parents=True)
+    assert github_auth.git_repo_root(plain) is None
 
 
 def test_todo_parser_excludes_indented_blocked_items(tmp_path: Path) -> None:

@@ -13,13 +13,53 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import pathlib
+import re
 import sys
 import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_SRC = ROOT / ".." / "components"  # siblings (canary layout)
 FALLBACK_SRC = ROOT / ".." / "src"  # dev machine layout (/home/user/src)
+
+# Markdown link: [text](url) with optional trailing #anchor. Same shape as
+# book_build's LINK_RE so translation behaves identically.
+LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)#]+)(#[^)]+)?\)")
+
+
+def translate_links(body: str, repo: str, readme: pathlib.Path) -> str:
+    """Rewrite repo-relative links to absolute GitHub blob URLs.
+
+    docs/components/*.md live in the ecosystem repo, so a relative link
+    written for the component repo (e.g. docs/SETUP.md, LICENSE) would rot
+    here. Component-root-relative paths become blob URLs on the component
+    repo's default branch; absolute URLs, anchors, and mailto: pass through.
+    """
+    base = f"https://github.com/gaganjainse/{repo}/blob/main/"
+    repo_root = readme.parent  # directory containing README.md
+
+    def fix(m: re.Match) -> str:
+        text, url, anchor = m.group(1), m.group(2), m.group(3) or ""
+        if "://" in url or url.startswith(("mailto:", "#", "/")):
+            return m.group(0)
+        resolved = pathlib.Path(os.path.normpath(repo_root / url))
+        # only rewrite links that stay inside the component repo
+        try:
+            rel = resolved.relative_to(repo_root).as_posix()
+        except ValueError:
+            return m.group(0)
+        return f"[{text}]({base}{rel}{anchor})"
+
+    out = []
+    in_code = False
+    for line in body.splitlines(keepends=True):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            out.append(line)
+            continue
+        out.append(line if in_code else LINK_RE.sub(fix, line))
+    return "".join(out)
 
 
 def _component_repos() -> dict[str, str]:
@@ -58,7 +98,7 @@ def main() -> int:
             missing.append(name)
             continue
         target = out_dir / f"{name}.md"
-        content = readme.read_text("utf-8")
+        content = translate_links(readme.read_text("utf-8"), name, readme)
         if target.exists() and target.read_text("utf-8") == content:
             continue
         if args.check:

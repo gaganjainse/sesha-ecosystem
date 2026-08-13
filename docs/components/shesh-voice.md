@@ -2,7 +2,7 @@
 
 This is the Shesh ecosystem voice frontend: a fork of
 [Newelle](https://github.com/qwersyk/Newelle) (upstream credit and license
-retained) with the **Shesh overlay** in [`shesh-overlay/`](shesh-overlay/):
+retained) with the **Shesh overlay** in [`shesh-overlay/`](https://github.com/gaganjainse/shesh-voice/blob/main/shesh-overlay):
 
 - `branding.patch` — display/config identity (`DIR_NAME = "Shesh"`, appdata
   and desktop entry) applied on top of the tracked upstream tree. The test
