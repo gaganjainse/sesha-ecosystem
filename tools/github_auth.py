@@ -169,11 +169,20 @@ def git_repo_root(start: pathlib.Path | None = None) -> pathlib.Path | None:
             check=False,
         )
     except OSError:
-        return None
-    if result.returncode != 0:
-        return None
-    value = result.stdout.strip()
-    return pathlib.Path(value) if value else None
+        result = None
+    if result is not None and result.returncode == 0:
+        value = result.stdout.strip()
+        if value:
+            return pathlib.Path(value)
+    # Fallback: pure-path detection (works even when git refuses the
+    # checkout as "dubious ownership", e.g. root containers on CI).
+    # A real repo root has a `.git` entry that is a directory (clone) or
+    # a file (worktree/submodule).
+    for candidate in [cwd, *cwd.parents]:
+        dot_git = candidate / ".git"
+        if dot_git.is_dir() or dot_git.is_file():
+            return candidate
+    return None
 
 
 def main() -> int:

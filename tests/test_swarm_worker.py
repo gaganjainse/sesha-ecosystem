@@ -48,6 +48,19 @@ def test_git_repo_root_does_not_assume_home_directory() -> None:
     assert root == Path(__file__).resolve().parents[1]
 
 
+def test_git_repo_root_falls_back_when_git_refuses(monkeypatch) -> None:
+    """Root containers (CI) can hit 'dubious ownership' and git exits
+    non-zero; the pure-path fallback must still find the worktree."""
+    import subprocess
+
+    def refusing_run(*args, **kwargs):  # noqa: ANN002, ANN003
+        return subprocess.CompletedProcess(args[0], returncode=128, stdout="", stderr="")
+
+    monkeypatch.setattr(subprocess, "run", refusing_run)
+    root = github_auth.git_repo_root(Path(__file__).resolve().parents[1])
+    assert root == Path(__file__).resolve().parents[1]
+
+
 def test_todo_parser_excludes_indented_blocked_items(tmp_path: Path) -> None:
     todo = tmp_path / "TODO.md"
     todo.write_text(
