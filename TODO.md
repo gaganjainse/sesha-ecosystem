@@ -7,7 +7,18 @@ new; update it on every change so we don't drift. Ledger writes are
 **append-and-attest only** — agents may add items and flip ⬜→✅ with proof
 in the same commit, never clear (docs/policies/JANITOR_TODO_POLICY.md).
 
-Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
+Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
+
+## New session accomplishments (2026-08-13, evening — three mandates completed)
+
+- ✅ **Security fleet sweep (API-verified):** vulnerability alerts + automated security fixes + secret scanning + **push protection** enabled on all 53 active repos; canonical `SECURITY.md` + `docs/THREAT_MODEL.md` + `docs/RECOVERY.md` + `tools/dr_check.sh`; per-repo SECURITY.md pointer stubs ×25 → GitHub Security tab works everywhere
+- ✅ **Workflow hardening ×26 repos:** third-party actions SHA-pinned at latest releases (Dependabot moves them weekly — pins can't silently rot), `permissions:` least-privilege, `persist-credentials: false` on non-pushing checkouts; **critical swarm-auto-merge `pull_request_target` RCE-class hole removed**; zizmor + gitleaks gates in the reusable pipeline (21 callers inherit); reusable-pipeline callers themselves SHA-pinned after zizmor caught the `@main` refs
+- ✅ **MCP rug-pull/poisoning defense:** `tool_pins.py` in shesh-audit (`53a60b6`) — TOFU description pins, drift refusal, poisoning-marker scan; 9 tests; both guard seams wired
+- ✅ **Rolling deps (agent-owned per user order):** Python floors at PyPI-latest (pytest 9.1.1/ruff 0.16.2/asyncio 1.4.0/fastmcp 3.4.7), fleet sweep 21/21 green; SheshAOS lock refresh 872/872 green (`a9dfc9f`); DEPENDENCY_POLICY.md codifies downgrade-one/drop-replace break-glass; dependabot configs corrected per-repo reality (no manifests → no phantom ecosystems; desktop pip→/sdata/uv); **desktop lock-refresh workflow** compiles the laptop-class lock in CI monthly; portfolio `path-to-regexp` CVE override
+- ✅ **Docs renovation (the big one):** `tools/book_build.py` pure-projection engine (mirror map + fissions + generators + link translation + orphan sweep); shesh-docs rebuilt — 74 placeholder chapters replaced with real content, 114 duplicate/orphan files removed, mdbook render gate in CI, SUMMARY integrity + link + name gates; audits → `docs/audits/`, SITUATION_REPORT fused into INCIDENTS post-mortem, desktop mirror retired to attic (SSOT: desktop repo); 6 tool docs + 3 tutorials + skills POLICY authored from code-grounded truth; ecosystem CI gates mirror freshness
+- ✅ **MANUAL_VERIFICATION → 16 sections:** +rolling-deps hygiene, +security posture (incl. PAT rotation owner action), +recovery drill
+- ✅ **Suppression hunts:** desktop python-check `|| true` gates removed after clearing 26 ruff findings (incl. REAL glxinfo pipe bug: shell=True+list broke renderer detection); portfolio `|| true` chain removed → exposed missing Inter fonts (vendored OFL) + missing Pillow step + `npm ci || npm install` lockfile fallback — all fixed for real
+- ✅ **Naming canon final:** shesh-desktop body-text SHESH sweep (`504ee8e`), shesh-voice verified zero-legacy; gates enforce
 
 ## New session accomplishments (2026-08-13, decisions executed + completions)
 
@@ -26,6 +37,7 @@ Last updated: 2026-08-13 (Decision execution session — D1/D3/D4 landed)
 - ✅ **Post-snapshot recovery runbook executed**: remotes restored, exec bits repo-wide, waveterm build/ restored from git objects, media/system suppression commits re-dropped from archived patches
 - ✅ **All four deferred decisions EXECUTED 2026-08-13** (D1 reusable CI, D2 fork garden, D3 SHESH-only naming, D4 append-and-attest janitor) — see the 2026-08-13 accomplishments section above for evidence pointers
 - 🟡 **PAT rotation required by the USER** (org owner action): the PAT at ~/.config/shesh/github.pat appeared in an earlier plaintext transcript — rotate it on GitHub, then rewrite the file
+- 🟡 **libghostty (shesh-voice fork base) — PARKED by user order 2026-08-13:** upstream divergence is outside our hands ("not in our hands"); revisit only when upstream moves. This is the ledger receipt for the single sanctioned exception — everything else in the three mandates is complete.
 
 ## New session accomplishments (2026-08-11)
 - ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit 0d4f0f1), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
