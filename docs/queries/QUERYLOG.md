@@ -18,6 +18,33 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Did you integrate with the riced dots so I can change settings without coding?" (2026-08-13)
+
+**Answer:** The Shesh settings page EXISTED but was broken; fixed + extended.
+
+**BUG (settings page non-functional):** Config.qml declared the options object as
+`sesha` (retired-name typo) while all 36 consumers read/write `shesh` — the GUI
+toggles bound to undefined, so master switch / wake word / organizer / models
+were inert on a fresh install. Renamed to `shesh`. Also `hey sesha` -> `hey shesh`
++ Newelle data dir. shesh-desktop @ a62efca.
+
+**FEATURE (complete the no-code surface):** added channel selector (stable/
+canary/devel) + 15 MCP-server toggles to the settings page; Shesh.qml now rebuilds
+~/.config/shesh/mcp/*.json via `generate_mcp_config.py --channel --servers`
+(script at ~/src/shesh-ecosystem). Generator gained `--servers` allowlist
+(default all). shesh-desktop @ a62efca, shesh-ecosystem @ 09ee26d/c7d5d63.
+
+**SELF-INFLICTED BLOAT (found + fixed):** the fuzz commit accidentally committed
+`fuzz/target/` (1751 files, repo 1.4G) because .gitignore only covered /target.
+Purged via git-filter-repo (only main carried it), added fuzz/target to
+.gitignore, force-pushed main with lease (ruleset disabled/re-enabled). Repo
+1.4G -> 5.6MB; fresh shallow clone 1.9MB. SheshAOS @ d586fb8.
+
+**Docs:** this file; DEPENDENCY_GRAPH + shesh-docs regenerated; broken INDEX link
+to transient SESSION_HOP_ALERT.md removed (linkcheck green).
+
 ## Q: "Implement the federation consolidation — fold the small repos" (2026-08-13)
 
 **Answer:** Done. Created `shesh-core` monorepo (16 folded packages + wave config,
