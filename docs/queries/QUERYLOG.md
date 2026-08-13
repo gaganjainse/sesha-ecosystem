@@ -6,6 +6,60 @@ intent and prevents drift.
 
 ---
 
+## Q: "Dig into those send make all of them green then complete the leftovers from our own Shesh project" (2026-08-13)
+
+**Answer:** Two tracks executed.
+
+**Track 1 — dependabot reds closed:**
+- Vyakrti main Rust CI red (pre-existing, also blocked every PR): `workspace.rs`
+  test asserted `normalize_relative("C:\\...")` errors, but on Linux `C:/...` is
+  a valid relative path. Real fix: `normalize_relative` now rejects Windows
+  drive-letter prefixes on all platforms (path-traversal guard, 65e520e).
+  Rebased Vyakrti PR #2 (postcss) onto fixed main → CI green → merged.
+- Merged 5 open dependabot PRs (all verified locally first): vyakrti-ide
+  postcss, pipecat h2, waveterm js-yaml/mermaid/nanoid.
+- dompurify CVE (monaco-editor pins 3.2.7; vulnerable ≤3.4.12): npm override
+  `dompurify: ^3.4.13` in waveterm (2fb3842), vyakrti-ide (01de4fb), Vyakrti
+  frontend (637bb2f) — all alerts closed, builds green.
+- **pipecat transformers = upstream-blocked, honestly open:** GHSA-fgcw-684q-jj6r
+  (HIGH RCE) needs transformers ≥5.5.0, but speechmatics-voice (all releases,
+  incl. 0.3.0 betas) pins `transformers>=4.57,<5`. Verified unsatisfiable with
+  uv on py3.11. Dropping the speechmatics extra is a product decision — not
+  taken silently; alert stays open until upstream moves (documented in
+  SESSION_HANDOFF §0).
+
+**Track 2 — Shesh leftovers completed:**
+- **Canary P0 e2e gate — GREEN (was red 3 consecutive days).** Three wiring
+  bugs fixed: gate-in-container.sh hardcoded `cd /src` (repo-root from script
+  path now); canary.yml never cloned components (new fetch-components.sh,
+  manifest-driven shallow clones); e2e-canary.sh pip-installed non-Python
+  components, installed in wrong dep order (secrets/audit/mind first now), and
+  had a stale `nexus_bridge` import (→ kernel_bridge). Verified e2e locally
+  (all integration checks pass), then two container-only failures fixed:
+  git_repo_root got None on snapshot checkouts (no .git in tar extract — tests
+  made self-contained + pure-path fallback kept for dubious-ownership), and
+  INDEX.md regeneration. Canary green on arch/fedora/ubuntu.
+- **Component README auto-sync (queued leftover):** docs/components/*.md had
+  drifted (23 files). New tools/sync_component_docs.py projects each component
+  README with repo-relative links translated to GitHub blob URLs; CI job
+  'component README mirrors are fresh' gates drift. Linkcheck 0 broken.
+- **Failure-memory offline loop test (queued leftover):** 7 new tests in
+  shesh-memory (deterministic clock). They exposed 2 real bugs, fixed
+  root-cause: (1) confidence formula was volume-weighted only — a 0%-success
+  habit eventually crossed PROMOTE_AT at ~150 obs; now
+  `min(1.0, 0.2*log1p(count)) * reliability` + PROMOTE_MIN_RELIABILITY=0.5;
+  (2) decay() double-penalized on same-instant ticks — now time-based on
+  last_decayed. 33/33 tests.
+- **shesh-voice Flatpak Build — verified GREEN** (was "unconfirmed" in handoff).
+
+**Remaining honest:** pipecat transformers alert (upstream-blocked), PAT
+rotation (owner), libghostty (parked), a11y/recording (P2 roadmap), optional
+cross-repo docs auto-push secret (owner).
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [docs/NEXT_SESSION_PROMPT.md](../NEXT_SESSION_PROMPT.md), this file.
+
+---
+
 ## Q: "Continue here" (2026-08-13)
 
 **Answer:** Continued in-session instead of hopping; closed the remaining flagged reds:

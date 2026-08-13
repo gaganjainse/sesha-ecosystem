@@ -14,9 +14,37 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 (CI closure + out-of-scope reds closed)
+## 0. Current position — 2026-08-13 (fleet dependabot reds + Shesh leftovers closed)
 
-CI closure completed by the new session (2026-08-13):
+Latest closures (new session, continued):
+- **Canary P0 e2e — GREEN on arch/fedora/ubuntu** (`4b0af81` → `f3b4a3c`):
+  was red 3 consecutive days. Fixed gate-in-container `/src` hardcode,
+  missing component clones (fetch-components.sh), e2e install order +
+  non-Python skip + stale nexus_bridge import, snapshot-checkout git root
+  discovery (self-contained tests + pure-path fallback), INDEX regen.
+- **Component README auto-sync** (`126a478`, `f3b4a3c`): new
+  tools/sync_component_docs.py (link translation to blob URLs) + CI
+  freshness job; 23 drifted files synced; linkcheck 0 broken.
+- **Failure-memory offline loop** (`shesh-memory 4103d05`): 7 new tests;
+  exposed + fixed 2 real habit-learner bugs (volume-bias promotion,
+  double-decay). 33/33 tests.
+- **Dependabot fleet:** merged 5 open PRs (vyakrti-ide postcss, pipecat h2,
+  waveterm js-yaml/mermaid/nanoid); Vyakrti Rust CI fixed (drive-letter
+  path guard, `65e520e`); dompurify CVE closed via npm override in
+  waveterm/vyakrti-ide/Vyakrti (all alerts closed, builds green).
+- **pipecat transformers — upstream-blocked (honest open):** HIGH RCE
+  (GHSA-fgcw-684q-jj6r) needs transformers ≥5.5.0; speechmatics-voice
+  (all releases incl. betas) pins <5. Verified unsatisfiable. Alert stays
+  open until upstream moves; dropping the speechmatics extra is a product
+  decision, not taken silently.
+- **shesh-voice Flatpak Build — verified GREEN** (was unconfirmed).
+- **Known-good tips:** ecosystem `39ed0cf`, shesh-docs `0357778`,
+  shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
+  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `6afe02a`,
+  ClinicLedger `b04adf7`, ClinicLedger-Template `30be902`, Vyakrti `637bb2f`,
+  waveterm `2fb3842`, vyakrti-ide `01de4fb`, shesh-memory `4103d05`.
+
+CI closure (earlier same session):
 
 - **shesh-desktop lock-refresh — GREEN** (`9f46a15`): the `789e282`
   girepository fix from the prior session never landed on main (parallel

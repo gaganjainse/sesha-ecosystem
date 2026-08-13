@@ -81,9 +81,14 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
   end-anchored name fillers, rokda/paisa dialects; 34/34 JVM tests).
 - ✅ ClinicLedger-Template CI GREEN — `85cb9c3` + `134e050` + `30be902`
   (gradle pin, wrapper jar, gradlew script restored).
-- Fleet: 173+ GREEN / 0 PENDING; remaining reds are dependabot-PR runs on
-  non-shesh repos (pipecat/vyakrti-ide/waveterm open PRs) — see QUERYLOG
-  2026-08-13 entries.
+- ✅ Canary P0 e2e GREEN on arch/fedora/ubuntu (was red 3 days) — wiring
+  fixes `4b0af81`+`f3b4a3c`; component README auto-sync + CI gate
+  (`126a478`); failure-memory offline loop tests + 2 real learner bug
+  fixes (shesh-memory `4103d05`); Vyakrti Rust CI fix (`65e520e`);
+  dompurify CVE closed via override in waveterm/vyakrti-ide/Vyakrti.
+- Fleet: 183 GREEN / 0 PENDING; only genuinely-open item is pipecat
+  transformers (upstream-blocked: speechmatics-voice pins <5, RCE fix
+  needs ≥5.5.0 — alert honestly open, see SESSION_HANDOFF §0).
 - Fresh-session gotchas: `.git/config` (origin) + `~/.git-credentials` are
   excluded from Arena snapshots → re-add remote + credential helper +
   identity; reinstall cryptography/ruff/node24. Repo layout: this repo at
