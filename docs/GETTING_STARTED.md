@@ -24,7 +24,16 @@ in. One command does desktop **and** AI stack:
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)
+# flags: --dry-run (print only) · --skip-ai · --skip-nvidia · --skip-power · --device msi-sword-cachyos|generic
 ```
+
+After reboot, open **Settings → Shesh** to change everything without touching code:
+release **channel** (stable/canary/devel), which **MCP servers** run, the **Guard
+policy** (default verdict: ask-before-acting / allow / deny, plus a protect-secrets
+toggle), the LLM/vision models, and the automations (organizer, power profile,
+backups). Toggles persist to `~/.config/illogical-impulse/config.json` and the
+Shesh service applies them (MCP config → `~/.config/shesh/mcp/*.json`, policy →
+`~/.config/shesh/policy.json`).
 
 ### Path B — your own end-4/dots-hyprland clone + Shesh AI stack
 
