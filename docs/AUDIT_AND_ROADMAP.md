@@ -156,7 +156,7 @@ checkable version is TODO.md.
 - [P1] Media: screenshots, screen recording, wallpaper, audio routing.
 - [P1] ACP full sessions: terminal bridge, diff/update messages (cancel +
   permission responses done).
-- [P2] Accessibility (a11y).
+- [P2] Accessibility (a11y) — spec + checker: docs/A11Y.md (2026-08-13; 381-element baseline, reference fixes done)
 - [P2] Job-mode isolated profile (work git identity, no personal cloud).
 
 ### 3.4 Desktop / AP (Agentic Physique — the MSI)
