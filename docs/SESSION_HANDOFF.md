@@ -32,11 +32,15 @@ Latest closures (new session, continued):
   waveterm js-yaml/mermaid/nanoid); Vyakrti Rust CI fixed (drive-letter
   path guard, `65e520e`); dompurify CVE closed via npm override in
   waveterm/vyakrti-ide/Vyakrti (all alerts closed, builds green).
-- **pipecat transformers — upstream-blocked (honest open):** HIGH RCE
-  (GHSA-fgcw-684q-jj6r) needs transformers ≥5.5.0; speechmatics-voice
-  (all releases incl. betas) pins <5. Verified unsatisfiable. Alert stays
-  open until upstream moves; dropping the speechmatics extra is a product
-  decision, not taken silently.
+- **pipecat transformers — FIXED** (`ea9e3af` + `a65576b`): the HIGH RCE
+  advisories (GHSA-fgcw-684q-jj6r et al.) required transformers ≥5.5.0, but
+  the `speechmatics` extra pulled `speechmatics-voice[smart]` which pins
+  transformers `<5` — unsatisfiable when combined with local-smart-turn.
+  Verified the STT service never imports the smart modules (cloud API only),
+  so dropped `[smart]` from the extra (documented; opt-in note added) →
+  bumped lock transformers 4.57.6 → **5.15.0**. **All 3 transformers alerts
+  now CLOSED.** (pipecat is a mirror fork — not a Shesh component; fix is
+  upstreamable.)
 - **shesh-voice Flatpak Build — verified GREEN** (was unconfirmed).
 - **Known-good tips:** ecosystem `39ed0cf`, shesh-docs `0357778`,
   shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
