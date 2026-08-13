@@ -13,16 +13,42 @@ python -m pytest tests/ -q
 
 ## 1. Full install on CachyOS (MSI laptop)
 
-### 1.1 Bootstrap the desktop (existing dotfiles)
+There are **two supported paths** — pick one. The desktop layer (dots) and the
+AI layer (Brain/Mind/Soma) are independent, so you can mix freely.
 
-This reuses the battle-tested end-4 base + Shesh overlay:
+### Path A — one repo: end-4 base + Shesh overlay (recommended)
+
+`shesh-desktop` is a fork of end-4/dots-hyprland ("illogical-impulse" Quickshell
+shell) with the Shesh overlay, device profile, and systemd units already baked
+in. One command does desktop **and** AI stack:
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)
-# Script does:
+```
+
+### Path B — your own end-4/dots-hyprland clone + Shesh AI stack
+
+You already cloned `end-4/dots-hyprland` on your desktop. Install its dots first,
+then layer the Shesh AI stack on top (desktop-agnostic — works with end-4 or
+shesh-desktop):
+
+```bash
+# 1. end-4 dots (their canonical installer — clones to its own dir and sets up Hyprland + Quickshell)
+cd /path/to/your/dots-hyprland && ./setup install
+# (or: bash <(curl -s https://ii.clsty.link/get))
+
+# 2. Shesh Brain/Mind/Soma + Ollama + MCP units (from the ecosystem repo)
+git clone https://github.com/gaganjainse/shesh-ecosystem.git ~/src/shesh-ecosystem
+bash ~/src/shesh-ecosystem/tools/install-shesh-stack.sh          # or: --skip-ai --dry-run first
+```
+
+Both paths end in the same state: Hyprland + Quickshell desktop, Ollama running
+the 6GB model set, and the `shesh-*-mcp` servers installed + enabled as user
+services with `~/.config/shesh/mcp/servers.json` wired for your clients.
+# Path A script does:
 # - Installs Hyprland, Quickshell, matugen, greetd/regreet, pacman hooks
-# - Clones shesh-desktop to ~/Workspace/shesh-desktop
-# - Symlinks dots/ into the end-4 layout, custom/ overrides thin
+# - Clones shesh-desktop to ~/Workspace/shesh-desktop (recurse submodules)
+# - Runs `./setup install --device <profile>` (end-4 install + Shesh profile)
 # - Enables shesh systemd units (ambient, file watcher, hyprland-control)
 ```
 
