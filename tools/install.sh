@@ -91,9 +91,11 @@ import json
 lock="${LOCK}"
 try:
   data=json.load(open(lock))
+  seen=set()
   for name,c in data.get("components",{}).items():
     repo=c.get("repo")
-    if repo and "shesh-" in name:
+    if repo and "shesh-" in name and repo not in seen:
+      seen.add(repo)
       print(repo)
 except Exception as e:
   print(f"# error reading lock: {e}", file=__import__("sys").stderr)

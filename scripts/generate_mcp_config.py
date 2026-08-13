@@ -30,7 +30,7 @@ SERVER_COMMANDS = {
     "shesh-audit": "shesh-audit-mcp",
     "shesh-system": "shesh-system-mcp",
     "shesh-shell": "shesh-shell-mcp",
-    "shesh-files": "shesh-files-mcp",
+    "shesh-files": None,  # folded into shesh-core; classifier library, no MCP console script
     "shesh-skills": "shesh-skills-mcp",
     "shesh-memory": "shesh-memory-mcp",
     "shesh-mind": "shesh-mind-mcp",

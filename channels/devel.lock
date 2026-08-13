@@ -3,7 +3,7 @@
     "shesh-acp": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "acp",
@@ -11,7 +11,7 @@
         "jetbrains",
         "zed"
       ],
-      "repo": "gaganjainse/shesh-acp",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "Agent Client Protocol",
         "ref": "main",
@@ -22,14 +22,14 @@
     "shesh-audit": {
       "channel": "canary",
       "layer": "brain",
-      "license": "MIT",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "audit-log",
         "event-store",
         "policy-engine"
       ],
-      "repo": "gaganjainse/shesh-audit",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "SheshAOS",
         "ref": "main",
@@ -40,28 +40,28 @@
     "shesh-backup": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "backup",
         "restic",
         "snapshots"
       ],
-      "repo": "gaganjainse/shesh-backup",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-brain": {
       "channel": "devel",
       "layer": "brain",
-      "license": "MIT",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "scheduler",
         "task-router",
         "tool-broker"
       ],
-      "repo": "gaganjainse/shesh-brain",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "shesh-kernel",
         "ref": "main",
@@ -72,35 +72,35 @@
     "shesh-calendar": {
       "channel": "canary",
       "layer": "mind",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "agenda",
         "calendar",
         "ical"
       ],
-      "repo": "gaganjainse/shesh-calendar",
+      "repo": "gaganjainse/shesh-core",
       "upstream": "original",
       "version": "0.1.0"
     },
     "shesh-containers": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "containers",
         "podman",
         "sandbox"
       ],
-      "repo": "gaganjainse/shesh-containers",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-desktop": {
       "channel": "stable",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "dotfiles",
@@ -126,21 +126,21 @@
         "performance-sensing",
         "system-metrics"
       ],
-      "repo": "gaganjainse/shesh-ebpf",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-files": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "file-organizer",
         "inotify-watcher",
         "undo-log"
       ],
-      "repo": "gaganjainse/shesh-files",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "shesh-desktop smart-organizer",
         "ref": "main",
@@ -151,7 +151,7 @@
     "shesh-harness": {
       "channel": "canary",
       "layer": "mind",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "auto-skills",
@@ -170,7 +170,7 @@
     "shesh-mcp-bundle": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "fetch",
@@ -178,14 +178,14 @@
         "git",
         "mcp-bundle"
       ],
-      "repo": "gaganjainse/shesh-mcp-bundle",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-media": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "audio-routing",
@@ -193,14 +193,14 @@
         "screenshots",
         "wallpaper"
       ],
-      "repo": "gaganjainse/shesh-media",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-memory": {
       "channel": "canary",
       "layer": "mind",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "context-assembly",
@@ -220,21 +220,21 @@
     "shesh-messaging": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "messaging",
         "signal-bridge",
         "telegram-bridge"
       ],
-      "repo": "gaganjainse/shesh-messaging",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-mind": {
       "channel": "canary",
       "layer": "mind",
-      "license": "MIT",
+      "license": "GPL-3.0-or-later",
       "models": [
         "phi4-mini",
         "qwen2.5-coder:3b",
@@ -247,7 +247,7 @@
         "planner",
         "vision"
       ],
-      "repo": "gaganjainse/shesh-mind",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "SheshOS",
         "ref": "main",
@@ -277,7 +277,7 @@
     "shesh-orchestrator": {
       "channel": "devel",
       "layer": "mind",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "a2a",
@@ -297,7 +297,7 @@
     "shesh-phone": {
       "channel": "devel",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "android-adb",
@@ -315,34 +315,34 @@
     "shesh-secrets": {
       "channel": "canary",
       "layer": "brain",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "credentials",
         "secrets"
       ],
-      "repo": "gaganjainse/shesh-secrets",
+      "repo": "gaganjainse/shesh-core",
       "upstream": "original",
       "version": "0.1.0"
     },
     "shesh-shell": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "mcp:hyprland",
         "window-control",
         "workspaces"
       ],
-      "repo": "gaganjainse/shesh-shell",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-skills": {
       "channel": "canary",
       "layer": "mind",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "docs",
@@ -353,7 +353,7 @@
         "skill-library",
         "web-search"
       ],
-      "repo": "gaganjainse/shesh-skills",
+      "repo": "gaganjainse/shesh-core",
       "upstream": {
         "name": "MCP skills pattern",
         "ref": "main",
@@ -364,21 +364,21 @@
     "shesh-system": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "gpu-mux",
         "mcp:system",
         "power"
       ],
-      "repo": "gaganjainse/shesh-system",
+      "repo": "gaganjainse/shesh-core",
       "upstream": null,
       "version": "0.1.0"
     },
     "shesh-voice": {
       "channel": "canary",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "chat-ui",
@@ -397,5 +397,5 @@
     }
   },
   "count": 23,
-  "sha256": "ea923143a98980e6caef9ab00f820b86feebba6c7190cfa82ec15bbabd381627"
+  "sha256": "816cc947a1e7c5ccb0cd3c79ff246cb4f496da110066f51a24c3864959459bb0"
 }

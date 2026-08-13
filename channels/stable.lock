@@ -3,7 +3,7 @@
     "shesh-desktop": {
       "channel": "stable",
       "layer": "soma",
-      "license": "GPL-3.0",
+      "license": "GPL-3.0-or-later",
       "models": [],
       "provides": [
         "dotfiles",
@@ -21,5 +21,5 @@
     }
   },
   "count": 1,
-  "sha256": "7e9a8cda254676dafabf324ca4906d01de56f912aa25d4c0535cfc60cbef0568"
+  "sha256": "2ed92388d9914009ac9befc494593692df0d621ef82078bece1222a4d6b6443b"
 }
