@@ -37,11 +37,16 @@ RAW = f"https://raw.githubusercontent.com/{USER}"
 # OUR template specifically.
 SUPPRESSION = [
     "2>/dev/null ||",
-    "gate passed",
-    "|| echo \"no ",
-    "--exit-zero",
     "|| true",
+    "--exit-zero",
+    "gate passed",
 ]
+
+
+def _strip_comments(yaml: str) -> str:
+    # YAML full-line comments start with #; inline comments after code are kept
+    # (a `|| true # reason` is still `|| true`).
+    return "\n".join(l for l in yaml.splitlines() if not l.lstrip().startswith("#"))
 
 CANONICAL = Path(__file__).resolve().parent.parent / "templates" / "boilerplate"
 
@@ -56,9 +61,14 @@ def fetch_raw(name: str, branch: str, path: str) -> str | None:
 
 
 def api(path: str) -> object:
+    import os
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GITHUB_PAT")
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "shesh-boilerplate"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     req = urllib.request.Request(
         "https://api.github.com" + path,
-        headers={"Accept": "application/vnd.github+json", "User-Agent": "shesh-boilerplate"},
+        headers=headers,
     )
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
@@ -93,6 +103,7 @@ def check_ci(name: str, branch: str, findings: list[str]) -> None:
         ci = fetch_raw(name, branch, f".github/workflows/{fn}")
         if ci is None:
             continue
+        ci = _strip_comments(ci)
         for pat in SUPPRESSION:
             if pat in ci:
                 findings.append(f"{name}: CI contains suppression pattern {pat!r} ({fn})")
@@ -113,13 +124,13 @@ def scan_fleet() -> list[str]:
     for r in own:
         name = r["name"]
         branch = r["default_branch"]
-    files = {
-        "SECURITY.md": fetch_raw(name, branch, "SECURITY.md"),
-        "LICENSE": fetch_raw(name, branch, "LICENSE") or fetch_raw(name, branch, "LICENSE.md") or fetch_raw(name, branch, "LICENSE.txt"),
-        "dependabot.yml": fetch_raw(name, branch, ".github/dependabot.yml"),
-    }
-    check_files(name, branch, files, findings)
-    check_ci(name, branch, findings)
+        files = {
+            "SECURITY.md": fetch_raw(name, branch, "SECURITY.md"),
+            "LICENSE": fetch_raw(name, branch, "LICENSE") or fetch_raw(name, branch, "LICENSE.md") or fetch_raw(name, branch, "LICENSE.txt"),
+            "dependabot.yml": fetch_raw(name, branch, ".github/dependabot.yml"),
+        }
+        check_files(name, branch, files, findings)
+        check_ci(name, branch, findings)
     return findings
 
 
