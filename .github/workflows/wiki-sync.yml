@@ -47,5 +47,6 @@ jobs:
           else
             git -c user.name=shesh-bot -c user.email=shesh-bot@users.noreply.github.com \
               commit -m "wiki sync from shesh-ecosystem@${{ github.sha }}"
-            git push -u origin HEAD:master 2>/dev/null || git push -u origin HEAD:main
+            WIKI_BRANCH=$(git ls-remote --symref "$WIKI_URL" HEAD | awk '/ref:/{sub("refs/heads/","",$2); print $2}')
+            git push -u origin "HEAD:${WIKI_BRANCH:-master}"
           fi
