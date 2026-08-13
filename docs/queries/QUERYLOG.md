@@ -12,6 +12,43 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Force-push authorized, 15-min timer on, autocomplete — complete the audit" (2026-08-13)
+
+**Answer:** Completed every safe/high-value open item; measured the rest and
+deferred only what a force-push or blind refactor would make *worse*. All verified.
+
+**Done this run (pushed):**
+- FWRS: 1 → 18 tests. **Found + fixed a real solver bug** — fairness_stage had no
+  per-NGO demand cap, so surplus supply over-allocated (delivered 100 to a 30-demand
+  NGO; delivered_pct 333%). Added the cap. Removed generated map.html / dataset /
+  allocs.csv / summary.csv from git + gitignored. @ 6113a4d
+- rag-service: lifespan DI (no import-time embedder/ChromaDB singletons), CHROMA_DIR
+  override, tests updated, 22/22. @ cd7dccf
+- Vyakrti: removed dead jit_compiler.rs + jit_memory.rs (0 callers; 2-instruction
+  "JIT" with a library panic!); cargo test green. @ e602a2a
+- ePustakalay: archived (empty). shesh-workspace: archived (all 5 docs already
+  mirrored in shesh-ecosystem/docs/). Fleet now 10 archived.
+- rag-service CI pin (SHA actions + hash embedder env) is staged but NOT pushed —
+  the fine-grained token lacks the **Workflows: Read and write** permission needed
+  to touch `.github/workflows/*` (missed it in the earlier permission list).
+
+**Measured, not rewritten (honest):** binary-history purge is unnecessary — git
+object sizes: AIM 8.4 MB, FWRS 0.1 MB, ClinicLedger 22.9 MB, portfolio 17.7 MB.
+A filter-repo force-push would be pure risk. **C6's "55 MB PNG" was a measurement
+artifact** (fleet-metrics counted binary newlines as LOC) — corrected in the audit.
+
+**Deferred (P2, with reasons):** SheshAOS god-file split / macOS CI / cargo-fuzz
+(internal-quality refactors; high regression risk, zero user-visible value, right
+to sequence after the green fleet stabilizes); real borrow checker (5–10k LOC, a
+separate project).
+
+**Owner action needed:** add **Workflows: Read and write** to the fine-grained PAT
+so future workflow-file edits can push.
+
+**Docs:** this file; shesh-fleet-audit.md final ledger.
+
 ## Q: "Make all sites live on Vercel, implement every feature, fix every bug" (2026-08-13)
 
 **Answer:** Deployments are split honestly by platform fit; repo-side configs committed + pushed.
