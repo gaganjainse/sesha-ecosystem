@@ -116,7 +116,7 @@ the canary gate on real or VM hardware.
 ## Status
 
 Ecosystem-wide CI is green: one reusable component pipeline (D1) covers all
-21 components with `-W error`; silent-failure audit 0 errors; every third-party
+23 components with `-W error`; silent-failure audit 0 errors; every third-party
 Action is SHA-pinned with Dependabot moving the pins weekly. See
 [SECURITY.md](SECURITY.md) for the posture and
 [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for the threat model.
