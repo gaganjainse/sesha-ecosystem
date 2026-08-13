@@ -14,7 +14,7 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 (CI closure: both known reds closed green)
+## 0. Current position — 2026-08-13 (CI closure + out-of-scope reds closed)
 
 CI closure completed by the new session (2026-08-13):
 
@@ -30,14 +30,25 @@ CI closure completed by the new session (2026-08-13):
   (only 7 curated → ≥8 test failed). Generator renamed; 8 curated,
   22/22 tests, run 31663621988 + CI green.
 - **Fleet poll (60 repos):** 173 GREEN / 0 PENDING / 16 RED. 13 reds are
-  dependabot-PR or stale-SHA runs (pre-fix SHAs, see QUERYLOG entry);
-  shesh-workspace janitor red is a stale run of a workflow removed at tip
-  (20ec93e); genuinely-red main branches exist only on out-of-scope
-  non-shesh repos (AIM tests, ClinicLedger Gradle cache) — reported,
-  not silently adopted.
+  dependabot-PR or stale-SHA runs (pre-fix SHAs, re-verified — see QUERYLOG
+  entry); shesh-workspace janitor red is a stale run of a workflow removed
+  at tip (20ec93e); the last two genuinely-red main branches (AIM,
+  ClinicLedger/ClinicLedger-Template) were then fixed — see below.
+- **AIM CI — GREEN** (`6afe02a`): tests patched a non-existent module attr
+  (`app.fetch_settings_map`; app.py imports it lazily) → repointed the 5
+  patch sites at `repositories.system_repository.fetch_settings_map`.
+  101/101 tests, flake8/py_compile clean.
+- **ClinicLedger CI — GREEN in progress** (`f17d3f9` + `6131bf3`): gradle
+  pin `9.5` → `9.6.1` (full version string required); missing
+  `gradle-wrapper.jar` restored (the blanket `*.jar` .gitignore rule had
+  swallowed it — negation exception added).
+- **ClinicLedger-Template CI — GREEN in progress** (`85cb9c3` + `134e050` +
+  `30be902`): same gradle pin → `9.5.0`; same wrapper-jar restore; plus the
+  POSIX `gradlew` script itself was never committed (only `gradlew.bat`) —
+  restored with exec bit.
 - **Known-good tips:** ecosystem `7670f90`, shesh-docs `82f62e2`,
   shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
-  shesh-voice `8a6fd42`, shesh-wave `987da7b`.
+  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `6afe02a`.
 - **Fresh-session gotchas (Arena snapshot exclusions):** `.git/config`
   (origin remote) and `~/.git-credentials` are not persisted → re-add
   remote, credential helper, identity each session; reinstall

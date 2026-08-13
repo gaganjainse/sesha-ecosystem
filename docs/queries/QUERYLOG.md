@@ -6,6 +6,40 @@ intent and prevents drift.
 
 ---
 
+## Q: "Continue here" (2026-08-13)
+
+**Answer:** Continued in-session instead of hopping; closed the remaining flagged reds:
+- **AIM CI — GREEN** (`6afe02a`): run 31268195425 red — tests patched
+  `app.fetch_settings_map` but app.py imports the name lazily inside
+  `inject_globals()` (`from repositories.system_repository import ...`), so
+  the module attribute never exists (`AttributeError`). Fixed the 5 patch
+  sites to target `repositories.system_repository.fetch_settings_map` — the
+  real source the lazy import reads, so the mocks are actually effective
+  (not inert). Reproduced locally (4 failed) → fixed → 101/101 tests,
+  flake8 select E9/F63/F7/F82 clean, py_compile OK.
+- **ClinicLedger CI — three-layer fix** (`f17d3f9` → `6131bf3`): (1)
+  `gradle-version: '9.5'` doesn't resolve (full version string required) —
+  pinned to 9.6.1 matching the wrapper; (2) `gradle-wrapper.jar` missing —
+  the blanket `*.jar` .gitignore rule swallowed the committed bootstrap;
+  negation exception added and jar restored from gradle/gradle v9.6.1; (3)
+  (in progress at last check).
+- **ClinicLedger-Template CI — four-layer fix** (`85cb9c3` → `134e050` →
+  `30be902`): same gradle pin to 9.5.0, same wrapper-jar un-ignore + restore,
+  plus the POSIX `gradlew` launcher script itself was never committed (only
+  `gradlew.bat`) — restored from gradle/gradle v9.5.0 with exec bit.
+- **Fleet dependabot reds re-verified:** Vyakriti dependabot run now has a
+  newer success; portfolio path-to-regexp reds are all on pre-`892b2f2`
+  SHAs; shesh-docs/she-sh-wave pip reds predate the gh-actions-only config;
+  grievance-portal's three reds map to dependabot PRs that are already
+  closed; pipecat/vyakrti-ide/waveterm have open dependabot PRs (non-shesh
+  repos, PR-branch runs only — main branches green).
+- **Arena snapshot gotchas (re-confirmed):** `.git/config` + credentials are
+  excluded; remote re-add + credential store + identity needed each session.
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [docs/NEXT_SESSION_PROMPT.md](../NEXT_SESSION_PROMPT.md), this file.
+
+---
+
 ## Q: "This was my conversation after the session compacted: …" — session-shift handoff; previous session's continuation planned CI-closure verification + handoff docs + new-session prompt (2026-08-13)
 
 **Answer (new session, executed):** The previous session (Orchestrator) had been asked to "shift to a completely new session right now. Prepare everything needed. And find me the prompt to give it." Its post-compaction continuation planned: verify the two unknown CI states, close quick wins, refresh SESSION_HANDOFF/NEXT_SESSION_PROMPT, log QUERYLOG, deliver the prompt. This tab executed that plan:
