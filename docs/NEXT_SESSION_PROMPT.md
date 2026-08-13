@@ -75,10 +75,15 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 - ✅ portfolio Auto-Update GREEN — `cd30013` (prettier-normalize after
   regeneration) + `c7673c2` (generator updated for the AI-OS repo rename; 8 curated,
   22/22 tests).
-- Fleet: 173 GREEN / 0 PENDING / 16 RED — 13 are dependabot-PR/stale-SHA
-  runs, shesh-workspace janitor red = removed workflow (stale run), genuine
-  main reds only on out-of-scope repos (AIM tests, ClinicLedger Gradle) —
-  see QUERYLOG 2026-08-13 entry.
+- ✅ AIM CI GREEN — `6afe02a` (tests patch the real repository module).
+- ✅ ClinicLedger CI GREEN — `f17d3f9` (gradle pin) + `6131bf3` (wrapper jar
+  un-ignored/restored) + `b04adf7` (voice parser: phrase-based number groups,
+  end-anchored name fillers, rokda/paisa dialects; 34/34 JVM tests).
+- ✅ ClinicLedger-Template CI GREEN — `85cb9c3` + `134e050` + `30be902`
+  (gradle pin, wrapper jar, gradlew script restored).
+- Fleet: 173+ GREEN / 0 PENDING; remaining reds are dependabot-PR runs on
+  non-shesh repos (pipecat/vyakrti-ide/waveterm open PRs) — see QUERYLOG
+  2026-08-13 entries.
 - Fresh-session gotchas: `.git/config` (origin) + `~/.git-credentials` are
   excluded from Arena snapshots → re-add remote + credential helper +
   identity; reinstall cryptography/ruff/node24. Repo layout: this repo at
