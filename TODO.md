@@ -90,7 +90,9 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-harness` — Continual Harness: immutable base prompt, evidence-backed `/refine`, rollback (7 tests)
 - ✅ `shesh-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
-- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests)
+- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (82b3173): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
+- ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop 827a851): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
+- ✅ **Nexus bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 83e3358): shesh-kernel nexus_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
 - ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **COMPLETED 2026-08-13** (81777f5): two-phase confirmation flow closed (`record_confirmation` → hash-chained audit + kernel CONFIRMATION_GRANTED/DENIED events), `audit_tail` ledger read view, 8 tests pin the contract (was: minimal wrapper, scheduler stub, 2 tests)
 - ✅ LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline) — now via ModelAgnosticAdapter with strict JSON schema, validation+repair loop 3 retries, fallback chain free-first→stub, LLM-as-judge score >=0.7
@@ -109,13 +111,13 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-acp` — editor↔agent ACP server (7 tests) — session streaming + cancel + permission responses + terminal bridge + diffs done
 - ✅ `shesh-voice` — Newelle fork for wake/STT/TTS
 - ✅ `shesh-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
-- ✅ **`shesh-phone`** — ADB control with safe-bounds tapping (7 tests)
+- ✅ **`shesh-phone`** — ADB control with safe-bounds tapping (7 tests) — **COMPLETED P1 2026-08-13** (78d120e): OCR/vision→tap loop (`VisionTapLoop` + `TemplateVision`, injected provider, safe-area refusal, verify-after-tap; 9 new tests, 16 total)
 - ✅ shesh-backup restic wrapper with verify
 - ✅ `shesh-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
 - ✅ `shesh-update-check`: check_system_updates (read-only)
 - ✅ `shesh-health`: system_health (disk/units/load/temps/caches)
 - ✅ Package mature third-party MCPs behind policy: filesystem/fetch/git shipped as shesh-mcp-bundle (4 tests); Playwright/GitHub/SQLite remain as optional via mcp-bundle
-- ✅ Calendar: local-first iCal vdir MCP (shesh-calendar); email/CalDAV sync remains via vdirsyncer
+- ✅ Calendar: local-first iCal vdir MCP (shesh-calendar); email/CalDAV sync remains via vdirsyncer — **COMPLETED P1 2026-08-13** (4e4e0cc): `tools/setup-email.sh` local-first IMAP sync → ~/.maildir + neomutt config, secrets via shesh-secrets env only
 - ✅ Messaging bridges (Telegram/Signal) as isolated, opt-in services — **COMPLETED 2026-08-13** (946b4ca): bridge now full-duplex — `read_telegram` (getUpdates, caller-acked offsets, long-poll clamp, channel_post) + `telegram_status` (getMe probe); same opt-in flag + secrets-resolved-token disciplines; 12 tests (was: send-only, 3 tests)
 - ✅ Media: screenshots, screen recording, wallpaper, audio routing — **COMPLETED 2026-08-13** (5461535): audio contract made honest (no fabricated `stub-speakers`; empty list + explicit reason when offline), real `get_volume`/`set_volume` via wpctl with mute parse + 1.0 policy cap; 16 tests (was: 3 tests + fabricated sink names). NOTE: wallpaper backend is hyprpaper-via-hyprctl — the 08-11 line claiming swaybg was inaccurate
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)

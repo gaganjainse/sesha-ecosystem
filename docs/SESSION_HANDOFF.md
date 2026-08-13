@@ -14,7 +14,15 @@ Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it incl
 
 ---
 
-## 0. Current position — 2026-08-13 (fleet dependabot reds + Shesh leftovers closed)
+## 0. Current position — 2026-08-13 (P0/P1/P2 roadmap: feasible items all done)
+
+Roadmap completion (this turn): every sandbox-feasible P1/P2 item is done —
+shesh-phone vision→tap loop (`78d120e`), ambient data-aware proactivity
+(`82b3173`), job-mode profile P2 (`827a851`), Nexus bridge Rust ingest
+(SheshAOS `83e3358`+`1ddf28b`), email/IMAP setup (shesh-calendar `4e4e0cc`).
+All CI green. Remaining honest: P0 hardware validation (needs the MSI
+machine), eBPF/Aya (needs kernel privs), a11y + marketplace + mirror
+(roadmap 💡future), RAG (optional separate repo). See QUERYLOG 2026-08-13.
 
 Latest closures (new session, continued):
 - **Canary P0 e2e — GREEN on arch/fedora/ubuntu** (`4b0af81` → `f3b4a3c`):

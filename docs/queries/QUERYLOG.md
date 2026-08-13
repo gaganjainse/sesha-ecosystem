@@ -6,6 +6,45 @@ intent and prevents drift.
 
 ---
 
+## Q: "So every P0 and P1 is completed? Add what about P2" (2026-08-13)
+
+**Answer:** Honest audit first (verified against repos, not assumed), then
+completion of every sandbox-feasible item.
+
+**P0:** 3/4 done + canary e2e done this session; the only non-done P0 is
+hardware validation on the MSI machine — physically impossible in a sandbox
+(needs Hyprland@144/NVIDIA MUX/wake word on the real laptop).
+
+**P1 completed this turn (5 items):**
+- **shesh-phone OCR/vision→tap loop** (`78d120e` + `4dc63b2`): `VisionTapLoop`
+  + `TemplateVision` — screenshot → locate → tap → verify, retries honestly,
+  refuses taps outside the safe area, injected provider per README contract.
+  9 new tests (16 total); CI green (added pillow to extra-pip).
+- **Ambient data-aware proactivity** (shesh-desktop `82b3173`): `sources.py`
+  gathers real facts (git uncommitted count, backup age, Downloads arrivals,
+  disk free) — offers now say "7 uncommitted changes" not "You have
+  uncommitted changes." 11 new tests (38 total).
+- **job-mode profile (P2, feasible)** (shesh-desktop `827a851`): isolated work
+  profile — work git identity via includeIf `~/work/**`, personal sync
+  paused/restored, reversible + idempotent, shellcheck clean.
+- **Nexus bridge: Rust consumes nexus-events.jsonl** (SheshAOS `83e3358` +
+  `1ddf28b`): `shesh-kernel::nexus_ingest` — typed ingest with honest
+  accounting (bad lines, unknown kinds, non-monotonic sequences), tail view;
+  5 tests, workspace + clippy + fmt clean, CI green.
+- **Email/IMAP** (shesh-calendar `4e4e0cc`): `tools/setup-email.sh` — local-first
+  IMAP sync into ~/.maildir + neomutt config; secrets only via shesh-secrets
+  env, never written to disk; setup/sync/status/remove cycle-tested.
+
+**P2 status (honest):** ✅ sigstore/provenance (earlier) · ✅ job-mode (now) ·
+⚠️ eBPF/Aya — shesh-ebpf exists (proc-based); real eBPF needs kernel
+privileges, not available in sandbox · ❌ a11y (design-level, vague scope) ·
+❌ skill marketplace (TODO 💡 future) · ❌ self-hosted update mirror (TODO 💡
+future) · ❌ RAG integration (separate optional repo).
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
+
+---
+
 ## Q: "Dig into those send make all of them green then complete the leftovers from our own Shesh project" (2026-08-13)
 
 **Answer:** Two tracks executed.
