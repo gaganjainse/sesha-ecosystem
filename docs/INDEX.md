@@ -88,13 +88,14 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [shesh-memory](components/shesh-memory.md)
 - [💬 shesh-messaging](components/shesh-messaging.md)
 - [🧭 shesh-mind](components/shesh-mind.md)
+- [shesh-omniroute — Shesh wrapper around the OmniRoute gateway](components/shesh-omniroute.md)
 - [shesh-orchestrator](components/shesh-orchestrator.md)
 - [📱 shesh-phone](components/shesh-phone.md)
 - [🔐 shesh-secrets](components/shesh-secrets.md)
 - [shesh-shell](components/shesh-shell.md)
 - [shesh-skills](components/shesh-skills.md)
 - [shesh-system](components/shesh-system.md)
-- [Shesh-Voice](components/shesh-voice.md)
+- [Shesh Voice — local-first voice/chat overlay (fork of Newelle)](components/shesh-voice.md)
 
 ## policies/
 - [Dependency Policy — rolling with the river, never drowning in it](policies/DEPENDENCY_POLICY.md)
