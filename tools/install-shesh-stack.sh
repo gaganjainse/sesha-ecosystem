@@ -95,7 +95,8 @@ UNIT_DIR="$HOME/.config/systemd/user"
 run mkdir -p "$UNIT_DIR"
 
 write_unit() { # name, exec, desc
-  local name="$1" exec_cmd="$2" desc="$3" f="$UNIT_DIR/$name"
+  local name="$1" exec_cmd="$2" desc="$3"
+  local f="$UNIT_DIR/$name"
   if [[ $DRY -eq 1 ]]; then info "[dry-run] write unit $name"; return; fi
   cat > "$f" <<UNIT
 [Unit]
