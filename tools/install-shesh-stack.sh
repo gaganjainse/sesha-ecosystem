@@ -1,24 +1,16 @@
 #!/usr/bin/env bash
-# install-shesh-stack.sh — Shesh AI stack on CachyOS/Arch (desktop-agnostic)
+# install-shesh-stack.sh — Shesh Brain/Mind/Soma MCP stack (desktop-agnostic).
 #
-# Installs the Brain/Mind/Soma MCP servers + Ollama model stack so the agent
-# layer runs regardless of which desktop dots you use (end-4/dots-hyprland,
-# shesh-desktop, or plain Hyprland). Idempotent; safe to re-run.
+# Installs the shesh-core monorepo + the kept service repos into a shared venv,
+# wires MCP client configs, systemd user units, and (optionally) Ollama models.
+# Idempotent; safe to re-run. Runs after `setup install` (which already created
+# the venv and installed Ollama/models on the desktop) OR standalone.
 #
 # Usage:
-#   bash install-shesh-stack.sh [--skip-ai] [--dry-run] [--channel stable]
-#   --skip-ai   skip Ollama + model pulls
-#   --channel   stable|canary|devel (default stable)
-#
-# What it does:
-#   1. Preflight (Arch/CachyOS, user not root, network, ~/src)
-#   2. Install uv + ollama
-#   3. Clone shesh-ecosystem + fetch component repos (manifest)
-#   4. uv install each component (console scripts: shesh-*-mcp)
-#   5. Generate MCP client configs (~/.config/shesh/mcp/*.json)
-#   6. Install systemd user units for the core MCP servers
-#   7. Pull the 6GB-VRAM Ollama model set
-#   8. Verification gate
+#   bash install-shesh-stack.sh [--skip-ai] [--no-sysupgrade] [--channel canary] [--dry-run]
+#   --skip-ai       skip Ollama + model pulls (MCP servers still install)
+#   --no-sysupgrade skip `pacman -Syu` (bootstrap already upgraded)
+#   --channel       stable|canary|devel (default canary — matches the desktop)
 set -euo pipefail
 
 GREEN='\033[0;32m'; BLUE='\033[0;34m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
@@ -27,13 +19,21 @@ info(){ echo -e "${BLUE}[..]${NC}   $*"; }
 warn(){ echo -e "${YELLOW}[!!]${NC}   $*"; }
 die() { echo -e "${RED}[FATAL]${NC} $*" >&2; exit 1; }
 
-SKIP_AI=0; DRY=0; CHANNEL="stable"
+SKIP_AI=0; NOSYS=0; DRY=0; CHANNEL="canary"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --skip-ai) SKIP_AI=1; shift;;
+    --no-sysupgrade) NOSYS=1; shift;;
     --channel) CHANNEL="$2"; shift 2;;
     --dry-run) DRY=1; shift;;
-    -h|--help) sed -n '2,20p' "$0"; exit 0;;
+    -h|--help) cat <<'EOF'
+install-shesh-stack.sh — install the Shesh MCP stack (desktop-agnostic)
+  --skip-ai        skip Ollama + model pulls
+  --no-sysupgrade  skip `pacman -Syu`
+  --channel        stable|canary|devel (default canary)
+  --dry-run        print actions only
+EOF
+      exit 0;;
     *) warn "unknown arg $1"; shift;;
   esac
 done
@@ -41,59 +41,67 @@ done
 SRC="${HOME}/src"
 ECO="${SRC}/shesh-ecosystem"
 COMP="${SRC}/components"
-
-info "== Preflight =="
-[[ $EUID -eq 0 ]] && die "run as your normal user (sudo will be used where needed)"
-command -v sudo >/dev/null || die "sudo required"
-grep -qiE 'arch|cachyos' /etc/os-release || warn "not Arch/CachyOS — some steps may differ"
-[[ $DRY -eq 1 ]] && info "[dry-run] mode: printing actions only"
+VENV="${XDG_STATE_HOME:-$HOME/.local/state}/shesh/.venv"
+BIN_LINK="${HOME}/.local/bin"
 
 run() { if [[ $DRY -eq 1 ]]; then info "[dry-run] $*"; else "$@"; fi; }
 
-info "== 1. Base tooling (uv, git, ollama) =="
-run sudo pacman -Syu --noconfirm
+info "== Preflight =="
+[[ $EUID -eq 0 ]] && die "run as your normal user"
+command -v sudo >/dev/null || die "sudo required"
+grep -qiE 'arch|cachyos' /etc/os-release || warn "not Arch/CachyOS — steps may differ"
+
+info "== 1. Base tooling =="
+[[ $NOSYS -eq 0 ]] && run sudo pacman -Syu --noconfirm
 run sudo pacman -S --noconfirm --needed git curl base-devel
 if ! command -v uv >/dev/null 2>&1; then
   run bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
   export PATH="$HOME/.local/bin:$PATH"
 fi
-ok "uv: $(uv --version 2>/dev/null || echo 'pending PATH reload')"
-if [[ $SKIP_AI -eq 0 ]] && ! command -v ollama >/dev/null 2>&1; then
-  run sudo pacman -S --noconfirm --needed ollama
-  run systemctl --user enable --now ollama 2>/dev/null || run systemctl enable --now ollama
-fi
+ok "uv: $(uv --version 2>/dev/null || echo 'restart shell to load uv')"
 
-info "== 2. Clone ecosystem + components =="
+info "== 2. Clone ecosystem + component repos =="
 run mkdir -p "$SRC"
 if [[ -d "$ECO/.git" ]]; then
-  info "shesh-ecosystem present; pulling"
-  run git -C "$ECO" pull --ff-only || warn "ecosystem pull failed (continuing with existing checkout)"
+  run git -C "$ECO" pull --ff-only || warn "ecosystem pull failed — continuing with existing checkout"
 else
   run git clone https://github.com/gaganjainse/shesh-ecosystem.git "$ECO"
 fi
-run "$ECO/scripts/fetch-components.sh" "$COMP" "$ECO/manifests/components.toml"
+run bash "$ECO/scripts/fetch-components.sh" "$COMP" "$ECO/manifests/components.toml"
 
-info "== 3. Install components (uv, editable) =="
+info "== 3. Shared venv (reuses setup's ~/.local/state/shesh/.venv if present) =="
+if [[ ! -x "$VENV/bin/python" ]]; then
+  run uv venv "$VENV"
+fi
+ok "venv: $VENV"
+
+info "== 4. Install components (editable) =="
 if [[ -d "$COMP" ]]; then
   for d in "$COMP"/shesh-*; do
-    [[ -d "$d" ]] || continue
+    [[ -d "$d" && ! -L "$d" ]] || continue   # skip symlinks (shared-repo aliases)
     [[ -f "$d/pyproject.toml" ]] || continue
     info "installing $(basename "$d")"
-    run bash -c "cd '$d' && uv pip install --system -e . 2>/dev/null || uv pip install -e ."
+    run uv pip install --python "$VENV/bin/python" -e "$d"
   done
 else
   warn "components dir missing — fetch-components.sh may need network"
 fi
-# ensure console scripts resolve
-hash -r
 
-info "== 4. MCP client configs =="
+info "== 5. Symlink console scripts into ~/.local/bin (MCP clients resolve them) =="
+run mkdir -p "$BIN_LINK"
+if [[ -d "$VENV/bin" ]]; then
+  for s in "$VENV"/bin/shesh-*; do
+    [[ -f "$s" ]] || continue
+    run ln -sf "$s" "$BIN_LINK/$(basename "$s")"
+  done
+fi
+
+info "== 6. MCP client configs (channel: $CHANNEL) =="
 run python3 "$ECO/scripts/generate_mcp_config.py" --channel "$CHANNEL"
 
-info "== 5. systemd user units (core MCP servers) =="
+info "== 7. systemd user units (absolute venv paths) =="
 UNIT_DIR="$HOME/.config/systemd/user"
 run mkdir -p "$UNIT_DIR"
-
 write_unit() { # name, exec, desc
   local name="$1" exec_cmd="$2" desc="$3"
   local f="$UNIT_DIR/$name"
@@ -112,30 +120,27 @@ RestartSec=3
 WantedBy=default.target
 UNIT
 }
-
-# Commands match the console_scripts each pyproject declares.
-write_unit shesh-audit-mcp.service    "shesh-audit-mcp"    "Shesh governance audit MCP"
-write_unit shesh-secrets-mcp.service  "shesh-secrets-mcp"  "Shesh secret resolution MCP"
-write_unit shesh-memory-mcp.service   "shesh-memory-mcp"   "Shesh hierarchical memory MCP"
-write_unit shesh-brain-mcp.service    "shesh-brain-mcp"    "Shesh brain (kernel) MCP"
-
-# shesh-system/files/shell are optional soma services — enable only if installed
-for svc in shesh-system-control-mcp shesh-files-mcp shesh-shell-mcp; do
-  if command -v "$svc" >/dev/null 2>&1; then
-    write_unit "$svc.service" "$svc" "Shesh soma MCP ($svc)"
-  else
-    warn "$svc not installed — skipping unit (install its repo to enable)"
-  fi
-done
-
+if [[ -d "$VENV/bin" ]]; then
+  for s in "$VENV"/bin/shesh-*-mcp; do
+    [[ -f "$s" ]] || continue
+    bn="$(basename "$s")"
+    write_unit "$bn.service" "$s" "Shesh MCP server: $bn"
+  done
+fi
 run systemctl --user daemon-reload
-for u in "$UNIT_DIR"/shesh-*.service; do
-  [[ -f "$u" ]] || continue
-  run systemctl --user enable "$(basename "$u")"
-done
+if [[ -d "$UNIT_DIR" ]]; then
+  for u in "$UNIT_DIR"/shesh-*-mcp.service; do
+    [[ -f "$u" ]] || continue
+    run systemctl --user enable "$(basename "$u")"
+  done
+fi
 
-info "== 6. Ollama model stack (6GB VRAM) =="
+info "== 8. Ollama model stack (6GB VRAM) =="
 if [[ $SKIP_AI -eq 0 ]]; then
+  if ! command -v ollama >/dev/null 2>&1; then
+    run sudo pacman -S --noconfirm --needed ollama
+    run systemctl enable --now ollama 2>/dev/null || run sudo systemctl enable --now ollama
+  fi
   MODELS=(phi4-mini qwen2.5-coder:3b moondream2 nomic-embed-text)
   for m in "${MODELS[@]}"; do
     run ollama pull "$m"
@@ -143,20 +148,15 @@ if [[ $SKIP_AI -eq 0 ]]; then
   ok "models pulled: ${MODELS[*]}"
 fi
 
-info "== 7. Verification =="
-if [[ $DRY -eq 1 ]]; then
-  info "[dry-run] verification skipped"
-  exit 0
-fi
+info "== 9. Verification =="
+[[ $DRY -eq 1 ]] && { info "[dry-run] verification skipped"; exit 0; }
 fails=0
 check() { if "$@" >/dev/null 2>&1; then ok "$*"; else warn "FAILED: $*"; fails=$((fails+1)); fi; }
-check python3 -c "import tomllib"
+check "$VENV/bin/python" -c "import tomllib"
 check uv --version
-for c in shesh-audit-mcp shesh-secrets-mcp shesh-memory-mcp shesh-brain-mcp; do
-  check command -v "$c"
+for c in "$BIN_LINK"/shesh-*-mcp; do
+  [[ -e "$c" ]] && check test -x "$c"
 done
 [[ $SKIP_AI -eq 0 ]] && check ollama list
-if [[ $fails -gt 0 ]]; then
-  die "$fails verification step(s) failed — see warnings above"
-fi
-ok "Shesh stack installed and verified. MCP config: ~/.config/shesh/mcp/servers.json"
+if [[ $fails -gt 0 ]]; then die "$fails verification step(s) failed — see above"; fi
+ok "Shesh stack installed. MCP config: ~/.config/shesh/mcp/servers.json"
