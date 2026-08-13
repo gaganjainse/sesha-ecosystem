@@ -8,6 +8,39 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Reset timer, I'll rotate the PAT; clear dependabot + build boilerplate-as-code" (2026-08-13)
+
+**Answer:** Both delivered, all verified on origin/main.
+
+**Dependabot clearance (0 open alerts on all three, CI green):**
+- GameVault 72→0: Next 13.5.1→15.5.23 + React 19.2.8 + Suspense wrappers on the 4
+  useSearchParams pages + overrides (next→postcss 8.5.x, sharp 0.35); cmdk/embla/
+  vaul/sonner/day-picker bumped for React 19 peers; recharts 2.15.4 + resizable-panels
+  2.1.9 pinned (v3/v4 are breaking majors). Verified: npm audit 0, tsc, eslint, next build green.
+- grievance-portal 17→0: Laravel 11→12.66.0 (11.x fully EOL; Composer 2.10 blocks
+  advisory-affected), commonmark 2.10, guzzle 7.15.3, vite 6.4.3 (esbuild 0.25).
+  composer.json pins config.platform.php=8.3.6 so the lock matches CI's PHP 8.3.
+- Vyakrti 4→0: nested vyakrti-ide frontend vite 5.2→8.2.1 + plugin-react 4.2→6.0.5.
+
+**CI lies fixed:** GameVault's `npm run build 2>/dev/null || ... || echo "install gate
+passed"` replaced with a real npm ci + typecheck + lint + build gate (placeholder env).
+
+**Boilerplate-as-code:** templates/boilerplate/ (ci-python/ci-node/ci-static, SECURITY,
+dependabot) + tools/boilerplate_check.py (fleet drift gate: hygiene files + CI
+suppression patterns, forks exempt, YAML comments skipped, token-aware) + weekly
+.github/workflows/boilerplate.yml. Applied: FWRS, shesh-wave, ePustakalay, gaganjainse,
+shesh-workspace (honest CI + SECURITY.md), shesh-audit/shesh-phone bench install
+(pyproject/requirements branch), wiki-sync (ls-remote branch detect). Remaining drift:
+AIM bandit `--exit-zero`/`safety || true` (18 high bandit findings behind the flag —
+tracked, needs a findings-triage pass before un-suppressing).
+
+**Timer:** tools/session_timer.sh — adaptive 15-min tick with precise JSON verdict
+parsing (replaces the hardcoded 5-min loop). Committed.
+
+**Docs:** this file.
+
 ## Q: "Clone every repo, deep study, brutal audit; then give extensive suggestions" (2026-08-13)
 
 **Answer:** Cloned 58/60 repos, file-level study of flagships, hash-level duplication
