@@ -6,6 +6,23 @@ intent and prevents drift.
 
 ---
 
+## Q: "Have you updated linters and tests and ci's and everything else? … always run a terminal with a timer … what about dependabots and benchmarks?" (2026-08-13)
+
+**Answer:** Yes — linters, test tooling, CI configs, dependabot, and benchmarks all audited/updated to latest, plus the timer terminal is running.
+
+**Linters/test tools:** actionlint v1.7.12 = latest (pinned+sha256) · shellcheck upgraded apt 0.10.x → **v0.11.0 pinned with sha256** (verified 0 findings before pinning; comment wording fixed after actionlint SC1072 directive-parse caught it — `# shellcheck v0.11.0` reads as a directive) · ruff/pytest/fastmcp installed via pip = latest · clippy/fmt from stable snapshot (quarterly-review policy) · zizmor/gitleaks via pip = latest. Local gates all verified.
+
+**CI configs (actions):** SheshAOS workflows now SHA-pinned at latest — actions/cache v4→**v6.1.0** (55cc8345), upload-artifact v4→**v7.0.1** (043fb46d), audit-check @v2→**SHA** 69366f33 (parallel agent b69df77 shipped the identical pins; verified). Ecosystem workflows already at latest.
+
+**Dependabot:** added configs to **11 more user-owned repos** (AIM, ClinicLedger, ClinicLedger-Template, FWRS, GameVault, VillageClinicLedger, Vyakrti [cargo+npm], grievance-portal [composer+npm], llm-eval-harness, rag-service, vyakrti-ide) — weekly, agent-owned rolling updates, matching the 33 already configured. First dependabot cycles are running (in-progress on the newly configured repos). waveterm's sharp run remains the documented upstream-blocked security_update_not_possible.
+
+**Benchmarks:** SheshAOS bench workflow **green on the dep-update commit** (criterion 0.8 benches build+run in CI; bench.yml run success on ab27cd8 and b69df77).
+
+**Timer terminal:** background `session_guard --tick` loop running (every 5 min). It immediately caught the workspace at 209 MB/7232 files → cleaned heavy mirror clones + build artifacts → **42 MB/3461 files** (healthy).
+
+**Docs:** [docs/SESSION_HANDOFF.md](../SESSION_HANDOFF.md), this file.
+
+---
 ## Q: "One job, update all my dependencies to their respective latest rolling release version from github" (2026-08-13)
 
 **Answer:** Fleet-wide rolling dependency update to latest (from GitHub/PyPI/npm/crates.io), per the evergreen rolling-release mandate.
