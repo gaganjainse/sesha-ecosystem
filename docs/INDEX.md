@@ -26,7 +26,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)](OMNIROUTE_STUDY.md)
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
-- [🚨 SESSION HOP RECOMMENDED](SESSION_HOP_ALERT.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
 - [Situation Report — fused into the incident record](SITUATION_REPORT.md)
 - [Skill Marketplace — Sharing Evolved Skills (Opt-in, P2)](SKILL_MARKETPLACE.md)
