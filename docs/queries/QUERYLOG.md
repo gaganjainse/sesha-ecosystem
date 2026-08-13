@@ -22,6 +22,51 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "One more checkup from a different angle; install web tools; are all MCP/automation/tools working; device-customized? MUX proper? storage proper? NVIDIA?" (2026-08-13)
+
+**Answer:** Fresh-eyes verification pass with real tooling, not eyeballing.
+
+**Tools installed + run:** qmllint (Qt6) on all settings/services QML — 0 hard
+errors (only module-resolution warnings from missing Quickshell, identical to
+untouched baseline); systemd-analyze verify on every committed unit; a REAL MCP
+stdio smoke-test (initialize + tools/list) on all 15 shesh-core servers — 14/15
+respond with correct tools; yamllint on all workflows (0 findings);
+markdownlint + markdown-link-check on docs.
+
+**Found + fixed:**
+- tools/shesh/units target wanted shesh-system-control-mcp + shesh-files-mcp
+  (nonexistent scripts) + retired 'Sesha' desc + dead Auto-desktopenv link →
+  rewritten with the real 17 names; 3 stale .service files deleted.
+- shesh-ambient.service: ConditionPathExists in [Service] (ignored) → [Unit].
+- smart-organizer: stale root .timer (Requires nonexistent service) + orphan
+  units/ deleted; Shesh.qml toggled smart-organizer-watch.service (never
+  installed) → smart-organizer.service (setup's real name).
+- shesh-power: script ran hyprctl/notify as root via udev (no session) and the
+  rule pointed at /usr/local/bin/shesh-power.sh which nothing installed →
+  system-only script + correct install in install-shesh-stack + auto-detect
+  user service.
+- NVIDIA: added missing grub bootloader arm (modeset + grub-mkconfig).
+- install-shesh-stack: now also installs shesh-power (system+udev+user),
+  shesh-ambient (pip+timer), mcp-bundle upstreams (uvx fetch/git, npm
+  filesystem), and writes shesh-mcp.target — all previously referenced but
+  never installed.
+- exec bits on committed scripts. GETTING_STARTED orphaned code-fence removed.
+
+**Verified GOOD (no action):** MUX switcher is device-specific (Sword 16 HX,
+EC+efivars, hybrid/dgpu/igpu, warns against supergfxctl, honest about reboot);
+device profile matches the spec (14700HX/4050 6GB 96-bit/1920x1200@144/16GB/
+Gen4+Gen5); storage doc (03_DISK_STRUCTURE) is complete (btrfs+zstd+snapshots,
+nocow AI models, restic); common MCP needs covered by shesh-skills
+(web_search/fetch_url/git_*/github_view) + mcp-bundle (filesystem/fetch/git).
+
+**Honest sandbox limits:** QML needs a first-boot smoke test (can't render
+Quickshell here); MUX/udev/hyprctl need the real hardware; mcp-bundle upstreams
+need network on first tool call.
+
+**Docs:** this file.
+
 ## Q: "Style same? Everything in settings? Policy section? Foolproof one-link install before PC reset?" (2026-08-13)
 
 **Answer:** Deep install-chain audit found and fixed 4 real install-breakers + added the policy section.
