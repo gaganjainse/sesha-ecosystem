@@ -38,9 +38,10 @@ Latest closures (new session, continued):
   transformers `<5` — unsatisfiable when combined with local-smart-turn.
   Verified the STT service never imports the smart modules (cloud API only),
   so dropped `[smart]` from the extra (documented; opt-in note added) →
-  bumped lock transformers 4.57.6 → **5.15.0**. **All 3 transformers alerts
-  now CLOSED.** (pipecat is a mirror fork — not a Shesh component; fix is
-  upstreamable.)
+  bumped lock transformers 4.57.6 → **5.15.0**. Follow-up: mcp
+  1.27.2 → 1.28.1 (`5a8037e`, GHSA-vj7q-gjh5-988w WebSocket Host/Origin).
+  **pipecat: 0 open dependabot alerts.** (pipecat is a mirror fork — not a
+  Shesh component; fixes are upstreamable.)
 - **shesh-voice Flatpak Build — verified GREEN** (was unconfirmed).
 - **Known-good tips:** ecosystem `39ed0cf`, shesh-docs `0357778`,
   shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
