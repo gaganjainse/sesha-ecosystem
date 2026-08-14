@@ -11,7 +11,7 @@ of truth per topic, enforced by automation rather than memory.
 | Cross-cutting decision/policy | `shesh-ecosystem/docs/` (+ `docs/policies/`) | shesh-docs renders these |
 | Component behavior/usage | the component repo's README (+ its docs/ when big) | ecosystem links, never copies prose |
 | Security posture/reporting | `SECURITY.md` here; THREAT_MODEL.md; RECOVERY.md | components link, don't restate |
-| Immutable history | docs/adr/*, docs/queries/QUERYLOG.md, docs/audits/* | records, never rewritten; links/names may be repaired |
+| Immutable history | docs/history/adr/*, docs/history/queries/QUERYLOG.md, docs/history/audits/* | records, never rewritten; links/names may be repaired |
 | Session state | TODO.md + SESSION docs | fused 2026-08-13: one state doc family |
 | Rendered/user-facing | shesh-docs (mdbook) | populated ONLY by scripts/sync-docs.sh — never hand-edit src/ |
 
@@ -30,7 +30,7 @@ of truth per topic, enforced by automation rather than memory.
 5. **Naming canon:** SHESH uppercase in prose, `shesh-*` kebab repos,
    SHESH_SNAKE for env vars; no legacy names outside immutable history
    (rename_sweep2.py + docs gate).
-6. **Archive-not-delete for docs too:** obsolete docs move to docs/attic/
+6. **Archive-not-delete for docs too:** obsolete docs move to docs/history/attic/
    with a pointer, never vanish unlinked.
 7. **Docs change with code:** a PR that changes behavior updates its doc in
    the same commit (docs-that-claim get gates where feasible).

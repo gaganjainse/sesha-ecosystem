@@ -204,7 +204,7 @@ checkable version is TODO.md.
 
 1. Anchor to TODO.md; pick the highest-priority unblocked ⬜.
 2. Branch per item; tests gate every push; never push red.
-3. After every user message: append to `docs/queries/QUERYLOG.md`, update TODO.md status, and refresh relevant docs — real-time.
+3. After every user message: append to `docs/history/queries/QUERYLOG.md`, update TODO.md status, and refresh relevant docs — real-time.
 4. Archive, never delete. No force-push to main.
 5. Mark hardware-dependent items 🟡 rather than faking success.
 6. **DON'T make minimal versions/stubs that become dead code — make proper working versions** with real implementation, tests, integration, docs. Minimal versions we made (shesh-brain, media, messaging, ebpf minimal) became stubs — user called out, now we make proper.

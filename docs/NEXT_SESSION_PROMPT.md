@@ -16,16 +16,16 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 
 **Stack must respect:**
 - docs/SESSION_HANDOFF.md READ FIRST, live anchor
-- docs/AUDIT_AND_ROADMAP.md 15 decisions D1-D15
+- docs/history/AUDIT_AND_ROADMAP.md 19 decisions D1-D19
 - TODO.md ⬜todo ✅done 🟡in-progress 🔴blocked — 11 left
 - docs/MANUAL_VERIFICATION.md 16-section checklist (hardware + rolling-deps + security + recovery drill)
 - SECURITY.md + docs/THREAT_MODEL.md + docs/RECOVERY.md — canonical security posture/runbooks
 - docs/policies/DEPENDENCY_POLICY.md — rolling-release ownership: agent bumps, downgrade-one break-glass
 - docs/policies/DOCUMENTATION_POLICY.md + docs/STYLE_GUIDE.md + docs/INDEX.md — docs SSOT + nav root
 - tools/book_build.py — shesh-docs pure projection (mirror map/fissions/orphan sweep); sync-docs.sh wraps it
-- docs/queries/QUERYLOG.md full trail newest first — append after each user msg
+- docs/history/queries/QUERYLOG.md full trail newest first — append after each user msg
 - docs/SESSION_PROTOCOL.md 60-sec hop protocol (docs/SESSION_HOP_ALERT.md is transient, untracked)
-- docs/adr/ 15 ADRs
+- docs/history/adr/ 19 ADRs
 - docs/GETTING_STARTED.md full install + Ollama 6GB stack
 - Containerfile, distrobox.ini, tools/install.sh --channel
 

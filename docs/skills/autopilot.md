@@ -22,7 +22,7 @@ When the user says "continue" or asks you to work unsupervised:
 4. **Update docs as you go.**
    - Flip the TODO status (⬜→🟡/✅).
    - Append the user's prompt + your answer + doc links to
-     `docs/queries/QUERYLOG.md`.
+     `docs/history/queries/QUERYLOG.md`.
    - If you created/changed a component, refresh `docs/components/`.
 
 5. **Stay local-first and safe.** No cloud calls by default. Destructive actions

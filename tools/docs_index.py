@@ -20,7 +20,7 @@ from pathlib import Path
 
 ECO = Path(__file__).resolve().parents[1]
 DOCS = ECO / "docs"
-EXEMPT_DIRS = {"adr", "queries", "audits", "attic", "INCIDENTS", "desktop"}
+EXEMPT_DIRS = {"history", "desktop"}
 
 LINK_RE = re.compile(r"\]\(([^)#]+?)(?:#[^)]*)?\)")
 
@@ -57,13 +57,15 @@ def build_index(files: list[Path]) -> str:
     archived = 0
     for f in files:
         rel = f.relative_to(ECO)
-        # attic is cold storage (archive-not-delete), not navigation: it is
-        # counted here but deliberately not listed — the INDEX is the map of
-        # live docs.
+        # history/ is the decision & timeline archive: it is linked once via
+        # history/README.md, not enumerated — the INDEX is the map of live docs.
+        # history/attic is cold storage (archive-not-delete) inside it.
         if "attic" in rel.parts:
             archived += 1
             continue
         parts = rel.parts[1:-1]
+        if parts and parts[0] == "history" and rel.name != "README.md":
+            continue
         if not parts:
             top.append(rel)
         else:
@@ -84,11 +86,16 @@ def build_index(files: list[Path]) -> str:
         out += [f"- [{title_of(ECO / p)}]({book_rel(p)})" for p in top]
         out.append("")
     for d in sorted(by_dir):
+        if d == "history":
+            out.append("## History")
+            out.append("- [📜 History — timeline & decision archive](history/README.md)")
+            out.append("")
+            continue
         out.append(f"## {d}/")
         out += [f"- [{title_of(ECO / p)}]({book_rel(p)})" for p in by_dir[d]]
         out.append("")
     if archived:
-        out.append(f"_{archived} archived docs under attic/ are intentionally "
+        out.append(f"_{archived} archived docs under history/attic/ are intentionally "
                    f"not listed (cold storage, see DOCUMENTATION_POLICY)._\n")
     return "\n".join(out)
 

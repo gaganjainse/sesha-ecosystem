@@ -186,4 +186,5 @@ The full map: **[docs/INDEX.md](docs/INDEX.md)** (generated, CI-checked).
 - **Style:** [README & docs style guide](docs/README_STYLE_GUIDE.md)
 - **Desktop:** [shesh-desktop/docs/SHESH/](https://github.com/gaganjainse/shesh-desktop/tree/main/docs/SHESH)
 - **Ops:** [ATTRIBUTION.md](ATTRIBUTION.md) (upstream credits) · [CONTAINER.md](CONTAINER.md) (dev/canary container)
+- **History:** [📜 docs/history/](docs/history) — decisions (ADRs), audits, incidents, query log, attic
 - **Compiled reading:** [https://github.com/gaganjainse/shesh-docs](https://github.com/gaganjainse/shesh-docs) — the mdBook compilation of every repo's docs

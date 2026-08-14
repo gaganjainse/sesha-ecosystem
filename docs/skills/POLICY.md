@@ -2,7 +2,7 @@
 
 Status: living · last verified 2026-08-13
 Implementation: `shesh-audit/src/shesh_audit/policy.py` + `mcp_guard.py`
-· Decision record: [ADR-0015](../adr/0015-guard-policy.md)
+· Decision record: [ADR-0015](../history/adr/0015-guard-policy.md)
 
 Every tool call from every agent passes the audit guard before execution.
 The policy is an ordered rule list; first match wins; the default for an

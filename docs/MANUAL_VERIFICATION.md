@@ -5,7 +5,7 @@ in this build sandbox** — they need you, on the actual MSI laptop, with real
 hardware, accounts, and GUI apps. Work through this top-to-bottom after
 installing. Tick items as you confirm them.
 
-> Last updated: 2026-08-13 (16 sections — added rolling-dependency, security-posture and recovery-drill sections). This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/queries/QUERYLOG.md` records what changed and why.
+> Last updated: 2026-08-13 (16 sections — added rolling-dependency, security-posture and recovery-drill sections). This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/history/queries/QUERYLOG.md` records what changed and why.
 
 ---
 

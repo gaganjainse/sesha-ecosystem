@@ -366,7 +366,7 @@ fileonhop;notethesandboxsnapshot will otherwisepersistit.
 re-install/re-setuponthe nextsession(yourPR#31'saskpassdesign
 removesthispain).
 -Peryourprotocol,Ihaven'tappendedto
-`docs/queries/QUERYLOG.md`ortouchedTODO.md— happyto
+`docs/history/queries/QUERYLOG.md`ortouchedTODO.md— happyto
 addaQUERYLOGentryifyouwantthetrail updated.
 Tab3:WorkerMind
 Orchestratorisup— checkingthe swarmqueueandstartingworkon

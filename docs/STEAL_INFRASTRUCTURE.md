@@ -124,7 +124,7 @@ From `shesh-desktop/docs/SHESH/02_ROADMAP.md` Phases 0-7:
 - **Till voice AI Shesh (Phase 6):** weeks 3–4
 - **Total first release (Phases 0–6):** ~3-4 weeks with you + AI pair-programmer, if we steal backend patterns (monitor management single `hyprctl --batch` no flicker from ekremx25, Night Light backend hyprsunset/gammastep, EQ filter-chain, SearXNG self-hosted free, agent-search MIT, notify-rs RecommendedWatcher) and do NOT steal/replace look (keep illogical-impulse)
 
-**We are on right track for Mind/Brain** — 100+ tests, 15 ADRs, model-agnostic free-first, swarm via GitHub Issues atomic lock + PR auto-merge + scheduled janitor true hours, secure PAT password flow. **We were off track for Soma/Desktop** — rebuilt what we should have stolen as backend, introduced 10 new bugs, looked further along than we are because stub files added. Now fixed: keep illogical-impulse look intact, steal backend logic only, expand CI to lint all scripts.
+**We are on right track for Mind/Brain** — 100+ tests, 19 ADRs, model-agnostic free-first, swarm via GitHub Issues atomic lock + PR auto-merge + scheduled janitor true hours, secure PAT password flow. **We were off track for Soma/Desktop** — rebuilt what we should have stolen as backend, introduced 10 new bugs, looked further along than we are because stub files added. Now fixed: keep illogical-impulse look intact, steal backend logic only, expand CI to lint all scripts.
 
 ### 8. Usage — so you don't have to write many times
 

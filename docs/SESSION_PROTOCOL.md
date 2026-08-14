@@ -94,8 +94,8 @@ Then pick next ⬜ from TODO.md and continue autopilot.
 - `docs/SESSION_HANDOFF.md` — live anchor, updated after each task. Contains repo list, done/remains, commands.
 - `docs/SESSION_PROTOCOL.md` — this file (durable protocol)
 - `docs/NEXT_SESSION_PROMPT.md` — auto-generated, copy-paste for next session
-- `docs/SESSION_HOP_ALERT.md` — transient hop alert written by the guard; **untracked on purpose** (a committed copy goes stale instantly — archived example: `docs/attic/2026-08-11-session-hop-alert.md`)
-- `docs/queries/QUERYLOG.md` — every user prompt + answer, newest first
+- `docs/SESSION_HOP_ALERT.md` — transient hop alert written by the guard; **untracked on purpose** (a committed copy goes stale instantly — archived example: `docs/history/attic/2026-08-11-session-hop-alert.md`)
+- `docs/history/queries/QUERYLOG.md` — every user prompt + answer, newest first
 - `TODO.md` — single source of tasks ⬜/✅/🟡/🔴
 - `tools/session_guard.py` — health monitor + handoff generator
 - `tools/github_auth.py` — secure PAT loader (env/file/gh, 0600 check, refuses world-readable)

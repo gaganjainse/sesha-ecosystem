@@ -6,7 +6,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 ## Top level
 - [Accessibility (a11y) — Shesh spec & baseline](A11Y.md)
 - [ACP & A2A Integration](ACP_A2A.md)
-- [Complete Audit & Master Roadmap](AUDIT_AND_ROADMAP.md)
 - [Benchmarks — account-wide status (2026-08-13)](BENCHMARKS.md)
 - [Containers, Virtual Environments & Reproducible Dev](CONTAINERS_AND_VENV.md)
 - [Deployments — where each project runs, and how to make it live](DEPLOYMENTS.md)
@@ -14,7 +13,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Efficiency — How to Work Longer and Faster for Free](EFFICIENCY.md)
 - [Foolproof Swarm Prompts — 5 Agents, New Clean Workspace, Encrypted PAT from GitHub](FOOLPROOF_SWARM_PROMPTS.md)
 - [Fork & Upstream Review — 2026-08-13](FORK_REVIEW.md)
-- [Gap Analysis — from demo to full ecosystem](GAP_ANALYSIS.md)
 - [Getting Started — Shesh on CachyOS/Hyprland](GETTING_STARTED.md)
 - [Glossary](GLOSSARY.md)
 - [Learning Architecture](LEARNING.md)
@@ -28,7 +26,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
-- [Situation Report — fused into the incident record](SITUATION_REPORT.md)
 - [Skill Marketplace — Sharing Evolved Skills (Opt-in, P2)](SKILL_MARKETPLACE.md)
 - [Sources & Steal-Map](SOURCES.md)
 - [Steal Infrastructure — So You Don't Have To Write It Many Times](STEAL_INFRASTRUCTURE.md)
@@ -37,35 +34,9 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [SWARM — Multi-Session Parallel Work via GitHub as Bus (PROPER IMPLEMENTATION DONE)](SWARM.md)
 - [SWARM STARTUP GUIDE — How many chats and what to send](SWARM_STARTUP_GUIDE.md)
 - [Threat Model — Shesh ecosystem](THREAT_MODEL.md)
-- [Tooling & Skills Catalog](TOOLING_CATALOG.md)
 - [Travel Mode — 1 Chat Open on Mobile, 1-2 Days No Laptop](TRAVEL_MODE.md)
 - [Self-Hosted Update Mirror (P2 Future, now minimal)](UPDATE_MIRROR.md)
 - [Workspace Separation — Product vs Factory (Fixed 2026-08-11)](WORKSPACE_SEPARATION.md)
-
-## INCIDENTS/
-- [Incident post-mortem — 2026-08-11: five-tab swarm collision](INCIDENTS/2026-08-11-multi-tab-swarm.md)
-
-## adr/
-- [ADR-0001: Five Languages Only](adr/0001-five-languages.md)
-- [ADR-0002: Rootless Containers for Exotic Runtimes](adr/0002-containers-and-venv.md)
-- [ADR-0003: Federated Repos + Manifest, Not Monorepo](adr/0003-federated-repos.md)
-- [ADR-0004: Three Release Channels](adr/0004-three-channels.md)
-- [ADR-0005: Local-First, Cloud Opt-In](adr/0005-local-first.md)
-- [ADR-0006: Immutable Base + Evidence-Backed /refine](adr/0006-refine-governance.md)
-- [ADR-0007: Six Agent Roles, 6 GB VRAM Budget](adr/0007-agent-roles.md)
-- [ADR-0008: Archive shesh-kernel, Don't Force Merge](adr/0008-kernel-archive.md)
-- [ADR-0009: Newelle Fork as shesh-voice with Overlay, Core Untouched](adr/0009-shesh-voice-overlay.md)
-- [ADR-0010: ACP Adopted Alongside MCP](adr/0010-acp-plus-mcp.md)
-- [ADR-0011: Catch-Up Scheduler, Not Fixed Cron Timers](adr/0011-catchup-scheduler.md)
-- [ADR-0012: Warm Proactivity at Natural Pauses](adr/0012-warm-proactivity.md)
-- [ADR-0013: Hierarchical Memory + Token-Bounded Context Assembly](adr/0013-hierarchical-memory.md)
-- [ADR-0014: Habit Learning is Frequentist with Decay, Not Opaque Weights](adr/0014-habit-learning.md)
-- [ADR-0015: Every Tool Call Passes Through shesh-audit Guard](adr/0015-guard-policy.md)
-- [ADR-0016: Kernel Consolidation — Merge Withdrawn, Wave Adopted as-is](adr/0016-kernel-consolidation.md)
-- [ADR-0017: Naming Purge Completed — No Grandfathering](adr/0017-naming-purge-completed.md)
-- [ADR-0018: Adopt-vs-Build Decisions & the 2026-08-12 Excision](adr/0018-adopt-vs-build.md)
-- [ADR-0019: Fold sub-service shesh-* modules into shesh-core monorepo](adr/0019-shesh-core-monorepo.md)
-- [Architecture Decision Records (ADRs)](adr/README.md)
 
 ## architecture/
 - [The Agentic Body: Brain + Mind + Soma](architecture/AGENTIC_BODY.md)
@@ -74,28 +45,24 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Multi-Agent & Orchestration Architecture](architecture/MULTI_AGENT.md)
 - [Repository Topology — the federated "sinkhole"](architecture/REPO_TOPOLOGY.md)
 
-## audits/
-- [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
-
 ## components/
 - [🧩 shesh-core](components/shesh-core.md)
 - [shesh-desktop](components/shesh-desktop.md)
-- [shesh-harness](components/shesh-harness.md)
-- [shesh-memory](components/shesh-memory.md)
-- [shesh-omniroute — Shesh wrapper around the OmniRoute gateway](components/shesh-omniroute.md)
-- [shesh-orchestrator](components/shesh-orchestrator.md)
+- [🔁 shesh-harness](components/shesh-harness.md)
+- [🧠 shesh-memory](components/shesh-memory.md)
+- [🌐 shesh-omniroute](components/shesh-omniroute.md)
+- [🎼 shesh-orchestrator](components/shesh-orchestrator.md)
 - [📱 shesh-phone](components/shesh-phone.md)
 - [Shesh Voice — local-first voice/chat overlay (fork of Newelle)](components/shesh-voice.md)
+
+## History
+- [📜 History — timeline & decision archive](history/README.md)
 
 ## policies/
 - [Dependency Policy — rolling with the river, never drowning in it](policies/DEPENDENCY_POLICY.md)
 - [Documentation Policy — SSOT, ownership, gates](policies/DOCUMENTATION_POLICY.md)
 - [Fork Gardening Policy (Decision D2 — executed 2026-08-13)](policies/FORK_GARDENING.md)
 - [Janitor TODO Policy — append-and-attest only (Decision D4)](policies/JANITOR_TODO_POLICY.md)
-
-## queries/
-- [Query Log](queries/QUERYLOG.md)
-- [Query Log — All Agents Aggregated (Live Update Automatic)](queries/QUERYLOG_ALL_AGENTS.md)
 
 ## skills/
 - [Skills policy — tool risk classes](skills/POLICY.md)
@@ -129,4 +96,4 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Roadmap](wiki/Roadmap.md)
 - [Security](wiki/Security.md)
 
-_15 archived docs under attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._
+_15 archived docs under history/attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._

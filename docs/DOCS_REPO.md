@@ -22,7 +22,7 @@
 - **Part II Factory — shesh-workspace (messy dev):** Factory Overview Product vs Factory Separation, Session Protocol 60-sec Handoff, Session Guard Slowdown Detection, Secure PAT Password Encryption, GitHub Auth Secure Loader, Swarm Multi-Agent via GitHub (Common Atomic Claim, Orchestrator, Worker File Queue, Worker GitHub Issues Atomic Lock+PR+Auto-Merge, GitHub Queue Issues as Queue, Auto-Merge Action, Scheduled Janitor True Hours Unattended, LLM Worker Free GitHub Models), Efficiency Selective Clone 36M→2M, Setup Worker, Travel Mode 1 Orchestrator Tab + Actions, Foolproof Swarm Prompts 5 Agents, Steal Infrastructure So You Don't Write Many Times (Upstream Registry, Feature Extractor, Patch Applier), Live Update System Automatic, Model Agnostic Free Omniroute, LLM Adapter 5-Layer Guard, Model Router Capability-Based, Eval Harness Variance <0.1
 - **Part III Gateway — shesh-omniroute + OmniRoute Fork (optional cloud):** Gateway Overview Optional to Local AI, OmniRoute Study 291 Providers 90+ Free, Free Providers Groq/OpenRouter/GitHub Models/HF, OmniRoute Fork, Shesh-Omniroute Wrapper
 - **Part IV Desktop — shesh-desktop (illogical-impulse + CachyOS):** Desktop Overview Style+Performance Non-Negotiable, Master Index, Audit Current Truth, Roadmap Phases 0-7, Disk Structure Work vs Personal vs Job, Device Profile MSI Sword 16 HX, Smart Organizer v2, Shesh Agent Newelle+Ollama+MCP, Automations Systemd Timers+Udev, Ecosystem Tools Phone Harness, AI Prompts Copy-Paste per Phase, Licenses & Sources, Ambient Design, Checklist
-- **Part V ADRs:** 15 ADRs Five Languages Only, Rootless Containers, Federated Repos, Three Channels, Local-First, Immutable Base + /refine, Six Agent Roles 6GB, Archive shesh-kernel, Newelle Fork Overlay, ACP+MCP Stack, Catch-Up Scheduler, Warm Proactivity, Hierarchical Memory, Habit Learning, Guard Policy
+- **Part V ADRs:** 19 ADRs Five Languages Only, Rootless Containers, Federated Repos, Three Channels, Local-First, Immutable Base + /refine, Six Agent Roles 6GB, Archive shesh-kernel, Newelle Fork Overlay, ACP+MCP Stack, Catch-Up Scheduler, Warm Proactivity, Hierarchical Memory, Habit Learning, Guard Policy
 - **Part VI Audits & Roadmaps:** Complete Audit & Master Roadmap, Exhaustive Audit 54 Repos, Gap Analysis Demo to Full Ecosystem, Sources & Steal-Map, Tooling Catalog Open-Source Only, Situation Report 5 Agents Started All Stopped
 - **Part VII Manual Verification & Live Update:** Manual Verification Checklist 13 Sections, Live Update System Automatic, Session Handoff Anchor, Session Protocol 60-sec Handoff
 - **Part VIII Skills & Policies:** Skills Overview, Autopilot Safe Progress, Safety & Governance, Skills Policy Tool Risk Classes, Model Policy Free-First Routing
@@ -50,7 +50,7 @@
 - `WORKSPACE_SEPARATION.md` — product vs factory
 - `SITUATION_REPORT.md` — 5 agents started all stopped analysis
 - `FOOLPROOF_SWARM_PROMPTS.md` — 5 agents prompts
-- `audits/AUDIT_EXHAUSTIVE.md` + JSON — 54 repos audited (moved to docs/audits/ 2026-08-13)
+- `audits/AUDIT_EXHAUSTIVE.md` + JSON — 54 repos audited (moved to docs/history/audits/ 2026-08-13)
 - `SKILL_MARKETPLACE.md`, `UPDATE_MIRROR.md` — P2 future
 - `SECURITY.md`, `CONTRIBUTING.md` — created 2026-08-13 as full documents
   (canonical security posture + contribution rules), no longer placeholders

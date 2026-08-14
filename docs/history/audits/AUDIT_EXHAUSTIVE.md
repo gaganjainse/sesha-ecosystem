@@ -111,7 +111,7 @@ From earlier TODO (2026-08-09):
 - ⬜ Supply-chain sigstore/provenance — DONE scripts/sign_artifacts.py + SLSA + ci.yml
 - ⬜ Integrate shesh-audit into CI — DONE ci.yml audit guard sanity
 - ⬜ Doc sync when component changes copy README into docs/components/ — DONE this session synced 17
-- ⬜ ADRs — DONE 15 ADRs docs/adr/
+- ⬜ ADRs — DONE 15 ADRs docs/history/adr/
 - ⬜ Getting-started guide — DONE docs/GETTING_STARTED.md
 - 🟡 Skill capture framework automatic Read→Execute→Reflect→Write — partial, framework exists but auto capture remains
 - 🔴 Hardware tests Hyprland@144 NVIDIA MUX wake word PipeWire Quickshell render — must run on MSI canary VM

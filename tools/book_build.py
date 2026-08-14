@@ -100,21 +100,21 @@ MIRRORS: list[tuple[str, str, bool]] = [
     ("src:shesh-desktop/docs/SHESH_README.md", "desktop/shesh-readme.md", False),
     ("src:shesh-desktop/docs/SHESH/checklist.md", "desktop/checklist.md", False),
     # Part VI — Audits, roadmaps, incidents
-    ("eco:docs/AUDIT_AND_ROADMAP.md", "audits/audit-and-roadmap.md", True),
-    ("eco:docs/audits/AUDIT_EXHAUSTIVE.md", "audits/exhaustive-audit.md", True),
-    ("eco:docs/GAP_ANALYSIS.md", "audits/gap-analysis.md", True),
-    ("eco:docs/TOOLING_CATALOG.md", "audits/tooling-catalog.md", True),
+    ("eco:docs/history/AUDIT_AND_ROADMAP.md", "audits/audit-and-roadmap.md", True),
+    ("eco:docs/history/audits/AUDIT_EXHAUSTIVE.md", "audits/exhaustive-audit.md", True),
+    ("eco:docs/history/GAP_ANALYSIS.md", "audits/gap-analysis.md", True),
+    ("eco:docs/history/TOOLING_CATALOG.md", "audits/tooling-catalog.md", True),
     (
-        "eco:docs/INCIDENTS/2026-08-11-multi-tab-swarm.md",
+        "eco:docs/history/incidents/2026-08-11-multi-tab-swarm.md",
         "audits/incident-2026-08-11-multi-tab-swarm.md",
         True,
     ),
     (
-        "eco:docs/audits/AUDIT_ECOSYSTEM_2026-08-12.json",
+        "eco:docs/history/audits/AUDIT_ECOSYSTEM_2026-08-12.json",
         "audits/AUDIT_ECOSYSTEM_2026-08-12.json",
         True,
     ),
-    ("eco:docs/audits/AUDIT_EXHAUSTIVE.json", "audits/AUDIT_EXHAUSTIVE.json", True),
+    ("eco:docs/history/audits/AUDIT_EXHAUSTIVE.json", "audits/AUDIT_EXHAUSTIVE.json", True),
     # Part VII — Verification & handoff
     ("eco:docs/MANUAL_VERIFICATION.md", "verification/manual-verification.md", True),
     ("eco:docs/SESSION_HANDOFF.md", "verification/session-handoff.md", True),
@@ -135,8 +135,8 @@ MIRRORS: list[tuple[str, str, bool]] = [
     ("eco:docs/policies/FORK_GARDENING.md", "policies/fork-gardening.md", True),
     ("eco:docs/policies/JANITOR_TODO_POLICY.md", "policies/janitor-todo-policy.md", True),
     # Part IX — Queries
-    ("eco:docs/queries/QUERYLOG.md", "queries/querylog.md", True),
-    ("eco:docs/queries/QUERYLOG_ALL_AGENTS.md", "queries/querylog-all-agents.md", True),
+    ("eco:docs/history/queries/QUERYLOG.md", "queries/querylog.md", True),
+    ("eco:docs/history/queries/QUERYLOG_ALL_AGENTS.md", "queries/querylog-all-agents.md", True),
     ("eco:docs/NEXT_SESSION_PROMPT.md", "queries/next-session-prompt.md", True),
     # Introduction
     ("eco:docs/GLOSSARY.md", "glossary.md", True),
@@ -147,7 +147,7 @@ MIRRORS: list[tuple[str, str, bool]] = [
 ]
 
 # Whole-directory mirrors (ADR tree).
-DIR_MIRRORS = [("eco:docs/adr", "adr", True)]
+DIR_MIRRORS = [("eco:docs/history/adr", "adr", True)]
 
 # Pages the book owns (navigation glue, book-native narratives). Everything
 # under src/ that is neither a generated target nor listed here is deleted.

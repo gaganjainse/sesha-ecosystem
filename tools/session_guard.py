@@ -223,12 +223,12 @@ MSI Sword 16 HX B14VEKG (i7-14700HX, RTX 4050 6GB, 1920x1200@144).
 
 **Stack must respect:**
 - docs/SESSION_HANDOFF.md READ FIRST, live anchor
-- docs/AUDIT_AND_ROADMAP.md 15 decisions D1-D15
+- docs/history/AUDIT_AND_ROADMAP.md 19 decisions D1-D19
 - TODO.md ⬜todo ✅done 🟡in-progress 🔴blocked — {todo_pending} left
 - docs/MANUAL_VERIFICATION.md 13-section hardware checklist
-- docs/queries/QUERYLOG.md full trail newest first — append after each user msg
+- docs/history/queries/QUERYLOG.md full trail newest first — append after each user msg
 - docs/SESSION_PROTOCOL.md 60-sec hop protocol
-- docs/adr/ 15 ADRs
+- docs/history/adr/ 19 ADRs
 - docs/GETTING_STARTED.md full install + Ollama 6GB stack
 - Containerfile, distrobox.ini, tools/install.sh --channel
 

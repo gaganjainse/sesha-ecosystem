@@ -52,7 +52,7 @@ def sh(cmd: str) -> str:
 
 def append_query_log(query: str, answer: str) -> None:
     """Append Q and A completely, not summarized, newest at bottom (existing file says newest first but actually oldest first at top, so append at bottom)."""
-    qlog = ROOT / "docs/queries/QUERYLOG.md"
+    qlog = ROOT / "docs/history/queries/QUERYLOG.md"
     if not qlog.exists():
         return
     # Don't summarise — append completely
@@ -116,7 +116,7 @@ def update_manual_verification() -> None:
     new_date = datetime.datetime.now().strftime("%Y-%m-%d")
     content = re.sub(
         r"> Last updated:.*",
-        f"> Last updated: {new_date}. This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/queries/QUERYLOG.md` records what changed and why.",
+        f"> Last updated: {new_date}. This file is updated on every autopilot run (now automatic via live_update.py); the companion `docs/history/queries/QUERYLOG.md` records what changed and why.",
         content,
     )
     mv.write_text(content)
@@ -124,7 +124,7 @@ def update_manual_verification() -> None:
 
 
 def update_audit_roadmap() -> None:
-    audit = ROOT / "docs/AUDIT_AND_ROADMAP.md"
+    audit = ROOT / "docs/history/AUDIT_AND_ROADMAP.md"
     if not audit.exists():
         return
     content = audit.read_text()
@@ -192,7 +192,7 @@ def sync_components() -> None:
 
 def aggregate_all_agents() -> None:
     """Aggregate query logs from 5 other agents via ledger + GitHub Issues + PDF full extract."""
-    out_path = ROOT / "docs/queries/QUERYLOG_ALL_AGENTS.md"
+    out_path = ROOT / "docs/history/queries/QUERYLOG_ALL_AGENTS.md"
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     # Gather ledger
@@ -265,7 +265,7 @@ Completed:
 
 - Downloaded the encrypted GitHub PAT and restored it locally with restrictive permissions.
 - Confirmed GitHub authentication.
-- Ran ecosystem gate successfully: 30 tests passed; GATE OK.
+- Ran ecosystem gate successfully: 63 tests passed; GATE OK.
 - Cloned the full requested Soma set under shesh-ecosystem/src/:
   - shesh-files, shesh-shell, shesh-system, shesh-backup, shesh-phone
   - shesh-containers, shesh-mcp-bundle, shesh-acp

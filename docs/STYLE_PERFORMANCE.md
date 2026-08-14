@@ -102,5 +102,5 @@ See `shesh-desktop/docs/SHESH/02_ROADMAP.md` Phases 0–7, but filtered to **bac
 
 - **Till first release (Phases 0–3 first week, 4–5 week two, 6 weeks 3–4):** **~3-4 weeks** with you + AI pair-programmer, if we **steal backend patterns** (monitor management single `hyprctl --batch` no flicker from ekremx25, Night Light backend hyprsunset/gammastep, EQ filter-chain, SearXNG self-hosted free, agent-search MIT, notify-rs RecommendedWatcher) and **do NOT steal/replace look** (keep illogical-impulse).
 
-**We are on right track for Mind/Brain** (memory, harness, orchestrator, skills, audit, mind router, model-agnostic free-first) — 100+ tests, 15 ADRs, swarm via GitHub Issues atomic lock + PR auto-merge + scheduled janitor true hours, secure PAT password flow.
+**We are on right track for Mind/Brain** (memory, harness, orchestrator, skills, audit, mind router, model-agnostic free-first) — 100+ tests, 19 ADRs, swarm via GitHub Issues atomic lock + PR auto-merge + scheduled janitor true hours, secure PAT password flow.
 **We were off track for Soma/Desktop** — rebuilt what we should have stolen as backend, introduced 10 new bugs, looked further along than we are because stub files added. Now fixed: keep illogical-impulse look intact, steal backend logic only, expand CI to lint all scripts so N-01..N-09 never slip again.

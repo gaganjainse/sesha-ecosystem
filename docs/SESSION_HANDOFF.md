@@ -5,9 +5,9 @@
 **Purpose:** Load this at the start of a new session to continue exactly
 where this one stopped, without re-deriving context.
 
-> Read this file FIRST, then `docs/AUDIT_AND_ROADMAP.md`, `TODO.md`,
+> Read this file FIRST, then `docs/history/AUDIT_AND_ROADMAP.md`, `TODO.md`,
 > `docs/MANUAL_VERIFICATION.md`, `docs/SESSION_PROTOCOL.md`, `docs/SWARM.md`.
-> The query log at `docs/queries/QUERYLOG.md` has the full decision trail.
+> The query log at `docs/history/queries/QUERYLOG.md` has the full decision trail.
 > For next session copy-paste, read `docs/NEXT_SESSION_PROMPT.md` — it contains everything needed without re-explaining.
 
 Copy `docs/NEXT_SESSION_PROMPT.md` into a new Arena chat to continue — it includes GitHub profile, all repos, PAT instructions, commands.
@@ -166,8 +166,8 @@ Three user mandates landed that session, all pushed and gate-verified:
   `tools/book_build.py` (mirror map + fissions + generators + link
   translation + orphan sweep), 74 placeholders replaced with real content,
   114 orphan/duplicate files removed, mdbook render gate in CI; audits moved
-  to `docs/audits/`, SITUATION_REPORT fused into the INCIDENTS post-mortem,
-  desktop mirror retired to `docs/attic/` (canonical = shesh-desktop repo).
+  to `docs/history/audits/`, SITUATION_REPORT fused into the INCIDENTS post-mortem,
+  desktop mirror retired to `docs/history/attic/` (canonical = shesh-desktop repo).
 - **Naming:** SHESH-only canon enforced fleet-wide including shesh-desktop
   body text (`504ee8e`); shesh-voice verified zero-legacy.
 - **Owner-side leftovers (cannot be done by the agent):** rotate the GitHub
@@ -192,7 +192,7 @@ governance kernel (SheshAOS, in progress).
   is **SheshAOS**. All repos/packages/imports are `shesh-*` / `shesh_*`;
   env vars `SHESH_*`. Legacy spellings survive only in immutable-history
   classes (ADR/QUERYLOG/audits/attic) and real frozen artifacts — exact list
-  in [ADR-0017](adr/0017-naming-purge-completed.md). Gates: rename sweep +
+  in [ADR-0017](history/adr/0017-naming-purge-completed.md). Gates: rename sweep +
   shesh-docs name gate (living docs must not even enumerate the old tokens —
   the gate caught this paragraph doing so; fixed).
 
@@ -265,7 +265,7 @@ Before building any feature, **run the autopilot tests**:
    (`env:`, `gopass:`, `file:0600`).
 7. Commit with the task id in the message; push through the autopilot
    safety guards.
-8. After each user message, append to `docs/queries/QUERYLOG.md` and update
+8. After each user message, append to `docs/history/queries/QUERYLOG.md` and update
    `TODO.md` statuses.
 9. Archive, don't delete. No force-push to main. No root.
 10. Mark hardware-only items 🟡 rather than faking success.
@@ -365,7 +365,7 @@ python3 -m pytest tests/ -q -p no:cacheprovider
 
 # 2. Read the anchors
 cat docs/SESSION_HANDOFF.md   # this file
-$PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
+$PAGER TODO.md docs/history/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 
 # 3. Continue with the next P1 from section 7
 ```
@@ -420,7 +420,7 @@ $PAGER TODO.md docs/AUDIT_AND_ROADMAP.md docs/MANUAL_VERIFICATION.md
 - Fixed manifest/lock drift (shesh→shesh), regenerated locks (1/16/19), Makefile, test_manifest, ruff E741, `make check` green 30 tests
 - Cloned 22 repos into `src/`, verified 182 component tests
 - Renamed `docs/components/shesh-*.md→shesh-*.md` and synced from `src/*/README.md`
-- Created 15 ADRs `docs/adr/` + index, `docs/GETTING_STARTED.md`, `Containerfile`, `distrobox.ini`, `tools/install.sh` (btrfs snapshot+rollback), `scripts/sign_artifacts.py` (sigstore+SLSA), `scripts/export_traces_otlp.py` (OTLP), CI updated with audit guard + provenance
+- Created 15 ADRs `docs/history/adr/` + index, `docs/GETTING_STARTED.md`, `Containerfile`, `distrobox.ini`, `tools/install.sh` (btrfs snapshot+rollback), `scripts/sign_artifacts.py` (sigstore+SLSA), `scripts/export_traces_otlp.py` (OTLP), CI updated with audit guard + provenance
 - Implemented session protocol (`docs/SESSION_PROTOCOL.md`, `tools/session_guard.py`, `tools/github_auth.py`, `docs/NEXT_SESSION_PROMPT.md` auto-generated)
 - Implemented swarm (`docs/SWARM.md`, `swarm/README.md`, `tools/swarm/common.py`, `orchestrator.py`, `worker.py`, `swarm/queue/` 26 tasks seeded from TODO)
 - Updated `TODO.md`, `QUERYLOG.md`, `AUDIT_AND_ROADMAP.md` links

@@ -18,7 +18,7 @@ python tools/setup_worker.py --role platform --clean
   list in the tool (single source: the role table inside `setup_worker.py`).
 - Clones are `--depth 1 --filter=blob:none`: measured 36 MB → ~1.3–3.3 MB and
   ~3000 → ~300 files on 2026-08-11 (see
-  [the incident chronology](../INCIDENTS/2026-08-11-multi-tab-swarm.md),
+  [the incident chronology](../history/incidents/2026-08-11-multi-tab-swarm.md),
   Tab 2).
 - `--clean` resets the workspace layout before cloning.
 

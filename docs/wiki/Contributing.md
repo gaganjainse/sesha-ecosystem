@@ -46,7 +46,7 @@
 When working in autonomous mode:
 1. Anchor to `TODO.md`; pick the highest-priority unblocked item.
 2. Branch per item, test before push, never push red.
-3. After every user message append to `docs/queries/QUERYLOG.md` and update
+3. After every user message append to `docs/history/queries/QUERYLOG.md` and update
    TODO statuses.
 4. Archive, never delete; no force-push to main.
 5. Mark hardware-only items 🟡 rather than faking success.

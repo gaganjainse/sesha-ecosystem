@@ -44,7 +44,7 @@ cross-talk via the shared issue/PR number space, and a PAT exposed in a transcri
 
 ## Appendix A — original situation report (raw evidence, 2026-08-11)
 
-Preserved verbatim (quotes included) when `docs/SITUATION_REPORT.md` was
+Preserved verbatim (quotes included) when `docs/history/SITUATION_REPORT.md` was
 fused into this incident record on 2026-08-13 ("one topic, one home"). Two
 findings here extend the root-cause list above: the **queue fallback defect**
 (claiming blocked kernel tasks when no matching issue existed — fixed to

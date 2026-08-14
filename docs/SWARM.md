@@ -170,7 +170,7 @@ No central server.
 - `swarm/` — queue, claims, heartbeats, artifacts, ledger.jsonl, README
 - `docs/SESSION_PROTOCOL.md` — 60-sec handoff + PAT password flow
 - `docs/NEXT_SESSION_PROMPT.md` — auto-generated paste for next session with live metrics + PAT status
-- `docs/GETTING_STARTED.md`, `docs/adr/`, etc.
+- `docs/GETTING_STARTED.md`, `docs/history/adr/`, etc.
 
 ## Security
 

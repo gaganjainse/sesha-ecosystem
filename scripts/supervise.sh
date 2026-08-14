@@ -78,7 +78,7 @@ tick() {
   # Append to query log (agent fills in the answer).
   local today; today="$(date -u +%Y-%m-%d)"
   if [ "$DRY" = 0 ]; then
-    cat >> docs/queries/QUERYLOG.md <<EOF
+    cat >> docs/history/queries/QUERYLOG.md <<EOF
 
 ---
 

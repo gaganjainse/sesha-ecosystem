@@ -70,7 +70,7 @@ python tools/session_guard.py --clean
 If you work on `shesh-memory` only:
 
 ```bash
-# Instead of make check (30 tests)
+# Instead of make check (63 tests)
 python -m pytest tests/test_manifest.py -q   # 1 sec
 python -m ruff check src/shesh-memory/       # 0.5 sec
 cd src/shesh-memory && python -m pytest tests/ -q   # 1 sec

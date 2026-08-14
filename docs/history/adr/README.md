@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADRs)
 
-> 15 decisions that define Shesh. Status: all Accepted. See `AUDIT_AND_ROADMAP.md` for decision map.
+> 19 decisions that define Shesh. Status: all Accepted. See `AUDIT_AND_ROADMAP.md` for decision map.
 
 | # | Title | Date | Status |
 |---|-------|------|--------|
@@ -26,7 +26,7 @@
 ## How to add a new ADR
 
 ```bash
-cp docs/adr/0001-five-languages.md docs/adr/0016-my-decision.md
+cp docs/history/adr/0001-five-languages.md docs/history/adr/0016-my-decision.md
 # Edit: update title, date, context, decision, consequences
 # Link from AUDIT_AND_ROADMAP and TODO if P0/P1
 ```

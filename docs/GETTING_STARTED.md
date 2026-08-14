@@ -7,7 +7,7 @@
 ```bash
 git clone https://github.com/gaganjainse/shesh-ecosystem.git
 cd shesh-ecosystem
-make check        # ruff + 30 tests + license gate + regenerate locks — must be green
+make check        # ruff + 63 tests + license gate + regenerate locks — must be green
 python -m pytest tests/ -q
 ```
 
@@ -322,7 +322,7 @@ echo "=== done ==="
 ## 6. Next steps
 
 - Read `docs/SESSION_HANDOFF.md` for P1 list.
-- Read ADRs in `docs/adr/` (15 decisions).
+- Read ADRs in `docs/history/adr/` (19 decisions).
 - Pick a todo from `TODO.md` — highest ⬜ not blocked.
 - Run autopilot: `python -m tools.autopilot.cli run` — it loops: implement → gate → safe commit → push.
 

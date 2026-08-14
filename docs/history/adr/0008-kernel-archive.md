@@ -25,5 +25,5 @@
 
 ## Links
 - `SheshAOS/KERNEL_MERGE_PLAN.md` (in SheshAOS repo)
-- `docs/AUDIT_AND_ROADMAP.md` §3.1
+- `docs/history/AUDIT_AND_ROADMAP.md` §3.1
 - TODO.md §1

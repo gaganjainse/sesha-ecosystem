@@ -8,7 +8,7 @@ This doc makes live updation **automatic** and **in the rules**, so nothing is m
 
 ## What was missed before
 
-- **QUERYLOG.md** — operating rule says "After every user message: append to docs/queries/QUERYLOG.md" — but we were doing it manually, sometimes missed, and summarized instead of appending completely. User had to complain.
+- **QUERYLOG.md** — operating rule says "After every user message: append to docs/history/queries/QUERYLOG.md" — but we were doing it manually, sometimes missed, and summarized instead of appending completely. User had to complain.
 - **TODO.md** — rule says update status real-time, last updated date, pending count — we updated sometimes but not after every user message.
 - **SESSION_HANDOFF.md** — rule says generated date, accomplishments, remains — we updated only on handoff, not live.
 - **AUDIT_AND_ROADMAP.md** — last audited date, what exists — not updated live.
@@ -34,7 +34,7 @@ What it does automatically:
 - **channels/*.lock** — regenerates via `resolve_manifest.py`
 - **docs/components/*.md** — syncs from src/*/README.md if component changed (via `setup_worker.py` already does)
 - **swarm/ledger.jsonl** — append-only log of all swarm events (seed, heartbeat, claimed, completed)
-- **docs/queries/QUERYLOG_ALL_AGENTS.md** — aggregates query logs from all 5 agents via GitHub Issues + PRs + ledger
+- **docs/history/queries/QUERYLOG_ALL_AGENTS.md** — aggregates query logs from all 5 agents via GitHub Issues + PRs + ledger
 
 All via one command, no manual steps.
 
@@ -59,7 +59,7 @@ Added to `TODO.md` How to work, `AUDIT_AND_ROADMAP.md` Operating rules, `SESSION
 - After every user message OR every autopilot task OR every swarm claim/complete OR every session_guard tick: **automatically** run `python tools/live_update.py --query "<user prompt>" --answer "<one paragraph>" --docs ALL` — this appends to QUERYLOG.md completely (not summarized), updates TODO.md Last updated + pending count + accomplishments, updates SESSION_HANDOFF.md Generated date + repos table + DONE/REMAINS + component tests count, updates AUDIT_AND_ROADMAP.md Last audited, updates MANUAL_VERIFICATION.md Last updated, regenerates NEXT_SESSION_PROMPT.md, regenerates locks, syncs docs/components, appends ledger, aggregates 5 agents query logs via GitHub API + PDF full extract
 - **No manual steps** — autopilot runner, supervise.sh loop, session_guard tick, swarm orchestrator monitor all call live_update automatically
 - **Don't summarise and append, append everything completely** — for 5 agents query logs, append full PDF extract (24 pages, 20503 chars) + Worker-Mind and Worker-Soma verbatim reports, not summarized, into QUERYLOG.md new section "Q: This is the situation — 5 agents..."
-- **Query log of 5 other agents:** Aggregated via `swarm/ledger.jsonl` + GitHub Issues + PRs + PDF full text + worker reports, all appended completely to `docs/queries/QUERYLOG.md` + `docs/queries/QUERYLOG_ALL_AGENTS.md` (new file that aggregates all agents)
+- **Query log of 5 other agents:** Aggregated via `swarm/ledger.jsonl` + GitHub Issues + PRs + PDF full text + worker reports, all appended completely to `docs/history/queries/QUERYLOG.md` + `docs/history/queries/QUERYLOG_ALL_AGENTS.md` (new file that aggregates all agents)
 - **Make proper rules and see if we missed anything else:** Added checklist below — every system that needs live updation now listed with automatic trigger
 
 ### 4. Checklist — every system that needs live updation, now automatic
@@ -67,7 +67,7 @@ Added to `TODO.md` How to work, `AUDIT_AND_ROADMAP.md` Operating rules, `SESSION
 | System | Needs live updation | How automatic now | Rule file |
 |--------|---------------------|-------------------|-----------|
 | QUERYLOG.md | After every user message + every agent task | `live_update.py --query ... --answer ...` appends completely, not summarized, newest at bottom, includes full PDF from 5 agents | TODO.md rule 7, AUDIT_AND_ROADMAP rule 3, SESSION_HANDOFF rule 7 |
-| QUERYLOG_ALL_AGENTS.md | Aggregate 5 agents query logs | `live_update.py --swarm` aggregates via GitHub Issues API + ledger + PDF full extract, writes to `docs/queries/QUERYLOG_ALL_AGENTS.md` | New file, created this session |
+| QUERYLOG_ALL_AGENTS.md | Aggregate 5 agents query logs | `live_update.py --swarm` aggregates via GitHub Issues API + ledger + PDF full extract, writes to `docs/history/queries/QUERYLOG_ALL_AGENTS.md` | New file, created this session |
 | TODO.md | After every task, status vs original plan, last updated | `live_update.py --docs TODO` updates Last updated date, pending count, accomplishments from git log, status vs original plan | TODO.md rule 6, SESSION_HANDOFF rule 8 |
 | SESSION_HANDOFF.md | Generated date, repos table, component tests count, DONE/REMAINS | `live_update.py --docs SESSION_HANDOFF` regenerates Generated date, repos table from `src/`, tests count from pytest, DONE/REMAINS from TODO | SESSION_HANDOFF rule 8 |
 | AUDIT_AND_ROADMAP.md | Last audited date, what exists table | `live_update.py --docs AUDIT` updates Last audited date, what exists from `src/` audit, decisions | AUDIT rule 3 |
@@ -110,10 +110,10 @@ All via one command `python tools/live_update.py --all` called automatically in 
 python tools/live_update.py --query "User prompt text" --answer "One paragraph answer" --docs ALL --swarm
 
 # Check files updated:
-ls -lt docs/queries/QUERYLOG.md TODO.md docs/SESSION_HANDOFF.md docs/MANUAL_VERIFICATION.md docs/NEXT_SESSION_PROMPT.md channels/*.lock | head
+ls -lt docs/history/queries/QUERYLOG.md TODO.md docs/SESSION_HANDOFF.md docs/MANUAL_VERIFICATION.md docs/NEXT_SESSION_PROMPT.md channels/*.lock | head
 
 # For 5 agents logs, check aggregated:
-cat docs/queries/QUERYLOG_ALL_AGENTS.md | head -n 100
+cat docs/history/queries/QUERYLOG_ALL_AGENTS.md | head -n 100
 cat swarm/ledger.jsonl | tail -n 20
 ```
 

@@ -62,7 +62,7 @@ git reset -q "$NEW"   # identical tree grafted onto the true tip; safe push
 2. If the failure is fundamental (upstream removed behavior we depend on):
    replace the dependency per the policy's replacement rule — do not pin
    forever and do not fork impulsively.
-3. Post-mortem into docs/INCIDENTS/ with the exact failing gate output.
+3. Post-mortem into docs/history/incidents/ with the exact failing gate output.
 
 ## Incident class D — audit ledger verification fails
 
