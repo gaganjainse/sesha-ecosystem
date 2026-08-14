@@ -1775,3 +1775,9 @@ The workspace is clean and ready; the worker should not be restarted until its c
 ## Q: "i have a .wiki file right, delete that"
 
 **Answer (2026-08-14):** Deleted the wiki artifacts in shesh-ecosystem — `docs/wiki/` (7 tracked pages: Home/Architecture/Components/Contributing/Manual-Verification/Roadmap/Security) and `.github/workflows/wiki-sync.yml`. No GitHub wiki content ever existed (all `*.wiki.git` repos "Repository not found" — wikis were never initialized), so `has_wiki=false` (set fleet-wide earlier) fully removed the feature. Cleaned living-doc references (MANUAL_VERIFICATION wiki-init checklist, SESSION_HANDOFF wiki bullets + gotchas), regenerated docs/INDEX.md (111 docs), re-synced book mirrors (manual-verification, session-handoff, querylog). CI green on both repos. No WIKI_PAT secret exists.
+
+---
+
+## Q: "you do this, be thorough and complete, also fill in the other milestones, views and projects properly"
+
+**Answer (2026-08-14):** Populated the "Shesh Fleet" Projects v2 board end-to-end. Milestones: created `v0.1.0` on the remaining 15 repos (all 21 now have it). Items: created a "Release v0.1.0 — tag + GitHub Release" issue on every repo (milestone v0.1.0; re-enabled Issues on shesh-desktop which had them disabled) + 3 open items (first-boot hardware verification, is-a.dev PR watch, chromadb pin) — 24 board items total, added via GraphQL addProjectV2ItemById (Repository/Milestone/Title/Status auto-populate). Fields set per item: Priority (High/Medium/Low) and Target date (release=2026-08-16, hardware=08-15, is-a.dev=08-20). Views configured: Table (Title/Priority/Milestone/Repository/Target date/Status/Labels), Board (Title/Status/Priority/Target date), Roadmap (date-driven). Verified 24 items with correct repo+milestone+priority+date. Used classic PAT for GraphQL (project scope), fine-grained for REST.
