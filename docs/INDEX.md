@@ -24,6 +24,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Model-Agnostic Workflow — Rigorous Quality Consistency Across Free Models](MODEL_AGNOSTIC.md)
 - [Next Session Prompt — COPY THIS WHOLE FILE into new Arena.ai Agent Mode](NEXT_SESSION_PROMPT.md)
 - [OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)](OMNIROUTE_STUDY.md)
+- [README & Docs Style Guide — Shesh fleet](README_STYLE_GUIDE.md)
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
@@ -77,7 +78,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
 
 ## components/
-- [shesh-core](components/shesh-core.md)
+- [🧩 shesh-core](components/shesh-core.md)
 - [shesh-desktop](components/shesh-desktop.md)
 - [shesh-harness](components/shesh-harness.md)
 - [shesh-memory](components/shesh-memory.md)
