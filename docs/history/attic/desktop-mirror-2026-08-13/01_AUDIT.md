@@ -1,6 +1,6 @@
 # 01 — Independent Audit (verified against the live repo, 2026-08-09)
 
-> **Method:** I cloned `gaganjainse/shesh-desktop` at `36481e1` and read every installer script,
+> **Method:** I cloned `gaganjainse/shesh-desktop` at `428d69b05ab2d65110950f98882fe9e6b9efefbf` and read every installer script,
 > systemd unit, tool, and CI workflow directly. Prior AIs produced two audits (40 issues) and a
 > 63-page master plan, then **partially applied fixes to the repo**. This audit is the *current
 > truth*: it marks which old issues are fixed, which remain, and — critically — which **new bugs the

@@ -9,7 +9,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "20M",
-    "last_commit": "b2e774e docs: fix test count \u2014 84 -> 101 (actual pytest functions across 7 test files)"
+    "last_commit": "7bf4ede54e98e097ba35fe49f0cff17fd92f1f9d docs: fix test count \u2014 84 -> 101 (actual pytest functions across 7 test files)"
   },
   {
     "name": "ClinicLedger",
@@ -21,7 +21,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "12M",
-    "last_commit": "f67470b updated dimension for components"
+    "last_commit": "f67470b81e7fb5b3c977f41029aae26da26916a7 updated dimension for components"
   },
   {
     "name": "FWRS",
@@ -33,7 +33,7 @@
     "has_ci": false,
     "has_license": true,
     "size": "625K",
-    "last_commit": "7072149 Update copyright year and owner in LICENSE file"
+    "last_commit": "f6914553120c3cd0c5941e70eb3fa209844cc10c Update copyright year and owner in LICENSE file"
   },
   {
     "name": "ClinicLedger-Template",
@@ -45,7 +45,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "1.1M",
-    "last_commit": "bd5f2c9 Properly fill About section in README and repo description"
+    "last_commit": "bd5f2c936480ee3609e08b23cbab779b3d6d3c95 Properly fill About section in README and repo description"
   },
   {
     "name": "GameVault",
@@ -57,7 +57,7 @@
     "has_ci": false,
     "has_license": true,
     "size": "1.8M",
-    "last_commit": "b0f0a93 Add Apache 2.0 license"
+    "last_commit": "d1b2844aade5ce5fd9652b8858962dba20b9c187 Add Apache 2.0 license"
   },
   {
     "name": "OmniRoute",
@@ -93,7 +93,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "7.5M",
-    "last_commit": "1246d4f chore: remove last nexusaos references (svg, codeowners, zig, lockfile)"
+    "last_commit": "da2e15b7489396587e52e6f4a365457dc6d20b57 chore: remove last nexusaos references (svg, codeowners, zig, lockfile)"
   },
   {
     "name": "VillageClinicLedger",
@@ -117,7 +117,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "886K",
-    "last_commit": "3790c7f Fix portfolio link"
+    "last_commit": "5601a4e1dee5d5bda540d831929f35fd29867d4c Fix portfolio link"
   },
   {
     "name": "ePustakalay",
@@ -141,7 +141,7 @@
     "has_ci": false,
     "has_license": true,
     "size": "124K",
-    "last_commit": "c02e29b docs: GameVault is Next.js 13 (not 14)"
+    "last_commit": "14255640c6fea38889d1c754609635f16f4772d9 docs: GameVault is Next.js 13 (not 14)"
   },
   {
     "name": "grievance-portal",
@@ -153,7 +153,7 @@
     "has_ci": false,
     "has_license": true,
     "size": "920K",
-    "last_commit": "dac2d5e Add Apache 2.0 license"
+    "last_commit": "dac2d5e40cae5b6d373e059f903c320ac5e4b817 Add Apache 2.0 license"
   },
   {
     "name": "llm-eval-harness",
@@ -165,7 +165,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "172K",
-    "last_commit": "2259bb5 feat: LLM eval harness \u2014 golden sets, LLM-as-judge, offline fallbacks, CI-ready reports"
+    "last_commit": "2259bb52e63b830b83b9be40446783e1beb17eab feat: LLM eval harness \u2014 golden sets, LLM-as-judge, offline fallbacks, CI-ready reports"
   },
   {
     "name": "ollama",
@@ -189,7 +189,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "9.7M",
-    "last_commit": "6540f7d chore: final cleanup + documentation refresh (v1.0.1)"
+    "last_commit": "0c559ccb5c488525e9c55f736b0bd459ca5e9db2 chore: final cleanup + documentation refresh (v1.0.1)"
   },
   {
     "name": "rag-service",
@@ -201,7 +201,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "180K",
-    "last_commit": "1fe4953 feat: RAG service \u2014 hybrid retrieval (dense + BM25, RRF) over ChromaDB with FastAPI"
+    "last_commit": "1fe4953cbfe27a9c5257f539d66af6465a45d9dd feat: RAG service \u2014 hybrid retrieval (dense + BM25, RRF) over ChromaDB with FastAPI"
   },
   {
     "name": "register",
@@ -285,7 +285,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "22M",
-    "last_commit": "3cb111db feat: data-aware proactivity signals"
+    "last_commit": "3002a7d78554087df53bc01275c955c6aa6cbf02 feat: data-aware proactivity signals"
   },
   {
     "name": "shesh-ecosystem",
@@ -297,7 +297,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "1.5M",
-    "last_commit": "4df06ee chore: regen locks after adding shesh-omniroute component (devel 19->20)"
+    "last_commit": "851405d67755bea101c2cf992fac0ebcf5fdd962 chore: regen locks after adding shesh-omniroute component (devel 19->20)"
   },
   {
     "name": "shesh-files",
@@ -321,7 +321,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "284K",
-    "last_commit": "93007a8 rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "94894b7ecfb662d83e6d032b2869ca8f0894b10f rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-mcp-bundle",
@@ -345,7 +345,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "400K",
-    "last_commit": "e279339 rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "e0b170ec781394206b18b19c1be3a0c34d67a1fa rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-mind",
@@ -369,7 +369,7 @@
     "has_ci": false,
     "has_license": false,
     "size": "120K",
-    "last_commit": "be88375 init: shesh-omniroute wrapper for OmniRoute free big models gateway"
+    "last_commit": "fa84d1730d7b8f90e811f56b16de8cd8a60e5f2a init: shesh-omniroute wrapper for OmniRoute free big models gateway"
   },
   {
     "name": "shesh-orchestrator",
@@ -381,7 +381,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "428K",
-    "last_commit": "5680219 rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "b96aeb8988901f4f498b065781931e508fa70f9c rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-phone",
@@ -393,7 +393,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "184K",
-    "last_commit": "7fa22dc style: fix screenshot line length"
+    "last_commit": "dc99f481e73c5d9ee4dc101150b56bc55a2e26a5 style: fix screenshot line length"
   },
   {
     "name": "shesh-secrets",
@@ -489,7 +489,7 @@
     "has_ci": false,
     "has_license": true,
     "size": "433K",
-    "last_commit": "3bfa14c Update LICENSE to standard MIT text for proper SPDX detection"
+    "last_commit": "8e9ebfa2534973f317f8c928b91417196e5ed1f4 Update LICENSE to standard MIT text for proper SPDX detection"
   },
   {
     "name": "prime-agent",
@@ -645,6 +645,6 @@
     "has_ci": true,
     "has_license": false,
     "size": "7.5M",
-    "last_commit": "1246d4f chore: remove last nexusaos references (svg, codeowners, zig, lockfile)"
+    "last_commit": "da2e15b7489396587e52e6f4a365457dc6d20b57 chore: remove last nexusaos references (svg, codeowners, zig, lockfile)"
   }
 ]

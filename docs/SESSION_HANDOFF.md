@@ -32,10 +32,10 @@ canary default + shared venv + correct units. Guard policy is config-driven via
 
 ## 0. Current position — 2026-08-13 (fleet-wide rolling dependency update)
 
-**Rolling deps (one job, latest everywhere):** SheshAOS `ab27cd8` (8 crates to
-latest majors, 877/877 tests, clippy/fmt/deny clean); portfolio `cd94afb`
+**Rolling deps (one job, latest everywhere):** SheshAOS `dbee3873774f3b34b17557b945a3f156917e5fa6` (8 crates to
+latest majors, 877/877 tests, clippy/fmt/deny clean); portfolio `a1034c73a21158feae5caf1c34dbf4785890b4a1`
 (TS7 reverted→6.x per conflict protocol, upstream needs astro API);
-vyakrti-ide `a79f152` (react 19, zustand 5, monaco 0.56); waveterm `f6ca6e8`
+vyakrti-ide `9d684c38e4528aa44a3c0b6addea6f08fd8f7fec` (react 19, zustand 5, monaco 0.56); waveterm `f6ca6e8`
 + `639f381` (lock resync + ai/@ai-sdk bump cleared undici 12 alerts);
 pipecat `fe1962a` (uv lock -U). Remaining honest (waveterm docs workspace):
 image-size no upstream patch; sharp/serialize-javascript/uuid constrained by
@@ -43,46 +43,46 @@ Docusaurus pins (override destabilizes install — documented). Python 23
 components + Actions already at latest. Full detail: QUERYLOG 2026-08-13.
 
 **Nexus→Shesh rename (complete):** SheshAOS `nexus_ingest` →
-`kernel_ingest` (`363900b`); ecosystem living docs swept (`006c3e7`) —
+`kernel_ingest` (`0a74e50af99930e89d2136c2d673c5b686b959bf`); ecosystem living docs swept (`5c3c29c81f141cf58916a7b2de3451e58553e2d0`) —
 kernel_bridge/kernel-events.jsonl/KernelBridge/KernelError everywhere;
 AUDIT_AND_ROADMAP P1 flipped ✅; immutable history untouched.
 
 **Nexus → Shesh/Kernel rename (complete):** SheshAOS `nexus_ingest` →
-`kernel_ingest` (`363900b`); ecosystem living docs swept (`006c3e7`) —
+`kernel_ingest` (`0a74e50af99930e89d2136c2d673c5b686b959bf`); ecosystem living docs swept (`5c3c29c81f141cf58916a7b2de3451e58553e2d0`) —
 kernel_bridge/kernel-events.jsonl/KernelBridge/KernelError everywhere;
 AUDIT_AND_ROADMAP P1 flipped ✅; immutable history untouched.
 
 **Pending-item completion (this turn):** a11y spec + checker + reference
-fixes (ecosystem `61b66a3`, shesh-desktop `d885c16` — 381-element baseline,
+fixes (ecosystem `2cf68748aeb59809a95bda59d90ac0f3cf060ab6`, shesh-desktop `3f067664bb879bfd6a251b52344e8a8cfc9a1e3c` — 381-element baseline,
 on-machine long tail); skill marketplace primitives (shesh-harness
-`b00407b` — export/import JSON manifests, 7 tests); RAG confirmed covered
+`20f58e9a5084ae554de557520450a978b68d091e` — export/import JSON manifests, 7 tests); RAG confirmed covered
 in-component (shesh-memory semantic_search, 33 tests); self-hosted update
-mirror (shesh-desktop `3237048` — update-mirror.sh, dry-run safe);
+mirror (shesh-desktop `bd2da145fa8931bec1d7baa2e5e0b23c82703123` — update-mirror.sh, dry-run safe);
 eBPF boundary honest + shesh-ebpf verified (8 tests).
 
 Roadmap completion (earlier): every sandbox-feasible P1/P2 item is done —
-shesh-phone vision→tap loop (`78d120e`), ambient data-aware proactivity
-(`82b3173`), job-mode profile P2 (`827a851`), kernel bridge Rust ingest
-(SheshAOS `83e3358`+`1ddf28b`+`363900b`), email/IMAP setup (shesh-calendar
+shesh-phone vision→tap loop (`eef319a932d46dbf204f5214d7b85473c176ea52`), ambient data-aware proactivity
+(`acbcc204f8bf8e8c02009beea5ba5a37d869ef0b`), job-mode profile P2 (`e6bf896efc5d8256a9a9ef12838dc54d722089ca`), kernel bridge Rust ingest
+(SheshAOS `99c646c2be81672bb737d2bccf8549f497b17f61`+`18b1622c8066168e0bf14126b6cd716fb6fa1af3`+`0a74e50af99930e89d2136c2d673c5b686b959bf`), email/IMAP setup (shesh-calendar
 `4e4e0cc`). Remaining honest: P0 hardware validation (needs the MSI
 machine), real eBPF (needs kernel privs), a11y long tail (on-machine QML
 pass), hosted marketplace + Rekor (💡Future). See QUERYLOG 2026-08-13.
 
 Latest closures (new session, continued):
-- **Canary P0 e2e — GREEN on arch/fedora/ubuntu** (`4b0af81` → `f3b4a3c`):
+- **Canary P0 e2e — GREEN on arch/fedora/ubuntu** (`75595fb8e5a5b1e591a86255e347b8b347261fcf` → `8e53e0128f933b97f2f70b521d9060974d5d3bca`):
   was red 3 consecutive days. Fixed gate-in-container `/src` hardcode,
   missing component clones (fetch-components.sh), e2e install order +
   non-Python skip + stale kernel_bridge import, snapshot-checkout git root
   discovery (self-contained tests + pure-path fallback), INDEX regen.
-- **Component README auto-sync** (`126a478`, `f3b4a3c`): new
+- **Component README auto-sync** (`547a3742e049806cc26cad81e0fb4ae88fca5f94`, `8e53e0128f933b97f2f70b521d9060974d5d3bca`): new
   tools/sync_component_docs.py (link translation to blob URLs) + CI
   freshness job; 23 drifted files synced; linkcheck 0 broken.
-- **Failure-memory offline loop** (`shesh-memory 4103d05`): 7 new tests;
+- **Failure-memory offline loop** (`shesh-memory d4f91879ca91bf8c7fa258efd70b6f6671fa463d`): 7 new tests;
   exposed + fixed 2 real habit-learner bugs (volume-bias promotion,
   double-decay). 33/33 tests.
 - **Dependabot fleet:** merged 5 open PRs (vyakrti-ide postcss, pipecat h2,
   waveterm js-yaml/mermaid/nanoid); Vyakrti Rust CI fixed (drive-letter
-  path guard, `65e520e`); dompurify CVE closed via npm override in
+  path guard, `2f67f8a0db88c6f0ebb453695b88075e8b74635b`); dompurify CVE closed via npm override in
   waveterm/vyakrti-ide/Vyakrti (all alerts closed, builds green).
 - **pipecat transformers — FIXED** (`ea9e3af` + `a65576b`): the HIGH RCE
   advisories (GHSA-fgcw-684q-jj6r et al.) required transformers ≥5.5.0, but
@@ -95,21 +95,21 @@ Latest closures (new session, continued):
   **pipecat: 0 open dependabot alerts.** (pipecat is a mirror fork — not a
   Shesh component; fixes are upstreamable.)
 - **shesh-voice Flatpak Build — verified GREEN** (was unconfirmed).
-- **Known-good tips:** ecosystem `39ed0cf`, shesh-docs `0357778`,
-  shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
-  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `6afe02a`,
-  ClinicLedger `b04adf7`, ClinicLedger-Template `30be902`, Vyakrti `637bb2f`,
-  waveterm `2fb3842`, vyakrti-ide `01de4fb`, shesh-memory `4103d05`.
+- **Known-good tips:** ecosystem `c673d3747639e49e58504e6c7336b783cac96bd1`, shesh-docs `a3ef4f8272b183aa51f93e68703af88cdb01661a`,
+  shesh-desktop `15be5187869176d4eb2dd12295bd4882f7c26931`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
+  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `fdcd2aca13f23c2407e01be9275a7eb845417bd3`,
+  ClinicLedger `22dde978b7a3767195c2c6e0b675d8c3ff1e915d`, ClinicLedger-Template `30be902`, Vyakrti `ab0010e2fbdf902b95eb43d11dd59e01a2c852b3`,
+  waveterm `2fb3842`, vyakrti-ide `8dc7413105cb86c73ea7afa6a20ac7e767984450`, shesh-memory `d4f91879ca91bf8c7fa258efd70b6f6671fa463d`.
 
 CI closure (earlier same session):
 
-- **shesh-desktop lock-refresh — GREEN** (`9f46a15`): the `789e282`
+- **shesh-desktop lock-refresh — GREEN** (`b074b11f1c5a9b62182bce3528aad4fbc205a0b6`): the `789e282`
   girepository fix from the prior session never landed on main (parallel
   race). Re-applied with the verified noble package
   (`libgirepository-2.0-dev` + `gobject-introspection` + `libglib2.0-dev`),
-  dispatched → success → bot committed fresh lock `668e07fc`. The stale
+  dispatched → success → bot committed fresh lock `15be5187869176d4eb2dd12295bd4882f7c26931`. The stale
   desktop lock that was blocking dependabot security runs is gone.
-- **portfolio Auto-Update — GREEN** (`cd30013` + `c7673c2`): prettier
+- **portfolio Auto-Update — GREEN** (`42e5b49abaf1d6073325cf8f70071233de2d78bd` + `20c651afd51f3507a980496de8f09a4ed6624271`): prettier
   normalize step after regeneration (root cause of run 31653325256), then
   the AI-OS repo rename (→ SeshAOS) broke the generator's priority lookup
   (only 7 curated → ≥8 test failed). Generator renamed; 8 curated,
@@ -119,11 +119,11 @@ CI closure (earlier same session):
   entry); shesh-workspace janitor red is a stale run of a workflow removed
   at tip (20ec93e); the last two genuinely-red main branches (AIM,
   ClinicLedger/ClinicLedger-Template) were then fixed — see below.
-- **AIM CI — GREEN** (`6afe02a`): tests patched a non-existent module attr
+- **AIM CI — GREEN** (`fdcd2aca13f23c2407e01be9275a7eb845417bd3`): tests patched a non-existent module attr
   (`app.fetch_settings_map`; app.py imports it lazily) → repointed the 5
   patch sites at `repositories.system_repository.fetch_settings_map`.
   101/101 tests, flake8/py_compile clean.
-- **ClinicLedger CI — GREEN in progress** (`f17d3f9` + `6131bf3`): gradle
+- **ClinicLedger CI — GREEN in progress** (`0ca279b402df54dfc25e90c3153872f8a7df3523` + `e3e8880dc151bda680704dc21249e686e2b8966a`): gradle
   pin `9.5` → `9.6.1` (full version string required); missing
   `gradle-wrapper.jar` restored (the blanket `*.jar` .gitignore rule had
   swallowed it — negation exception added).
@@ -131,9 +131,9 @@ CI closure (earlier same session):
   `30be902`): same gradle pin → `9.5.0`; same wrapper-jar restore; plus the
   POSIX `gradlew` script itself was never committed (only `gradlew.bat`) —
   restored with exec bit.
-- **Known-good tips:** ecosystem `7670f90`, shesh-docs `82f62e2`,
-  shesh-desktop `668e07fc`, portfolio `c7673c2`, SheshAOS `a9dfc9f`,
-  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `6afe02a`.
+- **Known-good tips:** ecosystem `b6ef0c569ecab456bab31776e908a17ef1b55817`, shesh-docs `e8388ebe7119f8a5b5a5909527c2afbc5fd67892`,
+  shesh-desktop `15be5187869176d4eb2dd12295bd4882f7c26931`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
+  shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `fdcd2aca13f23c2407e01be9275a7eb845417bd3`.
 - **Fresh-session gotchas (Arena snapshot exclusions):** `.git/config`
   (origin remote) and `~/.git-credentials` are not persisted → re-add
   remote, credential helper, identity each session; reinstall
@@ -159,7 +159,7 @@ Three user mandates landed that session, all pushed and gate-verified:
 - **Rolling dependencies (owned by the agent now):** Python floors at
   current majors (pytest 9.1.1, ruff 0.16.2, pytest-asyncio 1.4.0, fastmcp
   3.4.7 — PyPI-latest on 2026-08-13); fleet sweep 21/21 green; SheshAOS
-  Cargo.lock refreshed (`a9dfc9f`, 872/872 tests + clippy/deny/machete
+  Cargo.lock refreshed (`ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`, 872/872 tests + clippy/deny/machete
   clean); conflict protocol codified in `docs/policies/DEPENDENCY_POLICY.md`
   (downgrade-by-one → drop-and-replace).
 - **Docs renovation:** shesh-docs is now a pure projection —
@@ -169,14 +169,14 @@ Three user mandates landed that session, all pushed and gate-verified:
   to `docs/history/audits/`, SITUATION_REPORT fused into the INCIDENTS post-mortem,
   desktop mirror retired to `docs/history/attic/` (canonical = shesh-desktop repo).
 - **Naming:** SHESH-only canon enforced fleet-wide including shesh-desktop
-  body text (`504ee8e`); shesh-voice verified zero-legacy.
+  body text (`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`); shesh-voice verified zero-legacy.
 - **Owner-side leftovers (cannot be done by the agent):** rotate the GitHub
   PAT (transcript exposure 2026-08-11/12); optional Actions secret if
   cross-repo docs auto-push is wanted later. Both listed in
   `docs/MANUAL_VERIFICATION.md` §13.
 
-Tips: ecosystem `210972e`→(this refresh), shesh-docs `ce643f3`, shesh-desktop
-`504ee8e`, SheshAOS `a9dfc9f`, shesh-audit `78c9d86`. CI poll for the day's
+Tips: ecosystem `bfea341b4d17fc2fd135988a545cad99f5c78396`→(this refresh), shesh-docs `2fdf4d15ff282757aa80d7a940ea83da28a25f49`, shesh-desktop
+`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`, shesh-audit `78c9d86`. CI poll for the day's
 pushes is the first job of the next session if not appended below.
 
 ---

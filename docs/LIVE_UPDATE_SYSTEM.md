@@ -87,7 +87,7 @@ All via one command `python tools/live_update.py --all` called automatically in 
 **Missed per operating rules:**
 
 - ❌ Branch per item `feat/<thing>` — we were pushing directly to main, not branching per TODO item. Now fixed: `supervise.sh` creates branch `feat/auto-<timestamp>` before work, `autopilot` runner does `safe_commit` + `safe_push` via branch.
-- ❌ Tests gate every push, never push red — we pushed with lint errors (29 pre-existing in tools/ blocking every swarm PR) — fixed in `68a0df5` lint debt, now `make check` GATE OK 36 tests, autopilot refuses red.
+- ❌ Tests gate every push, never push red — we pushed with lint errors (29 pre-existing in tools/ blocking every swarm PR) — fixed in `45150db5397bd01058c7f5f535c0e54f49eef54c` lint debt, now `make check` GATE OK 36 tests, autopilot refuses red.
 - ❌ After every user message append to QUERYLOG — we missed many, including 5 agents logs — now fixed by appending full PDF completely and automating via `live_update.py`.
 - ❌ Update TODO status real-time — we updated sometimes, not after every message — now automatic via `live_update.py`.
 - ❌ Refresh relevant docs real-time — we updated some, not all — now automatic.

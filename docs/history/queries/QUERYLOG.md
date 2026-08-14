@@ -35,13 +35,13 @@ bootstrap crate was still named after the SeshaOS era — dir sesha/ -> bootstra
 package seshaos -> shesh-bootstrap, sesha-bootstrap.sh/.md -> shesh-bootstrap.*.
 Updated root Cargo.toml exclude + ci.yml comment; crate docs dropped the
 'SheshAOS v2' label and marked the Ubuntu-era brief as historical. Verified:
-fmt/clippy clean, 877/877 tests, crate compiles as shesh-bootstrap. SheshAOS @ e5a338c.
+fmt/clippy clean, 877/877 tests, crate compiles as shesh-bootstrap. SheshAOS @ 771c8d4b343ff12ec99007414b533d8423680fc9.
 
 **2. Portfolio legacy slug:** /docs/projects/seshaos -> /docs/projects/sheshaos
 (page + README + About + DocsLayout + getting-started + site-map tree +
 projects.ts + generator DOCS_URLS + audit scripts + resume.html), PDF regenerated.
 Facts gate now forbids 'seshaos'/'sesha'; grammar allowlist deduped.
-portfolio @ fc2973e.
+portfolio @ 22a12af5658d1555ada5c821413c4c186772c3d2.
 
 **3. NVIDIA bootloader case (found while checking limine):** setup_nvidia_mux had
 a DEAD duplicate grub) arm (a prior edit inserted it after the *) catch-all) and
@@ -50,7 +50,7 @@ correct separator is underscore (nvidia_drm.modeset=1, NVIDIA/Arch convention) �
 standardized to underscore in systemd-boot + limine + grub (grep + sed); removed
 a stray NEEDS_INITRAMFS_REBUILD from the limine arm. 04_DEVICE_PROFILE.md now
 states Bootloader: Limine explicitly and what the installer patches.
-shesh-desktop @ 414a749.
+shesh-desktop @ d417bf8f9ec92c98ce3d0eecdc885e14ac807c2c.
 
 **4. Fleet enforcement:** proofread.py FORBIDDEN_CI now includes seshaos/sesha/
 sesha os, so the retired-name class cannot regress in any living repo (archived
@@ -130,7 +130,7 @@ SKIP_AI_STACK/SKIP_POWER_SETUP env guards. tools/apply-profile.sh NEW.
 
 **Policy section (settings page):** shesh-audit policy was code-hardcoded; now
 `~/.config/shesh/policy.json` ({default_verdict, protected_paths}) via load_policy/
-save_policy, read by server + Guard (shesh-core @ 86e4efb). Settings → Shesh →
+save_policy, read by server + Guard (shesh-core @ 98aab6f90a008c3e4bd0e1e752345cfe5e3e7ecf). Settings → Shesh →
 Governance now has verdict selector + protect-secrets toggle; Shesh.qml writes
 the file + restarts shesh-audit-mcp. 34/34 audit, 180/180 core, ruff clean.
 
@@ -149,19 +149,19 @@ ContentSection widgets the page already used.
 `sesha` (retired-name typo) while all 36 consumers read/write `shesh` — the GUI
 toggles bound to undefined, so master switch / wake word / organizer / models
 were inert on a fresh install. Renamed to `shesh`. Also `hey sesha` -> `hey shesh`
-+ Newelle data dir. shesh-desktop @ a62efca.
++ Newelle data dir. shesh-desktop @ 0cf2e04c57b641bd95dcf32f3bfb4a01207c1b5e.
 
 **FEATURE (complete the no-code surface):** added channel selector (stable/
 canary/devel) + 15 MCP-server toggles to the settings page; Shesh.qml now rebuilds
 ~/.config/shesh/mcp/*.json via `generate_mcp_config.py --channel --servers`
 (script at ~/src/shesh-ecosystem). Generator gained `--servers` allowlist
-(default all). shesh-desktop @ a62efca, shesh-ecosystem @ 09ee26d/c7d5d63.
+(default all). shesh-desktop @ 0cf2e04c57b641bd95dcf32f3bfb4a01207c1b5e, shesh-ecosystem @ 7cb4a2a3b91a309375183d5365603e0e1b8d0f76/593e0eb8798f8f2f7bbe6b7619760d0fa88bbf96.
 
 **SELF-INFLICTED BLOAT (found + fixed):** the fuzz commit accidentally committed
 `fuzz/target/` (1751 files, repo 1.4G) because .gitignore only covered /target.
 Purged via git-filter-repo (only main carried it), added fuzz/target to
 .gitignore, force-pushed main with lease (ruleset disabled/re-enabled). Repo
-1.4G -> 5.6MB; fresh shallow clone 1.9MB. SheshAOS @ d586fb8.
+1.4G -> 5.6MB; fresh shallow clone 1.9MB. SheshAOS @ 89a24d15962dbbb0032918b728e2e97c2bc13382.
 
 **Docs:** this file; DEPENDENCY_GRAPH + shesh-docs regenerated; broken INDEX link
 to transient SESSION_HOP_ALERT.md removed (linkcheck green).
@@ -226,11 +226,11 @@ deferred only what a force-push or blind refactor would make *worse*. All verifi
 - FWRS: 1 → 18 tests. **Found + fixed a real solver bug** — fairness_stage had no
   per-NGO demand cap, so surplus supply over-allocated (delivered 100 to a 30-demand
   NGO; delivered_pct 333%). Added the cap. Removed generated map.html / dataset /
-  allocs.csv / summary.csv from git + gitignored. @ 6113a4d
+  allocs.csv / summary.csv from git + gitignored. @ f994eb7454103b7bad63807e71b7652f3eef3f3c
 - rag-service: lifespan DI (no import-time embedder/ChromaDB singletons), CHROMA_DIR
-  override, tests updated, 22/22. @ cd7dccf
+  override, tests updated, 22/22. @ 30010c85f6b199cfb158b177abff7c973e4e8081
 - Vyakrti: removed dead jit_compiler.rs + jit_memory.rs (0 callers; 2-instruction
-  "JIT" with a library panic!); cargo test green. @ e602a2a
+  "JIT" with a library panic!); cargo test green. @ ea3359b126db7faabbe1a2b8e90fcbea58d2630c
 - ePustakalay: archived (empty). shesh-workspace: archived (all 5 docs already
   mirrored in shesh-ecosystem/docs/). Fleet now 10 archived.
 - rag-service CI pin (SHA actions + hash embedder env) is staged but NOT pushed —
@@ -325,11 +325,11 @@ reference comparison + P0/P1/P2 roadmap). Then executed the approved P0+P1 sweep
 
 **Executed & pushed this session:**
 - Profile README rewritten to current reality (SheshAOS 877+/9 crates + CLI; dropped
-  NexusAOS/SeshaOS/nexus-kernel; added shesh-ecosystem/omniroute/ClinicLedger) — `gaganjainse` @ e202e2e.
+  NexusAOS/SeshaOS/nexus-kernel; added shesh-ecosystem/omniroute/ClinicLedger) — `gaganjainse` @ 89b9333d854800fa9b24045b7ab837d747e7088c.
 - Facts gate extended to all 8 projects (`resume-facts.json` projects map); ecosystem 30→63
-  (pytest --collect-only), Vyakrti 123→122; PDF regenerated — portfolio @ 07b5d4a + 49c4e4b.
+  (pytest --collect-only), Vyakrti 123→122; PDF regenerated — portfolio @ 2992c6d7987cc7491ba2ff4c315105b7ece8a66a + 1af145b55ab75a3e5d90360dc49debf81142f9d6.
 - Licenses: +28 LICENSE files; components.toml reconciled (audit/brain/mind MIT→GPL-3.0-or-later;
-  omniroute stays MIT) — shesh-ecosystem @ 0c4866e.
+  omniroute stays MIT) — shesh-ecosystem @ b74b6800581353c926cee90804e472592415e00e.
 - SECURITY.md ×11 portfolio repos. Kotlin trio consolidated (VillageClinicLedger +
   ClinicLedger-Template archived); .artifacts removed from ClinicLedger.
 
@@ -347,12 +347,12 @@ license contradiction resolved.
 **Answer:** Honest classification first — benchmarks only where there's a measurable hot path; no fake stubs anywhere. Created real benchmarks in **6 more repos** (8 total incl. pre-existing SheshAOS + shesha-kernel), documented reasons for the rest in `docs/BENCHMARKS.md`.
 
 **New real benches (all verified locally, all pushed):**
-- **Vyakrti** `2fb85c0` — criterion benches for lexer + lex&parse (the per-keystroke IDE hot path); CI runs `cargo bench -- --test`.
-- **shesh-memory** `f8edb7d` — vector search (1000 docs, ~73 ms), context assembly (~186 µs), embedding (~29 µs).
+- **Vyakrti** `68ff2c8a9d119df25c983885c4902908d118cea5` — criterion benches for lexer + lex&parse (the per-keystroke IDE hot path); CI runs `cargo bench -- --test`.
+- **shesh-memory** `246de4ebef3a5a5e516d84c07e8b6840eb0ebfa2` — vector search (1000 docs, ~73 ms), context assembly (~186 µs), embedding (~29 µs).
 - **shesh-audit** `61a62d1` — guard allow/deny (~51/47 µs), hash-chained append (~34 µs).
-- **shesh-phone** `959a3d4` — vision→tap cycle + template match. **Benchmark caught a real perf bug: template match was 1.65 s** (pure-Python exhaustive scan). Fixed with coarse-to-fine search (4× downsample + full-res refine window, plus a coordinate-leak bug when refinement ties) → **95.7 ms, 17× faster**, 16/16 tests still green.
-- **FWRS** `c5e5ab6` — LP pipeline scaling (75 ms at 10/20 → 860 ms at 40/100).
-- **rag-service** `46e422e` — chunk_text/hybrid search/embedding over corpus.
+- **shesh-phone** `77ec779f53a0dcdc766a5823015200611617212b` — vision→tap cycle + template match. **Benchmark caught a real perf bug: template match was 1.65 s** (pure-Python exhaustive scan). Fixed with coarse-to-fine search (4× downsample + full-res refine window, plus a coordinate-leak bug when refinement ties) → **95.7 ms, 17× faster**, 16/16 tests still green.
+- **FWRS** `f31fb0964194ec9c46738e63b416271824158b37` — LP pipeline scaling (75 ms at 10/20 → 860 ms at 40/100).
+- **rag-service** `1479b2c45bf73ac4ef463bd91b5c6365aa4b5661` — chunk_text/hybrid search/embedding over corpus.
 
 All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-triggered). Python benches are stdlib-only median-of-N report mode (no flaky gates); Rust uses criterion `-- --test` smoke.
 
@@ -365,9 +365,9 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
 
 **Answer:** Full account-wide sweep (60 repos incl. 7 archived) + portfolio Vercel fix + fork upstream review.
 
-**Account sweep:** CI added to all 10 gap repos + all 7 archived (unarchive → configure → re-archive). New CIs immediately found 4 real bugs, all fixed root-cause: Hyprland-Dots emoji data misnamed `.sh` (split into RofiEmoji-data.txt, `45dfb48`); grievance-portal dead vite scripts (no frontend exists — removed) + Laravel bootstrap/cache dirs + composer-based CI (`baf4906`, `c92e353`); VillageClinicLedger invalid setup-java SHA (fixed to real v5 SHA). Dependabot configs added everywhere missing (incl. archives). Benchmarks: SheshAOS + shesha-kernel bench workflows green; other repos have no bench infra (honest — no stubs). **No-red:** dependabot `ignore` directives (documented) added for genuinely upstream-blocked advisories (grievance-portal guzzle/commonmark; waveterm sharp/serialize-javascript/uuid/image-size — Docusaurus chain + no-patch). OmniRoute secret-dependent upstream workflows disabled (fork has no secrets: Deploy VPS/Docker Hub/Wiki/Scorecard/Release-Green).
+**Account sweep:** CI added to all 10 gap repos + all 7 archived (unarchive → configure → re-archive). New CIs immediately found 4 real bugs, all fixed root-cause: Hyprland-Dots emoji data misnamed `.sh` (split into RofiEmoji-data.txt, `45dfb48`); grievance-portal dead vite scripts (no frontend exists — removed) + Laravel bootstrap/cache dirs + composer-based CI (`f35ab43e304352da4425aea310e1bfd600cfc148`, `3e419cfa137e96dcb270dc704f06b8e91b90d9f8`); VillageClinicLedger invalid setup-java SHA (fixed to real v5 SHA). Dependabot configs added everywhere missing (incl. archives). Benchmarks: SheshAOS + shesha-kernel bench workflows green; other repos have no bench infra (honest — no stubs). **No-red:** dependabot `ignore` directives (documented) added for genuinely upstream-blocked advisories (grievance-portal guzzle/commonmark; waveterm sharp/serialize-javascript/uuid/image-size — Docusaurus chain + no-patch). OmniRoute secret-dependent upstream workflows disabled (fork has no secrets: Deploy VPS/Docker Hub/Wiki/Scorecard/Release-Green).
 
-**Portfolio Vercel fix (`25d0331`+`ef9a45d`):** Vercel build ran generate:all → PIL missing. Split `build` (astro only, no python) vs `build:full` (regenerates, CI path with pillow). Assets are committed + maintained by scheduled auto-update.
+**Portfolio Vercel fix (`897b17b7df3267de86151c8300b1aeb8611a2ff1`+`42c91b56e6f163e03f9dff477917047fab926e2d`):** Vercel build ran generate:all → PIL missing. Split `build` (astro only, no python) vs `build:full` (regenerates, CI path with pillow). Assets are committed + maintained by scheduled auto-update.
 
 **Dotfiles:** verified shesh-desktop `dots/` intact on main (a11y fixes present); install mechanism = `sdata/subcmd-install/3.files.sh` rsync-copy `dots/.config` → `$XDG_CONFIG_HOME` with backup + installed-file tracking + uninstall — clean and documented.
 
@@ -405,11 +405,11 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
 
 **Linters/test tools:** actionlint v1.7.12 = latest (pinned+sha256) · shellcheck upgraded apt 0.10.x → **v0.11.0 pinned with sha256** (verified 0 findings before pinning; comment wording fixed after actionlint SC1072 directive-parse caught it — `# shellcheck v0.11.0` reads as a directive) · ruff/pytest/fastmcp installed via pip = latest · clippy/fmt from stable snapshot (quarterly-review policy) · zizmor/gitleaks via pip = latest. Local gates all verified.
 
-**CI configs (actions):** SheshAOS workflows now SHA-pinned at latest — actions/cache v4→**v6.1.0** (55cc8345), upload-artifact v4→**v7.0.1** (043fb46d), audit-check @v2→**SHA** 69366f33 (parallel agent b69df77 shipped the identical pins; verified). Ecosystem workflows already at latest.
+**CI configs (actions):** SheshAOS workflows now SHA-pinned at latest — actions/cache v4→**v6.1.0** (55cc8345), upload-artifact v4→**v7.0.1** (043fb46d), audit-check @v2→**SHA** 69366f33 (parallel agent 65bcfd28b80f9981f50f70f4aea109ec40e42fba shipped the identical pins; verified). Ecosystem workflows already at latest.
 
 **Dependabot:** added configs to **11 more user-owned repos** (AIM, ClinicLedger, ClinicLedger-Template, FWRS, GameVault, VillageClinicLedger, Vyakrti [cargo+npm], grievance-portal [composer+npm], llm-eval-harness, rag-service, vyakrti-ide) — weekly, agent-owned rolling updates, matching the 33 already configured. First dependabot cycles are running (in-progress on the newly configured repos). waveterm's sharp run remains the documented upstream-blocked security_update_not_possible.
 
-**Benchmarks:** SheshAOS bench workflow **green on the dep-update commit** (criterion 0.8 benches build+run in CI; bench.yml run success on ab27cd8 and b69df77).
+**Benchmarks:** SheshAOS bench workflow **green on the dep-update commit** (criterion 0.8 benches build+run in CI; bench.yml run success on dbee3873774f3b34b17557b945a3f156917e5fa6 and 65bcfd28b80f9981f50f70f4aea109ec40e42fba).
 
 **Timer terminal:** background `session_guard --tick` loop running (every 5 min). It immediately caught the workspace at 209 MB/7232 files → cleaned heavy mirror clones + build artifacts → **42 MB/3461 files** (healthy).
 
@@ -422,11 +422,11 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
 
 **Python components (23):** already at latest — fastmcp 3.4.7, pytest 9.1.1, ruff 0.16.2, pytest-asyncio 1.4.0 = PyPI latest (floors from the 2026-08-13 sweep). No changes needed; verified by API sweep.
 
-**Rust (SheshAOS, `ab27cd8`):** 8 crates behind latest bumped to latest majors — criterion 0.5→0.8, dirs 5→6, notify 6.1→8.2, portable-pty 0.8→0.9, reqwest 0.12→0.13, rusqlite 0.32→0.40, sysinfo 0.32→0.39, toml 0.8→1.1. Fixes along the way: rusqlite 0.40 dropped u64:ToSql → explicit i64::try_from with overflow error; criterion 0.8 deprecated criterion::black_box → std::hint::black_box (3 benches); deny.toml + CDLA-Permissive-2.0 (webpki-root-certs, permissive). Verified 877/877 tests, clippy -D warnings, fmt, cargo-deny all clean.
+**Rust (SheshAOS, `dbee3873774f3b34b17557b945a3f156917e5fa6`):** 8 crates behind latest bumped to latest majors — criterion 0.5→0.8, dirs 5→6, notify 6.1→8.2, portable-pty 0.8→0.9, reqwest 0.12→0.13, rusqlite 0.32→0.40, sysinfo 0.32→0.39, toml 0.8→1.1. Fixes along the way: rusqlite 0.40 dropped u64:ToSql → explicit i64::try_from with overflow error; criterion 0.8 deprecated criterion::black_box → std::hint::black_box (3 benches); deny.toml + CDLA-Permissive-2.0 (webpki-root-certs, permissive). Verified 877/877 tests, clippy -D warnings, fmt, cargo-deny all clean.
 
-**npm portfolio (`cd94afb`):** globals 17.11, axe-core 4.13, puppeteer 25.6, typescript → 7.0.2 then **reverted to 6.x per conflict protocol**: TS 7 (Go rewrite) lacks the programmatic API astro check needs (upstream withastro/roadmap#1321). astro check 0 errors, 22/22 tests.
+**npm portfolio (`a1034c73a21158feae5caf1c34dbf4785890b4a1`):** globals 17.11, axe-core 4.13, puppeteer 25.6, typescript → 7.0.2 then **reverted to 6.x per conflict protocol**: TS 7 (Go rewrite) lacks the programmatic API astro check needs (upstream withastro/roadmap#1321). astro check 0 errors, 22/22 tests.
 
-**npm vyakrti-ide (`a79f152`):** react 19.2.8, react-dom 19.2.8, zustand 5.0.15, monaco-editor 0.56.0, lucide-react 1.31.0. tsc + vite build green.
+**npm vyakrti-ide (`9d684c38e4528aa44a3c0b6addea6f08fd8f7fec`):** react 19.2.8, react-dom 19.2.8, zustand 5.0.15, monaco-editor 0.56.0, lucide-react 1.31.0. tsc + vite build green.
 
 **npm waveterm (`f6ca6e8` + `639f381`):** lock resynced + all deps to wanted; then ai→5.0.x + @ai-sdk/react→4.0.67 to clear the vulnerable undici 5.29.0 chain (dependabot security run was failing). undici alerts 12→0. Remaining 6 alerts honest: image-size (vuln ≤2.0.2, **no upstream patch exists** — unfixable until upstream), sharp 0.32.6 + serialize-javascript 6.0.2 + uuid 8.3.2 (Docusaurus docs workspace; overrides destabilize the workspace install — tried, reverted per conflict protocol, needs upstream Docusaurus bump; dependabot runs confirm security_update_not_possible). 46/46 vitest; 17 pre-existing tsc errors in preview files unchanged (verified identical before/after).
 
@@ -442,10 +442,10 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
 **Answer:** Two tracks.
 
 **Track 1 — Nexus → Shesh/Kernel rename (completed):**
-- SheshAOS: `nexus_ingest.rs` → `kernel_ingest.rs` (module + file, `363900b`);
+- SheshAOS: `nexus_ingest.rs` → `kernel_ingest.rs` (module + file, `0a74e50af99930e89d2136c2d673c5b686b959bf`);
   fixed the broken `nexus_aos_architecture_brief.md` reference in
   docs/architecture.md (file never existed → point at README/HANDOVER).
-- Ecosystem living docs swept (`006c3e7`): `nexus_bridge`→`kernel_bridge`,
+- Ecosystem living docs swept (`5c3c29c81f141cf58916a7b2de3451e58553e2d0`): `nexus_bridge`→`kernel_bridge`,
   `nexus-events.jsonl`→`kernel-events.jsonl`, Nexus bridge/event→kernel
   bridge/event, NexusBridge→KernelBridge, NexusError→KernelError (current
   identifiers), AGENTIC_BODY glossary now says "Kernel family (formerly
@@ -463,12 +463,12 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
   spec with checkpoints + fix pattern, reference fixes in killDialog + ConfigSwitch
   (QtQuick Controls Button base → built-in accessibleName). Long tail is an
   on-machine file-by-file pass (QML can't be rendered in a sandbox — mass
-  blind edits would risk the shell). (ecosystem 61b66a3, shesh-desktop d885c16)
+  blind edits would risk the shell). (ecosystem 2cf68748aeb59809a95bda59d90ac0f3cf060ab6, shesh-desktop 3f067664bb879bfd6a251b52344e8a8cfc9a1e3c)
 - **Skill marketplace** — use: share evolved skills across machines/users.
   Built the honest primitive: shesh-harness `marketplace.py` — export skills
   to a portable JSON manifest, validate, import additively (non-destructive,
   overwrite opt-in, malformed reported). 7 tests. The hosted open-space.cloud
-  style marketplace remains Future on top of this format. (b00407b)
+  style marketplace remains Future on top of this format. (20f58e9a5084ae554de557520450a978b68d091e)
 - **RAG** — use: semantic retrieval beyond keyword FTS. Verified it's already
   covered in-component: shesh-memory embeddings (local hash offline +
   Ollama nomic-embed-text) + vectorstore + semantic_search MCP, 33 tests.
@@ -478,7 +478,7 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
   Built `tools/maintenance/update-mirror.sh`: pacman -Sw --cachedir (or
   MIRROR_RSYNC) → repo-add local DB → prune keeping KEEP_VERSIONS per
   package; fully dry-run safe; shellcheck clean; prune policy verified with
-  fake archives. (shesh-desktop 3237048)
+  fake archives. (shesh-desktop bd2da145fa8931bec1d7baa2e5e0b23c82703123)
 
 **Docs:** [docs/A11Y.md](../../A11Y.md), [docs/history/AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
 
@@ -494,19 +494,19 @@ hardware validation on the MSI machine — physically impossible in a sandbox
 (needs Hyprland@144/NVIDIA MUX/wake word on the real laptop).
 
 **P1 completed this turn (5 items):**
-- **shesh-phone OCR/vision→tap loop** (`78d120e` + `4dc63b2`): `VisionTapLoop`
+- **shesh-phone OCR/vision→tap loop** (`eef319a932d46dbf204f5214d7b85473c176ea52` + `ba861a735ee110bf78c0093ec43a81e76493644c`): `VisionTapLoop`
   + `TemplateVision` — screenshot → locate → tap → verify, retries honestly,
   refuses taps outside the safe area, injected provider per README contract.
   9 new tests (16 total); CI green (added pillow to extra-pip).
-- **Ambient data-aware proactivity** (shesh-desktop `82b3173`): `sources.py`
+- **Ambient data-aware proactivity** (shesh-desktop `acbcc204f8bf8e8c02009beea5ba5a37d869ef0b`): `sources.py`
   gathers real facts (git uncommitted count, backup age, Downloads arrivals,
   disk free) — offers now say "7 uncommitted changes" not "You have
   uncommitted changes." 11 new tests (38 total).
-- **job-mode profile (P2, feasible)** (shesh-desktop `827a851`): isolated work
+- **job-mode profile (P2, feasible)** (shesh-desktop `e6bf896efc5d8256a9a9ef12838dc54d722089ca`): isolated work
   profile — work git identity via includeIf `~/work/**`, personal sync
   paused/restored, reversible + idempotent, shellcheck clean.
-- **Nexus bridge: Rust consumes nexus-events.jsonl** (SheshAOS `83e3358` +
-  `1ddf28b`): `shesh-kernel::nexus_ingest` — typed ingest with honest
+- **Nexus bridge: Rust consumes nexus-events.jsonl** (SheshAOS `99c646c2be81672bb737d2bccf8549f497b17f61` +
+  `18b1622c8066168e0bf14126b6cd716fb6fa1af3`): `shesh-kernel::nexus_ingest` — typed ingest with honest
   accounting (bad lines, unknown kinds, non-monotonic sequences), tail view;
   5 tests, workspace + clippy + fmt clean, CI green.
 - **Email/IMAP** (shesh-calendar `4e4e0cc`): `tools/setup-email.sh` — local-first
@@ -531,13 +531,13 @@ future) · ❌ RAG integration (separate optional repo).
 - Vyakrti main Rust CI red (pre-existing, also blocked every PR): `workspace.rs`
   test asserted `normalize_relative("C:\\...")` errors, but on Linux `C:/...` is
   a valid relative path. Real fix: `normalize_relative` now rejects Windows
-  drive-letter prefixes on all platforms (path-traversal guard, 65e520e).
+  drive-letter prefixes on all platforms (path-traversal guard, 2f67f8a0db88c6f0ebb453695b88075e8b74635b).
   Rebased Vyakrti PR #2 (postcss) onto fixed main → CI green → merged.
 - Merged 5 open dependabot PRs (all verified locally first): vyakrti-ide
   postcss, pipecat h2, waveterm js-yaml/mermaid/nanoid.
 - dompurify CVE (monaco-editor pins 3.2.7; vulnerable ≤3.4.12): npm override
-  `dompurify: ^3.4.13` in waveterm (2fb3842), vyakrti-ide (01de4fb), Vyakrti
-  frontend (637bb2f) — all alerts closed, builds green.
+  `dompurify: ^3.4.13` in waveterm (2fb3842), vyakrti-ide (8dc7413105cb86c73ea7afa6a20ac7e767984450), Vyakrti
+  frontend (ab0010e2fbdf902b95eb43d11dd59e01a2c852b3) — all alerts closed, builds green.
 - **pipecat transformers = upstream-blocked, honestly open:** GHSA-fgcw-684q-jj6r
   (HIGH RCE) needs transformers ≥5.5.0, but speechmatics-voice (all releases,
   incl. 0.3.0 betas) pins `transformers>=4.57,<5`. Verified unsatisfiable with
@@ -580,7 +580,7 @@ cross-repo docs auto-push secret (owner).
 ## Q: "Continue here" (2026-08-13)
 
 **Answer:** Continued in-session instead of hopping; closed the remaining flagged reds:
-- **AIM CI — GREEN** (`6afe02a`): run 31268195425 red — tests patched
+- **AIM CI — GREEN** (`fdcd2aca13f23c2407e01be9275a7eb845417bd3`): run 31268195425 red — tests patched
   `app.fetch_settings_map` but app.py imports the name lazily inside
   `inject_globals()` (`from repositories.system_repository import ...`), so
   the module attribute never exists (`AttributeError`). Fixed the 5 patch
@@ -588,7 +588,7 @@ cross-repo docs auto-push secret (owner).
   real source the lazy import reads, so the mocks are actually effective
   (not inert). Reproduced locally (4 failed) → fixed → 101/101 tests,
   flake8 select E9/F63/F7/F82 clean, py_compile OK.
-- **ClinicLedger CI — three-layer fix** (`f17d3f9` → `6131bf3`): (1)
+- **ClinicLedger CI — three-layer fix** (`0ca279b402df54dfc25e90c3153872f8a7df3523` → `e3e8880dc151bda680704dc21249e686e2b8966a`): (1)
   `gradle-version: '9.5'` doesn't resolve (full version string required) —
   pinned to 9.6.1 matching the wrapper; (2) `gradle-wrapper.jar` missing —
   the blanket `*.jar` .gitignore rule swallowed the committed bootstrap;
@@ -599,7 +599,7 @@ cross-repo docs auto-push secret (owner).
   plus the POSIX `gradlew` launcher script itself was never committed (only
   `gradlew.bat`) — restored from gradle/gradle v9.5.0 with exec bit.
 - **Fleet dependabot reds re-verified:** Vyakriti dependabot run now has a
-  newer success; portfolio path-to-regexp reds are all on pre-`892b2f2`
+  newer success; portfolio path-to-regexp reds are all on pre-`999848b8176a94d363ff3e6354db20d35695ca0e`
   SHAs; shesh-docs/she-sh-wave pip reds predate the gh-actions-only config;
   grievance-portal's three reds map to dependabot PRs that are already
   closed; pipecat/vyakrti-ide/waveterm have open dependabot PRs (non-shesh
@@ -614,11 +614,11 @@ cross-repo docs auto-push secret (owner).
 ## Q: "This was my conversation after the session compacted: …" — session-shift handoff; previous session's continuation planned CI-closure verification + handoff docs + new-session prompt (2026-08-13)
 
 **Answer (new session, executed):** The previous session (Orchestrator) had been asked to "shift to a completely new session right now. Prepare everything needed. And find me the prompt to give it." Its post-compaction continuation planned: verify the two unknown CI states, close quick wins, refresh SESSION_HANDOFF/NEXT_SESSION_PROMPT, log QUERYLOG, deliver the prompt. This tab executed that plan:
-- **shesh-desktop lock-refresh — CLOSED GREEN.** Handoff claimed `789e282` (libgirepository fix) pushed, but live main tip was `4959fa8` — fix never landed (parallel-session race). Re-applied as `9f46a15` (libgirepository-2.0-dev + gobject-introspection + libglib2.0-dev, verified against packages.ubuntu.com noble), dispatched → run 31663311293 **success**, bot committed fresh lock `668e07fc`. Handoff's run ID 31653522653 did not exist (404).
-- **portfolio Auto-Update — CLOSED GREEN.** Cause confirmed from log 31653325256: `prettier --check` failed on regenerated `src/data/projects.ts` + `public/projects.json`. Fixed with prettier-normalize step (`cd30013`), then a second real bug surfaced (run 31663341440): rename SheshaAOS→SeshAOS broke the generator's PRIORITY_ORDER lookup → only 7 curated → test floor ≥8 failed ("expected 7 to be greater than or equal to 8"). Fixed `auto-update-projects.mjs` (rename in PRIORITY_ORDER/ACCURATE_TESTS/TAG_MAP/bullets + DOCS_URLS for the legacy seshaos page slug) → 8 curated, 22/22 tests local; pushed `c7673c2` → run 31663621988 **success** + CI 31663621982 success. Local build's puppeteer failure is the known sandbox-only libnspr4 limitation (ubuntu-latest unaffected).
-- **Fleet re-poll (60 repos, latest run per workflow):** 173 GREEN, 0 PENDING, 16 RED — every red categorized: 13 are dependabot-PR/stale-SHA runs (pre-fix SHAs or PR branches: portfolio path-to-regexp pre-892b2f2, shesh-docs/she-sh-wave pip pre-fix, SheshAOS PR Checks 40477b7 = closed dependabot PR explained in prior session, Vyakrti/grievance-portal/pipecat/vyakrti-ide/waveterm dependabot PRs); shesh-workspace janitor red = stale run of a workflow **removed** at tip (20ec93e tools/ removal) — no longer exists; genuine main-branch reds are out-of-scope non-shesh projects: AIM (test fails: `app.py` lacks `fetch_settings_map`), ClinicLedger/ClinicLedger-Template (Gradle cache setup fail) — reported, not silently expanded into scope.
+- **shesh-desktop lock-refresh — CLOSED GREEN.** Handoff claimed `789e282` (libgirepository fix) pushed, but live main tip was `fbee6660bfa060d1745c22d634bc0f8297cc5e7b` — fix never landed (parallel-session race). Re-applied as `b074b11f1c5a9b62182bce3528aad4fbc205a0b6` (libgirepository-2.0-dev + gobject-introspection + libglib2.0-dev, verified against packages.ubuntu.com noble), dispatched → run 31663311293 **success**, bot committed fresh lock `15be5187869176d4eb2dd12295bd4882f7c26931`. Handoff's run ID 31653522653 did not exist (404).
+- **portfolio Auto-Update — CLOSED GREEN.** Cause confirmed from log 31653325256: `prettier --check` failed on regenerated `src/data/projects.ts` + `public/projects.json`. Fixed with prettier-normalize step (`42e5b49abaf1d6073325cf8f70071233de2d78bd`), then a second real bug surfaced (run 31663341440): rename SheshaAOS→SeshAOS broke the generator's PRIORITY_ORDER lookup → only 7 curated → test floor ≥8 failed ("expected 7 to be greater than or equal to 8"). Fixed `auto-update-projects.mjs` (rename in PRIORITY_ORDER/ACCURATE_TESTS/TAG_MAP/bullets + DOCS_URLS for the legacy seshaos page slug) → 8 curated, 22/22 tests local; pushed `20c651afd51f3507a980496de8f09a4ed6624271` → run 31663621988 **success** + CI 31663621982 success. Local build's puppeteer failure is the known sandbox-only libnspr4 limitation (ubuntu-latest unaffected).
+- **Fleet re-poll (60 repos, latest run per workflow):** 173 GREEN, 0 PENDING, 16 RED — every red categorized: 13 are dependabot-PR/stale-SHA runs (pre-fix SHAs or PR branches: portfolio path-to-regexp pre-999848b8176a94d363ff3e6354db20d35695ca0e, shesh-docs/she-sh-wave pip pre-fix, SheshAOS PR Checks 40477b7 = closed dependabot PR explained in prior session, Vyakrti/grievance-portal/pipecat/vyakrti-ide/waveterm dependabot PRs); shesh-workspace janitor red = stale run of a workflow **removed** at tip (20ec93e tools/ removal) — no longer exists; genuine main-branch reds are out-of-scope non-shesh projects: AIM (test fails: `app.py` lacks `fetch_settings_map`), ClinicLedger/ClinicLedger-Template (Gradle cache setup fail) — reported, not silently expanded into scope.
 - **Environment quirks recorded:** `.git/config` (origin remote) and `~/.git-credentials` are excluded from Arena snapshots → every fresh session must re-add remote + credential helper + identity; pip tools (cryptography/ruff) and node24 must be reinstalled. Session guard's `cd /home/user` hardcodes are fine with repo at /home/user root.
-- **State:** ecosystem main `7670f90`; desktop `668e07fc`; portfolio `c7673c2`; docs handoff refreshed in this commit.
+- **State:** ecosystem main `b6ef0c569ecab456bab31776e908a17ef1b55817`; desktop `15be5187869176d4eb2dd12295bd4882f7c26931`; portfolio `20c651afd51f3507a980496de8f09a4ed6624271`; docs handoff refreshed in this commit.
 
 **Docs:** [docs/SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [docs/NEXT_SESSION_PROMPT.md](../../NEXT_SESSION_PROMPT.md), this file.
 
@@ -643,7 +643,7 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "And dependency rolling updates are yours not mine, you do them, so we don't have to fix anything later when it breaks" (2026-08-13)
 
-**Answer:** Ownership accepted and executed, not delegated back: Python floors raised to current majors in 20 repos (pytest >=9.1, ruff >=0.16, pytest-asyncio >=1.4), full-fleet sweep on the latest matrix green 21/21 and pushed; SheshAOS lockfile refreshed (generic-array 0.14.9, http-body-util 0.1.5) with 872/872 tests green and pushed (a9dfc9f); GitHub Actions all moved to the latest releases (checkout v7.0.1, setup-python v7.0.0, dtolnay/rust-toolchain pinned at the `stable` head after catching that the v1 tag was a year stale, taiki-e/install-action v2.85.12, github-script v9) with Dependabot configured to keep moving them weekly so this never lands back on the user. Better-alternative sweep outcome: uv/pipx/rootless-podman stack stays (validated against the field), mdbook kept but pinned current, zizmor + gitleaks ADDED as the modern standard gates. Deprecated-content sweep: book.toml `multilingual` removed for mdbook 0.5, portfolio `|| true` suppression removed (9f50ab9), no other deprecation warnings outstanding.
+**Answer:** Ownership accepted and executed, not delegated back: Python floors raised to current majors in 20 repos (pytest >=9.1, ruff >=0.16, pytest-asyncio >=1.4), full-fleet sweep on the latest matrix green 21/21 and pushed; SheshAOS lockfile refreshed (generic-array 0.14.9, http-body-util 0.1.5) with 872/872 tests green and pushed (ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714); GitHub Actions all moved to the latest releases (checkout v7.0.1, setup-python v7.0.0, dtolnay/rust-toolchain pinned at the `stable` head after catching that the v1 tag was a year stale, taiki-e/install-action v2.85.12, github-script v9) with Dependabot configured to keep moving them weekly so this never lands back on the user. Better-alternative sweep outcome: uv/pipx/rootless-podman stack stays (validated against the field), mdbook kept but pinned current, zizmor + gitleaks ADDED as the modern standard gates. Deprecated-content sweep: book.toml `multilingual` removed for mdbook 0.5, portfolio `|| true` suppression removed (5a3af3a3ba30de8015b14fcb0796e1ec18c88dda), no other deprecation warnings outstanding.
 
 **Docs:** [docs/policies/DEPENDENCY_POLICY.md](../../policies/DEPENDENCY_POLICY.md)
 
@@ -651,7 +651,7 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "Add this in the completion list too : Still open (honest): legacy 'Sesha' wording inside shesh-voice body text… Fix it only Shesh." (2026-08-13)
 
-**Answer:** Verified before touching: `git grep -i sesha` over shesh-voice tracked content returns ZERO hits — the drift never lived in the voice repo body text; it lived in ecosystem living docs. Swept those (CONTAINERS_AND_VENV, LINUX_LAYOUT, OMNIROUTE_STUDY, STYLE_PERFORMANCE, SESSION_HANDOFF, skills docs) in 80b7c1e, keeping only the intentionally-preserved: the `sesha-rs` crate name, the `1.4.5-sesha1` tag, the historical-directory note, and immutable-history classes. Canon enforced by gate: shesh-docs CI and the ecosystem sweep both fail on `nexusaos|sheshaaos|auto-desktopenv` outside audit/incident/history carve-outs. Naming is SHESH-only now, with a gate, not a promise.
+**Answer:** Verified before touching: `git grep -i sesha` over shesh-voice tracked content returns ZERO hits — the drift never lived in the voice repo body text; it lived in ecosystem living docs. Swept those (CONTAINERS_AND_VENV, LINUX_LAYOUT, OMNIROUTE_STUDY, STYLE_PERFORMANCE, SESSION_HANDOFF, skills docs) in bbfdc0030b4f7439598815c2d42ed9c2777a9e8c, keeping only the intentionally-preserved: the `sesha-rs` crate name, the `1.4.5-sesha1` tag, the historical-directory note, and immutable-history classes. Canon enforced by gate: shesh-docs CI and the ecosystem sweep both fail on `nexusaos|sheshaaos|auto-desktopenv` outside audit/incident/history carve-outs. Naming is SHESH-only now, with a gate, not a promise.
 
 **Docs:** [docs/STYLE_GUIDE.md](../../STYLE_GUIDE.md), [adr/0017-naming-purge-completed.md](../adr/0017-naming-purge-completed.md)
 
@@ -667,13 +667,13 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "I want you to renovate all the documents properly do that they do the work that they are intended and designed to do, clear up any collision and duplication in between them. Make the documents crisp and clean. Also make the style of the documents uniform and pure. The links should work everywhere so the navigation would work perfectly. Do a deep research on design and organization and also search on web and make proper infrastructure and policy to maintain it properly. They should be solid and should not become obsolete in the future. Also find out if we are missing any document, is so create them. Also one more thing you have to do, Organize them properly, send the document to its intended place. You can also implement fission and fusion." (2026-08-13)
 
-**Answer:** Renovated end-to-end. RESEARCH: adopted docs-as-code hybrid topology (decentralized authoring, centralized governance — the Grab/Pinterest pattern), SSOT-per-topic, and gate-enforced maintenance; written into [policies/DOCUMENTATION_POLICY.md](../../policies/DOCUMENTATION_POLICY.md) and [STYLE_GUIDE.md](../../STYLE_GUIDE.md). FISSION: MANUAL_VERIFICATION's twelve area-sections became standalone book task chapters; the OmniRoute study donated a Free Providers chapter. FUSION: SITUATION_REPORT fused into the INCIDENTS post-mortem as verbatim Appendix A with a pointer stub so no link rots; the triplicated shesh-docs layers (flat sync dump, UPPERCASE copies, kebab placeholders — 74 of the ~100 chapters were placeholders) were deleted wholesale; swarm's 8 planned chapters collapsed to the one real SWARM mirror; installation fused into getting-started; model-policy fused into model-agnostic truth. INTENDED PLACE: dated audits moved to the policy-declared docs/history/audits/; the stale runtime hop-alert archived to docs/history/attic/ and gitignored as transient; component security reporting lives in per-repo SECURITY.md pointer stubs to the canonical posture (25 repos). MISSING DOCS CREATED: six factory tool docs (session-guard, secure-pat, github-auth, setup-worker, llm-adapter, model-router), three tutorials, skills README + risk-class POLICY grounded in shesh-audit's actual verdict model, and per-part navigation pages. INFRASTRUCTURE: tools/book_build.py (explicit mirror map, link translation, orphan sweep, idempotent --check), sync-docs.sh rewritten as its wrapper, shesh-docs CI now REALLY renders (mdbook 0.5.4 via SHA-pinned install-action) plus SUMMARY-integrity/link/name gates, and ecosystem CI gates that mirror freshness so canonical→book drift fails the build. Numbers: 110 generated chapters, 114 orphans removed, 0 broken internal links, 119/119 SUMMARY targets exist, 115 docs indexed. Pushed: ecosystem 210972e, shesh-docs ce643f3.
+**Answer:** Renovated end-to-end. RESEARCH: adopted docs-as-code hybrid topology (decentralized authoring, centralized governance — the Grab/Pinterest pattern), SSOT-per-topic, and gate-enforced maintenance; written into [policies/DOCUMENTATION_POLICY.md](../../policies/DOCUMENTATION_POLICY.md) and [STYLE_GUIDE.md](../../STYLE_GUIDE.md). FISSION: MANUAL_VERIFICATION's twelve area-sections became standalone book task chapters; the OmniRoute study donated a Free Providers chapter. FUSION: SITUATION_REPORT fused into the INCIDENTS post-mortem as verbatim Appendix A with a pointer stub so no link rots; the triplicated shesh-docs layers (flat sync dump, UPPERCASE copies, kebab placeholders — 74 of the ~100 chapters were placeholders) were deleted wholesale; swarm's 8 planned chapters collapsed to the one real SWARM mirror; installation fused into getting-started; model-policy fused into model-agnostic truth. INTENDED PLACE: dated audits moved to the policy-declared docs/history/audits/; the stale runtime hop-alert archived to docs/history/attic/ and gitignored as transient; component security reporting lives in per-repo SECURITY.md pointer stubs to the canonical posture (25 repos). MISSING DOCS CREATED: six factory tool docs (session-guard, secure-pat, github-auth, setup-worker, llm-adapter, model-router), three tutorials, skills README + risk-class POLICY grounded in shesh-audit's actual verdict model, and per-part navigation pages. INFRASTRUCTURE: tools/book_build.py (explicit mirror map, link translation, orphan sweep, idempotent --check), sync-docs.sh rewritten as its wrapper, shesh-docs CI now REALLY renders (mdbook 0.5.4 via SHA-pinned install-action) plus SUMMARY-integrity/link/name gates, and ecosystem CI gates that mirror freshness so canonical→book drift fails the build. Numbers: 110 generated chapters, 114 orphans removed, 0 broken internal links, 119/119 SUMMARY targets exist, 115 docs indexed. Pushed: ecosystem bfea341b4d17fc2fd135988a545cad99f5c78396, shesh-docs 2fdf4d15ff282757aa80d7a940ea83da28a25f49.
 
 **Docs:** [DOCS_REPO.md](../../DOCS_REPO.md), [tools/book_build.py](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/book_build.py), [docs/policies/DOCUMENTATION_POLICY.md](../../policies/DOCUMENTATION_POLICY.md), [INDEX.md](../../INDEX.md)
 
 ## Q: "Continue the work" (2026-08-12, evening — post-snapshot recovery)
 
-**Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `1494709` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (89702c0, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since 8f60600: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → 38d51f9. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: 710f312 → b549191 → 295f0a1.
+**Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `3001d0b5c9f1f71e6e73d804c74441598be9b088` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (be2bbe7734809e7e91ce6e28e3446cc49e130b78, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since b11ba2d49573721dacc2e87e982193c324be922a: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → bf8aa45ceb54ab7e7887454c5cbbbe486b41df14. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: de6431494ac72b451113ae5ffdf703851efd3397 → a45b86b3b571c306026317b321044bb91c801e9c → 62720e9a2a0afe33bbcfcd04bd626fc45719e044.
 
 **Docs:** [tools/](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools) (sync_repos, verify_worktrees, ecosystem_audit, verify_all_strict, linkcheck), [docs/architecture/DEPENDENCY_GRAPH.md](../../architecture/DEPENDENCY_GRAPH.md), [Makefile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Makefile)
 
@@ -681,7 +681,7 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "Find all silent failures and fix them too as they are the deadliest." (2026-08-12, 17:40)
 
-**Answer:** Built tools/silent_failures.py, an SF1-SF6 auditor: SF1 except-pass swallows without an adjacent reason comment, SF2 bare contextlib.suppress, SF3 workflow continue-on-error, SF4 shell `|| true`/`|| :`, SF5 warn-class neutral-value returns, SF6 warn-class reasonless `#[allow]`. Wired as an ecosystem CI job that clones EVERY repo and exits 1 on error-class findings. Swept and fixed for real: 9 BLE001 + 17 TRY + 20 AST pass-swallows across all 21 Python components (found real bugs: harness `_respond` returning "" on outage masquerading as model score 0.0 → ResponderUnavailableError; omniroute malformed config.json silently reverting to defaults → ConfigError; llm_adapter fake single-quote JSON payload; swarm claim-race double-claim + corrupt complete_task queue; messaging https socket leak; sync-docs.sh pointing at a desktop-docs path that had not existed for months; supervise.sh discarding lint-gate output; worker.py simulated-work path deleted), 77 findings in ecosystem tools/scripts, SheshAOS `#[allow]` attributes each given a reason comment (bb1b02d), sesha-bootstrap.sh multi-line brace expansion that bash could not parse at all. **Final cleanups (evening):** shesh-desktop 19 SF4 + 3 SF1 and shesh-voice 105 SF1 in 36 files (see the "Continue the work" entry) — after which the ecosystem-wide audit reports **0 errors**. The only intentional swallow pattern left standing is documented: except with an adjacent ≥3-word reason comment explaining why silence is correct at that probe/daemon/cleanup boundary.
+**Answer:** Built tools/silent_failures.py, an SF1-SF6 auditor: SF1 except-pass swallows without an adjacent reason comment, SF2 bare contextlib.suppress, SF3 workflow continue-on-error, SF4 shell `|| true`/`|| :`, SF5 warn-class neutral-value returns, SF6 warn-class reasonless `#[allow]`. Wired as an ecosystem CI job that clones EVERY repo and exits 1 on error-class findings. Swept and fixed for real: 9 BLE001 + 17 TRY + 20 AST pass-swallows across all 21 Python components (found real bugs: harness `_respond` returning "" on outage masquerading as model score 0.0 → ResponderUnavailableError; omniroute malformed config.json silently reverting to defaults → ConfigError; llm_adapter fake single-quote JSON payload; swarm claim-race double-claim + corrupt complete_task queue; messaging https socket leak; sync-docs.sh pointing at a desktop-docs path that had not existed for months; supervise.sh discarding lint-gate output; worker.py simulated-work path deleted), 77 findings in ecosystem tools/scripts, SheshAOS `#[allow]` attributes each given a reason comment (e7a926f3eeb2c25d3703756f57c0169748bc4eda), sesha-bootstrap.sh multi-line brace expansion that bash could not parse at all. **Final cleanups (evening):** shesh-desktop 19 SF4 + 3 SF1 and shesh-voice 105 SF1 in 36 files (see the "Continue the work" entry) — after which the ecosystem-wide audit reports **0 errors**. The only intentional swallow pattern left standing is documented: except with an adjacent ≥3-word reason comment explaining why silence is correct at that probe/daemon/cleanup boundary.
 
 **Docs:** [tools/silent_failures.py](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/silent_failures.py), [.github/workflows/ci.yml](../../.github/workflows/ci.yml) (silent-failures job)
 
@@ -697,7 +697,7 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "Do all in the order and properly download other tepos that we are using too and continue the work properly as this is a new session"
 
-**Answer (2026-08-11 new session):** Cloned all 22 dependent repos into /home/user/src (shesh-* + SheshAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop). Fixed manifest/lock drift from rename commit 0d4f0f1 (regenerated channels/*.lock — 16 canary, 19 devel, 1 stable — shesh naming; updated Makefile Shesha→Shesh; fixed ruff E741 in tests/autopilot/test_autopilot.py; test_manifest now accepts shesh|sesha; make check green 30 tests). Renamed docs/components/shesha-*.md → shesh-*.md and synced content from src READMEs (17 files). Created 15 ADRs in docs/history/adr/ for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard) + index README. Created docs/GETTING_STARTED.md (developer fast path, full CachyOS install with bootstrap, Ollama 6GB stack phi4-mini/qwen2.5-coder:3b/moondream2/nomic-embed-text, Rust/uv/Podman, pipx component install, voice overlay, secrets backends, restic backup, phone ADB safe-area, container sandbox, everyday use, canary promotion, hardware checks, troubleshooting). Added Containerfile (Arch-based reproducible dev), distrobox.ini, tools/install.sh with --channel stable|canary|devel, --dry-run, --check, btrfs snapshot to /.snapshots/pre-shesh-<channel>-<date> and rollback docs, pipx upgrade loop, MCP config generation. Updated TODO.md with new session accomplishments and marked Distrobox/Containerfile, Installer, ADRs, Getting-started, Doc-sync as ✅. make check now GATE OK.
+**Answer (2026-08-11 new session):** Cloned all 22 dependent repos into /home/user/src (shesh-* + SheshAOS + SeshaOS + shesha-kernel + NexusAOS + shesh-desktop). Fixed manifest/lock drift from rename commit f60d1b680f1616558bef193c7e832a07d00bad4b (regenerated channels/*.lock — 16 canary, 19 devel, 1 stable — shesh naming; updated Makefile Shesha→Shesh; fixed ruff E741 in tests/autopilot/test_autopilot.py; test_manifest now accepts shesh|sesha; make check green 30 tests). Renamed docs/components/shesha-*.md → shesh-*.md and synced content from src READMEs (17 files). Created 15 ADRs in docs/history/adr/ for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard) + index README. Created docs/GETTING_STARTED.md (developer fast path, full CachyOS install with bootstrap, Ollama 6GB stack phi4-mini/qwen2.5-coder:3b/moondream2/nomic-embed-text, Rust/uv/Podman, pipx component install, voice overlay, secrets backends, restic backup, phone ADB safe-area, container sandbox, everyday use, canary promotion, hardware checks, troubleshooting). Added Containerfile (Arch-based reproducible dev), distrobox.ini, tools/install.sh with --channel stable|canary|devel, --dry-run, --check, btrfs snapshot to /.snapshots/pre-shesh-<channel>-<date> and rollback docs, pipx upgrade loop, MCP config generation. Updated TODO.md with new session accomplishments and marked Distrobox/Containerfile, Installer, ADRs, Getting-started, Doc-sync as ✅. make check now GATE OK.
 
 **Docs:** [SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [GETTING_STARTED.md](../../GETTING_STARTED.md), [adr/](../adr/), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [Containerfile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Containerfile), [distrobox.ini](https://github.com/gaganjainse/shesh-ecosystem/blob/main/distrobox.ini), [tools/install.sh](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools/install.sh), channels/*.lock, Makefile
 
@@ -1161,7 +1161,7 @@ Verifiedlive— freshheartbeatsfrombothmymonitorandmyworker
 (14:23),plusathirdfrom`worker-shesh-audit`(anotheragentactive
 inthissandbox— themulti-agentswarmisgenuinelyrunning).
 ##"Startthe work"— done.Firstreal workitemshippedend-to-end
-**Workdelivered(PR#37→merged`e3764e5`,closes#31):**
+**Workdelivered(PR#37→merged`fb2fc03614c44b9320577f21b695e200d0c78a18`,closes#31):**
 Foundthe weakestlinkinthe swarmitselfandfixedit,dogfoodingthe
 fullpipeline:
 1.**`do_work()`wasaplacebo**— itmarker-filedeveryclaimandlet
@@ -1321,7 +1321,7 @@ Alleditsapplied.Nowthefullgate— theexactcommandthe
 auto-mergeworkflowruns,plus`make check`:
 Bothgatesgreen.Quicksmoketestsoftheeditedmodules,then
 commitandpush:
-Lintfixonmain(`68a0df5`).Nowrerunthe stuckauto-mergerunsfor
+Lintfixonmain(`45150db5397bd01058c7f5f535c0e54f49eef54c`).Nowrerunthe stuckauto-mergerunsfor
 ourPRsandcleantheremainingemptyclaimsfromworkerrun#2—
 first,currentstate:
 All12claims/branchesare ours(issues5–16);PRs#19–22carryreal
@@ -1355,7 +1355,7 @@ runswith`set-e`,themergeneverexecutes.Theapproval is
 unnecessaryanyway(norequiredreviews).Fixingthe workflow:
 Nobranchprotection— the merge itselfwill workoncethe approval
 line isremoved.Editingtheworkflow:
-Workflowfixpushed(`17ef93c`).Nowre-triggeringall openswarm
+Workflowfixpushed(`b2c2182d0990e2a17d49a12933a7c155177ea9a5`).Nowre-triggeringall openswarm
 PRswithano-opcommitsotheypickupthefixedworkflow:
 Twoissues:therunningworker's`swarm/ledger.jsonl`churnblocked
 local checkouts,andPRs#19–22gotrejectedpushes(theirbranches
@@ -1366,13 +1366,13 @@ Cleaningthelocal tree andre-triggeringPRs#19–22viatheGitDataAPI
 (nolocal checkoutneeded):
 Something'soffwithmylocal mainref— letmeverifywhatorigin/main
 actuallyhasandreconcile:
-**Caughtareal mess**:myworkflowfix`17ef93c`gotcommitted
+**Caughtareal mess**:myworkflowfix`b2c2182d0990e2a17d49a12933a7c155177ea9a5`gotcommitted
 ontotheworker's`issue-5`branch(therunningworkerhadthat
 branchcheckedoutwhenIcommitted)— `origin/main`isstill at
-`68a0df5`withthe**broken**workflow.Pushingthefixtomain
+`45150db5397bd01058c7f5f535c0e54f49eef54c`withthe**broken**workflow.Pushingthefixtomain
 properly,thenre-triggeringeveryopenPR:
 --- Page 13 ---
-`origin/main`nowat`17ef93c`(fixlive).Syncinglocal and
+`origin/main`nowat`b2c2182d0990e2a17d49a12933a7c155177ea9a5`(fixlive).Syncinglocal and
 re-triggeringall 12openPRs:
 Only2PRsleftopen(#29,#30)— the restmerged!Letmeverifythefull
 stateandcheckwhethertheissuesgotclosed/labeledproperly:
@@ -1445,7 +1445,7 @@ itshouldmergecleanly.
 restored(`swarm:pending`on5,14,15,16;blocked/invalidleftasyour
 otheragentsetthem).
 -Currentstate:**0claims,0swarmbranches,onlyPR#31open**;
-local repocleanat`17ef93c`;sessionhealthy(10MB,age8.7min).
+local repocleanat`b2c2182d0990e2a17d49a12933a7c155177ea9a5`;sessionhealthy(10MB,age8.7min).
 ###5.Recommendations&notes
 -**Ididnotrestarttheworker.**Withthe gatenowgreen,arunning
 placeholderworkerwouldmerge marker-filejunkintomain.YourPR
@@ -1615,7 +1615,7 @@ Executed exactly as Tab1/2 foolproof, now at /home/user/shesh-ecosystem:
 ### 1. Clean layout — cd /home/user clones ✅
 
  /home/user/
-├── shesh-ecosystem  (051b10c — security: remove password from docs)
+├── shesh-ecosystem  (93f0d494a6266c699a6b5c655aac7e0a40669ae6 — security: remove password from docs)
 │   ├── docs/NEXT_SESSION_PROMPT.md  READ
 │   ├── tools/secure_pat.py, github_auth.py, session_guard.py, setup_worker.py
 │   ├── src/  (mind 7 repos)

@@ -19,11 +19,11 @@ data dirs, env vars, QML config namespaces and prose. The owner ruled on
 | shesh-backup | + `~/.local/state/shesh→shesh` migration | 8/8 | b5e00ee |
 | shesh-files | + env `SHESH_*`→`SHESH_*` | 5/5 | 1bf458f |
 | shesh-mcp-bundle | dist/import | 4/4 | 56550a2 |
-| shesh-phone | dist/import | 7/7 | f0348bf |
+| shesh-phone | dist/import | 7/7 | 6a9cdd539bfec22a925cab654fb96b831c3feba5 |
 | shesh-shell | dist/import | 3/3 | 7c46a00 |
 | shesh-skills | dist/import | 10/10 | e3de7a7 |
 | shesh-system | dist/import | 13/13 | 303f245 |
-| shesh-desktop | tools/, sdata/, profiles/, QML namespace `options.shesh→shesh`, wake word "Hey Shesh", docs/ | 26/26 | …ea1f179 |
+| shesh-desktop | tools/, sdata/, profiles/, QML namespace `options.shesh→shesh`, wake word "Hey Shesh", docs/ | 26/26 | …1b329672cbb579a3b26bc1c2ffa6c3a898f6331c |
 
 Data-dir migrations are one-shot auto-rename-on-first-run (not grandfathering:
 the legacy name ceases to exist). Cross-repo consumers (e.g. shesh-media's

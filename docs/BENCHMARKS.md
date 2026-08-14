@@ -12,10 +12,10 @@ criterion with `-- --test` smoke mode so CI never fails on timing noise).
 |---|---|---|---|
 | **SheshAOS** | (pre-existing) criterion benches in `crates/*/benches/` | green | bench.yml |
 | **shesha-kernel** | (pre-existing) criterion benches (event store, kernel) | green | bench.yml |
-| **Vyakrti** | lexer + lex&parse throughput (per-keystroke IDE hot path), `benches/compiler_pipeline.rs` | added `2fb85c0` | bench.yml |
+| **Vyakrti** | lexer + lex&parse throughput (per-keystroke IDE hot path), `benches/compiler_pipeline.rs` | added `68ff2c8a9d119df25c983885c4902908d118cea5` | bench.yml |
 | **shesh-memory** | vector search (1000 docs), context assembly (100 eps+20 facts), embedding | search ~73 ms, assembly ~186 µs, embed ~29 µs | bench.yml |
 | **shesh-audit** | guard check allow/deny, hash-chained audit append | ~51 µs / ~47 µs / ~34 µs | bench.yml |
-| **shesh-phone** | vision→tap cycle, template match (400×800) | **template match 1.65 s → 95.7 ms after coarse-to-fine optimization (`959a3d4`)** — 17× | bench.yml |
+| **shesh-phone** | vision→tap cycle, template match (400×800) | **template match 1.65 s → 95.7 ms after coarse-to-fine optimization (`77ec779f53a0dcdc766a5823015200611617212b`)** — 17× | bench.yml |
 | **FWRS** | LP allocation pipeline scaling (10/20 → 40/100 instances) | 75 ms → 860 ms | bench.yml |
 | **rag-service** | chunk_text, hybrid search, embedding over corpus | ~14 µs / ~2.3 ms / ~38 µs | bench.yml |
 

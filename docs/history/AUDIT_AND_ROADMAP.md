@@ -141,7 +141,7 @@ checkable version is TODO.md.
 - [P1] `shesh-mind` model router: honor currently-loaded models (avoid
   unloading), add embedding provider abstraction.
 - ✅ [P2] RAG — covered in-component: shesh-memory embeddings + vectorstore + semantic_search (local hash offline, Ollama nomic-embed-text; 33 tests); rag-service remains an optional separate repo
-- ✅ [P2] Skill marketplace — primitives done (shesh-harness b00407b): export/import skills as portable JSON manifests; hosted marketplace remains 💡Future on top of this format
+- ✅ [P2] Skill marketplace — primitives done (shesh-harness 20f58e9a5084ae554de557520450a978b68d091e): export/import skills as portable JSON manifests; hosted marketplace remains 💡Future on top of this format
 
 ### 3.3 Soma / body
 - [P1] Package mature third-party MCP servers behind the Guard: filesystem,
@@ -177,7 +177,7 @@ checkable version is TODO.md.
 - [P1] Distrobox/Containerfile for one-command onboarding.
 - [P1] Observability: OpenTelemetry traces for agent runs (local only).
 - [P1] shesh-ambient installed as a user service + wired into setup.
-- ✅ [P2] Self-hosted update mirror — shesh-desktop tools/maintenance/update-mirror.sh (3237048): local pacman mirror + repo-add + prune policy, dry-run safe
+- ✅ [P2] Self-hosted update mirror — shesh-desktop tools/maintenance/update-mirror.sh (bd2da145fa8931bec1d7baa2e5e0b23c82703123): local pacman mirror + repo-add + prune policy, dry-run safe
 
 ### 3.6 Docs / process (this audit)
 - [x] Centralize all docs — **done** (42 markdown files in docs/).

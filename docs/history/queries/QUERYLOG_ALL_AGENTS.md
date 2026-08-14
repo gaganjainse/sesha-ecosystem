@@ -66,7 +66,7 @@ Verifiedlive— freshheartbeatsfrombothmymonitorandmyworker
 (14:23),plusathirdfrom`worker-shesh-audit`(anotheragentactive
 inthissandbox— themulti-agentswarmisgenuinelyrunning).
 ##"Startthe work"— done.Firstreal workitemshippedend-to-end
-**Workdelivered(PR#37→merged`e3764e5`,closes#31):**
+**Workdelivered(PR#37→merged`fb2fc03614c44b9320577f21b695e200d0c78a18`,closes#31):**
 Foundthe weakestlinkinthe swarmitselfandfixedit,dogfoodingthe
 fullpipeline:
 1.**`do_work()`wasaplacebo**— itmarker-filedeveryclaimandlet
@@ -226,7 +226,7 @@ Alleditsapplied.Nowthefullgate— theexactcommandthe
 auto-mergeworkflowruns,plus`make check`:
 Bothgatesgreen.Quicksmoketestsoftheeditedmodules,then
 commitandpush:
-Lintfixonmain(`68a0df5`).Nowrerunthe stuckauto-mergerunsfor
+Lintfixonmain(`45150db5397bd01058c7f5f535c0e54f49eef54c`).Nowrerunthe stuckauto-mergerunsfor
 ourPRsandcleantheremainingemptyclaimsfromworkerrun#2—
 first,currentstate:
 All12claims/branchesare ours(issues5–16);PRs#19–22carryreal
@@ -260,7 +260,7 @@ runswith`set-e`,themergeneverexecutes.Theapproval is
 unnecessaryanyway(norequiredreviews).Fixingthe workflow:
 Nobranchprotection— the merge itselfwill workoncethe approval
 line isremoved.Editingtheworkflow:
-Workflowfixpushed(`17ef93c`).Nowre-triggeringall openswarm
+Workflowfixpushed(`b2c2182d0990e2a17d49a12933a7c155177ea9a5`).Nowre-triggeringall openswarm
 PRswithano-opcommitsotheypickupthefixedworkflow:
 Twoissues:therunningworker's`swarm/ledger.jsonl`churnblocked
 local checkouts,andPRs#19–22gotrejectedpushes(theirbranches
@@ -271,13 +271,13 @@ Cleaningthelocal tree andre-triggeringPRs#19–22viatheGitDataAPI
 (nolocal checkoutneeded):
 Something'soffwithmylocal mainref— letmeverifywhatorigin/main
 actuallyhasandreconcile:
-**Caughtareal mess**:myworkflowfix`17ef93c`gotcommitted
+**Caughtareal mess**:myworkflowfix`b2c2182d0990e2a17d49a12933a7c155177ea9a5`gotcommitted
 ontotheworker's`issue-5`branch(therunningworkerhadthat
 branchcheckedoutwhenIcommitted)— `origin/main`isstill at
-`68a0df5`withthe**broken**workflow.Pushingthefixtomain
+`45150db5397bd01058c7f5f535c0e54f49eef54c`withthe**broken**workflow.Pushingthefixtomain
 properly,thenre-triggeringeveryopenPR:
 --- Page 13 ---
-`origin/main`nowat`17ef93c`(fixlive).Syncinglocal and
+`origin/main`nowat`b2c2182d0990e2a17d49a12933a7c155177ea9a5`(fixlive).Syncinglocal and
 re-triggeringall 12openPRs:
 Only2PRsleftopen(#29,#30)— the restmerged!Letmeverifythefull
 stateandcheckwhethertheissuesgotclosed/labeledproperly:
@@ -350,7 +350,7 @@ itshouldmergecleanly.
 restored(`swarm:pending`on5,14,15,16;blocked/invalidleftasyour
 otheragentsetthem).
 -Currentstate:**0claims,0swarmbranches,onlyPR#31open**;
-local repocleanat`17ef93c`;sessionhealthy(10MB,age8.7min).
+local repocleanat`b2c2182d0990e2a17d49a12933a7c155177ea9a5`;sessionhealthy(10MB,age8.7min).
 ###5.Recommendations&notes
 -**Ididnotrestarttheworker.**Withthe gatenowgreen,arunning
 placeholderworkerwouldmerge marker-filejunkintomain.YourPR

@@ -22,7 +22,7 @@ cross-talk via the shared issue/PR number space, and a PAT exposed in a transcri
    orchestrator refuses swarm commits off-main — #40.
 4. **Gate gaps** — ruff didn't cover `tools/` locally (29 pre-existing errors);
    workflow used forbidden `gh pr review --approve`. → fixed on main same day
-   (68a0df5, 17ef93c); local `make check` and CI now match.
+   (45150db5397bd01058c7f5f535c0e54f49eef54c, b2c2182d0990e2a17d49a12933a7c155177ea9a5); local `make check` and CI now match.
 5. **Session guard self-nuke** — `--status` past 60 min deleted the plain PAT
    under running daemons. → read-only status; explicit `--handoff` only — #40.
 6. **Credential hygiene** — PAT visible in a tool transcript. → rotation task
@@ -38,7 +38,7 @@ cross-talk via the shared issue/PR number space, and a PAT exposed in a transcri
 
 - 5 placeholder commits remain in main's history (no force-push, by policy).
   They are harmless inert markers under `swarm/artifacts/` — content removed in
-  d9dc459; this note is the institutional memory.
+  c421f32613bd33745b641878338ff1d3436da08f; this note is the institutional memory.
 
 ---
 
@@ -67,7 +67,7 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 - Both files patched, syntax check, gate, commit, rebase, push, PR #36 live https://github.com/gaganjainse/shesh-ecosystem/pull/36 — watching for CI + auto-merge: Clean
 - Re-routing through `swarm/`-prefixed branch: Both live
 - Verified live — fresh heartbeats from both monitor and worker (14:23), plus third from `worker-shesh-audit` (another agent active) — multi-agent swarm genuinely running
-- **Work delivered PR #37 → merged `e3764e5`, closes #31:** Found weakest link and fixed it, dogfooding full pipeline
+- **Work delivered PR #37 → merged `fb2fc03614c44b9320577f21b695e200d0c78a18`, closes #31:** Found weakest link and fixed it, dogfooding full pipeline
 
 #### Weakest link found and fixed (dogfooding)
 
@@ -113,12 +113,12 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 - PR actually changed and ruff error itself: `behind_by:2` and only marker files changed — but ruff only scans `scripts/tools/`, which we never touch. Pull actual run log: Found it — auto-merge gate runs `ruff check scripts/tools/`, and repo's own `tools/` has **29 pre-existing lint errors** (mostly in `tools/session_guard.py`: `datetime.UTC`, `SIM115` context managers). Local `make check` only lints `scripts/tests/`, so this never surfaced — but it blocks **every** swarm PR from auto-merging
 - Main has fresh commits including security cleanup removing password from docs — good. Lint debt spread across `tools/autopilot/*`, `llm_adapter.py`, `llm_worker.py`, `secure_pat.py`, `session_guard.py` — 14 auto-fixable, 15 manual. This is blocker for every swarm PR, so fix properly: stop worker first (it would otherwise sweep edits into its own `git add -A` commits), fix, gate, push, then rerun stuck auto-merge runs
 - Worker left trail of PRs #19–22 with commits — pipeline works plus more empty claims from fast loop. Plan: fix lint debt (unblocks auto-merge for whole swarm), gate, push to main, rerun stuck auto-merges, clean empty claims, restart worker. Starting with lint fixes: 16 auto-fixed, 15 manual, applying all 15 manual fixes now
-- All edits applied, full gate — exact command auto-merge workflow runs, plus `make check`: Both gates green. Quick smoke tests, then commit and push: Lint fix on main `68a0df5`. Now rerun stuck auto-merge runs for PRs and clean remaining empty claims from worker run #2 — current state: All 12 claims/branches are ours (issues 5–16); PRs #19–22 carry real commits. Before rerunning failed auto-merge runs, checking whether PR merge refs include main fix (they auto-recompute against base): Merge refs stale (pre-fix) or pending — rerunning won't help. Pushing no-op commit to each PR branch to trigger fresh gate run (exactly "fix and push to same branch" flow workflow suggests): Fetch syntax issue — fetching all refs instead
+- All edits applied, full gate — exact command auto-merge workflow runs, plus `make check`: Both gates green. Quick smoke tests, then commit and push: Lint fix on main `45150db5397bd01058c7f5f535c0e54f49eef54c`. Now rerun stuck auto-merge runs for PRs and clean remaining empty claims from worker run #2 — current state: All 12 claims/branches are ours (issues 5–16); PRs #19–22 carry real commits. Before rerunning failed auto-merge runs, checking whether PR merge refs include main fix (they auto-recompute against base): Merge refs stale (pre-fix) or pending — rerunning won't help. Pushing no-op commit to each PR branch to trigger fresh gate run (exactly "fix and push to same branch" flow workflow suggests): Fetch syntax issue — fetching all refs instead
 
 #### Current situation after PDF
 
 - **Orchestrator Tab1:** Monitor loop pid 4623 ✅ heartbeats, GitHub worker general pid 4692 ✅ polling 45s, queue correctly empty until new `swarm:pending` seeds — **both stopped now** (you said 5 agents all stopped)
-- **Worker-Brain Tab2:** Clean workspace boot with PAT retrieved from `shesh-workspace`, GATE OK, 3.3 MB/305 files, worker live claiming issues, then PR failures 422, fixed git identity + credential helper, PR #19 created 🎉, auto-merge pipeline live, but then lint debt blocked every swarm PR, fixed lint debt `68a0df5`, reran auto-merges
+- **Worker-Brain Tab2:** Clean workspace boot with PAT retrieved from `shesh-workspace`, GATE OK, 3.3 MB/305 files, worker live claiming issues, then PR failures 422, fixed git identity + credential helper, PR #19 created 🎉, auto-merge pipeline live, but then lint debt blocked every swarm PR, fixed lint debt `45150db5397bd01058c7f5f535c0e54f49eef54c`, reran auto-merges
 - **Other 3 agents:** Not detailed in PDF excerpt but likely similar — started, stopped, not good look for autocomplete
 
 ### Why autocomplete stopped — root causes (honest)
@@ -129,7 +129,7 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 
 3. **Missing git credential auth** — `claim_issue_atomic` creates branch via API, but CLI `git push` uses origin URL without PAT (has no credentials) and `|| true` swallows error, so remote branch stays empty. Fixed by credential helper reading decrypted PAT + setting remote URL with PAT for push
 
-4. **Lint debt blocking every PR** — `tools/` had 29 pre-existing lint errors, local `make check` only lints `scripts/tests/`, so never surfaced, but `swarm-auto-merge.yml` runs `ruff check scripts/tools/` and fails — blocking every swarm PR from auto-merging. Fixed in `68a0df5` (16 auto-fixed, 15 manual)
+4. **Lint debt blocking every PR** — `tools/` had 29 pre-existing lint errors, local `make check` only lints `scripts/tests/`, so never surfaced, but `swarm-auto-merge.yml` runs `ruff check scripts/tools/` and fails — blocking every swarm PR from auto-merging. Fixed in `45150db5397bd01058c7f5f535c0e54f49eef54c` (16 auto-fixed, 15 manual)
 
 5. **Session guard auto-deleted plain PAT at 60-min hop threshold while processes needed it** — re-decrypted via password. Don't run `--status` mid-session if you want PAT to survive; it triggers handoff cleanup. Fixed by making `session_guard.py` not delete PAT on `--status`, only on `--handoff`
 
@@ -142,7 +142,7 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 ### What we fixed in this session (from PDF outputs)
 
 - Created branch first, then patching labels block needs exact match
-- Both files patched, syntax check, gate, commit, rebase, push, PR #36 live, #37 merged `e3764e5` closes #31
+- Both files patched, syntax check, gate, commit, rebase, push, PR #36 live, #37 merged `fb2fc03614c44b9320577f21b695e200d0c78a18` closes #31
 - Verified live — fresh heartbeats from monitor and worker plus third from `worker-shesh-audit` — multi-agent swarm genuinely running
 - Found weakest link `do_work()` placeholder and fixed
 - PAT fingerprint removed from worker logs
@@ -151,7 +151,7 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 - Queue housekeeping: closed 11 duplicate issues #19–#30 from stale re-seed, commented + `swarm:duplicate` and #29 `swarm:invalid`
 - Now running: Monitor loop pid 4623 ✅, GitHub worker general pid 4692 ✅ polling 45s
 - Clean workspace boot: `cryptography` and `ruff` didn't survive snapshot, installing them, decrypting PAT, GATE OK, `setup_worker --role brain --clean` 3.3 MB/305 files vs 36 MB
-- Worker live claiming issues, fixed git identity + credential auth, PR #19 created 🎉, auto-merge workflow picks it up, lint debt fixed `68a0df5`, reran auto-merge runs
+- Worker live claiming issues, fixed git identity + credential auth, PR #19 created 🎉, auto-merge workflow picks it up, lint debt fixed `45150db5397bd01058c7f5f535c0e54f49eef54c`, reran auto-merge runs
 
 ### What remains to make autocomplete work for hours (clear base)
 
@@ -174,7 +174,7 @@ You attached PDF with outputs from Tab1 Orchestrator, Tab2 Worker-Brain, etc.
 
 **Next steps for clear base multi-agent:**
 
-1. **Fix remaining lint debt** — already fixed `68a0df5`, but need to ensure `tools/autopilot/*`, `llm_adapter.py`, `llm_worker.py`, `secure_pat.py`, `session_guard.py` all ruff-clean on main (done in 68a0df5, verified `make check` only lints `scripts/tests/` so didn't catch, but auto-merge gate lints `scripts/tools/` — now fixed)
+1. **Fix remaining lint debt** — already fixed `45150db5397bd01058c7f5f535c0e54f49eef54c`, but need to ensure `tools/autopilot/*`, `llm_adapter.py`, `llm_worker.py`, `secure_pat.py`, `session_guard.py` all ruff-clean on main (done in 45150db5397bd01058c7f5f535c0e54f49eef54c, verified `make check` only lints `scripts/tests/` so didn't catch, but auto-merge gate lints `scripts/tools/` — now fixed)
 
 2. **Set repo-local git identity in setup_worker.py** — ensure every new clean workspace does `git config user.email "gagan.jain.se@gmail.com" && git config user.name "Gagan Jain"` automatically
 

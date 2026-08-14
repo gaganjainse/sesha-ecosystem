@@ -14,7 +14,7 @@
 > - SheshAOS: excised tui/gui/terminal/zig per ADR-0018; 872 tests; MIT
 >   LICENSE added; cargo-deny/machete/typos gated in CI.
 > - Silent-failure audit (SF1-SF6) now covers every clone on ecosystem CI:
->   **0 errors ecosystem-wide** after the desktop (38d51f9) and voice
+>   **0 errors ecosystem-wide** after the desktop (bf8aa45ceb54ab7e7887454c5cbbbe486b41df14) and voice
 >   (e680381) batches; SF5/SF6 remain warn-class by design.
 > - Naming-sweep remnants in this JSON (`shesha`, `seshaos`, `nexusaos` hits)
 >   are historical references in archival docs and CHANGELOGs, not live
@@ -40,18 +40,18 @@ All have README; most shesh-* have pyproject + tests + CI; personal have mixed.
 
 ```
 Name                           readme pyproj tests ci license size last_commit
-AIM                            True   False  True  True True 20M b2e774e docs: fix test count — 84 -> 101
-ClinicLedger                   True   False  False True True 12M f67470b updated dimension
-ClinicLedger-Template          True   False  False True True 1.1M bd5f2c9 Properly fill About section
-FWRS                           True   False  True  False True 625K 7072149 Update copyright year
-GameVault                      True   False  False False True 1.8M b0f0a93 Add Apache 2.0 license
+AIM                            True   False  True  True True 20M 7bf4ede54e98e097ba35fe49f0cff17fd92f1f9d docs: fix test count — 84 -> 101
+ClinicLedger                   True   False  False True True 12M f67470b81e7fb5b3c977f41029aae26da26916a7 updated dimension
+ClinicLedger-Template          True   False  False True True 1.1M bd5f2c936480ee3609e08b23cbab779b3d6d3c95 Properly fill About section
+FWRS                           True   False  True  False True 625K f6914553120c3cd0c5941e70eb3fa209844cc10c Update copyright year
+GameVault                      True   False  False False True 1.8M d1b2844aade5ce5fd9652b8858962dba20b9c187 Add Apache 2.0 license
 ...
 shesh-acp                      True   True   True  True False 244K 4226d30 rename: Shesha -> Shesh
 shesh-audit                    True   True   True  True False 290K d6c48e5 feat: GuardedMCP
 ...
 shesh-voice                    True   False  False True True 41M 37ce9c2 feat: Shesha Voice overlay
 shesh-workspace                True   False  False True False 679K fbb77e3 feat: add omniroute study
-SheshAOS                      True   False  True  True False 7.5M 1246d4f chore: remove last nexusaos references
+SheshAOS                      True   False  True  True False 7.5M da2e15b7489396587e52e6f4a365457dc6d20b57 chore: remove last nexusaos references
 SeshaOS                        True   False  False False False 241K 8459e5d Add sesha bootstrap
 shesha-kernel                  True   False  True  True False 4.5M bedb887 Replace auto-delete with smart-sort
 OmniRoute (gaganjainse)        True   False  True  True True 260M bc92c06 fix(translator)

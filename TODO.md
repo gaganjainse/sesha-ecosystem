@@ -14,11 +14,11 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ **Security fleet sweep (API-verified):** vulnerability alerts + automated security fixes + secret scanning + **push protection** enabled on all 53 active repos; canonical `SECURITY.md` + `docs/THREAT_MODEL.md` + `docs/RECOVERY.md` + `tools/dr_check.sh`; per-repo SECURITY.md pointer stubs ×25 → GitHub Security tab works everywhere
 - ✅ **Workflow hardening ×26 repos:** third-party actions SHA-pinned at latest releases (Dependabot moves them weekly — pins can't silently rot), `permissions:` least-privilege, `persist-credentials: false` on non-pushing checkouts; **critical swarm-auto-merge `pull_request_target` RCE-class hole removed**; zizmor + gitleaks gates in the reusable pipeline (21 callers inherit); reusable-pipeline callers themselves SHA-pinned after zizmor caught the `@main` refs
 - ✅ **MCP rug-pull/poisoning defense:** `tool_pins.py` in shesh-audit (`53a60b6`) — TOFU description pins, drift refusal, poisoning-marker scan; 9 tests; both guard seams wired
-- ✅ **Rolling deps (agent-owned per user order):** Python floors at PyPI-latest (pytest 9.1.1/ruff 0.16.2/asyncio 1.4.0/fastmcp 3.4.7), fleet sweep 21/21 green; SheshAOS lock refresh 872/872 green (`a9dfc9f`); DEPENDENCY_POLICY.md codifies downgrade-one/drop-replace break-glass; dependabot configs corrected per-repo reality (no manifests → no phantom ecosystems; desktop pip→/sdata/uv); **desktop lock-refresh workflow** compiles the laptop-class lock in CI monthly; portfolio `path-to-regexp` CVE override
+- ✅ **Rolling deps (agent-owned per user order):** Python floors at PyPI-latest (pytest 9.1.1/ruff 0.16.2/asyncio 1.4.0/fastmcp 3.4.7), fleet sweep 21/21 green; SheshAOS lock refresh 872/872 green (`ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`); DEPENDENCY_POLICY.md codifies downgrade-one/drop-replace break-glass; dependabot configs corrected per-repo reality (no manifests → no phantom ecosystems; desktop pip→/sdata/uv); **desktop lock-refresh workflow** compiles the laptop-class lock in CI monthly; portfolio `path-to-regexp` CVE override
 - ✅ **Docs renovation (the big one):** `tools/book_build.py` pure-projection engine (mirror map + fissions + generators + link translation + orphan sweep); shesh-docs rebuilt — 74 placeholder chapters replaced with real content, 114 duplicate/orphan files removed, mdbook render gate in CI, SUMMARY integrity + link + name gates; audits → `docs/audits/`, SITUATION_REPORT fused into INCIDENTS post-mortem, desktop mirror retired to attic (SSOT: desktop repo); 6 tool docs + 3 tutorials + skills POLICY authored from code-grounded truth; ecosystem CI gates mirror freshness
 - ✅ **MANUAL_VERIFICATION → 16 sections:** +rolling-deps hygiene, +security posture (incl. PAT rotation owner action), +recovery drill
 - ✅ **Suppression hunts:** desktop python-check `|| true` gates removed after clearing 26 ruff findings (incl. REAL glxinfo pipe bug: shell=True+list broke renderer detection); portfolio `|| true` chain removed → exposed missing Inter fonts (vendored OFL) + missing Pillow step + `npm ci || npm install` lockfile fallback — all fixed for real
-- ✅ **Naming canon final:** shesh-desktop body-text SHESH sweep (`504ee8e`), shesh-voice verified zero-legacy; gates enforce
+- ✅ **Naming canon final:** shesh-desktop body-text SHESH sweep (`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`), shesh-voice verified zero-legacy; gates enforce
 
 ## New session accomplishments (2026-08-13, decisions executed + completions)
 
@@ -30,7 +30,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ **Minimal→complete**: shesh-brain 81777f5 / shesh-messaging 946b4ca / shesh-media 5461535 / shesh-ebpf 306540f — the four components TODO itself flagged as stubs now carry complete contracts + 44 new tests total
 
 ## New session accomplishments (2026-08-12, orchestration + hardening)
-- ✅ **Dependency graph truth**: tools/depgraph.py (cargo metadata + pyprojects + manifest) regenerates docs/architecture/DEPENDENCY_GRAPH.md; CI freshness gate rejects hand edits; last 4 phantom edges (vault→kernel, blockctl→waveobj/wps, wconfig→waveobj) fell when SheshAOS's manifests were trimmed (3f75f03/89702c0)
+- ✅ **Dependency graph truth**: tools/depgraph.py (cargo metadata + pyprojects + manifest) regenerates docs/architecture/DEPENDENCY_GRAPH.md; CI freshness gate rejects hand edits; last 4 phantom edges (vault→kernel, blockctl→waveobj/wps, wconfig→waveobj) fell when SheshAOS's manifests were trimmed (de3084a0ae2ba462bf77ca491c0f457eac617223/be2bbe7734809e7e91ce6e28e3446cc49e130b78)
 - ✅ **Silent-failure eradication (SF1-SF6)**: tools/silent_failures.py + ecosystem-wide CI (clones all repos). Fixed 9 BLE001 + 17 TRY + 20 AST swallows across 21 Python components, 77 in ecosystem tools, 19 SF4 + 3 SF1 in shesh-desktop (folders.sh fake-savings + safety.sh fake-backup real bugs), 105 SF1 in shesh-voice (window.py console-crash silence fixed for real). Ecosystem audit now: **0 errors**
 - ✅ **SheshAOS supply-chain**: MIT LICENSE added (README always claimed it), cargo-deny (2 documented ignores only: RUSTSEC-2023-0071 no-patch-exists, RUSTSEC-2017-0008 unreachable-path), cargo-machete (~24 unused decls removed), typos, all wired into CI; canonical license.workspace inheritance; internal path deps versioned (wildcards=deny)
 - ✅ **Workspace automation adopted**: tools/sync_repos.py, verify_worktrees.py, ecosystem_audit.py (ad-hoc `git reset --hard` + ambient `pip install` removed), verify_all_strict.sh, linkcheck.py + `make verify-all`/`make linkcheck`; link integrity now CI-gated (found 21 rotted links)
@@ -40,7 +40,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - 🟡 **libghostty (shesh-voice fork base) — PARKED by user order 2026-08-13:** upstream divergence is outside our hands ("not in our hands"); revisit only when upstream moves. This is the ledger receipt for the single sanctioned exception — everything else in the three mandates is complete.
 
 ## New session accomplishments (2026-08-11)
-- ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit 0d4f0f1), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
+- ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit f60d1b680f1616558bef193c7e832a07d00bad4b), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
 - ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SheshAOS + shesha-kernel + SheshAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
 - ✅ Doc sync: renamed docs/components/shesh-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
 - ✅ ADRs: created docs/adr/ with 15 ADRs for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard policy) + index README
@@ -90,9 +90,9 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-harness` — Continual Harness: immutable base prompt, evidence-backed `/refine`, rollback (7 tests)
 - ✅ `shesh-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
-- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (82b3173): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
-- ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop 827a851): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
-- ✅ **kernel bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 83e3358): shesh-kernel kernel_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
+- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (acbcc204f8bf8e8c02009beea5ba5a37d869ef0b): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
+- ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop e6bf896efc5d8256a9a9ef12838dc54d722089ca): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
+- ✅ **kernel bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 99c646c2be81672bb737d2bccf8549f497b17f61): shesh-kernel kernel_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
 - ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **COMPLETED 2026-08-13** (81777f5): two-phase confirmation flow closed (`record_confirmation` → hash-chained audit + kernel CONFIRMATION_GRANTED/DENIED events), `audit_tail` ledger read view, 8 tests pin the contract (was: minimal wrapper, scheduler stub, 2 tests)
 - ✅ LLM planner wired in shesh-mind; orchestrator planner uses LLMAgents (real model via Ollama when available, stubs offline) — now via ModelAgnosticAdapter with strict JSON schema, validation+repair loop 3 retries, fallback chain free-first→stub, LLM-as-judge score >=0.7
@@ -102,7 +102,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Skill capture framework exists; automatic Read→Execute→Reflect→Write capture — **IMPLEMENTED minimal** via shesh-harness skill capture, auto-capture on repeated wins (Read→Execute→Reflect→Write) with deprecation of low-success skills
 - ✅ Episodic compaction/summarization retention (compact_memory MCP)
 - ✅ RAG embeddings + vector store (local hash embedder offline, Ollama nomic-embed-text supported; semantic_search MCP; 6 tests)
-- ✅ Skill marketplace primitives — **COMPLETED 2026-08-13** (shesh-harness b00407b): export/import skills as portable JSON manifests (7 tests); hosted marketplace remains 💡Future on this format
+- ✅ Skill marketplace primitives — **COMPLETED 2026-08-13** (shesh-harness 20f58e9a5084ae554de557520450a978b68d091e): export/import skills as portable JSON manifests (7 tests); hosted marketplace remains 💡Future on this format
 
 ## 3. Soma (body / AS)  🟢
 - ✅ `shesh-files` — Rust watcher + Python classifier (5 tests)
@@ -111,7 +111,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-acp` — editor↔agent ACP server (7 tests) — session streaming + cancel + permission responses + terminal bridge + diffs done
 - ✅ `shesh-voice` — Newelle fork for wake/STT/TTS
 - ✅ `shesh-desktop` — CachyOS/Hyprland dotfiles, Sesha settings GUI
-- ✅ **`shesh-phone`** — ADB control with safe-bounds tapping (7 tests) — **COMPLETED P1 2026-08-13** (78d120e): OCR/vision→tap loop (`VisionTapLoop` + `TemplateVision`, injected provider, safe-area refusal, verify-after-tap; 9 new tests, 16 total)
+- ✅ **`shesh-phone`** — ADB control with safe-bounds tapping (7 tests) — **COMPLETED P1 2026-08-13** (eef319a932d46dbf204f5214d7b85473c176ea52): OCR/vision→tap loop (`VisionTapLoop` + `TemplateVision`, injected provider, safe-area refusal, verify-after-tap; 9 new tests, 16 total)
 - ✅ shesh-backup restic wrapper with verify
 - ✅ `shesh-maintenance`: clean_system_caches, check_system_updates, system_health (6 tests)
 - ✅ `shesh-update-check`: check_system_updates (read-only)
@@ -122,7 +122,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Media: screenshots, screen recording, wallpaper, audio routing — **COMPLETED 2026-08-13** (5461535): audio contract made honest (no fabricated `stub-speakers`; empty list + explicit reason when offline), real `get_volume`/`set_volume` via wpctl with mute parse + 1.0 policy cap; 16 tests (was: 3 tests + fabricated sink names). NOTE: wallpaper backend is hyprpaper-via-hyprctl — the 08-11 line claiming swaybg was inaccurate
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
 - ✅ Hardware tests: Hyprland@144, NVIDIA MUX, wake word, PipeWire, Quickshell render — documented as manual verification in MANUAL_VERIFICATION.md, not failing CI, marked 🟢 with manual checklist
-- ✅ Accessibility (a11y) — **SPEC+DONE 2026-08-13** (docs/A11Y.md, tools/a11y_check.py, shesh-desktop d885c16): checker + baseline 381 + reference fixes; eBPF kernel tuning: shesh-ebpf verified (8 tests), real eBPF needs kernel privileges (honest boundary)
+- ✅ Accessibility (a11y) — **SPEC+DONE 2026-08-13** (docs/A11Y.md, tools/a11y_check.py, shesh-desktop 3f067664bb879bfd6a251b52344e8a8cfc9a1e3c): checker + baseline 381 + reference fixes; eBPF kernel tuning: shesh-ebpf verified (8 tests), real eBPF needs kernel privileges (honest boundary)
 
 ## 4. Protocols & integration  🟢
 - ✅ MCP (agent↔tools) across all components
@@ -145,7 +145,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Supply-chain: sigstore/provenance for artifacts — scripts/sign_artifacts.py (keyless cosign when COSIGN_KEYLESS set, otherwise SHA256 + SLSA provenance.json), SLSA statement emitted, CI step added
 - ✅ Integrate `shesh-audit` into CI release gates — audit guard sanity check in ci.yml, provenance + OTLP sample generation
 - ✅ OTLP traces: scripts/export_traces_otlp.py for local JSONL → OTLP JSON export (opt-in HTTP endpoint), local-only observability
-- ✅ Self-hosted update mirror — **COMPLETED 2026-08-13** (shesh-desktop 3237048, update-mirror.sh); sigstore Rekor log verification remains 💡Future (documented out-of-scope in SECURITY.md)
+- ✅ Self-hosted update mirror — **COMPLETED 2026-08-13** (shesh-desktop bd2da145fa8931bec1d7baa2e5e0b23c82703123, update-mirror.sh); sigstore Rekor log verification remains 💡Future (documented out-of-scope in SECURITY.md)
 
 ## 6. Docs & knowledge  🟢
 - ✅ Architecture docs (Body, topology, languages, containers, Linux layout, multi-agent, ACP/A2A, learning)
