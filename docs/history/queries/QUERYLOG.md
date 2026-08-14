@@ -1769,3 +1769,9 @@ The workspace is clean and ready; the worker should not be restarted until its c
 ## Q: "There are no such permissions in fine grained token... do a scan once more but it has that permission in classic token... send me the question box and encode it similarly to the fine grained token. Do all three points for me."
 
 **Answer (2026-08-14):** Re-scanned fine-grained token capabilities: milestones (Issues) ✅, repo admin PATCH ✅ — but Projects v2 is NOT a fine-grained permission (confirmed 404), so a classic PAT is required. User provided one (full scopes incl. `project`); stored encrypted as `~/.config/shesh/github-classic.pat.enc` (PBKDF2HMAC-SHA256 200k + Fernet, same password/scheme as the fine-grained token, 600). Completed all three points: (1) disabled wikis (`has_wiki=false`) on all 21 repos; (2) created `v0.1.0` milestones on the 6 flagships (SheshAOS #2, shesh-ecosystem #1, shesh-core #1, shesh-desktop #1, Vyakrti #1, portfolio #1); (3) created the "Shesh Fleet" Projects v2 board (https://github.com/users/gaganjainse/projects/1) with Table/Board/Roadmap views + Priority (High/Medium/Low) and Target date fields via GraphQL. Verified: 21/21 wikis off, 6/6 milestones, board live.
+
+---
+
+## Q: "i have a .wiki file right, delete that"
+
+**Answer (2026-08-14):** Deleted the wiki artifacts in shesh-ecosystem — `docs/wiki/` (7 tracked pages: Home/Architecture/Components/Contributing/Manual-Verification/Roadmap/Security) and `.github/workflows/wiki-sync.yml`. No GitHub wiki content ever existed (all `*.wiki.git` repos "Repository not found" — wikis were never initialized), so `has_wiki=false` (set fleet-wide earlier) fully removed the feature. Cleaned living-doc references (MANUAL_VERIFICATION wiki-init checklist, SESSION_HANDOFF wiki bullets + gotchas), regenerated docs/INDEX.md (111 docs), re-synced book mirrors (manual-verification, session-handoff, querylog). CI green on both repos. No WIKI_PAT secret exists.
