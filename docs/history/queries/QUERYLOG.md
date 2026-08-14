@@ -480,7 +480,7 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
   package; fully dry-run safe; shellcheck clean; prune policy verified with
   fake archives. (shesh-desktop 3237048)
 
-**Docs:** [docs/A11Y.md](../../A11Y.md), [docs/history/AUDIT_AND_ROADMAP.md](../../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
+**Docs:** [docs/A11Y.md](../../A11Y.md), [docs/history/AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
 
 ---
 
@@ -707,7 +707,7 @@ cross-repo docs auto-push secret (owner).
 
 **Answer:** Read docs/SESSION_HANDOFF.md — the handoff that says: this is Shesh local-first AI OS for CachyOS/Hyprland on MSI Sword 16 HX, naming FINAL is Shesh/SheshAOS/shesh-* (not Shesha), 19 repos (182 component tests + 30 ecosystem + 26 desktop = 238 total green), code lives in /home/user/sesha/components/shesh-*/ (here /home/user/src/), autopilot in tools/autopilot/ with safety/ledger/gate/runner/cli, contract: pick next pending TODO, work in one component, always run pytest -q -p no:cacheprovider, use GuardedMCP, no secrets in repos, commit with task id, append to QUERYLOG.md after each user message, archive not delete, mark hardware items 🟡. DONE: rename, governance, agents, memory, refinement, skills, calendar/containers/bundle, system/phone/ACP/ambient, platform manifest+config+e2e, autopilot safety core, wiki docs. REMAINS: 🔴 kernel merge (type-diverged, follow KERNEL_MERGE_PLAN.md), hardware validation on MSI, wiki one-time init, ACP editor testing; 🟡 P1 auto skill capture, Distrobox/Containerfile, installer btrfs, email/messaging bridges, media tools, OTLP traces, shesh-maint decision, ambient wiring. Gotchas: editable installs after rename, pytest isolation, wiki init needs UI click, Ollama models list, workspace budget <150 MB. First commands: verify all component tests green, read anchors SESSION_HANDOFF, TODO, AUDIT_AND_ROADMAP, MANUAL_VERIFICATION, continue P1. This new session follows that contract.
 
-**Docs:** [SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [AUDIT_AND_ROADMAP.md](../../AUDIT_AND_ROADMAP.md)
+**Docs:** [SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md)
 
 ---
 
@@ -723,7 +723,7 @@ cross-repo docs auto-push secret (owner).
 
 **Answer:** Read SESSION_HANDOFF (which says READ THIS FIRST, then AUDIT_AND_ROADMAP, TODO, MANUAL_VERIFICATION, QUERYLOG), then AUDIT_AND_ROADMAP.md (15 decisions D1–D15, 16 repos verified, penny-picked task list P0/P1/P2, operating rules), TODO.md (master roadmap with ✅/🟡/⬜/🔴, status vs original plan, brain/mind/soma/platform/docs/autopilot), MANUAL_VERIFICATION.md (13-section hardware checklist: first boot, secrets, MCP mesh, voice, GPU/MUX, display, backup, phone, containers, agent behavior, security, canary/releases, known deliberate non-autopilot work, health command), QUERYLOG.md (full decision trail 20+ Q/A). Confirmed shesh-ecosystem is federation orchestrator, not AIM — corrected repo cloning. GitHub org gaganjainse has 27 public repos including shesh-* family, SheshAOS, SeshaOS, AIM, etc.
 
-**Docs:** [SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [AUDIT_AND_ROADMAP.md](../../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [MANUAL_VERIFICATION.md](../../MANUAL_VERIFICATION.md), [queries/QUERYLOG.md](./QUERYLOG.md)
+**Docs:** [SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), [MANUAL_VERIFICATION.md](../../MANUAL_VERIFICATION.md), [queries/QUERYLOG.md](./QUERYLOG.md)
 
 ---
 
@@ -766,7 +766,7 @@ MULTI_AGENT.md. Cataloged mature third-party MCP servers to package rather than
 rebuild (filesystem, git, fetch, playwright, github, memory, markitdown).
 
 **Docs:** [ACP_A2A.md](../../ACP_A2A.md), [architecture/MULTI_AGENT.md](../../architecture/MULTI_AGENT.md),
-[TOOLING_CATALOG.md](../../TOOLING_CATALOG.md)
+[TOOLING_CATALOG.md](../TOOLING_CATALOG.md)
 
 ---
 
@@ -856,7 +856,7 @@ rootless Podman + uv environments, and the federated ecosystem manifest with
 quality gates and canary CI.
 
 **Docs:** [desktop/01_AUDIT.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/docs/history/attic/desktop-mirror-2026-08-13/01_AUDIT.md),
-[GAP_ANALYSIS.md](../../GAP_ANALYSIS.md)
+[GAP_ANALYSIS.md](../GAP_ANALYSIS.md)
 
 ---
 
@@ -1704,7 +1704,7 @@ I started the requested GitHub worker, but stopped it safely after finding a que
 The workspace is clean and ready; the worker should not be restarted until its component-filter fallback is corrected or a component:shesh-system pending issue is available.
 ```
 
-**Docs:** [SITUATION_REPORT.md](../../SITUATION_REPORT.md), [AUDIT_EXHAUSTIVE.md](../audits/AUDIT_EXHAUSTIVE.md), [FOOLPROOF_SWARM_PROMPTS.md](../../FOOLPROOF_SWARM_PROMPTS.md)
+**Docs:** [SITUATION_REPORT.md](../SITUATION_REPORT.md), [AUDIT_EXHAUSTIVE.md](../audits/AUDIT_EXHAUSTIVE.md), [FOOLPROOF_SWARM_PROMPTS.md](../../FOOLPROOF_SWARM_PROMPTS.md)
 
 ---
 

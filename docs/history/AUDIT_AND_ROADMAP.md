@@ -220,7 +220,7 @@ checkable version is TODO.md.
 ## 6. Manual verification
 
 Things that cannot be tested in the sandbox are tracked separately in
-**[MANUAL_VERIFICATION.md](MANUAL_VERIFICATION.md)** — work through it on the
+**[MANUAL_VERIFICATION.md](../MANUAL_VERIFICATION.md)** — work through it on the
 physical MSI after install. It covers accounts/keys, the MCP mesh, voice/GPU/
 display, backup, phone, containers, agent behavior, security, and the
 deliberate non-autopilot items (kernel merge, hardware validation).
