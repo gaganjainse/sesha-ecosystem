@@ -1,5 +1,15 @@
 # shesh-desktop
 
+![Hyprland](https://img.shields.io/badge/Hyprland-0.55-58e1ff?style=for-the-badge)
+![Quickshell](https://img.shields.io/badge/Quickshell-QML-7c3aed?style=for-the-badge)
+![OS](https://img.shields.io/badge/OS-CachyOS-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)
+
+- **License:** GPL-3.0-or-later (same as upstream end-4/dots-hyprland)
+- **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))
+- **Target:** CachyOS · Hyprland ≥0.55 · Quickshell (MSI Sword 16 HX)
+
+
 **Forked from [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland)**
 
 Usability-first Hyprland dotfiles with automated desktop environment setup for Arch-based systems.
@@ -30,6 +40,11 @@ One-command fresh install:
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)
 ```
+
+📖 **Before you start:** read the offline install references —
+[INSTALLATION_GUIDE.md](https://github.com/gaganjainse/shesh-desktop/blob/main/INSTALLATION_GUIDE.md) (BIOS → CachyOS → desktop, step by step) and
+[PREBOOT_INSTRUCTIONS.md](https://github.com/gaganjainse/shesh-desktop/blob/main/PREBOOT_INSTRUCTIONS.md) (everything to do before booting the USB).
+Compiled fleet docs: [shesh-docs](https://github.com/gaganjainse/shesh-docs).
 
 ## Quick Start
 
@@ -134,3 +149,8 @@ See [`LICENSE`](https://github.com/gaganjainse/shesh-desktop/blob/main/LICENSE).
 
 Security posture and vulnerability reporting: [canonical ecosystem security
 policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).
+
+## Status
+
+CI green. Security: [SECURITY.md](https://github.com/gaganjainse/shesh-desktop/blob/main/SECURITY.md). Compiled reading:
+[shesh-docs](https://github.com/gaganjainse/shesh-docs).
