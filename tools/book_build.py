@@ -164,6 +164,7 @@ BOOK_OWNED = {
     "desktop/overview.md",
     "portfolio/overview.md",
     "portfolio/auto-update.md",
+    "projects/index.md",
 }
 
 # Fission MANUAL_VERIFICATION.md → per-section task chapters.
