@@ -273,11 +273,6 @@ These are 🔴 in TODO.md and intentionally **not** auto-forced:
 
 ## 16. Wiki (one-time setup)
 
-- [ ] Open https://github.com/gaganjainse/SheshAOS/wikis and click **"Create the first page"**
-      (GitHub has no API to initialize a wiki; this single click creates the
-      `.wiki.git` repo).
-- [ ] After that, the **wiki-sync** GitHub Action automatically mirrors
-      `docs/wiki/*.md` to the wiki on every push. No manual editing needed.
 
 ---
 

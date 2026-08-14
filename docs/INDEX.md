@@ -87,13 +87,4 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Tutorial — memory and recall (RAG today, vector search planned)](tutorials/rag-vector.md)
 - [Tutorial — voice, settings, and organizer working together](tutorials/voice-settings-organizer.md)
 
-## wiki/
-- [Architecture](wiki/Architecture.md)
-- [Components](wiki/Components.md)
-- [Contributing](wiki/Contributing.md)
-- [Welcome to SheshAOS](wiki/Home.md)
-- [Manual Verification](wiki/Manual-Verification.md)
-- [Roadmap](wiki/Roadmap.md)
-- [Security](wiki/Security.md)
-
 _15 archived docs under history/attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._

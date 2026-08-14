@@ -294,8 +294,6 @@ Before building any feature, **run the autopilot tests**:
 - ✅ Platform: manifest resolver, license gate, 3 channels, MCP config
   generator, **canary e2e covering all 16 components**, .gitignore everywhere
 - ✅ Autopilot safety core (12 self-tests)
-- ✅ Wiki: `docs/wiki/` (7 pages) synced to SheshAOS via
-  `.github/workflows/wiki-sync.yml`
 - ✅ Docs: AUDIT_AND_ROADMAP, GLOSSARY, MANUAL_VERIFICATION, TOOLING_CATALOG,
   this SESSION_HANDOFF, query log
 
@@ -312,9 +310,7 @@ Before building any feature, **run the autopilot tests**:
   `docs/MANUAL_VERIFICATION.md` (display @144 Hz, NVIDIA/MUX, wake word,
   PipeWire, Quickshell render, backup restore, phone ADB, podman rootless,
   voice STT/TTS, Newelle MCP mesh).
-- **Wiki one-time init** — create the first page at
-  https://github.com/gaganjainse/SheshAOS/wikis so the wiki-sync Action can
-  push. (GitHub has no API for this.)
+- **Docs** — reading compilation lives in `shesh-docs` (mdBook); GitHub wikis are disabled fleet-wide.
 - **Editor ACP testing** against real Zed/JetBrains (protocol implemented).
 
 ### 🟡 P1 (unblocked, build next)
@@ -339,10 +335,6 @@ Before building any feature, **run the autopilot tests**:
 - **Pytest isolation:** when running a component's tests from the ecosystem
   repo, use `-p no:cacheprovider -o addopts= --confcutdir <repo>` (the gate
   does this) or parent conftest/ini pollutes results.
-- **GitHub wiki** must be initialized once in the web UI before `.wiki.git`
-  exists; the sync workflow skips gracefully until then.
-- **GITHUB_TOKEN** cannot init a wiki; if wiki sync fails after the first
-  page is created, set a `WIKI_PAT` repo secret with `repo` scope.
 - **Ollama models** for the 6 GB stack: `phi4-mini`, `qwen2.5-coder:3b`,
   `moondream2`, `nomic-embed-text`.
 - **Workspace budget:** do NOT install the Rust toolchain or large clones
