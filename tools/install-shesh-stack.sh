@@ -156,7 +156,9 @@ else
   } > "$TARGET"
   ok "shesh-mcp.target written"
 fi
-if systemctl --user enable shesh-mcp.target >/dev/null 2>&1; then
+if [[ $DRY -eq 1 ]]; then
+  info "[dry-run] systemctl --user enable shesh-mcp.target"
+elif systemctl --user enable shesh-mcp.target >/dev/null 2>&1; then
   ok "shesh-mcp.target enabled"
 else
   warn "shesh-mcp.target enable failed (no user bus here?); unit files are still installed"
