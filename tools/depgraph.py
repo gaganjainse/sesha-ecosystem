@@ -58,15 +58,23 @@ SRC = resolve_src()
 def manifest_repos(include_archived: bool = False) -> list[str]:
     """Repos declared in manifests/components.toml (install-time truth).
 
-    Entries marked `archived = true` (e.g. shesh-desktop) are frozen upstream:
-    archived repos are read-only so findings against them can never be fixed —
-    CI clone lists and audits skip them by default.
+    Returns the deduped repo BASENAMES from the `repo` field. One repo may back
+    several component organs since the shesh-core consolidation (ADR-0019), so
+    returning component names would clone 16 archived repos and graph ghosts.
+
+    Entries marked `archived = true` (e.g. shesh-desktop — dotfiles kept for
+    provenance) are skipped by default: CI clone lists and audits exclude them.
     """
     data = tomllib.loads((ECO / "manifests" / "components.toml").read_text())
     comps = data.get("component", {})
-    if include_archived:
-        return sorted(comps.keys())
-    return sorted(k for k, v in comps.items() if not v.get("archived", False))
+    repos: set[str] = set()
+    for _name, c in comps.items():
+        if not include_archived and c.get("archived", False):
+            continue
+        repo = c.get("repo", "")
+        if repo:
+            repos.add(repo.split("/")[-1])
+    return sorted(repos)
 
 
 def list_repos() -> list[str]:

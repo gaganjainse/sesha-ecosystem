@@ -9,6 +9,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Complete Audit & Master Roadmap](AUDIT_AND_ROADMAP.md)
 - [Benchmarks — account-wide status (2026-08-13)](BENCHMARKS.md)
 - [Containers, Virtual Environments & Reproducible Dev](CONTAINERS_AND_VENV.md)
+- [Deployments — where each project runs, and how to make it live](DEPLOYMENTS.md)
 - [Docs Repo — shesh-docs — Compilation for Reading Only](DOCS_REPO.md)
 - [Efficiency — How to Work Longer and Faster for Free](EFFICIENCY.md)
 - [Foolproof Swarm Prompts — 5 Agents, New Clean Workspace, Encrypted PAT from GitHub](FOOLPROOF_SWARM_PROMPTS.md)
@@ -26,6 +27,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)](OMNIROUTE_STUDY.md)
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
+- [🚨 SESSION HOP RECOMMENDED](SESSION_HOP_ALERT.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
 - [Situation Report — fused into the incident record](SITUATION_REPORT.md)
 - [Skill Marketplace — Sharing Evolved Skills (Opt-in, P2)](SKILL_MARKETPLACE.md)
@@ -63,6 +65,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [ADR-0016: Kernel Consolidation — Merge Withdrawn, Wave Adopted as-is](adr/0016-kernel-consolidation.md)
 - [ADR-0017: Naming Purge Completed — No Grandfathering](adr/0017-naming-purge-completed.md)
 - [ADR-0018: Adopt-vs-Build Decisions & the 2026-08-12 Excision](adr/0018-adopt-vs-build.md)
+- [ADR-0019: Fold sub-service shesh-* modules into shesh-core monorepo](adr/0019-shesh-core-monorepo.md)
 - [Architecture Decision Records (ADRs)](adr/README.md)
 
 ## architecture/
