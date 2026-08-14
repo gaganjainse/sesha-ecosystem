@@ -77,6 +77,7 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
 
 ## components/
+- [shesh-core](components/shesh-core.md)
 - [shesh-desktop](components/shesh-desktop.md)
 - [shesh-harness](components/shesh-harness.md)
 - [shesh-memory](components/shesh-memory.md)
