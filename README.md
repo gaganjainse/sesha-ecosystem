@@ -10,7 +10,7 @@
 ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue?style=for-the-badge)
 ![Tests](https://img.shields.io/badge/Tests-63-success?style=for-the-badge)
 ![Components](https://img.shields.io/badge/Components-23-informational?style=for-the-badge)
-![CI](https://github.com/gaganjainse/shesh-ecosystem/actions/workflows/ci.yml/badge.svg)
+![CI](https://img.shields.io/github/actions/workflow/status/gaganjainse/shesh-ecosystem/ci.yml?style=for-the-badge&label=CI)
 
 - **License:** GPL-3.0-or-later (the body as a whole; components keep upstream-compatible licenses)
 - **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))

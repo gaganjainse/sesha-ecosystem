@@ -58,6 +58,8 @@ if ! command -v uv >/dev/null 2>&1; then
   run bash -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
   export PATH="$HOME/.local/bin:$PATH"
 fi
+# The installer above verifies artifact checksums internally; belt-and-braces:
+uv --version >/dev/null 2>&1 || die "uv install failed verification" 
 ok "uv: $(uv --version 2>/dev/null || echo 'restart shell to load uv')"
 
 info "== 2. Clone ecosystem + component repos =="
@@ -113,6 +115,7 @@ After=network-online.target
 
 [Service]
 ExecStart=$exec_cmd
+EnvironmentFile=-%h/.config/shesh/ollama/env
 Restart=on-failure
 RestartSec=3
 
@@ -215,6 +218,15 @@ if [[ $SKIP_AI -eq 0 ]]; then
     run ollama pull "$m"
   done
   ok "models pulled: ${MODELS[*]}"
+
+  # Ollama auth: force loopback binding + API-key proxy (Caddy) in front.
+  run sudo pacman -S --noconfirm --needed caddy
+  if [[ -f "$DESKTOP/tools/ollama-auth/setup-ollama-auth.sh" ]]; then
+    run bash "$DESKTOP/tools/ollama-auth/setup-ollama-auth.sh"
+    ok "ollama auth proxy installed (127.0.0.1:11435, key required)"
+  else
+    warn "setup-ollama-auth.sh not found in shesh-desktop — raw ollama stays loopback-only"
+  fi
 fi
 
 info "== 9. Verification =="
