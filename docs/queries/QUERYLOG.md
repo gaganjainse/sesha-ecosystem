@@ -24,6 +24,40 @@ intent and prevents drift.
 
 ---
 
+---
+
+## Q: "Fix the sesha naming (dir + pattern) everywhere; I'm using limine" (2026-08-13)
+
+**Answer:** Two things were genuinely wrong; both fixed + enforced.
+
+**1. Retired-name purge (SheshAOS sesha/ crate):** the workspace-excluded
+bootstrap crate was still named after the SeshaOS era — dir sesha/ -> bootstrap/,
+package seshaos -> shesh-bootstrap, sesha-bootstrap.sh/.md -> shesh-bootstrap.*.
+Updated root Cargo.toml exclude + ci.yml comment; crate docs dropped the
+'SheshAOS v2' label and marked the Ubuntu-era brief as historical. Verified:
+fmt/clippy clean, 877/877 tests, crate compiles as shesh-bootstrap. SheshAOS @ e5a338c.
+
+**2. Portfolio legacy slug:** /docs/projects/seshaos -> /docs/projects/sheshaos
+(page + README + About + DocsLayout + getting-started + site-map tree +
+projects.ts + generator DOCS_URLS + audit scripts + resume.html), PDF regenerated.
+Facts gate now forbids 'seshaos'/'sesha'; grammar allowlist deduped.
+portfolio @ fc2973e.
+
+**3. NVIDIA bootloader case (found while checking limine):** setup_nvidia_mux had
+a DEAD duplicate grub) arm (a prior edit inserted it after the *) catch-all) and
+every arm wrote nvidia-drm.modeset=1 (hyphen) while the device doc says the
+correct separator is underscore (nvidia_drm.modeset=1, NVIDIA/Arch convention) —
+standardized to underscore in systemd-boot + limine + grub (grep + sed); removed
+a stray NEEDS_INITRAMFS_REBUILD from the limine arm. 04_DEVICE_PROFILE.md now
+states Bootloader: Limine explicitly and what the installer patches.
+shesh-desktop @ 414a749.
+
+**4. Fleet enforcement:** proofread.py FORBIDDEN_CI now includes seshaos/sesha/
+sesha os, so the retired-name class cannot regress in any living repo (archived
+repos are skipped by the fleet scan). Fleet scan: 0 violations.
+
+**Docs:** this file.
+
 ## Q: "One more checkup from a different angle; install web tools; are all MCP/automation/tools working; device-customized? MUX proper? storage proper? NVIDIA?" (2026-08-13)
 
 **Answer:** Fresh-eyes verification pass with real tooling, not eyeballing.

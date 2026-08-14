@@ -37,10 +37,9 @@ RAW = "https://raw.githubusercontent.com"
 USER = "gaganjainse"
 
 # Retired names that must not appear in living docs.
-# "nexus*" variants are retired everywhere, matched case-insensitively.
-# "SeshaOS" (the old CamelCase name) is retired — but lowercase "seshaos" is the
-# LEGITIMATE legacy slug of the SheshAOS docs page (/docs/projects/seshaos), so
-# that one is matched case-sensitively (CamelCase only).
+# "nexus*" and "sesha*" variants are retired everywhere, matched
+# case-insensitively. (The SheshAOS docs slug was renamed seshaos -> sheshaos on
+# 2026-08-13, so no lowercase "seshaos" is legitimate anymore.)
 FORBIDDEN_CI = [
     r"\bnexusaos\b",
     r"\bnexus-aos\b",
@@ -48,6 +47,9 @@ FORBIDDEN_CI = [
     r"\bnexus-kernel\b",
     r"\bnexus kernel\b",
     r"\bnexus bridge\b",
+    r"\bseshaos\b",
+    r"\bsesha\b",
+    r"\bsesha os\b",
 ]
 FORBIDDEN_CS = [
     r"\bSeshaOS\b",
