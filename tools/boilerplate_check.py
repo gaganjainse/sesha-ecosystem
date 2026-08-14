@@ -169,6 +169,7 @@ def main() -> int:
     ap.add_argument("--path")
     args = ap.parse_args()
 
+    findings: list = []
     if args.fleet:
         findings = scan_fleet()
         print(f"fleet scan: {len(findings)} drift finding(s)")
