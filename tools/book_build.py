@@ -140,6 +140,10 @@ MIRRORS: list[tuple[str, str, bool]] = [
     ("eco:docs/NEXT_SESSION_PROMPT.md", "queries/next-session-prompt.md", True),
     # Introduction
     ("eco:docs/GLOSSARY.md", "glossary.md", True),
+    # Part XI — SheshAOS (flagship Rust AI OS)
+    ("src:SheshAOS/README.md", "sheshaos/README.md", False),
+    ("src:SheshAOS/HANDOVER.md", "sheshaos/handover.md", False),
+    ("src:SheshAOS/docs/architecture.md", "sheshaos/architecture.md", False),
 ]
 
 # Whole-directory mirrors (ADR tree).
