@@ -12,6 +12,7 @@ report (docs linked by NO other doc) stays informational — cross-linking is
 quality work, not a gate, because INDEX provides the floor.
 """
 from __future__ import annotations
+import subprocess
 
 import re
 import sys
@@ -25,6 +26,20 @@ LINK_RE = re.compile(r"\]\(([^)#]+?)(?:#[^)]*)?\)")
 
 
 def md_files() -> list[Path]:
+    # Enumerate via git ls-files so the generated INDEX.md is identical in a
+    # clean CI checkout and a local tree that has transient, gitignored files
+    # (e.g. docs/SESSION_HOP_ALERT.md, written by session_guard on handoff).
+    try:
+        out = subprocess.run(
+            ["git", "ls-files", "--", "docs/"],
+            cwd=ECO, capture_output=True, text=True, check=True, timeout=15,
+        ).stdout
+        paths = [ECO / line for line in out.splitlines()
+                 if line.endswith(".md") and not line.endswith("INDEX.md")]
+        if paths:
+            return sorted(paths)
+    except (FileNotFoundError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        pass
     return sorted(p for p in DOCS.rglob("*.md") if ".git" not in p.parts)
 
 

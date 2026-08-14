@@ -17,7 +17,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Gap Analysis — from demo to full ecosystem](GAP_ANALYSIS.md)
 - [Getting Started — Shesh on CachyOS/Hyprland](GETTING_STARTED.md)
 - [Glossary](GLOSSARY.md)
-- [Documentation Index](INDEX.md)
 - [Learning Architecture](LEARNING.md)
 - [Linux Filesystem Layout & Shesh Integration](LINUX_LAYOUT.md)
 - [Live Update System — Automatic, In Rules, No Manual Steps Missed](LIVE_UPDATE_SYSTEM.md)
@@ -27,7 +26,6 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)](OMNIROUTE_STUDY.md)
 - [Recovery Runbook — when the ground moves](RECOVERY.md)
 - [SESSION HANDOFF — Shesh ecosystem](SESSION_HANDOFF.md)
-- [🚨 SESSION HOP RECOMMENDED](SESSION_HOP_ALERT.md)
 - [Session Protocol — Hot Hopping Without Losing Flow](SESSION_PROTOCOL.md)
 - [Situation Report — fused into the incident record](SITUATION_REPORT.md)
 - [Skill Marketplace — Sharing Evolved Skills (Opt-in, P2)](SKILL_MARKETPLACE.md)
@@ -145,4 +143,4 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Roadmap](wiki/Roadmap.md)
 - [Security](wiki/Security.md)
 
-_16 archived docs under attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._
+_15 archived docs under attic/ are intentionally not listed (cold storage, see DOCUMENTATION_POLICY)._
