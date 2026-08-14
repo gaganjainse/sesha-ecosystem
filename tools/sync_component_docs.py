@@ -37,7 +37,10 @@ def translate_links(body: str, repo: str, readme: pathlib.Path) -> str:
     repo's default branch; absolute URLs, anchors, and mailto: pass through.
     """
     base = f"https://github.com/gaganjainse/{repo}/blob/main/"
-    repo_root = readme.parent  # directory containing README.md
+    repo_root = readme.parent.resolve()  # directory containing README.md
+    # .resolve() matters: via the fallback src path the parent contains
+    # '..' segments and relative_to() below would spuriously fail,
+    # leaving links untranslated (raw relative links rot in the mirror).
 
     def fix(m: re.Match) -> str:
         text, url, anchor = m.group(1), m.group(2), m.group(3) or ""
@@ -63,13 +66,24 @@ def translate_links(body: str, repo: str, readme: pathlib.Path) -> str:
 
 
 def _component_repos() -> dict[str, str]:
+    """Map component-docs filename -> repo basename, deduped by repo.
+
+    Since the shesh-core consolidation (ADR-0019) one repo backs 16 organs, so
+    keying by component name would mirror the same README 16 times. Key by repo
+    basename instead: one docs/components/<repo>.md per actual repo.
+    """
     data = tomllib.loads((ROOT / "manifests/components.toml").read_text("utf-8"))
     comps = data.get("component", {})
-    return {
-        name: comp.get("repo", "").split("/")[-1]
-        for name, comp in comps.items()
-        if name.startswith("shesh-") and comp.get("repo")
-    }
+    repos: dict[str, str] = {}
+    for name, comp in comps.items():
+        if not name.startswith("shesh-"):
+            continue
+        repo = comp.get("repo", "")
+        if not repo:
+            continue
+        basename = repo.split("/")[-1]
+        repos.setdefault(basename, basename)
+    return repos
 
 
 def _find_readme(src_root: pathlib.Path, repo: str) -> pathlib.Path | None:

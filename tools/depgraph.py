@@ -23,7 +23,6 @@ import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 import tomllib
 from pathlib import Path
@@ -85,37 +84,27 @@ def list_repos() -> list[str]:
 
 
 def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
-    """crate -> intra-workspace dependency crates, via cargo metadata."""
-    try:
-        out = subprocess.run(
-            ["cargo", "metadata", "--format-version", "1", "--locked", "--no-deps",
-             "--manifest-path", str(sheshaos / "Cargo.toml")],
-            capture_output=True, text=True, timeout=120, check=True).stdout
-    except (FileNotFoundError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
-        # cargo-less fallback: parse Cargo.tomls (workspace member list + dep paths)
-        root = tomllib.loads((sheshaos / "Cargo.toml").read_text())
-        members = [m.split("/")[-1] for m in root["workspace"]["members"]]
-        names = set(members)
-        edges = {name: set() for name in names}
-        for name in names:
-            toml_path = (sheshaos / "crates" / name / "Cargo.toml")
-            if name == "shesh-cli":
-                toml_path = sheshaos / "bin" / "shesh-cli" / "Cargo.toml"
-            if not toml_path.exists():
-                continue
-            text = toml_path.read_text()
-            for other in names - {name}:
-                if re.search(rf"^{re.escape(other)}\s*[=.]", text, re.M):
-                    edges[name].add(other)
-        return edges
+    """crate -> intra-workspace dependency crates, parsed from Cargo.toml.
 
-    meta = json.loads(out)
-    members = {p["name"] for p in meta["packages"]}
-    edges = {name: set() for name in members}
-    for pkg in meta["packages"]:
-        for dep in pkg["dependencies"]:
-            if dep["name"] in members:
-                edges[pkg["name"]].add(dep["name"])
+    Deliberately does NOT shell out to `cargo metadata`: the committed graph is
+    a freshness-gated doc artifact, so it must be byte-identical whether or not
+    a Rust toolchain is installed (CI has none). Parsing the workspace members
+    + intra-workspace dep references keeps local and CI output deterministic.
+    """
+    root = tomllib.loads((sheshaos / "Cargo.toml").read_text())
+    members = [m.split("/")[-1] for m in root["workspace"]["members"]]
+    names = set(members)
+    edges = {name: set() for name in names}
+    for name in names:
+        toml_path = (sheshaos / "crates" / name / "Cargo.toml")
+        if name == "shesh-cli":
+            toml_path = sheshaos / "bin" / "shesh-cli" / "Cargo.toml"
+        if not toml_path.exists():
+            continue
+        text = toml_path.read_text()
+        for other in names - {name}:
+            if re.search(rf"^{re.escape(other)}\s*[=.]", text, re.M):
+                edges[name].add(other)
     return edges
 
 

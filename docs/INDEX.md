@@ -77,28 +77,12 @@ Regenerate: `python tools/docs_index.py`; gate: `--check` in CI.
 - [Exhaustive Audit — All Repos (54 unique) — 2026-08-11](audits/AUDIT_EXHAUSTIVE.md)
 
 ## components/
-- [shesh-acp](components/shesh-acp.md)
-- [🛡️ shesh-audit](components/shesh-audit.md)
-- [💾 shesh-backup](components/shesh-backup.md)
-- [🧠 shesh-brain](components/shesh-brain.md)
-- [📅 shesh-calendar](components/shesh-calendar.md)
-- [📦 shesh-containers](components/shesh-containers.md)
 - [shesh-desktop](components/shesh-desktop.md)
-- [🔍 shesh-ebpf](components/shesh-ebpf.md)
-- [shesh-files](components/shesh-files.md)
 - [shesh-harness](components/shesh-harness.md)
-- [📦 shesh-mcp-bundle](components/shesh-mcp-bundle.md)
-- [🎞️ shesh-media](components/shesh-media.md)
 - [shesh-memory](components/shesh-memory.md)
-- [💬 shesh-messaging](components/shesh-messaging.md)
-- [🧭 shesh-mind](components/shesh-mind.md)
 - [shesh-omniroute — Shesh wrapper around the OmniRoute gateway](components/shesh-omniroute.md)
 - [shesh-orchestrator](components/shesh-orchestrator.md)
 - [📱 shesh-phone](components/shesh-phone.md)
-- [🔐 shesh-secrets](components/shesh-secrets.md)
-- [shesh-shell](components/shesh-shell.md)
-- [shesh-skills](components/shesh-skills.md)
-- [shesh-system](components/shesh-system.md)
 - [Shesh Voice — local-first voice/chat overlay (fork of Newelle)](components/shesh-voice.md)
 
 ## policies/

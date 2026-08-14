@@ -39,7 +39,7 @@ def md_files() -> list[Path]:
         if paths:
             return sorted(paths)
     except (FileNotFoundError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
-        pass
+        pass  # not a git checkout (or git missing) — fall back to the filesystem scan below
     return sorted(p for p in DOCS.rglob("*.md") if ".git" not in p.parts)
 
 
