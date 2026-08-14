@@ -55,7 +55,14 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install toolchain
-        run: python -m pip install --upgrade pip ruff pytest fastmcp $EXTRA_PIP
+        run: |
+          # $EXTRA_PIP is a space-separated list of packages: word-split it into
+          # an array (shellcheck-clean) rather than expanding it unquoted inline.
+          EXTRA_PIP_ARGS=()
+          if [ -n "$EXTRA_PIP" ]; then
+            read -ra EXTRA_PIP_ARGS <<< "$EXTRA_PIP"
+          fi
+          python -m pip install --upgrade pip ruff pytest fastmcp "${EXTRA_PIP_ARGS[@]}"
       - name: Install internal ecosystem deps (not on PyPI — ecosystem tracks main)
         if: ${{ inputs.existing-repos != '' }}
         env:
