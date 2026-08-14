@@ -53,16 +53,16 @@ kernel_bridge/kernel-events.jsonl/KernelBridge/KernelError everywhere;
 AUDIT_AND_ROADMAP P1 flipped ✅; immutable history untouched.
 
 **Pending-item completion (this turn):** a11y spec + checker + reference
-fixes (ecosystem `2cf68748aeb59809a95bda59d90ac0f3cf060ab6`, shesh-desktop `3f067664bb879bfd6a251b52344e8a8cfc9a1e3c` — 381-element baseline,
+fixes (ecosystem `2cf68748aeb59809a95bda59d90ac0f3cf060ab6`, shesh-desktop `65718fba56838a6ca3dd5cbf6b79db6c150b2e70` — 381-element baseline,
 on-machine long tail); skill marketplace primitives (shesh-harness
-`20f58e9a5084ae554de557520450a978b68d091e` — export/import JSON manifests, 7 tests); RAG confirmed covered
+`5d784a56f759760e8ce1a3ac4a379f6fe2c1272d` — export/import JSON manifests, 7 tests); RAG confirmed covered
 in-component (shesh-memory semantic_search, 33 tests); self-hosted update
-mirror (shesh-desktop `bd2da145fa8931bec1d7baa2e5e0b23c82703123` — update-mirror.sh, dry-run safe);
+mirror (shesh-desktop `9d0c678ab3b616e2a25012ee06469a95b4435685` — update-mirror.sh, dry-run safe);
 eBPF boundary honest + shesh-ebpf verified (8 tests).
 
 Roadmap completion (earlier): every sandbox-feasible P1/P2 item is done —
 shesh-phone vision→tap loop (`eef319a932d46dbf204f5214d7b85473c176ea52`), ambient data-aware proactivity
-(`acbcc204f8bf8e8c02009beea5ba5a37d869ef0b`), job-mode profile P2 (`e6bf896efc5d8256a9a9ef12838dc54d722089ca`), kernel bridge Rust ingest
+(`0eab1994fc9f0452a4899d0c88c8410ef28ef768`), job-mode profile P2 (`31750ff0aabe21f5fece534342e91bd60bd7548e`), kernel bridge Rust ingest
 (SheshAOS `99c646c2be81672bb737d2bccf8549f497b17f61`+`18b1622c8066168e0bf14126b6cd716fb6fa1af3`+`0a74e50af99930e89d2136c2d673c5b686b959bf`), email/IMAP setup (shesh-calendar
 `4e4e0cc`). Remaining honest: P0 hardware validation (needs the MSI
 machine), real eBPF (needs kernel privs), a11y long tail (on-machine QML
@@ -77,7 +77,7 @@ Latest closures (new session, continued):
 - **Component README auto-sync** (`547a3742e049806cc26cad81e0fb4ae88fca5f94`, `8e53e0128f933b97f2f70b521d9060974d5d3bca`): new
   tools/sync_component_docs.py (link translation to blob URLs) + CI
   freshness job; 23 drifted files synced; linkcheck 0 broken.
-- **Failure-memory offline loop** (`shesh-memory d4f91879ca91bf8c7fa258efd70b6f6671fa463d`): 7 new tests;
+- **Failure-memory offline loop** (`shesh-memory c28e8c4947a5ec2bd52ebbf8473b6a54fd378943`): 7 new tests;
   exposed + fixed 2 real habit-learner bugs (volume-bias promotion,
   double-decay). 33/33 tests.
 - **Dependabot fleet:** merged 5 open PRs (vyakrti-ide postcss, pipecat h2,
@@ -96,18 +96,18 @@ Latest closures (new session, continued):
   Shesh component; fixes are upstreamable.)
 - **shesh-voice Flatpak Build — verified GREEN** (was unconfirmed).
 - **Known-good tips:** ecosystem `c673d3747639e49e58504e6c7336b783cac96bd1`, shesh-docs `a3ef4f8272b183aa51f93e68703af88cdb01661a`,
-  shesh-desktop `15be5187869176d4eb2dd12295bd4882f7c26931`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
+  shesh-desktop `9e9e3984262952fd5df69710672cee97b9f4ed59`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
   shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `fdcd2aca13f23c2407e01be9275a7eb845417bd3`,
   ClinicLedger `22dde978b7a3767195c2c6e0b675d8c3ff1e915d`, ClinicLedger-Template `30be902`, Vyakrti `ab0010e2fbdf902b95eb43d11dd59e01a2c852b3`,
-  waveterm `2fb3842`, vyakrti-ide `8dc7413105cb86c73ea7afa6a20ac7e767984450`, shesh-memory `d4f91879ca91bf8c7fa258efd70b6f6671fa463d`.
+  waveterm `2fb3842`, vyakrti-ide `8dc7413105cb86c73ea7afa6a20ac7e767984450`, shesh-memory `c28e8c4947a5ec2bd52ebbf8473b6a54fd378943`.
 
 CI closure (earlier same session):
 
-- **shesh-desktop lock-refresh — GREEN** (`b074b11f1c5a9b62182bce3528aad4fbc205a0b6`): the `789e282`
+- **shesh-desktop lock-refresh — GREEN** (`cb044e2b4ae34f64bc4bc27674c5c686a1741acc`): the `789e282`
   girepository fix from the prior session never landed on main (parallel
   race). Re-applied with the verified noble package
   (`libgirepository-2.0-dev` + `gobject-introspection` + `libglib2.0-dev`),
-  dispatched → success → bot committed fresh lock `15be5187869176d4eb2dd12295bd4882f7c26931`. The stale
+  dispatched → success → bot committed fresh lock `9e9e3984262952fd5df69710672cee97b9f4ed59`. The stale
   desktop lock that was blocking dependabot security runs is gone.
 - **portfolio Auto-Update — GREEN** (`42e5b49abaf1d6073325cf8f70071233de2d78bd` + `20c651afd51f3507a980496de8f09a4ed6624271`): prettier
   normalize step after regeneration (root cause of run 31653325256), then
@@ -132,7 +132,7 @@ CI closure (earlier same session):
   POSIX `gradlew` script itself was never committed (only `gradlew.bat`) —
   restored with exec bit.
 - **Known-good tips:** ecosystem `b6ef0c569ecab456bab31776e908a17ef1b55817`, shesh-docs `e8388ebe7119f8a5b5a5909527c2afbc5fd67892`,
-  shesh-desktop `15be5187869176d4eb2dd12295bd4882f7c26931`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
+  shesh-desktop `9e9e3984262952fd5df69710672cee97b9f4ed59`, portfolio `20c651afd51f3507a980496de8f09a4ed6624271`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`,
   shesh-voice `8a6fd42`, shesh-wave `987da7b`, AIM `fdcd2aca13f23c2407e01be9275a7eb845417bd3`.
 - **Fresh-session gotchas (Arena snapshot exclusions):** `.git/config`
   (origin remote) and `~/.git-credentials` are not persisted → re-add
@@ -169,14 +169,14 @@ Three user mandates landed that session, all pushed and gate-verified:
   to `docs/history/audits/`, SITUATION_REPORT fused into the INCIDENTS post-mortem,
   desktop mirror retired to `docs/history/attic/` (canonical = shesh-desktop repo).
 - **Naming:** SHESH-only canon enforced fleet-wide including shesh-desktop
-  body text (`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`); shesh-voice verified zero-legacy.
+  body text (`80e97317eb2482e607e45fad3e68e20e6a06adac`); shesh-voice verified zero-legacy.
 - **Owner-side leftovers (cannot be done by the agent):** rotate the GitHub
   PAT (transcript exposure 2026-08-11/12); optional Actions secret if
   cross-repo docs auto-push is wanted later. Both listed in
   `docs/MANUAL_VERIFICATION.md` §13.
 
 Tips: ecosystem `bfea341b4d17fc2fd135988a545cad99f5c78396`→(this refresh), shesh-docs `2fdf4d15ff282757aa80d7a940ea83da28a25f49`, shesh-desktop
-`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`, shesh-audit `78c9d86`. CI poll for the day's
+`80e97317eb2482e607e45fad3e68e20e6a06adac`, SheshAOS `ac9fd3cb811344c0416cc3aa4fa0fd8e9d535714`, shesh-audit `78c9d86`. CI poll for the day's
 pushes is the first job of the next session if not appended below.
 
 ---

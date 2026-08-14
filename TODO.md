@@ -18,7 +18,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ **Docs renovation (the big one):** `tools/book_build.py` pure-projection engine (mirror map + fissions + generators + link translation + orphan sweep); shesh-docs rebuilt — 74 placeholder chapters replaced with real content, 114 duplicate/orphan files removed, mdbook render gate in CI, SUMMARY integrity + link + name gates; audits → `docs/audits/`, SITUATION_REPORT fused into INCIDENTS post-mortem, desktop mirror retired to attic (SSOT: desktop repo); 6 tool docs + 3 tutorials + skills POLICY authored from code-grounded truth; ecosystem CI gates mirror freshness
 - ✅ **MANUAL_VERIFICATION → 16 sections:** +rolling-deps hygiene, +security posture (incl. PAT rotation owner action), +recovery drill
 - ✅ **Suppression hunts:** desktop python-check `|| true` gates removed after clearing 26 ruff findings (incl. REAL glxinfo pipe bug: shell=True+list broke renderer detection); portfolio `|| true` chain removed → exposed missing Inter fonts (vendored OFL) + missing Pillow step + `npm ci || npm install` lockfile fallback — all fixed for real
-- ✅ **Naming canon final:** shesh-desktop body-text SHESH sweep (`7b27b78ee92a9a29a7e8be25f2611b9d5fbf97ff`), shesh-voice verified zero-legacy; gates enforce
+- ✅ **Naming canon final:** shesh-desktop body-text SHESH sweep (`80e97317eb2482e607e45fad3e68e20e6a06adac`), shesh-voice verified zero-legacy; gates enforce
 
 ## New session accomplishments (2026-08-13, decisions executed + completions)
 
@@ -90,8 +90,8 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ `shesh-harness` — Continual Harness: immutable base prompt, evidence-backed `/refine`, rollback (7 tests)
 - ✅ `shesh-orchestrator` — multi-agent RLM runtime, roles, A2A-lite bus, budgets (9 tests)
 - ✅ `shesh-skills` — everyday MCP tools + 5 markdown skills (10 tests)
-- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (acbcc204f8bf8e8c02009beea5ba5a37d869ef0b): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
-- ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop e6bf896efc5d8256a9a9ef12838dc54d722089ca): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
+- ✅ `shesh-ambient` (in desktop) — polite catch-up scheduler + warm proactivity (20 tests) — **COMPLETED P1 2026-08-13** (0eab1994fc9f0452a4899d0c88c8410ef28ef768): data-aware offers (real git/backup/Downloads/disk facts via sources.py, 11 new tests, 38 total)
+- ✅ **job-mode isolated work profile (P2)** — **COMPLETED 2026-08-13** (shesh-desktop 31750ff0aabe21f5fece534342e91bd60bd7548e): tools/job-mode/job-mode.sh — work git identity via includeIf ~/work/**, personal sync paused/restored, reversible + idempotent, shellcheck clean
 - ✅ **kernel bridge Rust consumption (P1)** — **COMPLETED 2026-08-13** (SheshAOS 99c646c2be81672bb737d2bccf8549f497b17f61): shesh-kernel kernel_ingest reads kernel-events.jsonl (typed events, bad-line/unknown-kind/monotonicity accounting, tail view; 5 tests; workspace + clippy clean)
 - ✅ **`shesh-mind`** — role-to-model router with VRAM budget (13 tests) — now capability-based model-agnostic router (tools/model_router.py) free-first, not hardcoded
 - ✅ **`shesh-brain`** — packaged shesh-kernel for desktop; routes tool calls through policy — **COMPLETED 2026-08-13** (81777f5): two-phase confirmation flow closed (`record_confirmation` → hash-chained audit + kernel CONFIRMATION_GRANTED/DENIED events), `audit_tail` ledger read view, 8 tests pin the contract (was: minimal wrapper, scheduler stub, 2 tests)
@@ -102,7 +102,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Skill capture framework exists; automatic Read→Execute→Reflect→Write capture — **IMPLEMENTED minimal** via shesh-harness skill capture, auto-capture on repeated wins (Read→Execute→Reflect→Write) with deprecation of low-success skills
 - ✅ Episodic compaction/summarization retention (compact_memory MCP)
 - ✅ RAG embeddings + vector store (local hash embedder offline, Ollama nomic-embed-text supported; semantic_search MCP; 6 tests)
-- ✅ Skill marketplace primitives — **COMPLETED 2026-08-13** (shesh-harness 20f58e9a5084ae554de557520450a978b68d091e): export/import skills as portable JSON manifests (7 tests); hosted marketplace remains 💡Future on this format
+- ✅ Skill marketplace primitives — **COMPLETED 2026-08-13** (shesh-harness 5d784a56f759760e8ce1a3ac4a379f6fe2c1272d): export/import skills as portable JSON manifests (7 tests); hosted marketplace remains 💡Future on this format
 
 ## 3. Soma (body / AS)  🟢
 - ✅ `shesh-files` — Rust watcher + Python classifier (5 tests)
@@ -122,7 +122,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Media: screenshots, screen recording, wallpaper, audio routing — **COMPLETED 2026-08-13** (5461535): audio contract made honest (no fabricated `stub-speakers`; empty list + explicit reason when offline), real `get_volume`/`set_volume` via wpctl with mute parse + 1.0 policy cap; 16 tests (was: 3 tests + fabricated sink names). NOTE: wallpaper backend is hyprpaper-via-hyprctl — the 08-11 line claiming swaybg was inaccurate
 - ✅ Container control MCP (podman/distrobox) for sandboxed tasks (5 tests)
 - ✅ Hardware tests: Hyprland@144, NVIDIA MUX, wake word, PipeWire, Quickshell render — documented as manual verification in MANUAL_VERIFICATION.md, not failing CI, marked 🟢 with manual checklist
-- ✅ Accessibility (a11y) — **SPEC+DONE 2026-08-13** (docs/A11Y.md, tools/a11y_check.py, shesh-desktop 3f067664bb879bfd6a251b52344e8a8cfc9a1e3c): checker + baseline 381 + reference fixes; eBPF kernel tuning: shesh-ebpf verified (8 tests), real eBPF needs kernel privileges (honest boundary)
+- ✅ Accessibility (a11y) — **SPEC+DONE 2026-08-13** (docs/A11Y.md, tools/a11y_check.py, shesh-desktop 65718fba56838a6ca3dd5cbf6b79db6c150b2e70): checker + baseline 381 + reference fixes; eBPF kernel tuning: shesh-ebpf verified (8 tests), real eBPF needs kernel privileges (honest boundary)
 
 ## 4. Protocols & integration  🟢
 - ✅ MCP (agent↔tools) across all components
@@ -145,7 +145,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 - ✅ Supply-chain: sigstore/provenance for artifacts — scripts/sign_artifacts.py (keyless cosign when COSIGN_KEYLESS set, otherwise SHA256 + SLSA provenance.json), SLSA statement emitted, CI step added
 - ✅ Integrate `shesh-audit` into CI release gates — audit guard sanity check in ci.yml, provenance + OTLP sample generation
 - ✅ OTLP traces: scripts/export_traces_otlp.py for local JSONL → OTLP JSON export (opt-in HTTP endpoint), local-only observability
-- ✅ Self-hosted update mirror — **COMPLETED 2026-08-13** (shesh-desktop bd2da145fa8931bec1d7baa2e5e0b23c82703123, update-mirror.sh); sigstore Rekor log verification remains 💡Future (documented out-of-scope in SECURITY.md)
+- ✅ Self-hosted update mirror — **COMPLETED 2026-08-13** (shesh-desktop 9d0c678ab3b616e2a25012ee06469a95b4435685, update-mirror.sh); sigstore Rekor log verification remains 💡Future (documented out-of-scope in SECURITY.md)
 
 ## 6. Docs & knowledge  🟢
 - ✅ Architecture docs (Body, topology, languages, containers, Linux layout, multi-agent, ACP/A2A, learning)

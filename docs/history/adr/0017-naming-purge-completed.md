@@ -23,7 +23,7 @@ data dirs, env vars, QML config namespaces and prose. The owner ruled on
 | shesh-shell | dist/import | 3/3 | 7c46a00 |
 | shesh-skills | dist/import | 10/10 | e3de7a7 |
 | shesh-system | dist/import | 13/13 | 303f245 |
-| shesh-desktop | tools/, sdata/, profiles/, QML namespace `options.shesh→shesh`, wake word "Hey Shesh", docs/ | 26/26 | …1b329672cbb579a3b26bc1c2ffa6c3a898f6331c |
+| shesh-desktop | tools/, sdata/, profiles/, QML namespace `options.shesh→shesh`, wake word "Hey Shesh", docs/ | 26/26 | …3b025778aaed6ee6336eb50546b0f04577b2b21e |
 
 Data-dir migrations are one-shot auto-rename-on-first-run (not grandfathering:
 the legacy name ceases to exist). Cross-repo consumers (e.g. shesh-media's

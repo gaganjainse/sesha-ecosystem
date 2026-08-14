@@ -285,7 +285,7 @@
     "has_ci": true,
     "has_license": true,
     "size": "22M",
-    "last_commit": "3002a7d78554087df53bc01275c955c6aa6cbf02 feat: data-aware proactivity signals"
+    "last_commit": "da5c7091ee6f924e5b9d91403f5f7a59001bd8c3 feat: data-aware proactivity signals"
   },
   {
     "name": "shesh-ecosystem",
@@ -321,7 +321,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "284K",
-    "last_commit": "94894b7ecfb662d83e6d032b2869ca8f0894b10f rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "7b84135b48c4de26ec2bb66b5fb6ecadf5ebf03f rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-mcp-bundle",
@@ -345,7 +345,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "400K",
-    "last_commit": "e0b170ec781394206b18b19c1be3a0c34d67a1fa rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "cff727c7423f93dbe561d0d0243aaa8e98c7d48b rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-mind",
@@ -381,7 +381,7 @@
     "has_ci": true,
     "has_license": false,
     "size": "428K",
-    "last_commit": "b96aeb8988901f4f498b065781931e508fa70f9c rename: Shesha -> Shesh (package, imports, display name)"
+    "last_commit": "4440c1d2f9fe4ee5246f8f60bcb0910649f028f8 rename: Shesha -> Shesh (package, imports, display name)"
   },
   {
     "name": "shesh-phone",

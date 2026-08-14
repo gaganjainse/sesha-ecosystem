@@ -50,7 +50,7 @@ correct separator is underscore (nvidia_drm.modeset=1, NVIDIA/Arch convention) �
 standardized to underscore in systemd-boot + limine + grub (grep + sed); removed
 a stray NEEDS_INITRAMFS_REBUILD from the limine arm. 04_DEVICE_PROFILE.md now
 states Bootloader: Limine explicitly and what the installer patches.
-shesh-desktop @ d417bf8f9ec92c98ce3d0eecdc885e14ac807c2c.
+shesh-desktop @ dfcc12047b72e86fcbe920e38a1a3fba3e9ca3ad.
 
 **4. Fleet enforcement:** proofread.py FORBIDDEN_CI now includes seshaos/sesha/
 sesha os, so the retired-name class cannot regress in any living repo (archived
@@ -149,13 +149,13 @@ ContentSection widgets the page already used.
 `sesha` (retired-name typo) while all 36 consumers read/write `shesh` — the GUI
 toggles bound to undefined, so master switch / wake word / organizer / models
 were inert on a fresh install. Renamed to `shesh`. Also `hey sesha` -> `hey shesh`
-+ Newelle data dir. shesh-desktop @ 0cf2e04c57b641bd95dcf32f3bfb4a01207c1b5e.
++ Newelle data dir. shesh-desktop @ ec972ca33f397ca3993a5b222bc1b1614c4e6be3.
 
 **FEATURE (complete the no-code surface):** added channel selector (stable/
 canary/devel) + 15 MCP-server toggles to the settings page; Shesh.qml now rebuilds
 ~/.config/shesh/mcp/*.json via `generate_mcp_config.py --channel --servers`
 (script at ~/src/shesh-ecosystem). Generator gained `--servers` allowlist
-(default all). shesh-desktop @ 0cf2e04c57b641bd95dcf32f3bfb4a01207c1b5e, shesh-ecosystem @ 7cb4a2a3b91a309375183d5365603e0e1b8d0f76/593e0eb8798f8f2f7bbe6b7619760d0fa88bbf96.
+(default all). shesh-desktop @ ec972ca33f397ca3993a5b222bc1b1614c4e6be3, shesh-ecosystem @ 7cb4a2a3b91a309375183d5365603e0e1b8d0f76/593e0eb8798f8f2f7bbe6b7619760d0fa88bbf96.
 
 **SELF-INFLICTED BLOAT (found + fixed):** the fuzz commit accidentally committed
 `fuzz/target/` (1751 files, repo 1.4G) because .gitignore only covered /target.
@@ -348,7 +348,7 @@ license contradiction resolved.
 
 **New real benches (all verified locally, all pushed):**
 - **Vyakrti** `68ff2c8a9d119df25c983885c4902908d118cea5` — criterion benches for lexer + lex&parse (the per-keystroke IDE hot path); CI runs `cargo bench -- --test`.
-- **shesh-memory** `246de4ebef3a5a5e516d84c07e8b6840eb0ebfa2` — vector search (1000 docs, ~73 ms), context assembly (~186 µs), embedding (~29 µs).
+- **shesh-memory** `1cedef3989b7df2da24e9a441518e16309dc4feb` — vector search (1000 docs, ~73 ms), context assembly (~186 µs), embedding (~29 µs).
 - **shesh-audit** `61a62d1` — guard allow/deny (~51/47 µs), hash-chained append (~34 µs).
 - **shesh-phone** `77ec779f53a0dcdc766a5823015200611617212b` — vision→tap cycle + template match. **Benchmark caught a real perf bug: template match was 1.65 s** (pure-Python exhaustive scan). Fixed with coarse-to-fine search (4× downsample + full-res refine window, plus a coordinate-leak bug when refinement ties) → **95.7 ms, 17× faster**, 16/16 tests still green.
 - **FWRS** `f31fb0964194ec9c46738e63b416271824158b37` — LP pipeline scaling (75 ms at 10/20 → 860 ms at 40/100).
@@ -463,12 +463,12 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
   spec with checkpoints + fix pattern, reference fixes in killDialog + ConfigSwitch
   (QtQuick Controls Button base → built-in accessibleName). Long tail is an
   on-machine file-by-file pass (QML can't be rendered in a sandbox — mass
-  blind edits would risk the shell). (ecosystem 2cf68748aeb59809a95bda59d90ac0f3cf060ab6, shesh-desktop 3f067664bb879bfd6a251b52344e8a8cfc9a1e3c)
+  blind edits would risk the shell). (ecosystem 2cf68748aeb59809a95bda59d90ac0f3cf060ab6, shesh-desktop 65718fba56838a6ca3dd5cbf6b79db6c150b2e70)
 - **Skill marketplace** — use: share evolved skills across machines/users.
   Built the honest primitive: shesh-harness `marketplace.py` — export skills
   to a portable JSON manifest, validate, import additively (non-destructive,
   overwrite opt-in, malformed reported). 7 tests. The hosted open-space.cloud
-  style marketplace remains Future on top of this format. (20f58e9a5084ae554de557520450a978b68d091e)
+  style marketplace remains Future on top of this format. (5d784a56f759760e8ce1a3ac4a379f6fe2c1272d)
 - **RAG** — use: semantic retrieval beyond keyword FTS. Verified it's already
   covered in-component: shesh-memory embeddings (local hash offline +
   Ollama nomic-embed-text) + vectorstore + semantic_search MCP, 33 tests.
@@ -478,7 +478,7 @@ All get `.github/workflows/bench.yml` (SHA-pinned, read-only, weekly + PR-trigge
   Built `tools/maintenance/update-mirror.sh`: pacman -Sw --cachedir (or
   MIRROR_RSYNC) → repo-add local DB → prune keeping KEEP_VERSIONS per
   package; fully dry-run safe; shellcheck clean; prune policy verified with
-  fake archives. (shesh-desktop bd2da145fa8931bec1d7baa2e5e0b23c82703123)
+  fake archives. (shesh-desktop 9d0c678ab3b616e2a25012ee06469a95b4435685)
 
 **Docs:** [docs/A11Y.md](../../A11Y.md), [docs/history/AUDIT_AND_ROADMAP.md](../AUDIT_AND_ROADMAP.md), [TODO.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/TODO.md), this file.
 
@@ -498,11 +498,11 @@ hardware validation on the MSI machine — physically impossible in a sandbox
   + `TemplateVision` — screenshot → locate → tap → verify, retries honestly,
   refuses taps outside the safe area, injected provider per README contract.
   9 new tests (16 total); CI green (added pillow to extra-pip).
-- **Ambient data-aware proactivity** (shesh-desktop `acbcc204f8bf8e8c02009beea5ba5a37d869ef0b`): `sources.py`
+- **Ambient data-aware proactivity** (shesh-desktop `0eab1994fc9f0452a4899d0c88c8410ef28ef768`): `sources.py`
   gathers real facts (git uncommitted count, backup age, Downloads arrivals,
   disk free) — offers now say "7 uncommitted changes" not "You have
   uncommitted changes." 11 new tests (38 total).
-- **job-mode profile (P2, feasible)** (shesh-desktop `e6bf896efc5d8256a9a9ef12838dc54d722089ca`): isolated work
+- **job-mode profile (P2, feasible)** (shesh-desktop `31750ff0aabe21f5fece534342e91bd60bd7548e`): isolated work
   profile — work git identity via includeIf `~/work/**`, personal sync
   paused/restored, reversible + idempotent, shellcheck clean.
 - **Nexus bridge: Rust consumes nexus-events.jsonl** (SheshAOS `99c646c2be81672bb737d2bccf8549f497b17f61` +
@@ -614,11 +614,11 @@ cross-repo docs auto-push secret (owner).
 ## Q: "This was my conversation after the session compacted: …" — session-shift handoff; previous session's continuation planned CI-closure verification + handoff docs + new-session prompt (2026-08-13)
 
 **Answer (new session, executed):** The previous session (Orchestrator) had been asked to "shift to a completely new session right now. Prepare everything needed. And find me the prompt to give it." Its post-compaction continuation planned: verify the two unknown CI states, close quick wins, refresh SESSION_HANDOFF/NEXT_SESSION_PROMPT, log QUERYLOG, deliver the prompt. This tab executed that plan:
-- **shesh-desktop lock-refresh — CLOSED GREEN.** Handoff claimed `789e282` (libgirepository fix) pushed, but live main tip was `fbee6660bfa060d1745c22d634bc0f8297cc5e7b` — fix never landed (parallel-session race). Re-applied as `b074b11f1c5a9b62182bce3528aad4fbc205a0b6` (libgirepository-2.0-dev + gobject-introspection + libglib2.0-dev, verified against packages.ubuntu.com noble), dispatched → run 31663311293 **success**, bot committed fresh lock `15be5187869176d4eb2dd12295bd4882f7c26931`. Handoff's run ID 31653522653 did not exist (404).
+- **shesh-desktop lock-refresh — CLOSED GREEN.** Handoff claimed `789e282` (libgirepository fix) pushed, but live main tip was `73516ae5e0d881ce21790f5b2c400ea2af9d7d47` — fix never landed (parallel-session race). Re-applied as `cb044e2b4ae34f64bc4bc27674c5c686a1741acc` (libgirepository-2.0-dev + gobject-introspection + libglib2.0-dev, verified against packages.ubuntu.com noble), dispatched → run 31663311293 **success**, bot committed fresh lock `9e9e3984262952fd5df69710672cee97b9f4ed59`. Handoff's run ID 31653522653 did not exist (404).
 - **portfolio Auto-Update — CLOSED GREEN.** Cause confirmed from log 31653325256: `prettier --check` failed on regenerated `src/data/projects.ts` + `public/projects.json`. Fixed with prettier-normalize step (`42e5b49abaf1d6073325cf8f70071233de2d78bd`), then a second real bug surfaced (run 31663341440): rename SheshaAOS→SeshAOS broke the generator's PRIORITY_ORDER lookup → only 7 curated → test floor ≥8 failed ("expected 7 to be greater than or equal to 8"). Fixed `auto-update-projects.mjs` (rename in PRIORITY_ORDER/ACCURATE_TESTS/TAG_MAP/bullets + DOCS_URLS for the legacy seshaos page slug) → 8 curated, 22/22 tests local; pushed `20c651afd51f3507a980496de8f09a4ed6624271` → run 31663621988 **success** + CI 31663621982 success. Local build's puppeteer failure is the known sandbox-only libnspr4 limitation (ubuntu-latest unaffected).
 - **Fleet re-poll (60 repos, latest run per workflow):** 173 GREEN, 0 PENDING, 16 RED — every red categorized: 13 are dependabot-PR/stale-SHA runs (pre-fix SHAs or PR branches: portfolio path-to-regexp pre-999848b8176a94d363ff3e6354db20d35695ca0e, shesh-docs/she-sh-wave pip pre-fix, SheshAOS PR Checks 40477b7 = closed dependabot PR explained in prior session, Vyakrti/grievance-portal/pipecat/vyakrti-ide/waveterm dependabot PRs); shesh-workspace janitor red = stale run of a workflow **removed** at tip (20ec93e tools/ removal) — no longer exists; genuine main-branch reds are out-of-scope non-shesh projects: AIM (test fails: `app.py` lacks `fetch_settings_map`), ClinicLedger/ClinicLedger-Template (Gradle cache setup fail) — reported, not silently expanded into scope.
 - **Environment quirks recorded:** `.git/config` (origin remote) and `~/.git-credentials` are excluded from Arena snapshots → every fresh session must re-add remote + credential helper + identity; pip tools (cryptography/ruff) and node24 must be reinstalled. Session guard's `cd /home/user` hardcodes are fine with repo at /home/user root.
-- **State:** ecosystem main `b6ef0c569ecab456bab31776e908a17ef1b55817`; desktop `15be5187869176d4eb2dd12295bd4882f7c26931`; portfolio `20c651afd51f3507a980496de8f09a4ed6624271`; docs handoff refreshed in this commit.
+- **State:** ecosystem main `b6ef0c569ecab456bab31776e908a17ef1b55817`; desktop `9e9e3984262952fd5df69710672cee97b9f4ed59`; portfolio `20c651afd51f3507a980496de8f09a4ed6624271`; docs handoff refreshed in this commit.
 
 **Docs:** [docs/SESSION_HANDOFF.md](../../SESSION_HANDOFF.md), [docs/NEXT_SESSION_PROMPT.md](../../NEXT_SESSION_PROMPT.md), this file.
 
@@ -673,7 +673,7 @@ cross-repo docs auto-push secret (owner).
 
 ## Q: "Continue the work" (2026-08-12, evening — post-snapshot recovery)
 
-**Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `3001d0b5c9f1f71e6e73d804c74441598be9b088` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (be2bbe7734809e7e91ce6e28e3446cc49e130b78, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since b11ba2d49573721dacc2e87e982193c324be922a: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → bf8aa45ceb54ab7e7887454c5cbbbe486b41df14. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: de6431494ac72b451113ae5ffdf703851efd3397 → a45b86b3b571c306026317b321044bb91c801e9c → 62720e9a2a0afe33bbcfcd04bd626fc45719e044.
+**Answer:** The sandbox snapshot had dropped every `origin` remote, stripped every exec bit, wiped the Rust toolchain and the fastmcp venv, and rewound shesh-ecosystem's HEAD to `3001d0b5c9f1f71e6e73d804c74441598be9b088` while the worktree kept all pushed work. Recovery: repointed every clone at its GitHub remote, verified ahead/behind per repo (media/system carried the two archived suppression commits `75e5e20`/`46fdc53` in ref-only form — confirmed archived under /home/user/archive/ and dropped again), mixed-reset everything to origin tips, restored exec bits repo-wide from `git ls-files -s` ground truth, restored waveterm's snapshot-excluded `build/` trees from git objects, reinstalled Rust 1.97.1+clippy+rustfmt and rebuilt the /tmp/fm3 venv (pytest 9.1.1, fastmcp 3.4.7, ruff 0.16.2). Then finished SheshAOS's broken mid-edit: `[workspace.package]` repaired, all 10 crates on canonical `license.workspace = true`, internal path deps pinned `version = "0.1.0"` (cargo-deny `wildcards = "deny"`), RUSTSEC-2017-0008 documented (serial via portable-pty, unreachable path), Unicode-DFS-2016 dropped from the allowlist. CI found a real regression my truncated local output had hidden — cargo-machete flagged wps thiserror/tracing and 8 unused sesha deps; fixed for real (be2bbe7734809e7e91ce6e28e3446cc49e130b78, CI+benchmarks green). Ecosystem CI was red on the silent-failure job since b11ba2d49573721dacc2e87e982193c324be922a: shesh-desktop (19 SF4 + 3 SF1) and shesh-voice (105 SF1) still carried pre-sweep debt. Desktop fixed with two REAL bugs exposed (folders.sh counted dedupe savings for failed hard-links; safety.sh printed "Backup created" after failed copies and silently skipped dotfiles) → 64ba11d4c394d5be2f6aa7c127be3f016e11b62c. Voice fixed with 11 bare excepts narrowed, ~90 true reason comments, and one real fix (window.py console commands that crashed outside the shell protocol produced zero output — now surfaced as failed output) → e680381. Then adopted the home-dir orchestrator toolkit into tools/ (sync_repos, verify_worktrees, ecosystem_audit with its `git reset --hard` and ambient `pip install` removed, verify_all_strict, linkcheck), added `make verify-all` + `make linkcheck`, deleted the 15 one-off scripts from $HOME into archive/adopted-or-oneoff-2026-08-12/. linkcheck found 21 broken docs links (desktop-repo pointers, flattened SHESH/* names, ghost SUPERVISOR.md) — all fixed and now CI-gated. Regenerated the dependency graph (dropped the 4 phantom edges the machete sweep removed). Ecosystem: de6431494ac72b451113ae5ffdf703851efd3397 → a45b86b3b571c306026317b321044bb91c801e9c → 62720e9a2a0afe33bbcfcd04bd626fc45719e044.
 
 **Docs:** [tools/](https://github.com/gaganjainse/shesh-ecosystem/blob/main/tools) (sync_repos, verify_worktrees, ecosystem_audit, verify_all_strict, linkcheck), [docs/architecture/DEPENDENCY_GRAPH.md](../../architecture/DEPENDENCY_GRAPH.md), [Makefile](https://github.com/gaganjainse/shesh-ecosystem/blob/main/Makefile)
 

@@ -14,7 +14,7 @@
 > - SheshAOS: excised tui/gui/terminal/zig per ADR-0018; 872 tests; MIT
 >   LICENSE added; cargo-deny/machete/typos gated in CI.
 > - Silent-failure audit (SF1-SF6) now covers every clone on ecosystem CI:
->   **0 errors ecosystem-wide** after the desktop (bf8aa45ceb54ab7e7887454c5cbbbe486b41df14) and voice
+>   **0 errors ecosystem-wide** after the desktop (64ba11d4c394d5be2f6aa7c127be3f016e11b62c) and voice
 >   (e680381) batches; SF5/SF6 remain warn-class by design.
 > - Naming-sweep remnants in this JSON (`shesha`, `seshaos`, `nexusaos` hits)
 >   are historical references in archival docs and CHANGELOGs, not live

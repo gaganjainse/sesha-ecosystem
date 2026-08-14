@@ -70,8 +70,8 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 - Last state-refresh 2026-08-13 — run `python tools/session_guard.py --status` for live numbers
 
 **CI closure status (2026-08-13, new session):**
-- ✅ shesh-desktop lock-refresh GREEN — `b074b11f1c5a9b62182bce3528aad4fbc205a0b6` (libgirepository-2.0-dev on
-  noble) → bot committed fresh lock `15be5187869176d4eb2dd12295bd4882f7c26931`; stale desktop lock cleared.
+- ✅ shesh-desktop lock-refresh GREEN — `cb044e2b4ae34f64bc4bc27674c5c686a1741acc` (libgirepository-2.0-dev on
+  noble) → bot committed fresh lock `9e9e3984262952fd5df69710672cee97b9f4ed59`; stale desktop lock cleared.
 - ✅ portfolio Auto-Update GREEN — `42e5b49abaf1d6073325cf8f70071233de2d78bd` (prettier-normalize after
   regeneration) + `20c651afd51f3507a980496de8f09a4ed6624271` (generator updated for the AI-OS repo rename; 8 curated,
   22/22 tests).
@@ -84,7 +84,7 @@ cat TODO.md | grep -E "⬜|🔴|🟡" | head -n 40
 - ✅ Canary P0 e2e GREEN on arch/fedora/ubuntu (was red 3 days) — wiring
   fixes `75595fb8e5a5b1e591a86255e347b8b347261fcf`+`8e53e0128f933b97f2f70b521d9060974d5d3bca`; component README auto-sync + CI gate
   (`547a3742e049806cc26cad81e0fb4ae88fca5f94`); failure-memory offline loop tests + 2 real learner bug
-  fixes (shesh-memory `d4f91879ca91bf8c7fa258efd70b6f6671fa463d`); Vyakrti Rust CI fix (`2f67f8a0db88c6f0ebb453695b88075e8b74635b`);
+  fixes (shesh-memory `c28e8c4947a5ec2bd52ebbf8473b6a54fd378943`); Vyakrti Rust CI fix (`2f67f8a0db88c6f0ebb453695b88075e8b74635b`);
   dompurify CVE closed via override in waveterm/vyakrti-ide/Vyakrti.
 - Fleet: 183+ GREEN / 0 PENDING; pipecat transformers alerts CLOSED
   (`ea9e3af`+`a65576b` — dropped [smart] extra, lock bumped to 5.15.0).
