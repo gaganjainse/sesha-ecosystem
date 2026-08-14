@@ -40,6 +40,9 @@ permissions: read-all
 jobs:
   python:
     runs-on: ubuntu-latest
+    env:
+      # workflow input routed through env — never inline into run: (zizmor)
+      EXTRA_PIP: ${{ inputs.extra-pip }}
     strategy:
       fail-fast: false
       matrix:
@@ -52,7 +55,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install toolchain
-        run: python -m pip install --upgrade pip ruff pytest fastmcp ${{ inputs.extra-pip }}
+        run: python -m pip install --upgrade pip ruff pytest fastmcp $EXTRA_PIP
       - name: Install internal ecosystem deps (not on PyPI — ecosystem tracks main)
         if: ${{ inputs.existing-repos != '' }}
         env:
@@ -86,6 +89,8 @@ jobs:
   rust:
     if: ${{ inputs.rust-manifest != '' }}
     runs-on: ubuntu-latest
+    env:
+      RUST_MANIFEST: ${{ inputs.rust-manifest }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -94,8 +99,8 @@ jobs:
         with:
           components: rustfmt, clippy
       - name: cargo fmt
-        run: cargo fmt --manifest-path "${{ inputs.rust-manifest }}" --check
+        run: cargo fmt --manifest-path "$RUST_MANIFEST" --check
       - name: cargo clippy
-        run: cargo clippy --manifest-path "${{ inputs.rust-manifest }}" -- -D warnings
+        run: cargo clippy --manifest-path "$RUST_MANIFEST" -- -D warnings
       - name: cargo test
-        run: cargo test --manifest-path "${{ inputs.rust-manifest }}"
+        run: cargo test --manifest-path "$RUST_MANIFEST"

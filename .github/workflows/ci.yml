@@ -5,8 +5,9 @@ on:
     branches: [main, canary, devel]
   pull_request:
 
-# Least privilege by default; jobs that write declare it explicitly.
-permissions: read-all
+# Least privilege: read-only contents; jobs that write declare it explicitly.
+permissions:
+  contents: read
 
 jobs:
   gates:

@@ -18,9 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - archlinux:latest
-          - fedora:40
-          - ubuntu:24.04
+          - archlinux@sha256:b0deabeb3d283da2c7f7dbf0eea051b7b2cd0554e0b737cc457fd21683bdcdd1
+          - fedora@sha256:3c86d25fef9d2001712bc3d9b091fc40cf04be4767e48f1aa3b785bf58d300ed
+          - ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
     container:
       image: ${{ matrix.image }}
       options: --user root
