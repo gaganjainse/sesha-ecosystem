@@ -1,55 +1,44 @@
-# Reusable CodeQL — one canonical definition for the whole Shesh fleet.
-#
-# Each repo carries a thin caller (.github/workflows/codeql.yml) that passes its
-# language list; the job body lives here only, so the scan config can never drift
-# across repos (same pattern as component-ci.yml / D1).
-#
-# Languages per repo (CodeQL has no Rust/PHP/Shell support — those repos scan
-# their Actions workflows via the 'actions' language):
-#   python repos        -> ["python","actions"]
-#   JS/TS repos         -> ["javascript-typescript","actions"]
-#   Rust / docs / profile -> ["actions"]
-#   ClinicLedger (Kotlin) -> standalone workflow (needs autobuild; see that repo)
+# CodeQL — static analysis for this repo. SHA-pinned actions; stricter than
+# the GitHub default (security-extended + quality queries).
 
-name: CodeQL (reusable)
+name: CodeQL
 
 on:
-  workflow_call:
-    inputs:
-      languages:
-        description: 'JSON array of CodeQL languages, e.g. ["python","actions"]'
-        required: true
-        type: string
-      build-mode:
-        description: 'none (interpreted/actions) or autobuild (compiled languages)'
-        required: false
-        default: none
-        type: string
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * 3"
+  workflow_dispatch:
+
+permissions:
+  security-events: write
+  contents: read
 
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      packages: read
-      actions: read
-      contents: read
     strategy:
       fail-fast: false
       matrix:
-        language: ${{ fromJSON(inputs.languages) }}
+        include:
+          - language: python
+            build-mode: none
+          - language: actions
+            build-mode: none
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false  # token not needed after clone; less leakage surface
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd  # v4
         with:
           languages: ${{ matrix.language }}
-          build-mode: ${{ inputs.build-mode }}
-          # Stricter than the GitHub default: security-extended plus quality
-          # queries, so we catch more than just the default critical/high set.
+          build-mode: ${{ matrix.build-mode }}
           queries: security-extended,security-and-quality
 
       - name: Perform CodeQL Analysis
