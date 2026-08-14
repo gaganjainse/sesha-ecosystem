@@ -41,3 +41,6 @@ policy](https://github.com/gaganjainse/shesh-ecosystem/blob/main/SECURITY.md).
 ## License
 
 GPL-3.0-or-later — see [LICENSE](https://github.com/gaganjainse/shesh-omniroute/blob/main/LICENSE).
+## 📚 Docs
+
+Fleet-wide reading compilation: [shesh-docs](https://github.com/gaganjainse/shesh-docs).
