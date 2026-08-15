@@ -28,6 +28,12 @@ that resolve it. It does not own component code.
 
 Do not span repositories in one change. Sequence them and state the order.
 
+## Before anything else
+
+Read [MANUAL.md](https://github.com/gaganjainse/shesh-workspace/blob/main/MANUAL.md).
+It is the step-by-step procedure, and section 9 records the mistakes that have
+already cost time in this fleet. Every one of them was avoidable.
+
 ## Setup commands
 
 ```bash

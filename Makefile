@@ -74,6 +74,12 @@ sync:  ## push shared boilerplate to every repository
 journal-check:  ## fail if a live-update document is stale
 	python3 ../shesh-workspace/tools/journal.py check
 
+fleet-health:  ## fail if any repository has a red default branch (needs a token)
+	python3 tools/fleet_health.py --check
+
+assimilate:  ## report tracked upstreams that advanced (ADR-0018)
+	python3 tools/assimilate.py --report
+
 steer-check:  ## fail if the work queue is inconsistent
 	python3 ../shesh-workspace/tools/steer.py check
 

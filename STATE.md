@@ -14,15 +14,16 @@ Ships to users. Passes the release gate.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-core` | main | `69b0e73` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
-| `shesh-memory` | main | `4103dce` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-orchestrator` | main | `010255e` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
-| `shesh-harness` | main | `795f6d1` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-phone` | main | `88e990a` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-omniroute` | main | `38edb37` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
-| `shesh-skills` | main | `1e3cf98` | clean | feat(skills): add desktop-automation and record the  (2026-08-15) |
-| `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-desktop` | main | `d592c602` | clean | fix(ci): run the help check unprivileged (2026-08-15) |
+| `shesh-core` | main | `f3a3d91` | **3 changed** | feat(desktop-ctl): add display and sandboxed documen (2026-08-15) |
+| `shesh-memory` | main | `179e6e7` | **3 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-orchestrator` | main | `e6af857` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-harness` | main | `e0aad04` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-phone` | main | `6c7a738` | **3 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-omniroute` | main | `0dc7a7c` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-skills` | main | `1980777` | clean | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-voice` | main | `7abb454` | **3 changed** | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-desktop` | main | `d592c602` | **8 changed** | fix(ci): run the help check unprivileged (2026-08-15) |
+| `shesh-aos` | main | `0e7224f` | **8 changed** | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Composition
 
@@ -30,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `d9a51ae` | **4 changed** | fix(ci): return docs_index to the composition reposi (2026-08-15) |
+| `shesh-ecosystem` | main | `7ffa144` | **11 changed** | feat(health): fail when any repository has a red def (2026-08-15) |
 
 ## Factory
 
@@ -38,7 +39,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `07fb27b` | **4 changed** | refactor: return docs_index to the composition repos (2026-08-15) |
+| `shesh-workspace` | main | `55833b6` | **4 changed** | docs(manual): record three more failure modes (2026-08-15) |
 
 ## Documentation
 
@@ -46,7 +47,7 @@ Published, not installed.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-docs` | main | `20ca56e` | clean | docs(adr): adopt computer-use-linux for desktop auto (2026-08-15) |
+| `shesh-docs` | main | `20ca56e` | **4 changed** | docs(adr): adopt computer-use-linux for desktop auto (2026-08-15) |
 | `shesh-docs-archive` | main | `71a74c0` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Work in flight
@@ -54,8 +55,18 @@ Published, not installed.
 Uncommitted changes are present. Establish whether each is an
 unfinished fix or an abandoned experiment before building on it.
 
-- `shesh-ecosystem`: 4 changed (4 untracked) on `main`
+- `shesh-core`: 3 changed (0 untracked) on `main`
+- `shesh-memory`: 3 changed (0 untracked) on `main`
+- `shesh-orchestrator`: 2 changed (0 untracked) on `main`
+- `shesh-harness`: 2 changed (0 untracked) on `main`
+- `shesh-phone`: 3 changed (0 untracked) on `main`
+- `shesh-omniroute`: 2 changed (0 untracked) on `main`
+- `shesh-voice`: 3 changed (0 untracked) on `main`
+- `shesh-desktop`: 8 changed (0 untracked) on `main`
+- `shesh-aos`: 8 changed (0 untracked) on `main`
+- `shesh-ecosystem`: 11 changed (0 untracked) on `main`
 - `shesh-workspace`: 4 changed (0 untracked) on `main`
+- `shesh-docs`: 4 changed (0 untracked) on `main`
 
 ## Next
 

@@ -17,6 +17,7 @@ kernel validates, executes, and records them.
 | Read this | For |
 |---|---|
 | [AGENTS.md](AGENTS.md) | Conventions, gate, judgment boundaries. **Mandatory.** |
+| [shesh-workspace/MANUAL.md](https://github.com/gaganjainse/shesh-workspace/blob/main/MANUAL.md) | Step-by-step procedure, and the failure modes that have already cost time |
 | [shesh-docs](https://github.com/gaganjainse/shesh-docs) | Architecture, procedures, reference |
 | [STATE.md](STATE.md) | What is in flight right now. Generated, never hand-edited. |
 | [TODO.md](TODO.md) | The backlog |
