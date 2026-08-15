@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `1aaff22` | **2 changed** | chore(state): regenerate the fleet inventory (2026-08-15) |
+| `shesh-ecosystem` | main | `97d828b` | clean | fix(depgraph): make the graph a function of the mani (2026-08-15) |
 
 ## Factory
 
@@ -51,10 +51,7 @@ Published, not installed.
 
 ## Work in flight
 
-Uncommitted changes are present. Establish whether each is an
-unfinished fix or an abandoned experiment before building on it.
-
-- `shesh-ecosystem`: 2 changed (0 untracked) on `main`
+Every checked-out tree is clean.
 
 ## Next
 
