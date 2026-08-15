@@ -9,9 +9,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   gates:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python: ["3.11", "3.12", "3.13"]
@@ -138,7 +142,7 @@ jobs:
 
   depgraph:
     name: Dependency graph freshness
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v7.0.1
         with:
@@ -156,7 +160,7 @@ jobs:
 
   workflow-lint:
     name: actionlint across all repos
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v7.0.1
         with:
@@ -190,7 +194,7 @@ jobs:
 
   silent-failures:
     name: Silent-failure audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v7.0.1
         with:
@@ -216,17 +220,29 @@ jobs:
 
   component-docs:
     name: component README mirrors are fresh
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v7.0.1
         with:
           persist-credentials: false
 
       - name: Shallow-clone component checkouts (README projection source)
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
+          # Clone each component at the branch under test when it has one, and
+          # at main otherwise. Cloning main unconditionally deadlocked any
+          # change that touches a component README together with its mirror:
+          # the gate compared the new mirror against the old README and failed
+          # until the change had already merged.
           mkdir -p "$HOME/src"
           python tools/depgraph.py --list-repos | while read -r repo; do
-            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+            url="https://github.com/gaganjainse/$repo"
+            if git ls-remote --exit-code --heads "$url" "$BRANCH" >/dev/null 2>&1; then
+              git clone -q --depth 1 --branch "$BRANCH" "$url" "$HOME/src/$repo"
+            else
+              git clone -q --depth 1 "$url" "$HOME/src/$repo"
+            fi
           done
 
       - name: docs/components matches component READMEs

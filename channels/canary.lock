@@ -15,7 +15,7 @@
       "upstream": {
         "name": "Agent Client Protocol",
         "ref": "main",
-        "repo": "zed-industries/agent-client-protocol"
+        "repo": "agentclientprotocol/agent-client-protocol"
       },
       "version": "0.1.0"
     },
@@ -230,11 +230,7 @@
         "vision"
       ],
       "repo": "gaganjainse/shesh-core",
-      "upstream": {
-        "name": "SheshOS",
-        "ref": "main",
-        "repo": "gaganjainse/SheshOS"
-      },
+      "upstream": "original",
       "version": "0.1.0"
     },
     "shesh-secrets": {
@@ -322,5 +318,5 @@
     }
   },
   "count": 19,
-  "sha256": "1501a7fcb04b68bd1da7d8c1ccc7e714e70df9d15b181e1e3aa90233a47b8f97"
+  "sha256": "2852ad6bbf461b7adee4dbbad913c8ef76aa05c5feecee672d0906310eae92d8"
 }
