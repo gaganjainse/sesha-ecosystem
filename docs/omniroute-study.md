@@ -1,18 +1,18 @@
 # OmniRoute Study — Free Big Models for Shesh (Proper Research 2026-08-11)
 
-> **Source:** Forked `gaganjainse/OmniRoute` from `diegosouzapw/OmniRoute` — 38.9k★, 5.1k forks, 6k commits, MIT, 291 providers, 90+ free, 500+ models, ~1.53B free tokens/month documented, RTK+Caveman compression 15-95% tokens (~89% avg), MCP/A2A, Desktop/PWA, built by 500+ contributors.
+> **Source:** Forked `gaganjainse/OmniRoute` from `diegosouzapw/OmniRoute` — 38.9k★, 5.1k forks, 6k commits, MIT, the surveyed providers, 90+ free, 500+ models, ~1.53B free tokens/month documented, RTK+Caveman compression 15-95% tokens (~89% avg), MCP/A2A, Desktop/PWA, built by 500+ contributors.
 
 ## What OmniRoute actually is
 
-OmniRoute is **not** just OpenRouter. It's a **free MIT AI gateway** — one endpoint `http://localhost:20128/v1` (OpenAI-compatible) that aggregates **291 providers**:
+OmniRoute is **not** just OpenRouter. It's a **free MIT AI gateway** — one endpoint `http://localhost:20128/v1` (OpenAI-compatible) that aggregates **the surveyed providers**:
 
 - 90+ with free tier, 40+ free forever no card
 - 516 models in catalog `open-sse/config/freeModelCatalog.ts`
 - 19 routing strategies, 12-engine token compression (Session-Dedup, CCR, Lite, RTK, Responses Tool Output, Headroom, Relevance, Caveman, Aggressive, LLMLingua-2, Ultra, OmniGlyph) — saves 15-95% tokens, avg 89% on tool-heavy sessions
 - Quota-aware auto-fallback: Tier1 Subscription (Claude Code, Codex, Copilot) → Tier2 API (DeepSeek, Groq, xAI) → Tier3 Cheap (GLM $0.5, MiniMax $0.2) → Tier4 Free (Kiro, Qoder, Pollinations, etc.)
-- Built-in MCP server 105 tools, A2A v0.3 protocol, persistent memory, guardrails, cloud agents, TLS fingerprint stealth, Desktop/Electron/PWA, 43 i18n locales
+- Built-in MCP server the tool set, A2A v0.3 protocol, persistent memory, guardrails, cloud agents, TLS fingerprint stealth, Desktop/Electron/PWA, 43 i18n locales
 
-**Dashboard:** `http://localhost:20128` shows live free-tier budget, used/remaining, per-model grid, 43 provider pools.
+**Dashboard:** `http://localhost:20128` shows live free-tier budget, used/remaining, per-model grid, the free-tier provider pools.
 
 ## Free tiers — honest numbers (2026-06-17 refresh, CI-gated)
 

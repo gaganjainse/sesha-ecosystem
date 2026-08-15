@@ -19,7 +19,7 @@ notes = "Our base look — illogical-impulse — we love its look, don't replace
 # ── Mainstream forks to steal features/issues from — style improvements, not replacement ──
 
 [upstream.ml4w-dotfiles]
-repo = "my-linux-for-work/dotfiles"
+repo = "mylinuxforwork/dotfiles"  # was my-linux-for-work/dotfiles (404)
 ref = "main"
 license = "GPL-3.0"
 provides = ["declarative-bar-pattern", "welcome-app-concept"]
@@ -48,6 +48,7 @@ conflict_risk = "low — theming, no conflict with look, improves"
 [upstream.noctalia]
 repo = "CachyOS/cachyos-hyprland-settings"
 ref = "main"
+archived = true  # upstream archived and carries no LICENCE file; curves only, do not vendor code
 license = "GPL-3.0"
 provides = ["noctalia-shell", "animation-curves", "nvidia-compositing"]
 steal = ["Noctalia animation curves and NVIDIA compositing hints", "CachyOS Hyprland Noctalia installer option from 260628 ISO", "144 Hz smoothness curves"]
@@ -55,7 +56,7 @@ improve = "Compare animation curves and NVIDIA compositing hints, do NOT switch 
 conflict_risk = "low — curves QML, no dep change"
 
 [upstream.caelestia-shell]
-repo = "caelestia-shell/caelestia"
+repo = "caelestia-dots/shell"  # was caelestia-shell/caelestia (404)
 ref = "main"
 license = "GPL-3.0"
 provides = ["easing-blur", "144Hz-smoothness"]
@@ -92,7 +93,7 @@ conflict_risk = "low-medium — Go daemon + QML, separate processes, namespace v
 [upstream.qs-hyprview]
 repo = "dom0/qs-hyprview"
 ref = "main"
-license = "MIT"
+license = "GPL-3.0"  # verified via API; was declared MIT
 provides = ["window-switcher-expose", "9-layout-algorithms"]
 steal = ["9 mathematical layout algorithms to organize windows exactly, Qt/QML Wayland Layershell zero latency smooth animations, standalone drop-in"]
 improve = "Upgrade: add window switcher/exposé for Hyprland workspace overview, integrate into illogical-impulse via keybind Super+Tab, 9 layouts for better response and buttery feel"
@@ -101,6 +102,7 @@ conflict_risk = "low — standalone drop-in, QML/JS no heavy Python"
 [upstream.hyprpanel]
 repo = "Jas-SinghFSU/HyprPanel"
 ref = "main"
+archived = true  # upstream archived; pattern reference only, no future sync
 license = "MIT"
 provides = ["bar-panel", "context-menus"]
 steal = ["Bar/Panel extensive customizability and context menus"]
@@ -110,7 +112,7 @@ conflict_risk = "low — pattern only"
 [upstream.rishot]
 repo = "Gakuseei/Ricelin"
 ref = "main"
-license = "GPL-3.0"
+license = "MIT"  # verified via API; was declared GPL-3.0
 provides = ["pill-bar", "screenshot-tool", "morphic-animations"]
 steal = [
   "Pill bar that morphs into everything — Single pill that morphs into launcher, lock screen, etc — surfaceSize + Behavior on width/height, Singletons/Motion.qml morphCurve [0.16,1,0.3,1,1,1] springy feel",
@@ -125,7 +127,7 @@ conflict_risk = "low — QML, pure Wayland, drop-in"
 [upstream.mcp-filesystem]
 repo = "modelcontextprotocol/servers"
 ref = "main"
-license = "MIT"
+license = "MIT"  # monorepo NOASSERTION; per-package MIT
 provides = ["filesystem-mcp"]
 steal = ["@modelcontextprotocol/server-filesystem sandboxed local file read/write — truly free no key"]
 improve = "Upgrade wrapper: scoped allowed dirs ~/Projects/personal, ~/Documents/Inbox, Guard deny ~/Documents/Job, ~/.ssh, tool prefixing fs_* via shesh-mcp-bundle"
@@ -134,7 +136,7 @@ conflict_risk = "low — stdio, separate process, Guard"
 [upstream.mcp-git]
 repo = "modelcontextprotocol/servers"
 ref = "main"
-license = "MIT"
+license = "MIT"  # monorepo NOASSERTION; per-package MIT
 provides = ["git-mcp"]
 steal = ["server-git status/diff/log without shelling out"]
 improve = "Upgrade: add github_view read-only + github MCP via shesh-secrets PAT scoped"
@@ -143,7 +145,7 @@ conflict_risk = "low"
 [upstream.mcp-fetch]
 repo = "modelcontextprotocol/servers"
 ref = "main"
-license = "MIT"
+license = "MIT"  # monorepo NOASSERTION; per-package MIT
 provides = ["fetch-mcp"]
 steal = ["mcp-server-fetch safe URL→markdown fetch"]
 improve = "Upgrade: user-agent Shesh/1.0 + timeout + content size limit"
@@ -168,7 +170,7 @@ improve = "Package for version-pinned docs into prompt so model stops hallucinat
 conflict_risk = "low"
 
 [upstream.mcp-duckduckgo]
-repo = "mcp-duckduckgo/mcp-duckduckgo"
+repo = "nickclyde/duckduckgo-mcp-server"  # was mcp-duckduckgo/mcp-duckduckgo (404)
 ref = "main"
 license = "MIT"
 provides = ["duckduckgo-mcp"]
@@ -199,7 +201,7 @@ conflict_risk = "low — Docker, separate"
 [upstream.notify-rs]
 repo = "notify-rs/notify"
 ref = "main"
-license = "MIT"
+license = "MIT"  # no LICENSE file in repo; MIT per Cargo.toml, unverifiable from the tree
 provides = ["notify-watcher"]
 steal = ["Cross-platform filesystem notification library Rust 3.3k★, used by Alacritty, cargo watch, mdBook, Zed — RecommendedWatcher selects best backend inotify/FSEvents/ReadDirectoryChangesW automatically"]
 improve = "Replace custom polling loop in smart-organizer --watch (audit found it wastes I/O) with notify-rs RecommendedWatcher <100ms reaction"
@@ -208,7 +210,7 @@ conflict_risk = "low — library, no conflict"
 [upstream.aya-rs]
 repo = "aya-rs/aya"
 ref = "main"
-license = "MIT"
+license = "Apache-2.0"  # verified via API; was declared MIT
 provides = ["aya-ebpf"]
 steal = ["Aya pure Rust eBPF library 4.7k★, focus developer experience, no libbpf dep, fast builds, BTF portable, supports tokio/async-std"]
 improve = "Use aya + aya-template cargo generate for execve/openat/tcp-retransmit tracers in shesh-ebpf, read-only behind Guard"

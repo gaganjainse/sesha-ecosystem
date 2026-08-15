@@ -48,7 +48,7 @@ upstream = { name = "shesh-kernel", repo = "gaganjainse/shesh-kernel", ref = "ma
 notes = "Packaged shesh-kernel for desktop; routes tool calls through policy."
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MIND — deliberative models (SheshOS specialist routing, small models on 6GB)
+# MIND — deliberative models (specialist routing, small models on 6GB)
 # ─────────────────────────────────────────────────────────────────────────────
 [component.shesh-mind]
 layer = "mind"
@@ -57,9 +57,9 @@ version = "0.1.0"
 license = "GPL-3.0-or-later"
 channel = "canary"
 provides = ["intent", "planner", "coder", "vision"]
-upstream = { name = "SheshOS", repo = "gaganjainse/SheshOS", ref = "main" }
+upstream = "original"
 models = ["phi4-mini", "qwen2.5-coder:3b", "moondream2", "nomic-embed-text"]
-notes = "Model routing interface; large SheshOS models map to 6GB-safe equivalents on the laptop."
+notes = "Model routing interface; models are mapped to 6GB-safe equivalents on the laptop."
 
 [component.shesh-memory]
 layer = "mind"
@@ -132,7 +132,7 @@ version = "0.1.0"
 license = "GPL-3.0-or-later"
 channel = "canary"
 provides = ["acp", "editor-integration", "zed", "jetbrains"]
-upstream = { name = "Agent Client Protocol", repo = "zed-industries/agent-client-protocol", ref = "main" }
+upstream = { name = "Agent Client Protocol", repo = "agentclientprotocol/agent-client-protocol", ref = "main" }
 notes = "ACP server so Shesh runs inside Zed/JetBrains with streaming + permissions."
 
 [component.shesh-orchestrator]

@@ -40,7 +40,7 @@
 ### ② Component repos (`shesh-<organ>`)
 - **Federation consolidation (2026-08-13, ADR-0016):** the 16 sub-~460-LOC modules
   that were one repo per organ got folded into **`shesh-core`** — one repo shipping
-  all 16 packages with unchanged console-script names (175 tests, one pyproject,
+  all the folded packages with unchanged console-script names (one pyproject,
   one ruff config, one CI). Federation stays right for *independently versioned
   services*, but a 150-line module is not a service — it's a file.
 - Remaining component repos (real services):

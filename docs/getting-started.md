@@ -7,7 +7,7 @@
 ```bash
 git clone https://github.com/gaganjainse/shesh-ecosystem.git
 cd shesh-ecosystem
-make check        # ruff + 63 tests + license gate + regenerate locks — must be green
+make check        # ruff + tests + licence gate + regenerate locks — must be green
 python -m pytest tests/ -q
 ```
 
@@ -264,7 +264,7 @@ cat ~/.local/share/shesh/traces/*.jsonl | jq .
 ## 3. Canary & promotion flow
 
 ```bash
-# Daily canary (runs in CI): boots all 16 components in containers
+# Daily canary (runs in CI): boots all every component in containers
 bash scripts/e2e-canary.sh
 
 # If green on your MSI, promote:
