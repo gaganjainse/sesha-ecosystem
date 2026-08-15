@@ -468,8 +468,8 @@
     "last_commit": "fbb77e3 feat: add omniroute study + model-agnostic + llm worker for true hours unattended"
   },
   {
-    "name": "shesha-kernel",
-    "path": "/home/user/src/shesha-kernel",
+    "name": "shesh-kernel",
+    "path": "/home/user/src/shesh-kernel",
     "has_readme": true,
     "has_pyproject": false,
     "has_tests": true,

@@ -33,7 +33,7 @@
       "upstream": {
         "name": "SheshAOS",
         "ref": "main",
-        "repo": "gaganjainse/SheshAOS"
+        "repo": "gaganjainse/shesh-aos"
       },
       "version": "0.1.0"
     },
@@ -65,7 +65,7 @@
       "upstream": {
         "name": "shesh-kernel",
         "ref": "main",
-        "repo": "gaganjainse/shesha-kernel"
+        "repo": "gaganjainse/shesh-kernel"
       },
       "version": "0.1.0"
     },
@@ -397,5 +397,5 @@
     }
   },
   "count": 23,
-  "sha256": "816cc947a1e7c5ccb0cd3c79ff246cb4f496da110066f51a24c3864959459bb0"
+  "sha256": "88e68b4dab8a9969924676291254ace73e85858b7d464c54e439a736d0337c35"
 }

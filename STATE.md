@@ -31,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `9ce94a4` | clean | chore(state): regenerate the fleet inventory (2026-08-15) |
+| `shesh-ecosystem` | main | `4be1da3` | **2 changed** | chore(state): regenerate the fleet inventory (2026-08-15) |
 
 ## Factory
 
@@ -39,7 +39,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `ea2750f` | clean | fix(factory): allow an explicit single-maintainer pu (2026-08-15) |
+| `shesh-workspace` | main | `d9a643b` | **2 changed** | fix(policy): check the destination ref, not the loca (2026-08-15) |
 
 ## Documentation
 
@@ -52,7 +52,11 @@ Published, not installed.
 
 ## Work in flight
 
-Every checked-out tree is clean.
+Uncommitted changes are present. Establish whether each is an
+unfinished fix or an abandoned experiment before building on it.
+
+- `shesh-ecosystem`: 2 changed (0 untracked) on `main`
+- `shesh-workspace`: 2 changed (1 untracked) on `main`
 
 ## Next
 

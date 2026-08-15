@@ -1,5 +1,7 @@
 # Shesh — Master TODO & Roadmap
 
+> Last updated 2026-08-15 · 13 open, 130 done · maintained by `shesh-workspace/tools/journal.py`
+
 The single anchored list of everything to do. Status: ✅ done · 🟡 in progress ·
 ⬜ todo · 🔴 blocked · 💡 future. Groups correspond to the Agentic Body layers
 (Brain / Mind / Soma) and to platform work. Check this before starting anything
@@ -41,7 +43,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
 
 ## New session accomplishments (2026-08-11)
 - ✅ Fixed manifest/lock drift: regenerated channels/*.lock from shesh-* manifest (was stale shesh-* from rename commit f60d1b680f1616558bef193c7e832a07d00bad4b), updated Makefile Shesh→Shesh, fixed test_manifest to accept shesh name, fixed ruff lint E741 in autopilot tests, make check green (30 tests)
-- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SheshAOS + shesha-kernel + SheshAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
+- ✅ Cloned all component repos into /home/user/src (22 repos: shesh-* + SheshAOS + SheshAOS + shesh-kernel + SheshAOS + shesh-desktop) — offline tests verified (182 component tests where deps present)
 - ✅ Doc sync: renamed docs/components/shesh-*.md → shesh-*.md and synced content from src/*/README.md (17 components)
 - ✅ ADRs: created docs/adr/ with 15 ADRs for D1–D15 (languages, containers, federated repos, channels, local-first, refine governance, agent roles, kernel archive, voice overlay, ACP+MCP, catchup scheduler, warm proactivity, hierarchical memory, habit learning, Guard policy) + index README
 - ✅ Getting-started: created docs/GETTING_STARTED.md (developer quick start, full CachyOS install, Ollama 6GB stack, Rust/uv/Podman, pipx component install, voice, secrets, backup, phone, containers, everyday use, canary promotion, hardware checks, troubleshooting)
@@ -79,7 +81,7 @@ Last updated: 2026-08-13 (Security + rolling-deps + docs renovation megasession)
   and the Python↔Rust bridge is `kernel_bridge` JSONL. The Rust `shesh-protocols` crate
   would be a third implementation of owned wires. The iced/GUI terminal porting was the
   abandoned Wave rewrite; verdict: adopt stock Wave Terminal as mission control (shesh-wave).
-  shesha-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
+  shesh-kernel stays archived (ADR-0008); SeshaOS archived as superseded (was already
   folded into SheshAOS). No merge, no port — kernel chapter closed.
 - ✅ Wire `shesh-audit` as the policy gate in front of every MCP tool call (Guard helper in shesh-audit; components import it)
 - ✅ SheshAOS event-store bridge (KernelBridge in shesh-audit; Guard emits kernel-format events)

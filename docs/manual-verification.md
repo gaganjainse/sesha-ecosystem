@@ -193,7 +193,7 @@ CachyOS rolls; so do we. Full protocol: `docs/policies/DEPENDENCY_POLICY.md`.
       filter `author:app/dependabot` — weekly grouped bumps for GitHub
       Actions and pip should be merged, not piling up.
 - [ ] **SheshAOS supply-chain job is green** (cargo-deny + cargo-machete +
-      typos): https://github.com/gaganjainse/SheshAOS/actions
+      typos): https://github.com/gaganjainse/shesh-aos/actions
 - [ ] **Python tool floors are current** — spot-check the big three:
       `pip index versions pytest ruff fastmcp` (or pypi.org) against the
       `>=` floors in any component `pyproject.toml`. If PyPI shows newer

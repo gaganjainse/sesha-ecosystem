@@ -37,7 +37,7 @@ depgraph:
 	$(PY) tools/depgraph.py > docs/architecture/DEPENDENCY_GRAPH.md
 	$(PY) tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
 
-check: lint test sync-check
+check: lint test sync-check journal-check
 	$(PY) scripts/check_licenses.py manifests/components.toml
 	$(PY) scripts/resolve_manifest.py --channel stable  --out channels/stable.lock
 	$(PY) scripts/resolve_manifest.py --channel canary  --out channels/canary.lock
@@ -70,6 +70,9 @@ handoff:  ## regenerate STATE.md from the working trees
 
 sync:  ## push shared boilerplate to every repository
 	python3 tools/sync_fleet.py
+
+journal-check:  ## fail if a live-update document is stale
+	python3 ../shesh-workspace/tools/journal.py check
 
 sync-check:  ## fail if any repository drifted from the canonical boilerplate
 	python3 tools/sync_fleet.py --check

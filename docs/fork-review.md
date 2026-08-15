@@ -30,5 +30,5 @@ Legend: behind/ahead = commits vs upstream default branch.
 ## What was done this sweep (account-wide)
 - CI workflows added to all repos lacking one (10 gap repos + 7 archived; fixed 4 real bugs found by the new CIs: Hyprland-Dots emoji-data-as-.sh, grievance-portal dead vite scripts + Laravel bootstrap/cache, VillageClinicLedger invalid setup-java SHA).
 - Dependabot configs added everywhere missing (14 earlier + 7 archived + 7 fork gaps).
-- Benchmarks: SheshAOS + shesha-kernel bench workflows exist and are green; other repos have no bench infra (honest — no stubs created).
+- Benchmarks: SheshAOS + shesh-kernel bench workflows exist and are green; other repos have no bench infra (honest — no stubs created).
 - Fork adoptions above; all rulesets re-enabled after pushes.

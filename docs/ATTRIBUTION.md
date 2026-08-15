@@ -19,7 +19,7 @@
 
 | Upstream | License | What Shesh uses | Our wrapper |
 |---|---|---|---|
-| [gaganjainse/SheshAOS](https://github.com/gaganjainse/SheshAOS) | MIT | Event store, policy engine, scheduler, router, tool broker, RPC | `shesh-audit` / `shesh-brain` |
+| [gaganjainse/shesh-aos](https://github.com/gaganjainse/shesh-aos) | MIT | Event store, policy engine, scheduler, router, tool broker, RPC | `shesh-audit` / `shesh-brain` |
 | [gaganjainse/shesh-kernel](https://github.com/gaganjainse/shesh-kernel) | MIT | Architecture ADRs, microkernel research track | (research, integrated selectively) |
 | [gaganjainse/SheshOS](https://github.com/gaganjainse/SheshOS) | MIT | Specialist model routing (planner/coder/vision) | `shesh-mind` |
 | [gaganjainse/rag-service](https://github.com/gaganjainse/rag-service) | MIT | Hybrid dense+BM25+RRF retrieval over ChromaDB | `shesh-memory` |

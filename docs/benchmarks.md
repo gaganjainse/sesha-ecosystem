@@ -11,7 +11,7 @@ criterion with `-- --test` smoke mode so CI never fails on timing noise).
 | Repo | What is benchmarked | Measured (2026-08-13) | CI |
 |---|---|---|---|
 | **SheshAOS** | (pre-existing) criterion benches in `crates/*/benches/` | green | bench.yml |
-| **shesha-kernel** | (pre-existing) criterion benches (event store, kernel) | green | bench.yml |
+| **shesh-kernel** | (pre-existing) criterion benches (event store, kernel) | green | bench.yml |
 | **Vyakrti** | lexer + lex&parse throughput (per-keystroke IDE hot path), `benches/compiler_pipeline.rs` | added `68ff2c8a9d119df25c983885c4902908d118cea5` | bench.yml |
 | **shesh-memory** | vector search (1000 docs), context assembly (100 eps+20 facts), embedding | search ~73 ms, assembly ~186 µs, embed ~29 µs | bench.yml |
 | **shesh-audit** | guard check allow/deny, hash-chained audit append | ~51 µs / ~47 µs / ~34 µs | bench.yml |

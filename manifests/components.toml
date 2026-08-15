@@ -34,7 +34,7 @@ version = "0.1.0"
 license = "GPL-3.0-or-later"
 channel = "canary"
 provides = ["audit-log", "policy-engine", "event-store"]
-upstream = { name = "SheshAOS", repo = "gaganjainse/SheshAOS", ref = "main" }
+upstream = { name = "SheshAOS", repo = "gaganjainse/shesh-aos", ref = "main" }
 notes = "Bridge to SheshAOS append-only event store and policy engine."
 
 [component.shesh-brain]
@@ -44,7 +44,7 @@ version = "0.1.0"
 license = "GPL-3.0-or-later"
 channel = "devel"
 provides = ["task-router", "scheduler", "tool-broker"]
-upstream = { name = "shesh-kernel", repo = "gaganjainse/shesha-kernel", ref = "main" }
+upstream = { name = "shesh-kernel", repo = "gaganjainse/shesh-kernel", ref = "main" }
 notes = "Packaged shesh-kernel for desktop; routes tool calls through policy."
 
 # ─────────────────────────────────────────────────────────────────────────────
