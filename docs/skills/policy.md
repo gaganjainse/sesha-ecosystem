@@ -2,7 +2,7 @@
 
 Status: living · last verified 2026-08-13
 Implementation: `shesh-audit/src/shesh_audit/policy.py` + `mcp_guard.py`
-· Decision record: [ADR-0015](../history/adr/0015-guard-policy.md)
+· Decision record: [ADR-0015](https://github.com/gaganjainse/shesh-docs/blob/main/src/governance/adr/0015-guard-policy.md)
 
 Every tool call from every agent passes the audit guard before execution.
 The policy is an ordered rule list; first match wins; the default for an
@@ -27,7 +27,7 @@ not explicitly allowed to do.
 - **Description integrity.** Since 2026-08-13 the guard also pins MCP tool
   descriptions (learn-on-first-boot, refuse-on-drift) so a poisoned or
   rug-pulled server cannot change what a tool claims to do — see
-  [THREAT_MODEL](../THREAT_MODEL.md) §MCP and shesh-audit's `tool_pins.py`.
+  [THREAT_MODEL](https://github.com/gaganjainse/shesh-docs/blob/main/src/governance/threat-model.md) §MCP and shesh-audit's `tool_pins.py`.
 - **Receipts.** Allowed and denied calls are hash-chained into
   `~/.local/share/shesh/audit/events.jsonl` (verification:
-  [MANUAL_VERIFICATION](../MANUAL_VERIFICATION.md) §10).
+  [MANUAL_VERIFICATION](https://github.com/gaganjainse/shesh-docs/blob/main/src/reference/verification-checklist.md) §10).

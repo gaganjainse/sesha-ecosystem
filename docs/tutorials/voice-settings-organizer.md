@@ -10,11 +10,11 @@ settings overlay stays out of the way.
 ## Setup order matters
 
 1. **Voice overlay first.** Install shesh-voice per
-   [GETTING_STARTED §1.5](../GETTING_STARTED.md); confirm the mini-window and
+   [GETTING_STARTED §1.5](../getting-started.md); confirm the mini-window and
    hotkeys work (Newelle upstream supports STT/TTS with wakeword).
 2. **Local model stack.** Voice talks to the local Ollama 6 GB stack; if
    Ollama is down the model router falls back free-first (see
-   [model-router](../tools/model-router.md)).
+   [model-router](https://github.com/gaganjainse/shesh-workspace/blob/main/docs/model-router.md)).
 3. **Then the organizer.** Follow
    [organize-downloads](organize-downloads.md) — dry-run, rules, systemd.
 
@@ -23,7 +23,7 @@ settings overlay stays out of the way.
 - "Organize my downloads" → the organizer pipeline runs; every move is
   logged by the apply layer.
 - Every tool call passes the audit guard — organizer moves match the policy
-  in [skills/POLICY](../skills/POLICY.md), and anything novel asks first.
+  in [skills/POLICY](../skills/policy.md), and anything novel asks first.
 
 ## Verify
 

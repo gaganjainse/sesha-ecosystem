@@ -2,7 +2,7 @@
 
 Status: living · last verified 2026-08-13
 Runtime component: [shesh-skills](https://github.com/gaganjainse/shesh-skills)
-· Policy: [POLICY](POLICY.md)
+· Policy: [POLICY](policy.md)
 
 Skills are Markdown documents with YAML frontmatter (`name`, `description`)
 that steer agent behavior for a recurring task class. This directory is the
@@ -14,7 +14,7 @@ canonical text; `shesh-skills` serves them to agents over MCP.
 |---|---|
 | [coding](coding.md) | read-before-edit discipline, tests always, never push unreviewed |
 | [web-research](web-research.md) | source-cited research protocol |
-| [docs-writer](docs-writer.md) | documentation in the house [style](../STYLE_GUIDE.md) |
+| [docs-writer](docs-writer.md) | documentation in the house [style](https://github.com/gaganjainse/shesh-docs/blob/main/STYLEGUIDE.md) |
 | [safety-governance](safety-governance.md) | the immutable safety layer (never refined away) |
 | [daily-briefing](daily-briefing.md) | morning/evening digest format |
 | [autopilot](autopilot.md) | safe unattended progress rules |

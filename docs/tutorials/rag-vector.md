@@ -30,4 +30,4 @@ code. This tutorial covers what exists, not the roadmap.
 The provider seam is designed for it; the migration path is additive (embed
 alongside the plain store, keep files canonical). It will be announced in
 QUERYLOG and this tutorial updated in the same commit (docs change with
-code — [documentation policy](../policies/DOCUMENTATION_POLICY.md) rule 7).
+code — [documentation policy](https://github.com/gaganjainse/shesh-docs/blob/main/src/governance/documentation-policy.md) rule 7).
