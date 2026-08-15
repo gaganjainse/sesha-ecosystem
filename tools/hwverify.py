@@ -33,8 +33,8 @@ import subprocess
 import sys
 import time
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
-from typing import Callable
+from datetime import datetime, UTC
+from collections.abc import Callable
 
 PASS, FAIL, SKIP = "pass", "fail", "skipped"
 
@@ -540,10 +540,10 @@ def main() -> int:
     if nskip:
         print("A skipped probe verified nothing. It is not a pass.")
 
-    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    stamp = datetime.now(UTC).strftime("%Y-%m-%d")
     if args.json_out:
         payload = {
-            "generated": datetime.now(timezone.utc).isoformat(),
+            "generated": datetime.now(UTC).isoformat(),
             "host": platform.node(),
             "kernel": platform.release(),
             "summary": {"pass": npass, "fail": nfail, "skipped": nskip},
