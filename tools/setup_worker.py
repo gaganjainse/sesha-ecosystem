@@ -31,7 +31,6 @@ Ollama phi4-mini etc only needed on real MSI hardware, not in Arena sandbox.
 from __future__ import annotations
 
 import argparse
-import os
 import pathlib
 import subprocess
 import sys
@@ -124,6 +123,8 @@ REPO_URL = {
 
 
 def sh(cmd: str) -> tuple[int, str]:
+    # nosec B602 — hardcoded literal clone/install commands (no user input);
+    # shell=True is required for the pipe/redirect syntax.
     try:
         out = subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.STDOUT, timeout=60)
     except subprocess.CalledProcessError as e:
@@ -167,7 +168,8 @@ def clean_caches() -> None:
         "rm -rf /home/user/src/*/.venv /home/user/.venv 2>/dev/null; true",
     ]
     for c in cmds:
-        os.system(c)
+        # nosec B605 — hardcoded literal cleanup commands (no user input).
+        subprocess.run(c, shell=True, check=False)
     print("Cleaned")
 
 
