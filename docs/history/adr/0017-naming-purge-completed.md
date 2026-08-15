@@ -45,3 +45,21 @@ the legacy name ceases to exist). Cross-repo consumers (e.g. shesh-media's
 - ✅ Future greps, tooling, and agent prompts have zero ambiguity.
 - ❌ Local checkouts/installs from before 2026-08-12 must re-clone or run the
   rename tooling; entry-point names changed (`shesh-audit-mcp`→`shesh-audit-mcp`).
+
+## Erratum (2026-08-15): no-op arrows in the table above
+
+The "Executed rename" table was authored **after** the purge completed, so the
+left-hand side of several `→` arrows shows the already-canonical name and the
+arrows read as no-ops. The actual pre-purge spelling on the left was the banned
+`sesha` form. For clarity:
+
+| Row | Actual change (pre-purge → post-purge) |
+|---|---|
+| shesh-audit | import package `sesha_audit` → `shesh_audit`; data dir `~/.local/state/sesha` → `…/shesh` |
+| shesh-backup | data dir `~/.local/state/sesha` → `~/.local/state/shesh` |
+| shesh-files | env prefix `SESHA_*` → `SHESH_*` |
+| shesh-desktop | QML namespace `options.sesha` → `options.shesh` |
+| entry points | console scripts `sesha-audit-mcp` → `shesh-audit-mcp` (and siblings) |
+
+This record is immutable; the erratum is appended rather than editing the
+original rows.

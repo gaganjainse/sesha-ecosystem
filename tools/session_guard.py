@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import pathlib
 import subprocess
 import sys
@@ -27,6 +26,8 @@ DEFAULTS = {
 
 
 def sh(cmd: str) -> str:
+    # nosec B602 — shell=True is required for the `| cut`/redirections in the
+    # hardcoded literal command below; no user input ever reaches this string.
     try:
         return subprocess.check_output(
             cmd, shell=True, text=True, stderr=subprocess.DEVNULL
@@ -306,7 +307,9 @@ def main() -> int:
             "find /home/user -type d -name .venv -prune -exec rm -rf {{}} + 2>/dev/null || true",
             "rm -rf /home/user/src/*/target /home/user/src/*/dist /home/user/src/*/__pycache__ 2>/dev/null; true",
         ]:
-            os.system(pat)
+            # nosec B605 — hardcoded literal cleanup command (no user input);
+            # shell=True is required for the globs/redirects above.
+            subprocess.run(pat, shell=True, check=False)
         print("Cleaned")
 
     log_tick(latency_ms=args.latency_ms)
