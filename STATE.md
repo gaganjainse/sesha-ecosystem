@@ -22,7 +22,7 @@ Ships to users. Passes the release gate.
 | `shesh-omniroute` | main | `38edb37` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
 | `shesh-skills` | main | `1e3cf98` | clean | feat(skills): add desktop-automation and record the  (2026-08-15) |
 | `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-desktop` | main | `939aa9d8` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-desktop` | main | `72f88c95` | clean | fix: stop masking failures with \|\| true (2026-08-15) |
 
 ## Composition
 
@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `97d828b` | clean | fix(depgraph): make the graph a function of the mani (2026-08-15) |
+| `shesh-ecosystem` | main | `19d423b` | clean | chore(state): regenerate the fleet inventory (2026-08-15) |
 
 ## Factory
 
