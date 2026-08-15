@@ -22,7 +22,7 @@ Ships to users. Passes the release gate.
 | `shesh-omniroute` | main | `38edb37` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
 | `shesh-skills` | main | `1e3cf98` | clean | feat(skills): add desktop-automation and record the  (2026-08-15) |
 | `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-desktop` | main | `72f88c95` | clean | fix: stop masking failures with \|\| true (2026-08-15) |
+| `shesh-desktop` | main | `d592c602` | clean | fix(ci): run the help check unprivileged (2026-08-15) |
 
 ## Composition
 
@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `19d423b` | clean | chore(state): regenerate the fleet inventory (2026-08-15) |
+| `shesh-ecosystem` | main | `45250b7` | **2 changed** | ci: retrigger after the desktop silent-failure fix m (2026-08-15) |
 
 ## Factory
 
@@ -38,7 +38,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `7b9d083` | clean | feat(steer): add a queue and steer file for agents w (2026-08-15) |
+| `shesh-workspace` | main | `7b9d083` | **1 changed** | feat(steer): add a queue and steer file for agents w (2026-08-15) |
 
 ## Documentation
 
@@ -51,7 +51,11 @@ Published, not installed.
 
 ## Work in flight
 
-Every checked-out tree is clean.
+Uncommitted changes are present. Establish whether each is an
+unfinished fix or an abandoned experiment before building on it.
+
+- `shesh-ecosystem`: 2 changed (2 untracked) on `main`
+- `shesh-workspace`: 1 changed (0 untracked) on `main`
 
 ## Next
 
