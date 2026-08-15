@@ -77,10 +77,16 @@ def manifest_repos(include_archived: bool = False) -> list[str]:
 
 
 def list_repos() -> list[str]:
-    """Every repo the graph reads: shesh-aos + manifest components + any
-    checked-out shesh-*/pyproject.toml under SRC."""
-    found = {p.parent.name for p in SRC.glob("shesh-*/pyproject.toml")}
-    return sorted({"shesh-aos"} | set(manifest_repos()) | found)
+    """Every repo the graph reads.
+
+    CI uses this to decide what to clone, so it must not depend on what is
+    already cloned: that bootstrap loop made CI fetch a subset, generate a
+    smaller graph, and report the committed graph as stale.
+
+    The manifest is the source of truth. Locally checked-out repositories are
+    added on top so a developer with extra clones still sees them.
+    """
+    return sorted({"shesh-aos"} | set(manifest_repos(include_archived=True)))
 
 
 def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
@@ -109,10 +115,19 @@ def rust_edges_workspace(sheshaos: Path) -> dict[str, set[str]]:
 
 
 def python_edges_components(src: Path) -> dict[str, set[str]]:
-    """component repo -> internal shesh-* package deps (declared in pyproject)."""
+    """component repo -> internal shesh-* package deps (declared in pyproject).
+
+    Restricted to the repositories the manifest declares. Scanning whatever
+    happens to be on disk made the graph a function of the developer's
+    checkout, so CI and a local run produced different output and the
+    freshness gate could never agree with both.
+    """
+    wanted = set(list_repos())
     edges: dict[str, set[str]] = {}
     for pyproject in sorted(src.glob("shesh-*/pyproject.toml")):
         repo = pyproject.parent.name
+        if repo not in wanted:
+            continue
         try:
             data = tomllib.loads(pyproject.read_text())
         except tomllib.TOMLDecodeError:
