@@ -88,8 +88,26 @@ def fetch_raw(name: str, branch: str, path: str) -> str | None:
         return None
 
 
-def scan_text(text: str, source: str, violations: list[str]) -> None:
+# A forbidden term inside a code span is often the true name of something that
+# still exists — a crate directory, a binary, a package. Renaming the prose
+# without renaming the artefact would make the document wrong, so a backticked
+# occurrence is reported only when nothing of that name is on disk.
+CODE_SPAN = re.compile(r"`[^`\n]*`")
+
+
+def _code_spans(text: str) -> list[tuple[int, int]]:
+    return [(m.start(), m.end()) for m in CODE_SPAN.finditer(text)]
+
+
+def scan_text(text: str, source: str, violations: list[str],
+              known_names: set[str] | None = None) -> None:
+    spans = _code_spans(text)
     for m in list(FORBIDDEN_RE_CI.finditer(text)) + list(FORBIDDEN_RE_CS.finditer(text)):
+        if known_names and any(a <= m.start() and m.end() <= b for a, b in spans):
+            span = next(text[a + 1:b - 1] for a, b in spans
+                        if a <= m.start() and m.end() <= b)
+            if span.strip().strip("-/") in known_names:
+                continue
         ctx = text[max(0, m.start() - 25): m.end() + 25].replace("\n", " ")
         violations.append(f"{source}: forbidden term {m.group(0)!r} → \"…{ctx}…\"")
 
@@ -107,29 +125,52 @@ def scan_repo(name: str, token: str | None, deep: bool) -> list[str]:
     desc = meta.get("description") or ""
     if desc:
         scan_text(desc, f"{name} (description)", violations)
+    tree_paths: list[str] = []
+    tree_meta = api(f"/repos/{USER}/{name}/git/trees/{branch}?recursive=1", token)
+    if isinstance(tree_meta, dict):
+        tree_paths = [i.get("path", "") for i in tree_meta.get("tree", [])]
+    known = {
+        p.split("/")[1] for p in tree_paths
+        if p.count("/") >= 1 and p.split("/")[0] in ("crates", "bin", "src", "packages")
+    }
     for rn in README_NAMES:
         text = fetch_raw(name, branch, rn)
         if text:
-            scan_text(text, f"{name}/{rn}", violations)
+            scan_text(text, f"{name}/{rn}", violations, known)
             break
     if deep:
-        tree = api(f"/repos/{USER}/{name}/git/trees/{branch}?recursive=1", token)
-        for item in tree.get("tree", []):
-            p = item.get("path", "")
+        for p in tree_paths:
             if p.endswith(".md") and not is_skippable(p):
                 t = fetch_raw(name, branch, p)
                 if t:
-                    scan_text(t, f"{name}/{p}", violations)
+                    scan_text(t, f"{name}/{p}", violations, known)
     return violations
+
+
+def on_disk_names(root: Path) -> set[str]:
+    """Directory and binary names present in a checkout.
+
+    A forbidden term is allowed inside a code span when it names one of these,
+    because the document is then stating a fact about the tree. Renaming such a
+    reference without renaming the directory makes the document wrong.
+    """
+    names: set[str] = set()
+    for sub in ("crates", "bin", "src", "packages"):
+        d = root / sub
+        if d.is_dir():
+            names |= {c.name for c in d.iterdir() if c.is_dir()}
+    return names
 
 
 def scan_path(root: Path) -> list[str]:
     violations: list[str] = []
+    known = on_disk_names(root)
     for p in root.rglob("*.md"):
         rel = str(p.relative_to(root))
         if is_skippable(rel):
             continue
-        scan_text(p.read_text(encoding="utf-8", errors="replace"), rel, violations)
+        scan_text(p.read_text(encoding="utf-8", errors="replace"), rel, violations,
+                  known)
     return violations
 
 
