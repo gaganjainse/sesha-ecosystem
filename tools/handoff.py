@@ -22,7 +22,7 @@ import sys
 PRODUCT = [
     "shesh-core", "shesh-memory", "shesh-orchestrator", "shesh-harness",
     "shesh-phone", "shesh-omniroute", "shesh-skills", "shesh-voice",
-    "shesh-desktop", "SheshAOS",
+    "shesh-desktop", "shesh-aos",
 ]
 # Composition: the manifest and the gates that resolve it.
 COMPOSITION = ["shesh-ecosystem"]

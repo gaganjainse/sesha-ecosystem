@@ -22,16 +22,39 @@ FLEET_DEFAULT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 PRODUCT = [
     "shesh-core", "shesh-memory", "shesh-orchestrator", "shesh-harness",
     "shesh-phone", "shesh-omniroute", "shesh-skills", "shesh-voice",
-    "shesh-desktop", "SheshAOS",
+    "shesh-desktop", "shesh-aos",
 ]
-ALL_REPOS = PRODUCT + ["shesh-ecosystem", "shesh-workspace", "shesh-docs",
-                       "shesh-docs-archive"]
+# Superseded under ADR-0019. They ship nothing, but their workflows still run,
+# so they must carry the same action pins as everything else.
+TOMBSTONES = [
+    "shesh-acp", "shesh-audit", "shesh-backup", "shesh-brain", "shesh-calendar",
+    "shesh-containers", "shesh-ebpf", "shesh-files", "shesh-mcp-bundle",
+    "shesh-media", "shesh-messaging", "shesh-mind", "shesh-secrets",
+    "shesh-shell", "shesh-system", "shesh-wave", "shesh-kernel",
+]
 
-# One pin, fleet-wide. INC-1 and SEC-1: shesh-desktop was on an older SHA.
+ALL_REPOS = PRODUCT + ["shesh-ecosystem", "shesh-workspace", "shesh-docs",
+                       "shesh-docs-archive"] + TOMBSTONES
+
+# One pin, fleet-wide, and every pin is a full commit SHA.
+#
+# A tag is mutable: whoever controls the upstream repository can repoint it at
+# different code, so `@v4` is a supply-chain hole. The zizmor unpinned-uses
+# audit enforces this and will fail the build on a tag. An earlier revision of
+# this file rewrote 86 SHA pins down to `@v4` and broke every workflow that
+# runs the audit; do not reintroduce a tag here.
+#
+# To move a pin: resolve the tag to its SHA and record which release it is.
+#   gh api repos/<owner>/<repo>/git/ref/tags/<tag> --jq .object.sha
 ACTION_PINS = {
-    "actions/checkout": "actions/checkout@v4",
+    # v4, resolved 2026-08-15
+    "actions/checkout": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+    # v7.0.0
     "actions/setup-python": "actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97",
 }
+
+# A pin must be a 40-character hex SHA, never a tag or branch.
+PIN_RE = __import__("re").compile(r"@[0-9a-f]{40}$")
 
 SECURITY_MD = """# Security Policy
 
@@ -171,7 +194,12 @@ def sync_file(path: str, content: str, check: bool, drift: list) -> bool:
 
 
 def pin_actions(fleet: str, check: bool, drift: list) -> int:
-    """INC-1 / SEC-1: one action pin fleet-wide."""
+    """One action pin fleet-wide, and every pin is a SHA."""
+    bad = [a for a, pin in ACTION_PINS.items() if not PIN_RE.search(pin)]
+    if bad:
+        msg = (f"refusing to sync: {', '.join(bad)} pinned to a tag, not a "
+               f"40-character SHA; a tag is mutable and fails unpinned-uses")
+        raise SystemExit(msg)
     n = 0
     for repo in ALL_REPOS:
         wf = os.path.join(fleet, repo, ".github", "workflows")
