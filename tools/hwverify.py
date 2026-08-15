@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#!/usr/bin/env python3
 """Hardware verification: run the checklist on the real machine, record evidence.
 
 Every page in shesh-docs carries `verified: <date>`, but until now that only
@@ -35,6 +34,26 @@ import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, UTC
 from collections.abc import Callable
+
+TOOL_VERSION = "1"
+
+
+def _machine_id() -> str:
+    """Model name from DMI, so evidence names the machine it came from.
+
+    An evidence file that does not say which box produced it cannot be trusted
+    a month later, when the question is whether the reference laptop was tested
+    or somebody's container was.
+    """
+    for path in ("/sys/devices/virtual/dmi/id/product_name",
+                 "/sys/class/dmi/id/product_name"):
+        try:
+            with open(path) as fh:
+                return fh.read().strip()
+        except OSError:
+            continue
+    return "unknown"
+
 
 PASS, FAIL, SKIP = "pass", "fail", "skipped"
 
@@ -546,6 +565,9 @@ def main() -> int:
             "generated": datetime.now(UTC).isoformat(),
             "host": platform.node(),
             "kernel": platform.release(),
+            "machine": _machine_id(),
+            "python": platform.python_version(),
+            "tool_version": TOOL_VERSION,
             "summary": {"pass": npass, "fail": nfail, "skipped": nskip},
             "results": [asdict(r) for r in results],
         }
