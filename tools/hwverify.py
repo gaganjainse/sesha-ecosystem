@@ -98,6 +98,20 @@ def run(cmd: list[str], timeout: int = 20) -> tuple[int, str, str]:
         return 124, "", f"{cmd[0]} timed out after {timeout}s"
 
 
+def _fleet_root() -> str | None:
+    """SHESH_SRC as a real directory, or None.
+
+    `SHESH_SRC=~/src cmd` does not expand the tilde: the shell only expands it
+    at the start of a word, not inside a variable assignment prefix. The value
+    arrives literally as "~/src" and every probe using it reported "not set".
+    """
+    raw = os.environ.get("SHESH_SRC")
+    if not raw:
+        return None
+    path = os.path.expanduser(os.path.expandvars(raw))
+    return path if os.path.isdir(path) else None
+
+
 def have(binary: str) -> bool:
     return shutil.which(binary) is not None
 
@@ -158,8 +172,12 @@ def _power_profiles():
     rc, out, _ = run(["powerprofilesctl", "list"])
     if rc != 0:
         return FAIL, f"powerprofilesctl exited {rc}", out
-    profiles = re.findall(r"^\s*\*?\s*(\S+):", out, re.M)
+    # powerprofilesctl prints driver rows (CpuDriver, PlatformDriver, Degraded)
+    # indented under each profile. Matching any "word:" swept those in and the
+    # probe would have passed on a machine offering no real profile at all.
     wanted = {"performance", "balanced", "power-saver"}
+    profiles = [p for p in re.findall(r"^\s*\*?\s*([a-z-]+):", out, re.M)
+                if p in wanted]
     missing = wanted - set(profiles)
     if missing:
         return FAIL, f"missing profiles: {sorted(missing)}", out
@@ -354,8 +372,8 @@ def _mcp_scripts():
         import tomllib  # noqa: PLC0415
     except ImportError:
         return SKIP, "tomllib unavailable (Python < 3.11)", ""
-    src = os.environ.get("SHESH_SRC")
-    if not src or not os.path.isdir(src):
+    src = _fleet_root()
+    if not src:
         return SKIP, "SHESH_SRC is not set to a fleet checkout", ""
     declared: list[str] = []
     for repo in sorted(os.listdir(src)):
@@ -463,8 +481,8 @@ def _plaintext_tokens():
 
 @probe("sec-003", "security", "Git hooks are installed and executable")
 def _hooks():
-    src = os.environ.get("SHESH_SRC")
-    if not src or not os.path.isdir(src):
+    src = _fleet_root()
+    if not src:
         return SKIP, "SHESH_SRC is not set to a fleet checkout", ""
     missing, notexec = [], []
     repos = [d for d in sorted(os.listdir(src))
