@@ -1,23 +1,40 @@
 # Contributing
 
-This is Gagan Jain's personal ecosystem, orchestrated by AI agents under
-written policy. Contributions (human or agent) follow the same rails:
+Fleet-wide conventions, the build gate, and judgment boundaries are defined once
+in [AGENTS.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/AGENTS.md).
+Read that first.
 
-1. **Read TODO.md first** — the anchored list. New work aligns with it or
-   amends it (pointer in the same commit).
-2. **Gates are the review:** ruff, pytest `-W error`, shellcheck/shfmt,
-   actionlint + zizmor on workflows, gitleaks, silent_failures, linkcheck,
-   rename_sweep2 — all must be green before a push; nobody knowingly pushes red.
-3. **No silent failures, ever:** no suppression, no `|| true`, no bare
-   except-pass without an adjacent reason comment. Fix the issue, not the
-   symptom (enforced: tools/silent_failures.py).
-4. **Docs change with code** in the same commit (DOCUMENTATION_POLICY.md);
-   the tell-triple (STATED/VERIFIED/EVIDENCE) for behavior claims.
-5. **Security-sensitive changes** (Guard policy, secrets, workflow triggers,
-   new MCP tools): read docs/THREAT_MODEL.md first; new tools get pin-learned
-   on first boot and refusal-to-drift after.
-6. **Immutable classes:** QUERYLOG/ADRs/audit snapshots are records — links
-   and name pointers may be repaired, content never rewritten; archive-not-
-   delete for everything else.
+## Before you start
 
-Questions land in docs/queries/QUERYLOG.md (append-only).
+```bash
+make check          # or: pytest -q && ruff check .
+```
+
+A red gate on arrival is not yours to build on. Fix it or report it.
+
+## Making a change
+
+1. Branch as `feat/<slug>` or `fix/<slug>`. Never work on `main`.
+2. Read the files you intend to change.
+3. Keep the change small; one logical change per commit.
+4. Add a test with a fix.
+5. Run the gate before committing.
+6. Use a Conventional Commit message: `feat:`, `fix:`, `docs:`, `refactor:`,
+   `chore(ci):`.
+
+## What blocks a merge
+
+- A failing gate.
+- A credential in the diff.
+- A new dependency without justification and a licence check.
+- A documented claim that the code does not support.
+- A test weakened to make a change pass.
+
+## Where things live
+
+Product code ships to users and passes the release gate. Build tooling lives in
+`shesh-workspace` and does not. Documentation lives in `shesh-docs`; this
+repository's README stays canonical for how to build and run it.
+
+See [HANDOFF.md](https://github.com/gaganjainse/shesh-ecosystem/blob/main/HANDOFF.md)
+for the full work loop.
