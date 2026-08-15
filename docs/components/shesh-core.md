@@ -45,7 +45,6 @@ graph TB
     end
     subgraph mind[" Mind"]
         M["shesh_mind<br/>routing"]
-        SK["shesh_skills"]
     end
     subgraph soma[" Soma"]
         SH["shesh_shell"]:::s
@@ -79,7 +78,6 @@ graph TB
 | `shesh_brain` | Brain | `shesh-brain-mcp` |
 | `shesh_acp` | Brain | `shesh-acp` (Agent Client Protocol) |
 | `shesh_mind` | Mind | `shesh-mind-mcp` |
-| `shesh_skills` | Mind | `shesh-skills-mcp` |
 | `shesh_shell` | Soma | `shesh-shell-mcp` |
 | `shesh_system` | Soma | `shesh-system-mcp` |
 | `shesh_files` | Soma | — (library + classifier CLI) |

@@ -143,10 +143,10 @@ shesh-desktop/
 
 ## Documentation
 
-- [Setup Guide](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/SETUP.md)
+- [Setup Guide](https://github.com/gaganjainse/shesh-desktop/blob/main/setup)
 - [Smart Organizer](https://github.com/gaganjainse/shesh-desktop/blob/main/tools/smart-organizer/README.md)
 - [MUX Switcher](https://github.com/gaganjainse/shesh-desktop/blob/main/tools/mux-switcher/README.md)
-- [Directory Organization](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/DIRECTORY-ORGANIZATION.md)
+- [Directory organisation](https://github.com/gaganjainse/shesh-desktop/blob/main/docs/SHESH/03_DISK_STRUCTURE.md)
 
 ## License
 
