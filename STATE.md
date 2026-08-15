@@ -14,16 +14,16 @@ Ships to users. Passes the release gate.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-core` | main | `cf7017d` | **14 changed** | ci: persist-credentials false in gitleaks checkout ( (2026-08-14) |
-| `shesh-memory` | main | `3781de0` | **13 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
-| `shesh-orchestrator` | main | `6eac78e` | **14 changed** | ci: persist-credentials false in gitleaks checkout ( (2026-08-14) |
-| `shesh-harness` | main | `a9bf985` | **12 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
-| `shesh-phone` | main | `165ee69` | **14 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
-| `shesh-omniroute` | main | `a0c2e70` | **11 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
-| `shesh-skills` | main | `cd2c4e2` | **50 changed** | docs: superseded by shesh-core (federation consolida (2026-08-13) |
-| `shesh-voice` | main | `8a6fd42` | **9 changed** | dependabot: point pip at /modules (the repo's only r (2026-08-12) |
-| `shesh-desktop` | main | `2064b0a` | **17 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
-| `SheshAOS` | main | `3d981c5` | **15 changed** | ci: gitleaks-action v3 requires GITHUB_TOKEN for PR  (2026-08-15) |
+| `shesh-core` | main | `aa4c1cb` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-memory` | main | `0513dde` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-orchestrator` | main | `5582df4` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-harness` | main | `681f0f2` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-phone` | main | `399b054` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-omniroute` | main | `7751e9c` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-skills` | main | `0a88710` | clean | feat(skills): restructure to the Agent Skills specif (2026-08-15) |
+| `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-desktop` | main | `6305c8d` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `SheshAOS` | main | `4a5c902` | clean | chore: record local state after the reorganisation (2026-08-15) |
 
 ## Composition
 
@@ -31,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `9be0006` | **208 changed** | docs: append QUERYLOG attestation (P0/P1/P2 resoluti (2026-08-14) |
+| `shesh-ecosystem` | main | `7f3a901` | clean | chore: record local state after the reorganisation (2026-08-15) |
 
 ## Factory
 
@@ -39,7 +39,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `8207794` | **53 changed** | docs: mark superseded by shesh-ecosystem; prep for a (2026-08-13) |
+| `shesh-workspace` | main | `2d352b3` | clean | chore: record local state after the reorganisation (2026-08-15) |
 
 ## Documentation
 
@@ -47,26 +47,11 @@ Published, not installed.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-docs` | main | `b7cd40a` | **148 changed** | docs: mirror ADR-0017 erratum (F-15) from canonical (2026-08-15) |
+| `shesh-docs` | main | `d6bdeb5` | clean | feat(docs): add the style guide and its checker (2026-08-15) |
 
 ## Work in flight
 
-Uncommitted changes are present. Establish whether each is an
-unfinished fix or an abandoned experiment before building on it.
-
-- `shesh-core`: 14 changed (7 untracked) on `main`
-- `shesh-memory`: 13 changed (5 untracked) on `main`
-- `shesh-orchestrator`: 14 changed (6 untracked) on `main`
-- `shesh-harness`: 12 changed (5 untracked) on `main`
-- `shesh-phone`: 14 changed (6 untracked) on `main`
-- `shesh-omniroute`: 11 changed (5 untracked) on `main`
-- `shesh-skills`: 50 changed (40 untracked) on `main`
-- `shesh-voice`: 9 changed (5 untracked) on `main`
-- `shesh-desktop`: 17 changed (5 untracked) on `main`
-- `SheshAOS`: 15 changed (5 untracked) on `main`
-- `shesh-ecosystem`: 208 changed (40 untracked) on `main`
-- `shesh-workspace`: 53 changed (45 untracked) on `main`
-- `shesh-docs`: 148 changed (14 untracked) on `main`
+Every checked-out tree is clean.
 
 ## Next
 
