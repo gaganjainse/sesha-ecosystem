@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `77f1901` | **1 changed** | fix(ci): repair the artifact gates broken by the ren (2026-08-15) |
+| `shesh-ecosystem` | main | `1582c3a` | clean | chore(state): refresh derived documents (2026-08-15) |
 
 ## Factory
 
@@ -51,10 +51,7 @@ Published, not installed.
 
 ## Work in flight
 
-Uncommitted changes are present. Establish whether each is an
-unfinished fix or an abandoned experiment before building on it.
-
-- `shesh-ecosystem`: 1 changed (0 untracked) on `main`
+Every checked-out tree is clean.
 
 ## Next
 
