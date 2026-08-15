@@ -14,16 +14,15 @@ Ships to users. Passes the release gate.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-core` | main | `2393036` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-core` | main | `69b0e73` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 | `shesh-memory` | main | `4103dce` | clean | chore: record local state after the reorganisation (2026-08-15) |
 | `shesh-orchestrator` | main | `010255e` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
 | `shesh-harness` | main | `795f6d1` | clean | chore: record local state after the reorganisation (2026-08-15) |
 | `shesh-phone` | main | `88e990a` | clean | chore: record local state after the reorganisation (2026-08-15) |
 | `shesh-omniroute` | main | `38edb37` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
-| `shesh-skills` | main | `0a88710` | clean | feat(skills): restructure to the Agent Skills specif (2026-08-15) |
+| `shesh-skills` | main | `1e3cf98` | clean | feat(skills): add desktop-automation and record the  (2026-08-15) |
 | `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
 | `shesh-desktop` | main | `939aa9d8` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `SheshAOS` | main | `0856037` | clean | chore: record local state after the reorganisation (2026-08-15) |
 
 ## Composition
 
@@ -31,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `4be1da3` | **2 changed** | chore(state): regenerate the fleet inventory (2026-08-15) |
+| `shesh-ecosystem` | main | `6a4086b` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Factory
 
@@ -39,7 +38,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `d9a643b` | **2 changed** | fix(policy): check the destination ref, not the loca (2026-08-15) |
+| `shesh-workspace` | main | `546dce5` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Documentation
 
@@ -47,16 +46,12 @@ Published, not installed.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-docs` | main | `d6bdeb5` | clean | feat(docs): add the style guide and its checker (2026-08-15) |
-| `shesh-docs-archive` | main | `4a56529` | clean | docs: preserve superseded fleet documentation (2026-08-15) |
+| `shesh-docs` | main | `20ca56e` | clean | docs(adr): adopt computer-use-linux for desktop auto (2026-08-15) |
+| `shesh-docs-archive` | main | `71a74c0` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Work in flight
 
-Uncommitted changes are present. Establish whether each is an
-unfinished fix or an abandoned experiment before building on it.
-
-- `shesh-ecosystem`: 2 changed (0 untracked) on `main`
-- `shesh-workspace`: 2 changed (1 untracked) on `main`
+Every checked-out tree is clean.
 
 ## Next
 
