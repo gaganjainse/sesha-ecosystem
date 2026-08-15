@@ -145,9 +145,21 @@ def main() -> int:
         if os.path.exists(out):
             with open(out, encoding="utf-8") as fh:
                 old = fh.read()
-        # The date line changes daily; compare the substance only.
-        strip = lambda t: "\n".join(  # noqa: E731
-            ln for ln in t.splitlines() if not ln.startswith("Fleet state as of"))
+        # Compare only the stable substance. The date line changes daily, and
+        # the working-tree columns are self-referential: writing this file
+        # dirties the tree, which changes the file.
+        def strip(t: str) -> str:
+            keep = []
+            for ln in t.splitlines():
+                if ln.startswith("Fleet state as of"):
+                    continue
+                if ln.startswith("| `") or ln.startswith("- `"):
+                    continue          # per-repo rows carry volatile state
+                if ln.startswith("Uncommitted changes are present") or \
+                   ln.startswith("Every checked-out tree is clean"):
+                    continue
+                keep.append(ln)
+            return "\n".join(keep)
         if strip(old) != strip(new):
             print("STATE.md is out of date. Run: python3 tools/handoff.py")
             return 1

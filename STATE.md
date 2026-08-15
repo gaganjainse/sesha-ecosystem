@@ -31,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `7f3a901` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-ecosystem` | main | `f1dc6ae` | **1 changed** | chore(state): regenerate the fleet inventory (2026-08-15) |
 
 ## Factory
 
@@ -51,7 +51,10 @@ Published, not installed.
 
 ## Work in flight
 
-Every checked-out tree is clean.
+Uncommitted changes are present. Establish whether each is an
+unfinished fix or an abandoned experiment before building on it.
+
+- `shesh-ecosystem`: 1 changed (0 untracked) on `main`
 
 ## Next
 
