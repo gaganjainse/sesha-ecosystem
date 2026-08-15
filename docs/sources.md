@@ -49,7 +49,7 @@ system prompt. **This is exactly how Shesh should learn safely.** Implement in `
 ## B. Brain / governance (your own lineage)
 
 ### ⭐ SheshAOS (you) — MIT  → `shesh-brain`
-The kernel: event store, policy engine, scheduler, router, tool broker, RPC. Already 981 tests.
+The kernel: event store, policy engine, scheduler, router, tool broker, RPC. Already the full test suite.
 - **Steal (from yourself):** `shesh-kernel`, `shesh-rpc`, `shesh-ai` provider abstraction,
   `shesh-terminal`, resource budgets, append-only audit, manifest lifecycle.
 - **Adapt:** target CachyOS/Hyprland instead of Ubuntu/GNOME; make policy gate MCP tool calls; expose

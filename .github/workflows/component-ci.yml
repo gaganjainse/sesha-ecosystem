@@ -37,9 +37,13 @@ on:
 # Least privilege by default; jobs that write declare it explicitly.
 permissions: read-all
 
+concurrency:
+  group: component-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   python:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       # workflow input routed through env — never inline into run: (zizmor)
       EXTRA_PIP: ${{ inputs.extra-pip }}
@@ -95,7 +99,7 @@ jobs:
           /tmp/gitleaks git --redact --no-banner .
   rust:
     if: ${{ inputs.rust-manifest != '' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       RUST_MANIFEST: ${{ inputs.rust-manifest }}
     steps:

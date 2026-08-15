@@ -26,9 +26,9 @@ driver. That gives us **latest upstream** without waiting for releases, **safety
 lockfile, one audit log, one policy engine), and **ownership** (the integrated whole
 is *Shesh*, not a pile of someone else's brands).
 
-Conceptual foundation: [`docs/architecture/AGENTIC_BODY.md`](docs/architecture/AGENTIC_BODY.md) ·
-Federation model: [`docs/architecture/REPO_TOPOLOGY.md`](docs/architecture/REPO_TOPOLOGY.md) ·
-Language policy: [`docs/architecture/LANGUAGE_POLICY.md`](docs/architecture/LANGUAGE_POLICY.md)
+Conceptual foundation: [`docs/architecture/AGENTIC_BODY.md`](docs/architecture/agentic-body.md) ·
+Federation model: [`docs/architecture/REPO_TOPOLOGY.md`](docs/architecture/repo-topology.md) ·
+Language policy: [`docs/architecture/LANGUAGE_POLICY.md`](docs/architecture/language-policy.md)
 
 ---
 
@@ -42,7 +42,7 @@ bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/
 # 2. Developer gate (offline — no hardware needed):
 
 git clone https://github.com/gaganjainse/shesh-ecosystem.git && cd shesh-ecosystem
-make check            # ruff + 63 tests + license gate + regenerate locks
+make check            # ruff + tests + licence gate + regenerate locks
 
 # 3. Resolve a specific channel
 
@@ -159,7 +159,7 @@ All tests are offline and hardware-independent; they validate manifests, the res
 the license gate, channel filtering, determinism, and upstream parsing.
 
 ```bash
-python -m pytest tests/ -q     # 63 tests
+python -m pytest tests/ -q
 ```
 Component repos carry their own tests; hardware tests (GPU/display/audio) run only in
 the canary gate on real or VM hardware.
@@ -171,18 +171,18 @@ the canary gate on real or VM hardware.
 Ecosystem-wide CI is green: one reusable component pipeline (D1) covers all 23
 components with `-W error`; silent-failure audit 0 errors; every third-party Action
 is SHA-pinned with Dependabot moving the pins weekly. See [SECURITY.md](SECURITY.md)
-for the posture and [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for the threat model.
+for the posture and [docs/THREAT_MODEL.md](docs/threat-model.md) for the threat model.
 
 ## Documentation index
 
 The full map: **[docs/INDEX.md](docs/INDEX.md)** (generated, CI-checked).
 
-- **Start here:** [TODO.md](TODO.md) · [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) · [docs/GLOSSARY.md](docs/GLOSSARY.md)
-- **Security:** [SECURITY.md](SECURITY.md) · [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) · [docs/RECOVERY.md](docs/RECOVERY.md)
-- **Architecture:** [Agentic Body](docs/architecture/AGENTIC_BODY.md) · [Repo topology](docs/architecture/REPO_TOPOLOGY.md) · [Languages](docs/architecture/LANGUAGE_POLICY.md) · [Dependency graph](docs/architecture/DEPENDENCY_GRAPH.md)
+- **Start here:** [TODO.md](TODO.md) · [docs/GETTING_STARTED.md](docs/getting-started.md) · [docs/GLOSSARY.md](docs/glossary.md)
+- **Security:** [SECURITY.md](SECURITY.md) · [docs/THREAT_MODEL.md](docs/threat-model.md) · [docs/RECOVERY.md](docs/recovery.md)
+- **Architecture:** [Agentic Body](docs/architecture/agentic-body.md) · [Repo topology](docs/architecture/repo-topology.md) · [Languages](docs/architecture/language-policy.md) · [Dependency graph](docs/architecture/dependency-graph.md)
 - **Components:** [docs/components/](docs/components) — one page per component, generated cross-links
-- **Style:** [README & docs style guide](docs/README_STYLE_GUIDE.md)
+- **Style:** [README & docs style guide](docs/readme-style-guide.md)
 - **Desktop:** [shesh-desktop/docs/SHESH/](https://github.com/gaganjainse/shesh-desktop/tree/main/docs/SHESH)
-- **Ops:** [ATTRIBUTION.md](ATTRIBUTION.md) (upstream credits) · [CONTAINER.md](CONTAINER.md) (dev/canary container)
+- **Ops:** [ATTRIBUTION.md](docs/ATTRIBUTION.md) (upstream credits) · [CONTAINER.md](docs/CONTAINER.md) (dev/canary container)
 - **History:** [ docs/history/](docs/history) — decisions (ADRs), audits, incidents, query log, attic
 - **Compiled reading:** [https://github.com/gaganjainse/shesh-docs](https://github.com/gaganjainse/shesh-docs) — the mdBook compilation of every repo's docs

@@ -1,3 +1,12 @@
+[project]
+name = "shesh-ecosystem"
+version = "0.1.0"
+description = "Shesh ecosystem: component manifest, channel lockfiles, and the fleet build gate"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "GPL-3.0-or-later" }
+authors = [{ name = "Gagan Jain" }]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"

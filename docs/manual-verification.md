@@ -49,7 +49,7 @@ After `pipx install`-ing all `shesh-*` packages, run the canary:
 bash scripts/e2e-canary.sh   # from shesh-ecosystem
 ```
 
-- [ ] **E2E canary passes** (all 16 components import, policy denies protected
+- [ ] **E2E canary passes** (all every component import, policy denies protected
       paths, memory/orchestrator/ACP/backup/calendar/vectors/traces all respond)
 - [ ] **Generate the MCP config**: `python scripts/generate_mcp_config.py --channel canary`
 - [ ] `~/.config/shesh/mcp/servers.json` lists **9 MCP servers**
@@ -122,7 +122,7 @@ bash scripts/e2e-canary.sh   # from shesh-ecosystem
 ## 7. Phone (shesh-phone, Realme Narzo)
 
 - [ ] ADB debugging enabled on the phone; `adb devices` lists it
-- [ ] `shesh-phone-mcp` connects (safe-area taps land on screen)
+- [ ] `python -c "from shesh_phone.phone import Phone"` imports; safe-area taps land on screen (shesh-phone is a library, not an MCP server: it declares no console script)
 - [ ] Taps **outside the status/nav bars are refused** (try a coordinate at y=10)
 - [ ] Screenshots pull successfully
 - [ ] Vision model can describe a screenshot if you wire it
