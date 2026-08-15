@@ -14,16 +14,16 @@ Ships to users. Passes the release gate.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-core` | main | `aa4c1cb` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-memory` | main | `0513dde` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-orchestrator` | main | `5582df4` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-harness` | main | `681f0f2` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-phone` | main | `399b054` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-omniroute` | main | `7751e9c` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-core` | main | `2393036` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-memory` | main | `4103dce` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-orchestrator` | main | `010255e` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
+| `shesh-harness` | main | `795f6d1` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-phone` | main | `88e990a` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-omniroute` | main | `38edb37` | clean | fix: repair regressions from the concurrent-work mer (2026-08-15) |
 | `shesh-skills` | main | `0a88710` | clean | feat(skills): restructure to the Agent Skills specif (2026-08-15) |
 | `shesh-voice` | main | `7abb454` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-desktop` | main | `6305c8d` | clean | chore: record local state after the reorganisation (2026-08-15) |
-| `SheshAOS` | main | `4a5c902` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-desktop` | main | `939aa9d8` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `SheshAOS` | main | `0856037` | clean | chore: record local state after the reorganisation (2026-08-15) |
 
 ## Composition
 
@@ -31,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `ab5a643` | clean | fix(handoff): ignore self-referential rows when chec (2026-08-15) |
+| `shesh-ecosystem` | main | `9ce94a4` | clean | chore(state): regenerate the fleet inventory (2026-08-15) |
 
 ## Factory
 
@@ -39,7 +39,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `2d352b3` | clean | chore: record local state after the reorganisation (2026-08-15) |
+| `shesh-workspace` | main | `ea2750f` | clean | fix(factory): allow an explicit single-maintainer pu (2026-08-15) |
 
 ## Documentation
 
@@ -48,6 +48,7 @@ Published, not installed.
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
 | `shesh-docs` | main | `d6bdeb5` | clean | feat(docs): add the style guide and its checker (2026-08-15) |
+| `shesh-docs-archive` | main | `4a56529` | clean | docs: preserve superseded fleet documentation (2026-08-15) |
 
 ## Work in flight
 
