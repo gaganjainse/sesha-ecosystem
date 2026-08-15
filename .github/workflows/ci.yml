@@ -227,10 +227,22 @@ jobs:
           persist-credentials: false
 
       - name: Shallow-clone component checkouts (README projection source)
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
+          # Clone each component at the branch under test when it has one, and
+          # at main otherwise. Cloning main unconditionally deadlocked any
+          # change that touches a component README together with its mirror:
+          # the gate compared the new mirror against the old README and failed
+          # until the change had already merged.
           mkdir -p "$HOME/src"
           python tools/depgraph.py --list-repos | while read -r repo; do
-            git clone -q --depth 1 "https://github.com/gaganjainse/$repo" "$HOME/src/$repo"
+            url="https://github.com/gaganjainse/$repo"
+            if git ls-remote --exit-code --heads "$url" "$BRANCH" >/dev/null 2>&1; then
+              git clone -q --depth 1 --branch "$BRANCH" "$url" "$HOME/src/$repo"
+            else
+              git clone -q --depth 1 "$url" "$HOME/src/$repo"
+            fi
           done
 
       - name: docs/components matches component READMEs
