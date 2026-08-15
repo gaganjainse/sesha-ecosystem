@@ -1,10 +1,10 @@
-# 🧠 shesh-memory
+# shesh-memory
 
 > **Hierarchical memory + habit learning for Shesh.** Keeps memory in layers and
 > assembles a token-bounded context for every turn, so the agent remembers across
 > turns without blowing its context window.
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-33-success) ![CI](https://github.com/gaganjainse/shesh-memory/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-39-success) ![CI](https://github.com/gaganjainse/shesh-memory/actions/workflows/ci.yml/badge.svg)
 
 - **License:** GPL-3.0-or-later
 - **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))
@@ -15,7 +15,7 @@
 
 ## Why this repo exists
 
-A model can't remember across turns, and its context window is finite. This
+A model cannot remember across turns, and its context window is finite. This
 component solves both at once: memories are stored in layers by retention, and a
 token-bounded prompt is assembled from the relevant ones each turn.
 
@@ -25,7 +25,7 @@ token-bounded prompt is assembled from the relevant ones each turn.
 
 ```bash
 uv sync --extra dev
-uv run pytest -q        # 33 tests
+uv run pytest -q        # 39 tests
 uv run ruff check .
 ```
 
@@ -42,7 +42,6 @@ uv run ruff check .
 Habit learning normalizes observations into signatures counted with reliability;
 a pattern becomes a **candidate habit** only past a confidence threshold, and
 habits decay/archive when stale — promotions are reviewable, never silent.
-
 
 > **Reproducible install:** `uv.lock` pins the full dependency tree. Install with
 > `uv sync --frozen` (or `uv pip install -r <(uv export --frozen)`) for a locked build.
