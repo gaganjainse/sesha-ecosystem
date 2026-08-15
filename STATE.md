@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `4134b8e` | **4 changed** | chore(state): regenerate the fleet inventory (2026-08-15) |
+| `shesh-ecosystem` | main | `dc26df5` | clean | fix(docs): repair links broken by the kebab-case ren (2026-08-15) |
 
 ## Factory
 
@@ -51,10 +51,7 @@ Published, not installed.
 
 ## Work in flight
 
-Uncommitted changes are present. Establish whether each is an
-unfinished fix or an abandoned experiment before building on it.
-
-- `shesh-ecosystem`: 4 changed (0 untracked) on `main`
+Every checked-out tree is clean.
 
 ## Next
 
