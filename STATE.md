@@ -14,16 +14,16 @@ Ships to users. Passes the release gate.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-core` | main | `f3a3d91` | **3 changed** | feat(desktop-ctl): add display and sandboxed documen (2026-08-15) |
-| `shesh-memory` | main | `179e6e7` | **3 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
-| `shesh-orchestrator` | main | `e6af857` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
-| `shesh-harness` | main | `e0aad04` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
-| `shesh-phone` | main | `6c7a738` | **3 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
-| `shesh-omniroute` | main | `0dc7a7c` | **2 changed** | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
+| `shesh-core` | feat/manual-assimilate-display-docs | `19be547` | clean | Merge remote-tracking branch 'origin/main' into feat (2026-08-15) |
+| `shesh-memory` | main | `35ee07b` | clean | fix(ci): restore SHA pins for actions/checkout (2026-08-15) |
+| `shesh-orchestrator` | main | `83d4bec` | clean | fix(tests): satisfy the fleet lint ruleset (2026-08-15) |
+| `shesh-harness` | main | `cad1a94` | clean | fix(ci): restore SHA pins for actions/checkout (2026-08-15) |
+| `shesh-phone` | main | `1a5481a` | clean | fix(tests): satisfy the fleet lint ruleset (2026-08-15) |
+| `shesh-omniroute` | main | `a624954` | clean | fix(ci): restore SHA pins for actions/checkout (2026-08-15) |
 | `shesh-skills` | main | `1980777` | clean | fix(build): drop asyncio_mode where there is no asyn (2026-08-15) |
-| `shesh-voice` | main | `7abb454` | **3 changed** | chore: record local state after the reorganisation (2026-08-15) |
-| `shesh-desktop` | main | `d592c602` | **8 changed** | fix(ci): run the help check unprivileged (2026-08-15) |
-| `shesh-aos` | main | `0e7224f` | **8 changed** | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
+| `shesh-voice` | main | `15eef96` | clean | fix(ci): restore SHA pins for actions/checkout (2026-08-15) |
+| `shesh-desktop` | main | `b3d7aa81` | clean | fix(ci): restore SHA pins for actions/checkout (2026-08-15) |
+| `shesh-aos` | fix/restore-sha-pins | `c465216` | **1 changed** | fix(ci): stop reporting a conflict that does not exi (2026-08-15) |
 
 ## Composition
 
@@ -31,7 +31,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `7ffa144` | **11 changed** | feat(health): fail when any repository has a red def (2026-08-15) |
+| `shesh-ecosystem` | feat/manual-assimilate-display-docs | `b4c2af2` | clean | ci: install the guard from shesh-core (2026-08-15) |
 
 ## Factory
 
@@ -39,7 +39,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `55833b6` | **4 changed** | docs(manual): record three more failure modes (2026-08-15) |
+| `shesh-workspace` | main | `7a8d126` | **2 changed** | fix(policy): accept git-generated merge subjects (2026-08-15) |
 
 ## Documentation
 
@@ -47,7 +47,7 @@ Published, not installed.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-docs` | main | `20ca56e` | **4 changed** | docs(adr): adopt computer-use-linux for desktop auto (2026-08-15) |
+| `shesh-docs` | main | `d7786a6` | clean | chore: merge main and restore SHA pins (2026-08-15) |
 | `shesh-docs-archive` | main | `71a74c0` | clean | refactor: rename SheshAOS to shesh-aos and shesha-ke (2026-08-15) |
 
 ## Work in flight
@@ -55,18 +55,8 @@ Published, not installed.
 Uncommitted changes are present. Establish whether each is an
 unfinished fix or an abandoned experiment before building on it.
 
-- `shesh-core`: 3 changed (0 untracked) on `main`
-- `shesh-memory`: 3 changed (0 untracked) on `main`
-- `shesh-orchestrator`: 2 changed (0 untracked) on `main`
-- `shesh-harness`: 2 changed (0 untracked) on `main`
-- `shesh-phone`: 3 changed (0 untracked) on `main`
-- `shesh-omniroute`: 2 changed (0 untracked) on `main`
-- `shesh-voice`: 3 changed (0 untracked) on `main`
-- `shesh-desktop`: 8 changed (0 untracked) on `main`
-- `shesh-aos`: 8 changed (0 untracked) on `main`
-- `shesh-ecosystem`: 11 changed (0 untracked) on `main`
-- `shesh-workspace`: 4 changed (0 untracked) on `main`
-- `shesh-docs`: 4 changed (0 untracked) on `main`
+- `shesh-aos`: 1 changed (0 untracked) on `fix/restore-sha-pins`
+- `shesh-workspace`: 2 changed (0 untracked) on `main`
 
 ## Next
 
