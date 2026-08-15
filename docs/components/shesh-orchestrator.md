@@ -1,10 +1,10 @@
-# 🎼 shesh-orchestrator
+# shesh-orchestrator
 
 > **Multi-agent RLM runtime for Shesh.** A coordinator decomposes goals into steps
 > and routes them to role-based child agents (planner, coder, researcher, vision,
 > critic) over an A2A-lite bus, with turn/token/time budgets.
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-28-success) ![CI](https://github.com/gaganjainse/shesh-orchestrator/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python) ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue) ![Tests](https://img.shields.io/badge/Tests-36-success) ![CI](https://github.com/gaganjainse/shesh-orchestrator/actions/workflows/ci.yml/badge.svg)
 
 - **License:** GPL-3.0-or-later
 - **Owner:** Gagan Jain ([@gaganjainse](https://github.com/gaganjainse))
@@ -24,7 +24,7 @@ specialist roles while the Brain (policy) still gates every tool call.
 
 ```bash
 uv sync --extra dev
-uv run pytest -q        # 28 tests
+uv run pytest -q        # 36 tests
 uv run ruff check .
 ```
 
@@ -42,7 +42,6 @@ uv run ruff check .
 
 - `execute(goal, max_turns, max_tokens)` — plan → delegate → review
 - `list_roles()` · `post_message(role, content)`
-
 
 > **Reproducible install:** `uv.lock` pins the full dependency tree. Install with
 > `uv sync --frozen` (or `uv pip install -r <(uv export --frozen)`) for a locked build.

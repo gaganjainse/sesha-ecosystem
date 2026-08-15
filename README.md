@@ -1,4 +1,4 @@
-# 🐍 Shesh Ecosystem
+# Shesh ecosystem
 
 > **The federated, local-first AI body for CachyOS/Hyprland.** An agent is a body — a
 > **Mind** (models/planning/memory), a **Brain** (SheshAOS governance kernel), and a
@@ -8,8 +8,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)
 ![License](https://img.shields.io/badge/License-GPL--3.0--or--later-blue)
-![Tests](https://img.shields.io/badge/Tests-63-success)
-![Components](https://img.shields.io/badge/Components-23-informational)
 ![CI](https://github.com/gaganjainse/shesh-ecosystem/actions/workflows/ci.yml/badge.svg)
 
 - **License:** GPL-3.0-or-later (the body as a whole; components keep upstream-compatible licenses)
@@ -21,7 +19,7 @@
 
 ## Why this repo exists
 
-We fork every upstream we depend on and keep those forks rolling; we integrate the
+The project fork every upstream the project depend on and keep those forks rolling; the project integrate the
 best parts as **Shesh components** and only let tested combinations reach the daily
 driver. That gives us **latest upstream** without waiting for releases, **safety**
 (breakage is caught in canary, not on your machine), **coherence** (one manifest, one
@@ -38,19 +36,22 @@ Language policy: [`docs/architecture/LANGUAGE_POLICY.md`](docs/architecture/LANG
 
 ```bash
 # 1. One command installs the WHOLE stack (desktop + AI body) on CachyOS:
+
 bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)
 
 # 2. Developer gate (offline — no hardware needed):
+
 git clone https://github.com/gaganjainse/shesh-ecosystem.git && cd shesh-ecosystem
 make check            # ruff + 63 tests + license gate + regenerate locks
 
 # 3. Resolve a specific channel
+
 python scripts/resolve_manifest.py --channel canary
 
 # 4. See which upstreams moved (network)
+
 make upstream
 ```
-
 `make check` must pass before anything is promoted.
 
 ---
@@ -62,17 +63,17 @@ make upstream
 title: Shesh agentic body — brain / mind / soma
 ---
 graph TB
-    subgraph brain["🧠 Brain — governance"]
+    subgraph brain[" Brain — governance"]
         A["shesh-audit<br/>policy + event log"]
         S["shesh-secrets"]
         B["shesh-brain<br/>kernel bridge"]
     end
-    subgraph mind["🧠 Mind — models & memory"]
+    subgraph mind[" Mind — models & memory"]
         M["shesh-mind<br/>routing"]
         ME["shesh-memory<br/>hierarchy + habits"]
         O["shesh-orchestrator<br/>multi-agent RLM"]
     end
-    subgraph soma["💪 Soma — sensors & actuators"]
+    subgraph soma[" Soma — sensors & actuators"]
         SH["shesh-shell"]
         SY["shesh-system"]
         FI["shesh-files"]
@@ -98,7 +99,6 @@ graph TB
     SY --> D
     FI --> D
 ```
-
 > **Where the code lives (post-consolidation, ADR-0019):** the 16 small organs ship
 > from one repo — **`shesh-core`** (audit, secrets, brain, mind, shell, system, files,
 > media, messaging, calendar, backup, containers, ebpf, skills, mcp-bundle, acp).
@@ -128,7 +128,6 @@ graph LR
     I --> K["④ canary<br/>soak / VM"]
     K --> ST["⑤ stable<br/>your laptop"]
 ```
-
 Every arrow is a gate in `scripts/` (CI runs them). Nothing reaches ⑤ without a
 green gate and a btrfs snapshot before apply. The policy engine governs every tool
 action the agent takes — see `policies/SKILLS_POLICY.md`.
@@ -162,7 +161,6 @@ the license gate, channel filtering, determinism, and upstream parsing.
 ```bash
 python -m pytest tests/ -q     # 63 tests
 ```
-
 Component repos carry their own tests; hardware tests (GPU/display/audio) run only in
 the canary gate on real or VM hardware.
 
@@ -186,5 +184,5 @@ The full map: **[docs/INDEX.md](docs/INDEX.md)** (generated, CI-checked).
 - **Style:** [README & docs style guide](docs/README_STYLE_GUIDE.md)
 - **Desktop:** [shesh-desktop/docs/SHESH/](https://github.com/gaganjainse/shesh-desktop/tree/main/docs/SHESH)
 - **Ops:** [ATTRIBUTION.md](ATTRIBUTION.md) (upstream credits) · [CONTAINER.md](CONTAINER.md) (dev/canary container)
-- **History:** [📜 docs/history/](docs/history) — decisions (ADRs), audits, incidents, query log, attic
+- **History:** [ docs/history/](docs/history) — decisions (ADRs), audits, incidents, query log, attic
 - **Compiled reading:** [https://github.com/gaganjainse/shesh-docs](https://github.com/gaganjainse/shesh-docs) — the mdBook compilation of every repo's docs

@@ -34,7 +34,7 @@ the legacy name ceases to exist). Cross-repo consumers (e.g. shesh-media's
 1. **Forks tracking upstream keep upstream internals**: `shesh-voice` (Newelle)
    keeps `newelle` module layout; `shesh-desktop` keeps upstream dotfile dirs.
    Renaming fork internals would destroy upstream diffability.
-2. **Historical references** to `shesha-kernel` (the archived repo's real name)
+2. **Historical references** to `shesh-kernel` (the archived repo's real name)
    remain as-is in ADRs/handoff docs.
 3. **Rust crate prefix `sheshaaos-*`** (inside SheshAOS) — normalize when Rust
    work resumes; unverifiable in a cargo-less lane today.

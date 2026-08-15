@@ -17,7 +17,7 @@
 set -u
 SRC="${SHESH_SRC:-$HOME/src}"
 VENV="${SHESH_VENV_PY:-/tmp/fm3/bin/python}"
-SKIP="${SHESH_SKIP:-shesh-voice shesh-desktop waveterm shesha-kernel SeshaOS shesh-docs}"
+SKIP="${SHESH_SKIP:-shesh-voice shesh-desktop waveterm shesh-kernel SeshaOS shesh-docs}"
 export PYTHONDONTWRITEBYTECODE=1
 
 for d in "$SRC"/shesh-*/ "$SRC"/SheshAOS/; do

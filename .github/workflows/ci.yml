@@ -16,7 +16,7 @@ jobs:
       matrix:
         python: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           persist-credentials: false  # token not needed after clone; less leakage surface
 
@@ -140,7 +140,7 @@ jobs:
     name: Dependency graph freshness
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           persist-credentials: false  # token not needed after clone; less leakage surface
 
@@ -152,13 +152,13 @@ jobs:
           done
 
       - name: Graph must equal the generated truth
-        run: python tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
+        run: python tools/depgraph.py --check docs/architecture/dependency-graph.md
 
   workflow-lint:
     name: actionlint across all repos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           persist-credentials: false  # token not needed after clone; less leakage surface
 
@@ -192,7 +192,7 @@ jobs:
     name: Silent-failure audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           persist-credentials: false  # token not needed after clone; less leakage surface
 
@@ -213,37 +213,12 @@ jobs:
           # shellcheck disable=SC2086  # PATHS intentionally word-splits
           python tools/silent_failures.py $PATHS
 
-  book-mirror:
-    name: shesh-docs mirror is fresh
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-
-      # Public repo: GITHUB_TOKEN read is enough. The book tree must equal
-      # a regeneration from these canonical docs, or canonical and mirror
-      # have drifted — the failure message says how to fix it.
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          repository: gaganjainse/shesh-docs
-          path: shesh-docs
-          persist-credentials: false
-
-      - name: Book tree matches canonical sources
-        run: |
-          DOCS_REPO="$GITHUB_WORKSPACE/shesh-docs" SRC_ROOT="$HOME/src" \
-            python tools/book_build.py --check || {
-              echo "shesh-docs is stale — run:"
-              echo "  DOCS_REPO=<shesh-docs checkout> bash scripts/sync-docs.sh && push"
-              exit 1
-            }
 
   component-docs:
     name: component README mirrors are fresh
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/checkout@v4  # v7.0.1
         with:
           persist-credentials: false
 

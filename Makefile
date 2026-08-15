@@ -13,7 +13,7 @@ help:
 	@echo "  make test      pytest (offline, no hardware)"
 	@echo "  make resolve   build shesh.lock from the manifest"
 	@echo "  make check     license + manifest + tests (CI gate)"
-	@echo "  make depgraph  regenerate + check docs/architecture/DEPENDENCY_GRAPH.md"
+	@echo "  make depgraph  regenerate + check docs/architecture/dependency-graph.md"
 	@echo "  make silent-failures  audit cwd for silent-failure patterns (SF1-SF6)"
 	@echo "  make upstream  query upstream repos for new releases (network)"
 	@echo "  make linkcheck broken relative links under docs/"
@@ -34,10 +34,10 @@ resolve:
 	$(PY) scripts/resolve_manifest.py --channel canary
 
 depgraph:
-	$(PY) tools/depgraph.py > docs/architecture/DEPENDENCY_GRAPH.md
-	$(PY) tools/depgraph.py --check docs/architecture/DEPENDENCY_GRAPH.md
+	$(PY) tools/depgraph.py > docs/architecture/dependency-graph.md
+	$(PY) tools/depgraph.py --check docs/architecture/dependency-graph.md
 
-check: lint test
+check: lint test sync-check journal-check steer-check
 	$(PY) scripts/check_licenses.py manifests/components.toml
 	$(PY) scripts/resolve_manifest.py --channel stable  --out channels/stable.lock
 	$(PY) scripts/resolve_manifest.py --channel canary  --out channels/canary.lock
@@ -57,8 +57,6 @@ linkcheck:
 #      snapshot-restore damage that git status cannot see)
 #   3. every component runs pytest -W error + ruff (no suppression policy)
 #   4. the SF1-SF6 audit runs on this repo itself
-verify-all:
-	GIT_ASKPASS=$(CURDIR)/tools/git_askpass.py $(PY) tools/sync_repos.py
 	$(PY) tools/verify_worktrees.py
 	SHESH_VENV_PY=$${SHESH_VENV_PY:-/tmp/fm3/bin/python} bash tools/verify_all_strict.sh
 	$(PY) tools/silent_failures.py .
@@ -66,3 +64,19 @@ verify-all:
 clean:
 	rm -rf .pytest_cache __pycache__ scripts/__pycache__ tests/__pycache__
 	rm -f shesh.lock channels/*.lock channels/upstream-status.json
+
+handoff:  ## regenerate STATE.md from the working trees
+	python3 tools/handoff.py
+
+sync:  ## push shared boilerplate to every repository
+	python3 tools/sync_fleet.py
+
+journal-check:  ## fail if a live-update document is stale
+	python3 ../shesh-workspace/tools/journal.py check
+
+steer-check:  ## fail if the work queue is inconsistent
+	python3 ../shesh-workspace/tools/steer.py check
+
+sync-check:  ## fail if any repository drifted from the canonical boilerplate
+	python3 tools/sync_fleet.py --check
+	python3 tools/handoff.py --check
