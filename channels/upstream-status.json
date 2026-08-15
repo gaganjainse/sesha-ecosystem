@@ -1,93 +1,378 @@
 {
-  "components": {
-    "shesh-desktop": {
+  "upstreams": [
+    {
+      "name": "agent-search",
+      "repo": "brcrusoe72/agent-search",
+      "head": "2026-08-03",
+      "release": null,
+      "stars": 71,
       "archived": false,
-      "error": null,
-      "latest_release": "2026.05.11",
-      "latest_release_published": "2026-05-11T17:28:30Z",
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 620,
-      "upstream_repo": "end-4/dots-hyprland",
-      "upstream_stars": 15486
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Self-hosted search API + MCP server for AI agents, bundles SearXNG, zero API keys, one-command docker compose up, 17 endpoints, layered content extraction + browser renderer, deduplication cross-engine, prompt injection scrubbing, adaptive failure analysis, optional Tor-anonymized stack \u2014 open-source alternative to Tavily/Exa/Serper"
+      ],
+      "notes": "Package as shesh-search component MIT zero keys one-command MCP server for Claude Desktop/Cursor, Tor option, better than Tavily free forever private no API key, upgrade wrapper: Guard policy allow search deny exfil protected paths, cache ~/.cache/shesh/search/, result ranking via RRF"
     },
-    "shesh-audit": {
+    {
+      "name": "aya-rs",
+      "repo": "aya-rs/aya",
+      "head": "2026-08-15",
+      "release": "aya-ebpf-v0.2.1",
+      "stars": 4763,
       "archived": false,
-      "error": "HTTP Error 404: Not Found",
-      "latest_release": null,
-      "latest_release_published": null,
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 9,
-      "upstream_repo": "gaganjainse/shesh-aos",
-      "upstream_stars": 1
+      "licence": "Apache-2.0",
+      "licence_state": "ok",
+      "licence_note": "Apache-2.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Aya pure Rust eBPF library 4.7k\u2605, focus developer experience, no libbpf dep, fast builds, BTF portable, supports tokio/async-std"
+      ],
+      "notes": "Use aya + aya-template cargo generate for execve/openat/tcp-retransmit tracers in shesh-ebpf, read-only behind Guard"
     },
-    "shesh-brain": {
+    {
+      "name": "caelestia-shell",
+      "repo": "caelestia-shell/caelestia",
+      "head": "",
+      "release": null,
+      "stars": null,
       "archived": false,
-      "error": "HTTP Error 404: Not Found",
-      "latest_release": null,
-      "latest_release_published": null,
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/shesh-kernel",
-      "upstream_stars": 0
+      "licence": null,
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Easing/blur parameters QML for 144 Hz smoothness \u2014 copy easing/blur from Caelestia-shell, no dep change"
+      ],
+      "notes": "Upgrade: apply Caelestia easing [0.16,1,0.3,1,1,1] springy feel to illogical-impulse pill bar morph, more smooth and buttery"
     },
-    "shesh-files": {
+    {
+      "name": "dank-material-shell",
+      "repo": "AvengeMedia/DankMaterialShell",
+      "head": "2026-08-15",
+      "release": "v1.5.3",
+      "stars": 7598,
       "archived": false,
-      "error": null,
-      "latest_release": "v1.0",
-      "latest_release_published": "2026-08-07T06:39:43Z",
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/shesh-desktop",
-      "upstream_stars": 0
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "dankcalendar local/Google/Microsoft/CalDAV calendars",
+        "dgop system monitoring TUI and Go library (powers process list/dashboard widgets)",
+        "dank-qml-common shared QML widgets",
+        "dankgo common Go modules"
+      ],
+      "notes": "Upgrade wrapper: add calendar integration to shesh-calendar (local-first iCal vdir already), dgop library for shesh-system system monitoring TUI, shared QML widgets for our shesh-ambient offer overlay \u2014 backend, not replacing look"
     },
-    "shesh-memory": {
+    {
+      "name": "ekremx25-quickshell",
+      "repo": "ekremx25/quickshell",
+      "head": "2026-08-13",
+      "release": null,
+      "stars": 15,
       "archived": false,
-      "error": "HTTP Error 404: Not Found",
-      "latest_release": null,
-      "latest_release_published": null,
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/rag-service",
-      "upstream_stars": 0
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "bar_config.json declarative pattern for drag-and-drop module arrangement",
+        "dock drag-and-drop pinning and reordering, live running indicators, auto-hide intelligent window-overlap",
+        "monitor management resolution/refresh/scale per output HDR/VRR/10-bit via single hyprctl --batch (no flicker)",
+        "Night Light blue-light filter 1000-6500K slider + fixed-time schedule midnight-wrap via hyprsunset/gammastep",
+        "10-band parametric EQ PipeWire filter-chain",
+        "Network & Bluetooth connection managers, VPN manager (NetworkManager+WireGuard)",
+        "Wallpaper picker with matugen palette extraction"
+      ],
+      "notes": "Upgrade wrapper for backend: monitor management single hyprctl --batch for 1920x1200@144 (no flicker) \u2192 improves response, network/bluetooth managers \u2192 better bluetooth wifi integration (user asked), wallpaper picker with matugen already in illogical-impulse but add live switching animations GIF via swww, EQ for audio routing, night light for eye care \u2014 all backend, not replacing illogical-impulse bar"
     },
-    "shesh-mind": {
+    {
+      "name": "end-4-dots-hyprland",
+      "repo": "end-4/dots-hyprland",
+      "head": "2026-08-15",
+      "release": "2026.05.11",
+      "stars": 15602,
       "archived": false,
-      "error": "HTTP Error 404: Not Found",
-      "latest_release": null,
-      "latest_release_published": null,
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 0,
-      "upstream_repo": "gaganjainse/SheshOS",
-      "upstream_stars": 0
+      "licence": "GPL-3.0",
+      "licence_state": "ok",
+      "licence_note": "GPL-3.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": null,
+      "notes": "Our base look \u2014 illogical-impulse \u2014 we love its look, don't replace, only improve backend that integrates into look"
     },
-    "shesh-phone": {
+    {
+      "name": "hyde",
+      "repo": "prasanthrangan/hyprdots",
+      "head": "2025-03-23",
+      "release": "v0.1.0",
+      "stars": 8515,
       "archived": false,
-      "error": "HTTP Error 404: Not Found",
-      "latest_release": null,
-      "latest_release_published": null,
-      "pinned_ref": "main",
-      "upstream_default_branch": "main",
-      "upstream_open_issues": 9,
-      "upstream_repo": "ShawnPana/phone-harness",
-      "upstream_stars": 720
+      "licence": "GPL-3.0",
+      "licence_state": "ok",
+      "licence_note": "GPL-3.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Wallbash one wallpaper \u2192 all apps theming",
+        "themepatcher for apps matugen doesn't cover",
+        "hyde-cli modularity"
+      ],
+      "notes": "Upgrade: matugen already used in illogical-impulse, add Wallbash for apps matugen doesn't cover (e.g., GTK4 libadwaita), hyde-cli modularity for our installer channel support"
     },
-    "shesh-voice": {
+    {
+      "name": "hyprpanel",
+      "repo": "Jas-SinghFSU/HyprPanel",
+      "head": "2026-04-23",
+      "release": null,
+      "stars": 2201,
+      "archived": true,
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Bar/Panel extensive customizability and context menus"
+      ],
+      "notes": "Steal context menus pattern for our Quickshell ii widgets \u2014 right-click on bar modules for settings, not replacing bar"
+    },
+    {
+      "name": "jakoolit-hyprland-dots",
+      "repo": "JaKooLit/Hyprland-Dots",
+      "head": "2026-02-22",
+      "release": "Hyprland-Dots-v2.3.20",
+      "stars": 3536,
       "archived": false,
-      "error": null,
-      "latest_release": "1.4.5",
-      "latest_release_published": "2026-06-19T15:45:15Z",
-      "pinned_ref": "1.4.5",
-      "upstream_default_branch": "master",
-      "upstream_open_issues": 24,
-      "upstream_repo": "qwersyk/Newelle",
-      "upstream_stars": 1441
+      "licence": "GPL-3.0",
+      "licence_state": "ok",
+      "licence_note": "GPL-3.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "distro guards per-distro checks",
+        "per-monitor refresh scripts eDP-1 1920x1200@144",
+        "reliable Bluetooth menu",
+        "SDDM sugar-candy greeter"
+      ],
+      "notes": "Upgrade wrapper: make distro guards check CachyOS specifically, per-monitor refresh for 1920x1200@144 RTX 4050 6GB, Bluetooth menu integrate into Quickshell ii widgets via existing BluetoothMPRIS widget"
+    },
+    {
+      "name": "mcp-context7",
+      "repo": "upstash/context7",
+      "head": "2026-08-15",
+      "release": "@upstash/context7-mcp@4.0.2",
+      "stars": 60782,
+      "archived": false,
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Up-to-date version-specific library docs \u2014 truly free optional key"
+      ],
+      "notes": "Package for version-pinned docs into prompt so model stops hallucinating package APIs"
+    },
+    {
+      "name": "mcp-duckduckgo",
+      "repo": "mcp-duckduckgo/mcp-duckduckgo",
+      "head": "",
+      "release": null,
+      "stars": null,
+      "archived": false,
+      "licence": null,
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "DuckDuckGo privacy-first web search truly free no key"
+      ],
+      "notes": "Replace Tavily subscription $0.005/query online-led \u2014 use DuckDuckGo truly free no key + SearXNG self-hosted"
+    },
+    {
+      "name": "mcp-fetch",
+      "repo": "modelcontextprotocol/servers",
+      "head": "2026-08-10",
+      "release": "2026.7.10",
+      "stars": 89574,
+      "archived": false,
+      "licence": "NOASSERTION",
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "mcp-server-fetch safe URL\u2192markdown fetch"
+      ],
+      "notes": "Upgrade: user-agent Shesh/1.0 + timeout + content size limit"
+    },
+    {
+      "name": "mcp-filesystem",
+      "repo": "modelcontextprotocol/servers",
+      "head": "2026-08-10",
+      "release": "2026.7.10",
+      "stars": 89574,
+      "archived": false,
+      "licence": "NOASSERTION",
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "@modelcontextprotocol/server-filesystem sandboxed local file read/write \u2014 truly free no key"
+      ],
+      "notes": "Upgrade wrapper: scoped allowed dirs ~/Projects/personal, ~/Documents/Inbox, Guard deny ~/Documents/Job, ~/.ssh, tool prefixing fs_* via shesh-mcp-bundle"
+    },
+    {
+      "name": "mcp-git",
+      "repo": "modelcontextprotocol/servers",
+      "head": "2026-08-10",
+      "release": "2026.7.10",
+      "stars": 89574,
+      "archived": false,
+      "licence": "NOASSERTION",
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "server-git status/diff/log without shelling out"
+      ],
+      "notes": "Upgrade: add github_view read-only + github MCP via shesh-secrets PAT scoped"
+    },
+    {
+      "name": "mcp-playwright",
+      "repo": "microsoft/playwright-mcp",
+      "head": "2026-08-12",
+      "release": "v0.0.79",
+      "stars": 36146,
+      "archived": false,
+      "licence": "Apache-2.0",
+      "licence_state": "ok",
+      "licence_note": "Apache-2.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Playwright MCP drive real local browser \u2014 truly free no key \u2014 official Microsoft"
+      ],
+      "notes": "Package as shesh-browser MCP sandboxed profile, behind Guard, for JS sites/testing"
+    },
+    {
+      "name": "ml4w-dotfiles",
+      "repo": "my-linux-for-work/dotfiles",
+      "head": "",
+      "release": null,
+      "stars": null,
+      "archived": false,
+      "licence": null,
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "statusbar.json single-file Quickshell bar config declarative pattern",
+        "welcome app concept"
+      ],
+      "notes": "Adapt declarative bar pattern for our shesh-ambient offer overlay, not replace illogical-impulse bar"
+    },
+    {
+      "name": "noctalia",
+      "repo": "CachyOS/cachyos-hyprland-settings",
+      "head": "2025-10-04",
+      "release": "1.4.1",
+      "stars": 127,
+      "archived": true,
+      "licence": null,
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Noctalia animation curves and NVIDIA compositing hints",
+        "CachyOS Hyprland Noctalia installer option from 260628 ISO",
+        "144 Hz smoothness curves"
+      ],
+      "notes": "Compare animation curves and NVIDIA compositing hints, do NOT switch shells \u2014 keep illogical-impulse, steal curves for buttery feel"
+    },
+    {
+      "name": "notify-rs",
+      "repo": "notify-rs/notify",
+      "head": "2026-08-15",
+      "release": "types-2.1.0",
+      "stars": 3431,
+      "archived": false,
+      "licence": null,
+      "licence_state": "unknown",
+      "licence_note": "licence not declared; verify before adopting",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Cross-platform filesystem notification library Rust 3.3k\u2605, used by Alacritty, cargo watch, mdBook, Zed \u2014 RecommendedWatcher selects best backend inotify/FSEvents/ReadDirectoryChangesW automatically"
+      ],
+      "notes": "Replace custom polling loop in smart-organizer --watch (audit found it wastes I/O) with notify-rs RecommendedWatcher <100ms reaction"
+    },
+    {
+      "name": "qs-hyprview",
+      "repo": "dom0/qs-hyprview",
+      "head": "2026-04-29",
+      "release": null,
+      "stars": 77,
+      "archived": false,
+      "licence": "GPL-3.0",
+      "licence_state": "ok",
+      "licence_note": "GPL-3.0 combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "9 mathematical layout algorithms to organize windows exactly, Qt/QML Wayland Layershell zero latency smooth animations, standalone drop-in"
+      ],
+      "notes": "Upgrade: add window switcher/expos\u00e9 for Hyprland workspace overview, integrate into illogical-impulse via keybind Super+Tab, 9 layouts for better response and buttery feel"
+    },
+    {
+      "name": "rishot",
+      "repo": "Gakuseei/Ricelin",
+      "head": "2026-07-29",
+      "release": null,
+      "stars": 266,
+      "archived": false,
+      "licence": "MIT",
+      "licence_state": "ok",
+      "licence_note": "MIT combines with GPL-3.0-or-later",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "Pill bar that morphs into everything \u2014 Single pill that morphs into launcher, lock screen, etc \u2014 surfaceSize + Behavior on width/height, Singletons/Motion.qml morphCurve [0.16,1,0.3,1,1,1] springy feel",
+        "rishot screenshot tool pure Wayland Quickshell app qs -c rishot, Print fires it, Shift+Print monitor picker, pure Wayland works on any wlroots",
+        "Ame bead flight timeline startFlight()/updateFlightGeo() for buttery animations"
+      ],
+      "notes": "Upgrade illogical-impulse look: add pill morphing with Motion.qml springy curve [0.16,1,0.3,1,1,1] for more smooth and buttery feel, integrate rishot screenshot tool into existing Print keybind configs/hypr/modules/rishot.lua"
+    },
+    {
+      "name": "searxng",
+      "repo": "searxng/searxng",
+      "head": "2026-08-14",
+      "release": null,
+      "stars": 35491,
+      "archived": false,
+      "licence": "AGPL-3.0",
+      "licence_state": "process-only",
+      "licence_note": "AGPL-3.0 may be used only across a process boundary",
+      "moved": false,
+      "previous": "",
+      "adopt": [
+        "SearXNG self-hosted metasearch 70+ engines, no key, fully private, no monthly fees, aggregates 70+ sources"
+      ],
+      "notes": "Self-host on localhost:3939, use as backend for agent-search, no API key, fully private"
     }
-  },
-  "generated": "2026-08-09T18:42:06+0000"
+  ]
 }

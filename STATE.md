@@ -30,7 +30,7 @@ Manifest, lockfiles, and gates.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-ecosystem` | main | `d9a51ae` | **4 changed** | fix(ci): return docs_index to the composition reposi (2026-08-15) |
+| `shesh-ecosystem` | main | `ee7fcf6` | clean | fix(ci): return release and audit tooling to the com (2026-08-15) |
 
 ## Factory
 
@@ -38,7 +38,7 @@ Build tooling. Never installed by a user.
 
 | Repository | Branch | Head | Working tree | Last commit |
 |---|---|---|---|---|
-| `shesh-workspace` | main | `07fb27b` | **4 changed** | refactor: return docs_index to the composition repos (2026-08-15) |
+| `shesh-workspace` | main | `31bcd29` | **1 changed** | refactor: return composition tooling to shesh-ecosys (2026-08-15) |
 
 ## Documentation
 
@@ -54,8 +54,7 @@ Published, not installed.
 Uncommitted changes are present. Establish whether each is an
 unfinished fix or an abandoned experiment before building on it.
 
-- `shesh-ecosystem`: 4 changed (4 untracked) on `main`
-- `shesh-workspace`: 4 changed (0 untracked) on `main`
+- `shesh-workspace`: 1 changed (0 untracked) on `main`
 
 ## Next
 
