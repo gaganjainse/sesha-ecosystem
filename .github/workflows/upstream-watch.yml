@@ -1,0 +1,90 @@
+name: upstream watch
+
+# The fleet declared an adoption policy (ADR-0018) and a register of tracked
+# projects, but nothing ever read the register. This is the schedule that makes
+# the policy real: it surveys every upstream weekly and opens an issue when one
+# advances, so an advance reaches a person instead of going unnoticed.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"      # Monday 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-watch
+  cancel-in-progress: false
+
+jobs:
+  survey:
+    name: Survey tracked upstreams
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Survey
+        id: survey
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python tools/assimilate.py --report | tee /tmp/report.txt
+          # --check exits non-zero when something advanced; that is information,
+          # not a build failure, so capture it rather than failing the job.
+          if python tools/assimilate.py --check > /tmp/check.txt 2>&1; then
+            echo "moved=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "moved=true" >> "$GITHUB_OUTPUT"
+          fi
+          cat /tmp/check.txt
+
+      - name: Open an adoption-review issue
+        if: steps.survey.outputs.moved == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "One or more tracked upstreams advanced since the last survey."
+            echo
+            echo '```'
+            cat /tmp/check.txt
+            echo '```'
+            echo
+            echo "Full report:"
+            echo
+            echo '```'
+            cat /tmp/report.txt
+            echo '```'
+            echo
+            echo "Adoption follows ADR-0018: prefer a maintained upstream,"
+            echo "verify the licence combines with GPL-3.0-or-later, and wrap it"
+            echo "behind the policy engine rather than calling it directly."
+          } > /tmp/body.md
+
+          # One rolling issue rather than a new one each week.
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" \
+            --label "type:chore" --search "Upstream adoption review in:title" \
+            --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body-file /tmp/body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "Upstream adoption review" \
+              --label "type:chore,p2" \
+              --body-file /tmp/body.md
+          fi
+
+      - name: Upload the survey
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-status
+          path: channels/upstream-status.json
+          retention-days: 30
