@@ -13,9 +13,7 @@ schema_version = 1
 stable_channel = "stable"
 body_doc = "docs/architecture/AGENTIC_BODY.md"
 
-# ─────────────────────────────────────────────────────────────────────────────
-# BRAIN — governance kernel (your own lineage)
-# ─────────────────────────────────────────────────────────────────────────────
+# BRAIN — governance kernel
 
 [component.shesh-secrets]
 upstream = "original"
@@ -47,9 +45,7 @@ provides = ["task-router", "scheduler", "tool-broker"]
 upstream = { name = "shesh-kernel", repo = "gaganjainse/shesh-kernel", ref = "main" }
 notes = "Packaged shesh-kernel for desktop; routes tool calls through policy."
 
-# ─────────────────────────────────────────────────────────────────────────────
-# MIND — deliberative models (specialist routing, small models on 6GB)
-# ─────────────────────────────────────────────────────────────────────────────
+# MIND — models, memory, orchestration
 [component.shesh-mind]
 layer = "mind"
 repo = "gaganjainse/shesh-core"
@@ -71,9 +67,7 @@ provides = ["rag", "episodic-memory", "semantic-memory", "habit-learning", "cont
 upstream = { name = "rag-service", repo = "gaganjainse/rag-service", ref = "main" }
 notes = "Hierarchical memory, habit/intention learning, token-bounded context assembly."
 
-# ─────────────────────────────────────────────────────────────────────────────
-# SOMA — the body (desktop, voice, files, devices)
-# ─────────────────────────────────────────────────────────────────────────────
+# SOMA — desktop, voice, files, devices
 [component.shesh-voice]
 layer = "soma"
 repo = "gaganjainse/shesh-voice"
@@ -122,9 +116,7 @@ provides = ["mcp:skills", "notes", "web-search", "git-tools", "docs", "reminders
 upstream = { name = "MCP skills pattern", repo = "modelcontextprotocol/servers", ref = "main" }
 notes = "Everyday MCP tools + Markdown skills (coding, web research, docs, safety, briefing)."
 
-# ─────────────────────────────────────────────────────────────────────────────
-# PROTOCOLS & ORCHESTRATION (P0 gap fill)
-# ─────────────────────────────────────────────────────────────────────────────
+# PROTOCOLS & ORCHESTRATION
 [component.shesh-acp]
 layer = "soma"
 repo = "gaganjainse/shesh-core"
@@ -155,7 +147,6 @@ provides = ["continual-harness", "refine", "auto-skills", "self-evolution"]
 upstream = { name = "Memento-Skills / Prime Harness", repo = "Memento-Teams/Memento-Skills", ref = "main" }
 notes = "PLANNED: CRUD supplemental state, evidence-backed /refine, auto skill creation + rollback."
 
-
 [component.shesh-backup]
 layer = "soma"
 repo = "gaganjainse/shesh-core"
@@ -164,8 +155,6 @@ license = "GPL-3.0-or-later"
 channel = "canary"
 provides = ["backup", "restic", "snapshots"]
 notes = "Verified local restic backups; AC-gated and daily-scheduled."
-
-
 
 [component.shesh-calendar]
 upstream = "original"
@@ -185,7 +174,6 @@ license = "GPL-3.0-or-later"
 channel = "canary"
 provides = ["mcp-bundle", "filesystem", "fetch", "git"]
 notes = "Third-party MCP servers (filesystem/fetch/git) proxied behind Guard."
-
 
 [component.shesh-containers]
 layer = "soma"
@@ -233,9 +221,7 @@ channel = "canary"
 provides = ["telegram-bridge", "signal-bridge", "messaging"]
 notes = "Messaging bridges Telegram/Signal as isolated opt-in services, flag file ~/.config/shesh/messaging/{telegram,signal}.enabled, token via shesh-secrets"
 
-# ─────────────────────────────────────────────────────────────────────────────
-# CLOUD GATEWAY — optional free big models via OmniRoute (forked)
-# ─────────────────────────────────────────────────────────────────────────────
+# CLOUD GATEWAY — optional free big models via OmniRoute
 [component.shesh-omniroute]
 layer = "mind"
 repo = "gaganjainse/shesh-omniroute"
@@ -244,12 +230,11 @@ license = "MIT"
 channel = "devel"
 provides = ["omniroute", "free-gateway", "big-models", "cloud-fallback"]
 upstream = { name = "OmniRoute", repo = "diegosouzapw/OmniRoute", ref = "main" }
-notes = "Forked OmniRoute 291 providers 90+ free 500+ models 1.53B free tokens/mo RTK+Caveman 15-95% compression, optional to local Ollama primary in final product, where enable is user choice (settings GUI). For making ecosystem (dev), use free big models via OmniRoute gateway http://localhost:20128/v1 — industry-used Claude/GPT/Gemini/DeepSeek/Llama/Mistral/Qwen/Kimi/GLM etc free."
+notes = "Optional cloud gateway; local Ollama remains primary."
 
 [component.shesh-desktop]
 layer = "soma"
 repo = "gaganjainse/shesh-desktop"
-archived = true  # GitHub-archived read-only snapshot (2026-08-13 decision D2 garden); kept in the manifest for provenance (shesh-files/watcher was promoted out of it) — excluded from clone lists and audits
 version = "rolling"
 license = "GPL-3.0-or-later"
 channel = "stable"

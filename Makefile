@@ -5,20 +5,19 @@ PY ?= python3
 RUFF ?= $(PY) -m ruff
 PYTEST ?= $(PY) -m pytest
 
-.PHONY: help lint test silent-failures resolve check all clean linkcheck verify-all
+.PHONY: help lint test silent-failures resolve check all clean linkcheck verify-all depgraph upstream journal-check steer-check sync-check fleet-health assimilate sync handoff
 
 help:
 	@echo "Shesh Ecosystem gates:"
 	@echo "  make lint      ruff on scripts/ and tests/"
 	@echo "  make test      pytest (offline, no hardware)"
 	@echo "  make resolve   build shesh.lock from the manifest"
-	@echo "  make check     license + manifest + tests (CI gate)"
+	@echo "  make check     license + manifest + tests"
 	@echo "  make depgraph  regenerate + check docs/architecture/dependency-graph.md"
 	@echo "  make silent-failures  audit cwd for silent-failure patterns (SF1-SF6)"
 	@echo "  make upstream  query upstream repos for new releases (network)"
 	@echo "  make linkcheck broken relative links under docs/"
 	@echo "  make verify-all  orchestrator sweep: remotes+fetch, worktree-vs-origin"
-	@echo "                   content verify, per-component strict gates, SF self-audit"
 	@echo "  make clean     remove caches and generated locks"
 
 lint:
@@ -39,9 +38,9 @@ depgraph:
 
 check: lint test sync-check journal-check steer-check
 	$(PY) scripts/check_licenses.py manifests/components.toml
-	$(PY) scripts/resolve_manifest.py --channel stable  --out channels/stable.lock
-	$(PY) scripts/resolve_manifest.py --channel canary  --out channels/canary.lock
-	$(PY) scripts/resolve_manifest.py --channel devel   --out channels/devel.lock
+	$(PY) scripts/resolve_manifest.py --channel stable --out channels/stable.lock
+	$(PY) scripts/resolve_manifest.py --channel canary --out channels/canary.lock
+	$(PY) scripts/resolve_manifest.py --channel devel --out channels/devel.lock
 	@echo "GATE OK"
 
 upstream:
@@ -51,12 +50,7 @@ linkcheck:
 	$(PY) tools/linkcheck.py docs
 	$(PY) tools/docs_index.py --check
 
-# Orchestrator-scale verification (network + a provisioned venv required):
-#   1. every sibling clone gets its origin remote back and is fetched
-#   2. every worktree is byte-compared against origin/<default> (catches
-#      snapshot-restore damage that git status cannot see)
-#   3. every component runs pytest -W error + ruff (no suppression policy)
-#   4. the SF1-SF6 audit runs on this repo itself
+verify-all:
 	$(PY) tools/verify_worktrees.py
 	SHESH_VENV_PY=$${SHESH_VENV_PY:-/tmp/fm3/bin/python} bash tools/verify_all_strict.sh
 	$(PY) tools/silent_failures.py .
@@ -65,24 +59,24 @@ clean:
 	rm -rf .pytest_cache __pycache__ scripts/__pycache__ tests/__pycache__
 	rm -f shesh.lock channels/*.lock channels/upstream-status.json
 
-handoff:  ## regenerate STATE.md from the working trees
+handoff:
 	python3 tools/handoff.py
 
-sync:  ## push shared boilerplate to every repository
+sync:
 	python3 tools/sync_fleet.py
 
-journal-check:  ## fail if a live-update document is stale
+journal-check:
 	python3 ../shesh-workspace/tools/journal.py check
 
-fleet-health:  ## fail if any repository has a red default branch (needs a token)
+fleet-health:
 	python3 tools/fleet_health.py --check
 
-assimilate:  ## report tracked upstreams that advanced (ADR-0018)
+assimilate:
 	python3 tools/assimilate.py --report
 
-steer-check:  ## fail if the work queue is inconsistent
+steer-check:
 	python3 ../shesh-workspace/tools/steer.py check
 
-sync-check:  ## fail if any repository drifted from the canonical boilerplate
+sync-check:
 	python3 tools/sync_fleet.py --check
 	python3 tools/handoff.py --check
