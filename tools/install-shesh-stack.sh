@@ -187,6 +187,7 @@ UNIT
   log_ok "units installed + enabled (start after login / graphical session)"
 }
 
+
 verify() {
   log_info "=== Verify ==="
   local missing=0
