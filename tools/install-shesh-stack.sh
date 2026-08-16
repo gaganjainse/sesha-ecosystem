@@ -134,8 +134,9 @@ gen_config() {
     log_warn "generate_mcp_config.py not found at $gen — skipping config"
     return 0
   fi
-  local chan_arg=""; [[ -n "$CHANNEL" ]] && chan_arg="--channel $CHANNEL"
-  run_cmd python3 "$gen" $chan_arg --out "$CFG_DIR"
+  local chan_args=()
+  [[ -n "$CHANNEL" ]] && chan_args=(--channel "$CHANNEL")
+  run_cmd python3 "$gen" "${chan_args[@]}" --out "$CFG_DIR"
   log_ok "config written to $CFG_DIR"
 }
 
@@ -180,7 +181,7 @@ UNIT
     log_ok "unit shesh-$s-mcp.service"
   done
   if [[ $DRY -eq 0 ]]; then
-    systemctl --user daemon-reload 2>/dev/null || true
+    systemctl --user daemon-reload 2>/dev/null || log_warn "systemd daemon-reload failed (no user session?)"
     systemctl --user enable shesh-mcp.target 2>/dev/null || log_warn "enable failed: shesh-mcp.target"
   fi
   log_ok "units installed + enabled (start after login / graphical session)"
@@ -192,7 +193,11 @@ verify() {
   for s in "${SERVERS[@]}"; do
     command -v "shesh-$s-mcp" >/dev/null 2>&1 || { log_warn "shesh-$s-mcp not on PATH"; missing=$((missing+1)); }
   done
-  [[ $missing -eq 0 ]] && log_ok "all server scripts present" || log_warn "$missing server script(s) missing"
+  if [[ $missing -eq 0 ]]; then
+    log_ok "all server scripts present"
+  else
+    log_warn "$missing server script(s) missing"
+  fi
 }
 
 main() {
