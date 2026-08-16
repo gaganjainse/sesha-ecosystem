@@ -215,7 +215,6 @@ SystemCallFilter=@system-service
 SystemCallErrorNumber=EPERM
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 TasksMax=128
-
 [Install]
 WantedBy=shesh-mcp.target
 UNIT
@@ -229,7 +228,6 @@ UNIT
   fi
   log_ok "units installed + enabled (start after login / graphical session)"
 }
-
 
 verify() {
   log_info "=== Verify ==="
