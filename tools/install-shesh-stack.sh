@@ -96,15 +96,28 @@ preflight() {
 
 clone_repos() {
   log_info "=== Clone component repos into $REPO_ROOT ==="
+  local pids=() max_jobs=4
   for r in "${ALL_REPOS[@]}"; do
     if [[ -d "$REPO_ROOT/$r/.git" ]]; then
       log_info "using existing clone: $r"
-    else
-      log_info "cloning $r"
-      run_cmd git clone --depth 1 "https://github.com/gaganjainse/$r.git" "$REPO_ROOT/$r" \
-        || log_warn "clone failed for $r"
+      continue
+    fi
+    log_info "cloning $r"
+    {
+      if run_cmd git clone --depth 1 "https://github.com/gaganjainse/$r.git" "$REPO_ROOT/$r"; then
+        log_ok "cloned $r"
+      else
+        log_warn "clone failed for $r"
+      fi
+    } &
+    pids+=($!)
+    # Bound concurrency; drain one slot when the pool is full.
+    if (( ${#pids[@]} >= max_jobs )); then
+      wait -n 2>/dev/null || wait "${pids[0]}"
+      pids=("${pids[@]:1}")
     fi
   done
+  wait
 }
 
 install_venv() {
