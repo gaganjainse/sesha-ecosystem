@@ -96,15 +96,28 @@ preflight() {
 
 clone_repos() {
   log_info "=== Clone component repos into $REPO_ROOT ==="
+  local pids=() max_jobs=4
   for r in "${ALL_REPOS[@]}"; do
     if [[ -d "$REPO_ROOT/$r/.git" ]]; then
       log_info "using existing clone: $r"
-    else
-      log_info "cloning $r"
-      run_cmd git clone --depth 1 "https://github.com/gaganjainse/$r.git" "$REPO_ROOT/$r" \
-        || log_warn "clone failed for $r"
+      continue
+    fi
+    log_info "cloning $r"
+    {
+      if run_cmd git clone --depth 1 "https://github.com/gaganjainse/$r.git" "$REPO_ROOT/$r"; then
+        log_ok "cloned $r"
+      else
+        log_warn "clone failed for $r"
+      fi
+    } &
+    pids+=($!)
+    # Bound concurrency; drain one slot when the pool is full.
+    if (( ${#pids[@]} >= max_jobs )); then
+      wait -n 2>/dev/null || wait "${pids[0]}"
+      pids=("${pids[@]:1}")
     fi
   done
+  wait
 }
 
 install_venv() {
@@ -173,6 +186,35 @@ ExecStart=$bin
 Restart=on-failure
 RestartSec=5
 
+# Sandboxing (systemd-analyze security). These services run as the user, write
+# only under ~/.config/shesh, ~/.local/share/shesh and ~/.local/state/shesh, and
+# need no privileges — so drop caps, block privilege escalation, and hide the
+# kernel/control-group surfaces. ProtectHome/ProtectSystem=strict are omitted on
+# purpose: the servers must write into the user home tree. MemoryDenyWriteExecute
+# is omitted because several Python native extensions (e.g. cryptography) map
+# PROT_EXEC pages.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=full
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+TasksMax=128
 [Install]
 WantedBy=shesh-mcp.target
 UNIT
