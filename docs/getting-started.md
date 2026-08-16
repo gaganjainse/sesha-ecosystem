@@ -24,7 +24,7 @@ in. One command does desktop **and** AI stack:
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/gaganjainse/shesh-desktop/main/tools/bootstrap.sh)
-# flags: --dry-run (print only) · --skip-ai · --skip-nvidia · --skip-power · --device msi-sword-cachyos|generic
+# flags: --dry-run (print only) · --skip-ai · --skip-nvidia · --skip-power · --device shesh|generic
 ```
 
 After reboot, open **Settings → Shesh** to change everything without touching code:
