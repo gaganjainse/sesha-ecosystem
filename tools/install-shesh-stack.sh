@@ -101,11 +101,10 @@ clone_repos() {
     ) &
     pids+=("$!")
     if (( ${#pids[@]} >= max_jobs )); then
-      local next=()
       for pid in "${pids[@]}"; do
         if ! wait "$pid"; then record_failure; fi
       done
-      pids=("${next[@]}")
+      pids=()
     fi
   done
   for pid in "${pids[@]}"; do
@@ -144,7 +143,7 @@ install_venv() {
       record_failure
     fi
   done
-a}
+}
 
 gen_config() {
   log_info "=== Generate MCP client configs ==="
