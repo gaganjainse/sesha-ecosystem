@@ -13,7 +13,7 @@ OUT="$(mktemp)"
 trap 'rm -f "$OUT"' EXIT
 
 s() { printf '\n===== %s =====\n' "$1" >>"$OUT"; }
-c() { printf '$ %s\n' "$*" >>"$OUT"; "$@" >>"$OUT" 2>&1; printf '\n' >>"$OUT"; }
+c() { { printf '$ %s\n' "$*"; "$@" 2>&1; printf '\n'; } >>"$OUT"; }
 
 {
   printf 'shesh install report\n'
@@ -43,7 +43,9 @@ s "packages and helpers"
 for p in hyprland quickshell-git nvidia-dkms linux-cachyos-headers ollama; do
   printf '%-26s %s\n' "$p" "$(pacman -Q "$p" 2>/dev/null || echo 'NOT INSTALLED')" >>"$OUT"
 done
-c bash -c 'for h in paru yay shelly pipx; do printf "%-8s %s\n" "$h" "$(command -v $h || echo missing)"; done'
+for h in paru yay shelly pipx; do
+  printf '%-8s %s\n' "$h" "$(command -v "$h" || echo missing)" >>"$OUT"
+done
 
 s "pacman tail (last 80 lines)"
 c bash -c 'tail -n 80 /var/log/pacman.log 2>/dev/null || echo "no pacman.log"'
