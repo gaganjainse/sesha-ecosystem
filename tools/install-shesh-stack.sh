@@ -186,6 +186,36 @@ ExecStart=$bin
 Restart=on-failure
 RestartSec=5
 
+# Sandboxing (systemd-analyze security). These services run as the user, write
+# only under ~/.config/shesh, ~/.local/share/shesh and ~/.local/state/shesh, and
+# need no privileges — so drop caps, block privilege escalation, and hide the
+# kernel/control-group surfaces. ProtectHome/ProtectSystem=strict are omitted on
+# purpose: the servers must write into the user home tree. MemoryDenyWriteExecute
+# is omitted because several Python native extensions (e.g. cryptography) map
+# PROT_EXEC pages.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=full
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+TasksMax=128
+
 [Install]
 WantedBy=shesh-mcp.target
 UNIT
